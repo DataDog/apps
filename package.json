@@ -1,0 +1,23 @@
+{
+  "name": "dd_ui_apps_sdk",
+  "version": "1.0.0",
+  "description": "Datadog UI Apps - Official JavaScript SDK ",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "start": "yarn watch & webpack-dev-server --mode development --progress --color --hot",
+    "watch": "webpack --watch --mode development"
+  },
+  "author": "Datadog",
+  "license": "MIT",
+  "dependencies": {
+    "postmate": "^1.5.2"
+  },
+  "devDependencies": {
+    "ts-loader": "^8.0.3",
+    "typescript": "^4.0.2",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
