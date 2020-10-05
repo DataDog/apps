@@ -1,4 +1,5 @@
-import { AppConfig } from "./types";
+import { AppConfig, EventProps } from "./types";
+import { EventType } from "./constants";
 import Postmate from "postmate";
 import { CapabilityManager } from "./capabilites/capabilityManager";
 
@@ -12,7 +13,7 @@ class Client {
   readonly _debug: boolean;
   readonly _config: AppConfig;
   readonly _capabilityManager: CapabilityManager;
-  readonly _handshake: any;
+  _handshake: any;
   constructor(
     config: AppConfig,
     options: { debug?: boolean; host?: string } = {}
@@ -33,6 +34,21 @@ class Client {
       this._capabilityManager.init();
     });
   }
+
+  handleEvent(eventType: EventType) {
+    return new Promise((resolve) => {
+      const handshake = new Postmate.Model({
+        handleEvent: (eventprops: EventProps) => {
+          this._capabilityManager.handleEvent(eventprops, resolve);
+        },
+      });
+      this._handshake.then((parent) => {
+        console.log(
+          "dd-apps: sdk handshake 2nd pass: parent <-> child handshake is complete"
+        );
+      });
+    });
+  }
 }
 
 export const DDClient = {
@@ -42,5 +58,9 @@ export const DDClient = {
     const client = new Client(config);
 
     return client;
+  },
+  on: (eventType: EventType) => {
+    const client = new Client({});
+    return client.handleEvent(eventType);
   },
 };
