@@ -20,6 +20,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.11.1.tgz#56af902ad157e763f9ba63d671c39cda3193c835"
   integrity sha512-oTQgnd0hblfLsJ6BvJzzSL+Inogp3lq9fGgqRkMB/ziKMgEUaFl801OncOzUmalfzt14N0oPHMK47ipl+wbTIw==
 
+"@types/postmate@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@types/postmate/-/postmate-1.5.1.tgz#56a506c371a7b4388beebacb4420838c2c3c4a2b"
+  integrity sha512-sFia2ycFNrxf1YZS59ShTDkMwhUlOYWAw7EslLePF52x5czUDrvdqB4f3eCXCiQp7yXpqHqwPCf4OBvCTqbaWw==
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
