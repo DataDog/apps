@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Datadog UI Apps SDK Sandbox: Child</title>
+    </head>
+    <body>
+        <h4>Datadog UI Apps SDK Sandbox: Child</h4>
+        <div id="target">Link to public dashboard:&nbsp</div>
+        <script src="dist/main.js"></script>
+        <script>
+            const client = new DDClient({ debug: true });
+
+            client.on('app_context', context => {
+                console.log('Recieved App Context', context);
+            });
+
+            client.on('dashboard_cog_menu_context', context => {
+                console.log('Received dashboard cog menu context', context);
+
+                const a = document.createElement('a');
+                a.href = context.shareToken;
+                a.target = '_blank';
+                a.innerHTML = 'Link';
+
+                document.getElementById('target').appendChild(a);
+            });
+        </script>
+    </body>
+</html>
