@@ -1,9 +1,29 @@
-import { AppContext, ClientOptions, EventHandler, HandleEventParams } from '../types';
+import * as Postmate from 'postmate';
+
+import type { DDClient } from '../client';
 import { UiAppCapabilityType, UiAppEventType } from '../constants';
 import { getLogger, Logger } from '../logger';
-import * as Postmate from "postmate";
+import {
+    AppContext,
+    ClientOptions,
+    EventHandler,
+    HandleEventParams
+} from '../types';
 import { Deferred, uniqueInt } from '../utils';
-import type { DDClient } from '../client';
+
+type Subscriptions = {
+    [key in UiAppEventType]: { [id: number]: EventHandler };
+};
+
+const initSubscriptions = (): Subscriptions => {
+    const subcriptions: Partial<Subscriptions> = {};
+
+    Object.values(UiAppEventType).forEach(eventType => {
+        subcriptions[eventType] = {};
+    });
+
+    return subcriptions as Subscriptions;
+};
 
 export abstract class CapabilityManager {
     abstract type: UiAppCapabilityType;
@@ -13,15 +33,22 @@ export abstract class CapabilityManager {
     protected readonly debug: boolean;
     protected readonly logger: Logger;
     protected readonly handshake: Postmate.Model;
-    protected readonly context: Deferred<AppContext>
-    private subscriptions: { [key in UiAppEventType]?: { [id: number]: EventHandler}}
+    protected readonly context: Deferred<AppContext>;
+    private subscriptions: {
+        [key in UiAppEventType]: { [id: number]: EventHandler };
+    };
 
-    constructor(options: ClientOptions, handshake: Postmate.Model, context: Deferred<AppContext>) {
+    constructor(
+        options: Required<ClientOptions>,
+        handshake: Postmate.Model,
+        context: Deferred<AppContext>
+    ) {
         this.host = options.host;
         this.debug = options.debug;
         this.logger = getLogger(options);
         this.handshake = handshake;
         this.context = context;
+        this.subscriptions = initSubscriptions();
     }
 
     /**
@@ -33,7 +60,7 @@ export abstract class CapabilityManager {
      *   }
      * }
      */
-    abstract getAdditionalClientMethods(): { [name: string]: Function }
+    abstract getAdditionalClientMethods(): { [name: string]: Function };
 
     /**
      * Wraps additional methods in a check against the capability type, then applies to provided client object. Do not override
@@ -41,19 +68,21 @@ export abstract class CapabilityManager {
     applyAdditionalMethods(client: DDClient) {
         const additionalMethods = this.getAdditionalClientMethods();
 
-        const wrappedMethods = {};
+        const wrappedMethods: { [name: string]: Function } = {};
 
         Object.entries(additionalMethods).forEach(([key, method]) => {
-            wrappedMethods[key] = async (...args) => {
+            wrappedMethods[key] = async (...args: any[]) => {
                 const isEnabled = await this.isEnabled();
 
                 if (isEnabled) {
                     return method(...args);
                 } else {
-                    this.logger.error(`The ${this.type} capability must be enabled to perform this action`)
+                    this.logger.error(
+                        `The ${this.type} capability must be enabled to perform this action`
+                    );
                 }
-            }
-        })
+            };
+        });
 
         Object.assign(client, wrappedMethods);
     }
@@ -61,16 +90,22 @@ export abstract class CapabilityManager {
     /**
      * Called by the client to register an event handler managed by this capability. Do not override
      */
-    subscribeHandler<T>(eventType: UiAppEventType, handler: EventHandler<T>): () => void {
+    subscribeHandler<T>(
+        eventType: UiAppEventType,
+        handler: EventHandler<T>
+    ): () => void {
         const subscriptionId = uniqueInt();
 
         this.subscriptions[eventType][subscriptionId] = handler;
 
         return () => {
-            const { [subscriptionId]: _, ...otherSubscriptions } = this.subscriptions[eventType];
+            const {
+                [subscriptionId]: _,
+                ...otherSubscriptions
+            } = this.subscriptions[eventType];
 
             this.subscriptions[eventType] = otherSubscriptions;
-        }
+        };
     }
 
     /**
@@ -88,9 +123,11 @@ export abstract class CapabilityManager {
         if (isEnabled) {
             const subscriptions = this.subscriptions[eventType];
 
-            Object.values(subscriptions).forEach(handler => handler(data))
+            Object.values(subscriptions).forEach(handler => handler(data));
         } else {
-            this.logger.error(`The ${this.type} capability must be enabled to respond to events of type ${eventType}.`)
+            this.logger.error(
+                `The ${this.type} capability must be enabled to respond to events of type ${eventType}.`
+            );
         }
     }
 
@@ -101,6 +138,6 @@ export abstract class CapabilityManager {
     }
 
     hasHandlers(eventType: UiAppEventType): boolean {
-        return !!Object.keys(this.subscriptions[eventType]).length
+        return !!Object.keys(this.subscriptions[eventType]).length;
     }
 }

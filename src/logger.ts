@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { ClientOptions } from './types';
 
 export interface Logger {
@@ -9,16 +10,16 @@ export const getLogger = (options: ClientOptions): Logger => {
     if (options.debug) {
         return {
             log(message: string) {
-                return console.log(`dd-apps: ${message}`)
+                return console.log(`dd-apps: ${message}`);
             },
             error(message: string) {
-                return console.log(`dd-apps: ${message}`)
+                return console.error(`dd-apps: ${message}`);
             }
-        }
+        };
     } else {
         return {
             log() {},
-            error() {},
-        }
+            error() {}
+        };
     }
-}
+};
