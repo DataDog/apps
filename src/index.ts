@@ -1,3 +1,3 @@
-import { DDClient } from "./client";
+import { DDClient } from './client';
 
 export = DDClient;

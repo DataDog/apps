@@ -1,10 +1,28 @@
-import { CapabilityType, EventType } from "./constants";
+import type { UiAppCapabilityType, UiAppEventType } from './constants';
 
-export interface AppConfig {
-  [prop: string]: any;
+export interface ClientOptions {
+    debug?: boolean;
+    host?: string;
 }
 
-export interface EventProps {
-  eventType: EventType;
-  options: any;
+export type EventHandler<T = any> = (data: T) => void;
+
+export interface HandleEventParams<T = any> {
+    eventType: UiAppEventType;
+    data: T;
+}
+
+// App context is the data type that gets sent to the `init` method, and propagated to `app_context` event handlers
+export interface AppContext {
+    // Name of current user
+    name: string;
+    // Current user's email
+    handle: string;
+    // user's org
+    organization: {
+        id: string;
+        name: string;
+    };
+    // list of enabled capabilities
+    capabilities: UiAppCapabilityType[];
 }

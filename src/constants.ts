@@ -1,8 +1,14 @@
-export enum CapabilityType {
-  DASHBOARD_COG_MENU = "dashboard_cog_menu",
-  DASHBOARD_CONTEXT = "dashboard_context",
+export enum Host {
+    PROD = 'https://app.datadoghq.com/',
+    STAGE = 'https://dd.datad0g.com/'
 }
 
-export enum EventType {
-  DASHBOARD_COG_MENU_INIT = "dashboard_cog_menu_init",
+export enum UiAppCapabilityType {
+    APP_CONTEXT = 'app_context',
+    DASHBOARD_COG_MENU = 'dashboard_cog_menu'
+}
+
+export enum UiAppEventType {
+    APP_CONTEXT = 'app_context',
+    DASHBOARD_COG_MENU_CONTEXT = 'dashboard_cog_menu_context'
 }
