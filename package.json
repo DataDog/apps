@@ -15,7 +15,7 @@
     "author": "Datadog",
     "license": "MIT",
     "dependencies": {
-        "postmate": "^1.5.2"
+        "postmate": "https://github.com/DataDog/postmate.git"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",
