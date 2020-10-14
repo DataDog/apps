@@ -109,7 +109,7 @@ export abstract class CapabilityManager {
     }
 
     /**
-     * Called by the client to delgate event handling. Do not override
+     * Called by the client to delegate event handling. Do not override
      */
     async handleEvent<T>({ eventType, data }: HandleEventParams<T>) {
         const hasHandlers = this.hasHandlers(eventType);

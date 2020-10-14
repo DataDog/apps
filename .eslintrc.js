@@ -1,11 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = {
     root: true,
-    globals: {
-        it: true,
-        expect: true,
-        test: true
-    },
     rules: {
         'block-scoped-var': 'error',
         curly: ['error', 'all'],
@@ -371,6 +366,7 @@ module.exports = {
         }
     },
     env: {
+        jest: true,
         es6: true,
         node: true
     }
