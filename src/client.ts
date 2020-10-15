@@ -2,13 +2,19 @@ import Postmate from 'postmate';
 
 import { CapabilityManager } from './capabilites/capabilityManager';
 import { capabilityManagers } from './capabilites';
-import { Host, UiAppCapabilityType, UiAppEventType } from './constants';
+import {
+    Host,
+    UiAppCapabilityType,
+    UiAppEventType,
+    STORAGE_PREFIX
+} from './constants';
 import { getLogger, Logger } from './logger';
 import {
     AppContext,
     EventHandler,
     HandleEventParams,
-    ClientOptions
+    ClientOptions,
+    SetSecretParams
 } from './types';
 import { Deferred, defer } from './utils';
 
@@ -36,7 +42,9 @@ export class DDClient {
 
         this.handshake = new Postmate.Model({
             init: (context: AppContext) => this.init(context),
-            handleEvent: (params: HandleEventParams) => this.handleEvent(params)
+            handleEvent: (params: HandleEventParams) =>
+                this.handleEvent(params),
+            setSecret: (params: SetSecretParams) => this.setSecret(params)
         });
 
         this.capabilityManagers = capabilityManagers.map(
@@ -82,6 +90,15 @@ export class DDClient {
     }
 
     /**
+     * Gets the value of a secret. Returns null if secret is not defined
+     */
+    async getSecret(key: string): Promise<string | null> {
+        await this.context.promise;
+
+        return localStorage.getItem(`${STORAGE_PREFIX}${key}`);
+    }
+
+    /**
      * init method is exposed in the postmate model. It must be called before other operations may proceed,
      * in order to inform client of app context
      */
@@ -102,6 +119,8 @@ export class DDClient {
      * message if the user does not have the required capability enabled
      */
     private async handleEvent<T>({ eventType, data }: HandleEventParams<T>) {
+        await this.context.promise;
+
         const manager = this.getManagerByEventType(eventType);
 
         if (!manager) {
@@ -113,6 +132,12 @@ export class DDClient {
         }
 
         manager.handleEvent({ eventType, data });
+    }
+
+    private async setSecret({ key, value }: SetSecretParams) {
+        await this.context.promise;
+
+        localStorage.setItem(`${STORAGE_PREFIX}${key}`, value);
     }
 
     private getManagerByType(

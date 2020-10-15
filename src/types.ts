@@ -12,6 +12,11 @@ export interface HandleEventParams<T = any> {
     data: T;
 }
 
+export interface SetSecretParams {
+    key: string;
+    value: string;
+}
+
 // App context is the data type that gets sent to the `init` method, and propagated to `app_context` event handlers
 export interface AppContext {
     // Name of current user

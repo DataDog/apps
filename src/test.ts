@@ -91,9 +91,9 @@ describe('client', () => {
             }
         });
 
-        expect(errorSpy).toHaveBeenCalled();
-
         await flushPromises();
+
+        expect(errorSpy).toHaveBeenCalled();
 
         logSpy.mockRestore();
         errorSpy.mockRestore();
@@ -220,7 +220,29 @@ describe('client', () => {
         errorSpy.mockRestore();
     });
 
-    // test('Has an on method that resolves with the app context data provided to the init method', () => {});
+    test('has a getSecret method that successfully retrieves secret values sent from parent', async () => {
+        const client = new DDClient();
+
+        parent.call('init', mockContext);
+
+        parent.call('setSecret', { key: 'test_secret', value: 'test_value' });
+
+        const secret = await client.getSecret('test_secret');
+
+        expect(secret).toEqual('test_value');
+
+        localStorage.clear();
+    });
+
+    test('returns null from getSecret if secret is not set', async () => {
+        const client = new DDClient();
+
+        parent.call('init', mockContext);
+
+        const secret = await client.getSecret('test_secret');
+
+        expect(secret).toEqual(null);
+    });
 });
 
 describe('sdk init method', () => {
