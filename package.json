@@ -6,6 +6,7 @@
     "scripts": {
         "build": "webpack --mode production",
         "lint": "npx eslint '**/*.{ts,js}' && prettier --check .",
+        "test": "yarn test:unit",
         "test:unit": "jest",
         "format": "prettier --write .",
         "sandbox": "node scripts/sandbox.js",
@@ -28,7 +29,6 @@
         "eslint-import-resolver-node": "0.3.2",
         "eslint-import-resolver-webpack": "0.11.1",
         "eslint-plugin-arca": "0.9.5",
-        "eslint-plugin-datadog": "link:build/eslint/eslint-plugin-datadog",
         "eslint-plugin-import": "2.18.2",
         "eslint-plugin-jest": "22.6.4",
         "eslint-plugin-no-storage": "1.0.2",

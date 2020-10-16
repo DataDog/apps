@@ -9,6 +9,5 @@ export enum UiAppCapabilityType {
 }
 
 export enum UiAppEventType {
-    APP_CONTEXT = 'app_context',
     DASHBOARD_COG_MENU_CONTEXT = 'dashboard_cog_menu_context'
 }

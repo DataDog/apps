@@ -75,6 +75,13 @@ export class DDClient {
     }
 
     /**
+     * Returns app context data, after it is sent from the parent
+     */
+    async getContext(): Promise<AppContext> {
+        return this.context.promise;
+    }
+
+    /**
      * init method is exposed in the postmate model. It must be called before other operations may proceed,
      * in order to inform client of app context
      */
@@ -87,12 +94,6 @@ export class DDClient {
         this.logger.log(
             'dd-apps: sdk handshake: parent <-> child handshake is complete'
         );
-
-        // exec any app_init event handlers registered by consumer
-        this.handleEvent({
-            eventType: UiAppEventType.APP_CONTEXT,
-            data: context
-        });
     }
 
     /**

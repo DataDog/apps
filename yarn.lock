@@ -2343,10 +2343,6 @@ eslint-plugin-arca@0.9.5:
   dependencies:
     requireindex "~1.1.0"
 
-"eslint-plugin-datadog@link:build/eslint/eslint-plugin-datadog":
-  version "0.0.0"
-  uid ""
-
 eslint-plugin-import@2.18.2:
   version "2.18.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.18.2.tgz#02f1180b90b077b33d447a17a2326ceb400aceb6"
