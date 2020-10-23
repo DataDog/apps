@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Posterchild sandbox: Parent</title>
+        <title>FramePost sandbox: Parent</title>
     </head>
     <body>
-        <h1>Posterchild Parent: Parent</h1>
-        <iframe
-            id="frame"
-            src="http://localhost:8001"
-        ></iframe>
-        <script src="dist/poster-child.min.js"></script>
+        <h1>FramePost Parent: Parent</h1>
+        <iframe id="frame" src="http://localhost:8001"></iframe>
+        <script src="dist/framepost.min.js"></script>
         <script>
             const frame = document.getElementById('frame');
-            const client = new posterChild.ParentClient({ profile: true });
-            client.getContext().then(context => console.log("Channel established with child", context));
-            client.on('up', (data) => console.log("received data from child", data));
+            const client = new framepost.ParentClient({ profile: true });
+            client
+                .getContext()
+                .then(context =>
+                    console.log('Channel established with child', context)
+                );
+            client.on('up', data =>
+                console.log('received data from child', data)
+            );
 
             client.handleRequest('requestFromParent', async () => {
                 await new Promise(res => setTimeout(res, 500));
 
                 return 'requestResponse';
-            })
-
+            });
 
             const context = {
                 data: 'secret'
-            }
+            };
 
             frame.onload = () => {
                 client.requestChannel(frame, 'http://localhost:8001', context);
-            }
+            };
 
             client.send('down', { data: 'down' });
 
             client.request('requestFromChild').then(data => {
-                console.log("received requested data from child", data);
-            })
+                console.log('received requested data from child', data);
+            });
         </script>
     </body>
 </html>

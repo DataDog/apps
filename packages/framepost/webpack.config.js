@@ -4,9 +4,9 @@ module.exports = {
     devtool: 'source-map',
     entry: './src/index.ts',
     output: {
-        filename: 'poster-child.min.js',
+        filename: 'framepost.min.js',
         path: path.resolve(__dirname, 'dist'),
-        library: 'posterChild',
+        library: 'framepost',
         libraryTarget: 'umd'
     },
     module: {
