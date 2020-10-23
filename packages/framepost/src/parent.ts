@@ -1,4 +1,5 @@
 import { MessageType } from './constants';
+import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
 import type { Message, Channel } from './types';
 import { randomInsecureId } from './utils';
@@ -6,55 +7,42 @@ import { randomInsecureId } from './utils';
 export interface ParentClientOptions extends SharedClientOptions {}
 
 export class ParentClient<C = any> extends SharedClient<C> {
-    private tempChannelData?: Channel;
+    private frame?: HTMLIFrameElement;
+    private url?: URL;
 
     constructor(options: ParentClientOptions) {
         super(options);
     }
 
-    send<T = any>(eventType: string, data: T) {
-        this.postMessage(MessageType.SEND_DOWN, eventType, data);
-    }
-
-    requestChannel(frame: HTMLIFrameElement, url: string, context: C) {
-        const { origin } = new URL(url);
+    requestChannel<T>(frame: HTMLIFrameElement, url: string, context: T) {
+        this.frame = frame;
+        this.url = new URL(url);
 
         if (frame.contentWindow) {
-            this.tempChannelData = {
-                source: frame.contentWindow,
-                origin,
-                context
-            };
-
             const message: Message = {
-                type: MessageType.CHANNEL_REQUEST,
+                type: MessageType.CHANNEL_INIT,
                 eventType: '',
                 data: context,
                 id: randomInsecureId()
             };
 
-            frame.contentWindow.postMessage(message, origin);
-        } else {
-            this.channel.reject(event);
+            frame.contentWindow.postMessage(message, this.url.origin);
         }
     }
 
-    protected messageListener(event: MessageEvent<Message>) {
-        switch (event.data.type) {
-            case MessageType.CHANNEL_CONFIRM: {
-                return this.establishChannel(event);
-            }
-            case MessageType.SEND_UP: {
-                this.handleEvent(event);
-            }
+    protected establishChannel(event: MessageEvent<Message<C>>) {
+        if (this.frame && event.source === this.frame.contentWindow) {
+            const channel: Channel<C> = {
+                source: event.source as Window,
+                origin: event.origin,
+                context: event.data.data
+            };
+
+            this.channel.resolve(channel);
         }
     }
 
-    private establishChannel(event: MessageEvent<Message<C>>) {
-        if (event.source === this.tempChannelData!.source) {
-            this.channel.resolve(this.tempChannelData!);
-        } else {
-            this.channel.reject(event);
-        }
+    protected getLogger() {
+        return getLogger('parent-client', this.debug);
     }
 }

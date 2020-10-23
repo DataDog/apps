@@ -1,27 +1,22 @@
 import { MessageType } from './constants';
+import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
 import type { Message, Channel } from './types';
 
-export interface ChildClientOptions extends SharedClientOptions {}
+export interface ChildClientOptions extends SharedClientOptions {
+    parentContext: any;
+}
 export class ChildClient<C = any> extends SharedClient<C> {
+    parentContext: any;
+
     constructor(options: ChildClientOptions) {
         super(options);
+
+        this.parentContext = options.parentContext || null;
     }
 
-    send<T = any>(eventType: string, data: T) {
-        this.postMessage(MessageType.SEND_UP, eventType, data);
-    }
-
-    protected messageListener(event: MessageEvent<Message>) {
-        switch (event.data.type) {
-            case MessageType.CHANNEL_REQUEST: {
-                this.establishChannel(event);
-                break;
-            }
-            case MessageType.SEND_DOWN: {
-                this.handleEvent(event);
-            }
-        }
+    protected getLogger() {
+        return getLogger('child-client', this.debug);
     }
 
     protected establishChannel(event: MessageEvent<Message<C>>) {
@@ -31,6 +26,6 @@ export class ChildClient<C = any> extends SharedClient<C> {
             context: event.data.data
         };
         this.channel.resolve(channel);
-        this.postMessage(MessageType.CHANNEL_CONFIRM, '', event.data);
+        this.postMessage(MessageType.CHANNEL_INIT, '', this.parentContext);
     }
 }
