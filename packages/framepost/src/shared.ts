@@ -1,5 +1,6 @@
-import { MessageType, REQUEST_TIMEOUT } from './constants';
+import { MessageType, ProfileEventType, REQUEST_TIMEOUT } from './constants';
 import { Logger } from './logger';
+import { Profiler, getProfiler } from './profiler';
 import type {
     Deferred,
     Message,
@@ -19,6 +20,7 @@ export abstract class SharedClient<C> {
     protected readonly profile: boolean;
     protected readonly channel: Deferred<Channel<C>>;
     protected readonly logger: Logger;
+    protected readonly profiler: Profiler;
     protected subscriptions: {
         [eventType: string]: { [id: string]: EventHandler };
     };
@@ -30,6 +32,7 @@ export abstract class SharedClient<C> {
         this.subscriptions = {};
 
         this.logger = this.getLogger();
+        this.profiler = getProfiler(profile);
 
         this.messageListener = this.messageListener.bind(this);
         window.addEventListener('message', this.messageListener);
@@ -74,7 +77,7 @@ export abstract class SharedClient<C> {
         };
     }
 
-    async request<Q = any, R = any>(requestKey: string, data: Q): Promise<R> {
+    async request<Q = any, R = any>(requestKey: string, data?: Q): Promise<R> {
         const sentMessage = await this.send(requestKey, data);
 
         return new Promise((resolve, reject) => {
@@ -144,35 +147,30 @@ export abstract class SharedClient<C> {
             `Sent message type "${type}", eventType: "${eventType || 'none'}"`
         );
 
+        this.profiler.logEvent(ProfileEventType.POST_MESSAGE, message);
+
         return message;
     }
 
-    protected async sanitizeMessage<T = any>(
+    protected async isFromValidSource<T = any>(
         event: MessageEvent<any>
-    ): Promise<Message<T> | null> {
+    ): Promise<boolean> {
         const { source } = await this.channel.promise;
-        if (event.source !== source) {
-            this.logger.error(
-                'Message received from non-channel source. Skipping'
-            );
 
-            return null;
-        }
+        return event.source === source;
+    }
 
+    protected isValidMessage(event: MessageEvent<any>): boolean {
         const message = event.data;
 
-        if (!message.type || !message.id) {
-            this.logger.error('Invalid message format. Skipping');
-
-            return null;
-        }
-
-        return message as Message<T>;
+        return message.type && message.id;
     }
 
     protected async handleEvent<T = any>(event: MessageEvent<any>) {
-        const message = await this.sanitizeMessage<T>(event);
-        if (message) {
+        const valid = await this.isFromValidSource<T>(event);
+        if (valid) {
+            const message = event.data as Message<T>;
+
             const subscriptions = this.subscriptions[message.eventType] || {};
 
             Object.values(subscriptions).forEach(handler =>
@@ -186,6 +184,12 @@ export abstract class SharedClient<C> {
     }
 
     protected messageListener(event: MessageEvent<Message>) {
+        if (!this.isValidMessage(event)) {
+            this.logger.error('Invalid message format. Skipping');
+
+            return;
+        }
+
         switch (event.data.type) {
             case MessageType.CHANNEL_INIT: {
                 this.establishChannel(event);
@@ -201,5 +205,7 @@ export abstract class SharedClient<C> {
                 event.data.eventType || 'none'
             }"`
         );
+
+        this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, event.data);
     }
 }

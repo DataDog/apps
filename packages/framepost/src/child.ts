@@ -1,4 +1,4 @@
-import { MessageType } from './constants';
+import { MessageType, EVENT_TYPE_GET_PROFILE } from './constants';
 import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
 import type { Message, Channel } from './types';
@@ -13,6 +13,12 @@ export class ChildClient<C = any> extends SharedClient<C> {
         super(options);
 
         this.parentContext = options.parentContext || null;
+
+        if (this.profile) {
+            this.handleRequest(EVENT_TYPE_GET_PROFILE, () =>
+                this.profiler.getEvents()
+            );
+        }
     }
 
     protected getLogger() {

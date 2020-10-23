@@ -1,4 +1,8 @@
-import type { MessageType } from './constants';
+import type {
+    MessageType,
+    ProfileEventType,
+    TransactionDirection
+} from './constants';
 
 export interface Deferred<T> {
     resolve: (t: T) => void;
@@ -22,4 +26,19 @@ export interface Channel<T = any> {
 
 export type EventHandler<T = any> = (data: T, message: Message<T>) => void;
 
-export type RequestHandler<Q = any, R = any> = (requestData: Q) => Promise<R>;
+export type RequestHandler<Q = any, R = any> = (requestData: Q) => R;
+
+export interface ProfileEvent {
+    type: ProfileEventType;
+    date: Date;
+    message: Message;
+}
+
+export interface TransactionProfile {
+    id: string;
+    direction: TransactionDirection;
+    postTime: Date;
+    receiveTime?: Date;
+    duration?: number;
+    message: Message;
+}

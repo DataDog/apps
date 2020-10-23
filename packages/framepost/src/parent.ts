@@ -1,8 +1,13 @@
-import { MessageType } from './constants';
+import { MessageType, EVENT_TYPE_GET_PROFILE } from './constants';
 import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
-import type { Message, Channel } from './types';
-import { randomInsecureId } from './utils';
+import type {
+    Message,
+    Channel,
+    ProfileEvent,
+    TransactionProfile
+} from './types';
+import { randomInsecureId, profileTransactions } from './utils';
 
 export interface ParentClientOptions extends SharedClientOptions {}
 
@@ -28,6 +33,15 @@ export class ParentClient<C = any> extends SharedClient<C> {
 
             frame.contentWindow.postMessage(message, this.url.origin);
         }
+    }
+
+    async getProfile(): Promise<TransactionProfile[]> {
+        const childEvents = await this.request<any, ProfileEvent[]>(
+            EVENT_TYPE_GET_PROFILE
+        );
+        const events = this.profiler.getEvents();
+
+        return profileTransactions(events, childEvents);
     }
 
     protected establishChannel(event: MessageEvent<Message<C>>) {
