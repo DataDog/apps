@@ -4,7 +4,7 @@ import { SharedClient, SharedClientOptions } from './shared';
 import type { Message, Channel } from './types';
 
 export interface ChildClientOptions extends SharedClientOptions {
-    parentContext: any;
+    parentContext?: any;
 }
 export class ChildClient<C = any> extends SharedClient<C> {
     parentContext: any;
