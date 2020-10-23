@@ -1,4 +1,4 @@
-import { MessageType, EVENT_TYPE_GET_PROFILE } from './constants';
+import { MessageType, ProfileEventType, EVENT_TYPE_GET_PROFILE } from './constants';
 import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
 import type {
@@ -32,6 +32,8 @@ export class ParentClient<C = any> extends SharedClient<C> {
             };
 
             frame.contentWindow.postMessage(message, this.url.origin);
+
+            this.profiler.logEvent(ProfileEventType.POST_MESSAGE, message);
         }
     }
 
