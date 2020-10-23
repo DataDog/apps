@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Posterchild sandbox: Parent</title>
+    </head>
+    <body>
+        <h1>Posterchild Parent: Parent</h1>
+        <iframe
+            id="frame"
+            src="http://localhost:8001"
+        ></iframe>
+        <script src="dist/poster-child.min.js"></script>
+        <script>
+            const frame = document.getElementById('frame');
+            const client = new posterChild.ParentClient({ debug: true, profile: true });
+            client.getContext().then(context => console.log("Channel established with child", context));
+            client.on('up', (data) => console.log("received data from child", data));
+
+            const context = {
+                data: 'secret'
+            }
+
+            frame.onload = () => {
+                client.requestChannel(frame, 'http://localhost:8001', context);
+            }
+
+            client.send('down', { data: 'down' });
+        </script>
+    </body>
+</html>

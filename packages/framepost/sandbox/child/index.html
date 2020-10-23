@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PosterChild sandbox: Child</title>
+    </head>
+    <body>
+        <h4>PosterChild sandbox: Child</h4>
+        <script src="dist/poster-child.min.js"></script>
+        <script>
+            const client = new posterChild.ChildClient({ debug: true, profile: true });
+            client.getContext().then(context => console.log("received context from parent", context));
+            client.on('down', (data) => console.log("received data from parent", data));
+            client.send('up', { data: 'up' });
+        </script>
+    </body>
+</html>
