@@ -1,6 +1,12 @@
-import { MessageType } from './constants';
+import { MessageType, REQUEST_TIMEOUT } from './constants';
 import { Logger } from './logger';
-import type { Deferred, Message, Channel, EventHandler } from './types';
+import type {
+    Deferred,
+    Message,
+    Channel,
+    EventHandler,
+    RequestHandler
+} from './types';
 import { defer, randomInsecureId } from './utils';
 
 export interface SharedClientOptions {
@@ -38,8 +44,12 @@ export abstract class SharedClient<C> {
     protected abstract establishChannel(event: MessageEvent<Message<C>>): void;
     protected abstract getLogger(): Logger;
 
-    send<T = any>(eventType: string, data: T) {
-        this.postMessage(MessageType.SEND, eventType, data);
+    async send<T = any>(
+        eventType: string,
+        data: T,
+        requestId?: string
+    ): Promise<Message<T>> {
+        return this.postMessage(MessageType.SEND, eventType, data, requestId);
     }
 
     on<T = any>(eventType: string, handler: EventHandler<T>): () => void {
@@ -64,6 +74,45 @@ export abstract class SharedClient<C> {
         };
     }
 
+    async request<Q = any, R = any>(requestKey: string, data: Q): Promise<R> {
+        const sentMessage = await this.send(requestKey, data);
+
+        return new Promise((resolve, reject) => {
+            let timer: ReturnType<typeof setTimeout>;
+
+            const tmpEventHandler = (response: R, message: Message<R>) => {
+                if (message.requestId === sentMessage.id) {
+                    clearTimeout(timer);
+
+                    resolve(response);
+                }
+            };
+
+            const unsubscribe = this.on(requestKey, tmpEventHandler);
+
+            timer = setTimeout(() => {
+                unsubscribe();
+                reject('Request timed out');
+            }, REQUEST_TIMEOUT);
+        });
+    }
+
+    handleRequest<Q = any, R = any>(
+        requestKey: string,
+        requestHandler: RequestHandler<Q, R>
+    ): () => void {
+        const eventHandler = async (
+            requestData: Q,
+            requestMessage: Message<Q>
+        ) => {
+            const response = await requestHandler(requestData);
+
+            this.send(requestKey, response, requestMessage.id);
+        };
+
+        return this.on(requestKey, eventHandler);
+    }
+
     async getContext(): Promise<C> {
         const { context } = await this.channel.promise;
         return context;
@@ -76,19 +125,26 @@ export abstract class SharedClient<C> {
     protected async postMessage<T = any>(
         type: MessageType,
         eventType: string,
-        data: T
-    ) {
+        data: T,
+        requestId?: string
+    ): Promise<Message<T>> {
         const { source, origin } = await this.channel.promise;
+
         const message: Message = {
             type,
             eventType,
             data,
-            id: randomInsecureId()
+            id: randomInsecureId(),
+            requestId
         };
+
         source.postMessage(message, origin);
+
         this.logger.log(
             `Sent message type "${type}", eventType: "${eventType || 'none'}"`
         );
+
+        return message;
     }
 
     protected async sanitizeMessage<T = any>(
@@ -120,7 +176,7 @@ export abstract class SharedClient<C> {
             const subscriptions = this.subscriptions[message.eventType] || {};
 
             Object.values(subscriptions).forEach(handler =>
-                handler(message.data)
+                handler(message.data, message)
             );
 
             this.logger.log(

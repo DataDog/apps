@@ -11,6 +11,7 @@ export interface Message<T = any> {
     eventType: string;
     data: T;
     id: string;
+    requestId?: string;
 }
 
 export interface Channel<T = any> {
@@ -19,4 +20,6 @@ export interface Channel<T = any> {
     context: T;
 }
 
-export type EventHandler<T = any> = (data: T) => void;
+export type EventHandler<T = any> = (data: T, message: Message<T>) => void;
+
+export type RequestHandler<Q = any, R = any> = (requestData: Q) => Promise<R>;

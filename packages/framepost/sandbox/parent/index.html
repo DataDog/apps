@@ -12,9 +12,16 @@
         <script src="dist/poster-child.min.js"></script>
         <script>
             const frame = document.getElementById('frame');
-            const client = new posterChild.ParentClient({ debug: true, profile: true });
+            const client = new posterChild.ParentClient({ profile: true });
             client.getContext().then(context => console.log("Channel established with child", context));
             client.on('up', (data) => console.log("received data from child", data));
+
+            client.handleRequest('requestFromParent', async () => {
+                await new Promise(res => setTimeout(res, 500));
+
+                return 'requestResponse';
+            })
+
 
             const context = {
                 data: 'secret'
@@ -25,6 +32,10 @@
             }
 
             client.send('down', { data: 'down' });
+
+            client.request('requestFromChild').then(data => {
+                console.log("received requested data from child", data);
+            })
         </script>
     </body>
 </html>
