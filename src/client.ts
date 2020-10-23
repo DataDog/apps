@@ -1,50 +1,54 @@
-import Postmate from 'postmate';
+import { ChildClient } from '@datadog/framepost';
 
 import { CapabilityManager } from './capabilites/capabilityManager';
 import { capabilityManagers } from './capabilites';
-import { Host, UiAppCapabilityType, UiAppEventType } from './constants';
-import { getLogger, Logger } from './logger';
 import {
-    AppContext,
-    EventHandler,
-    HandleEventParams,
-    ClientOptions
-} from './types';
-import { Deferred, defer } from './utils';
+    Host,
+    UiAppCapabilityType,
+    UiAppEventType,
+    SDK_VERSION
+} from './constants';
+import { getLogger, Logger } from './logger';
+import { AppContext, FrameContext, EventHandler, ClientOptions } from './types';
 
 const DEFAULT_OPTIONS = {
     host: Host.STAGE,
+    profile: false,
     debug: false
 };
 
 export class DDClient {
     private readonly host: string;
     private readonly debug: boolean;
-    private readonly handshake: Postmate.Model;
+    private readonly profile: boolean;
+    private readonly framePostClient: ChildClient;
     private readonly logger: Logger;
-    private context: Deferred<AppContext>;
     private capabilityManagers: CapabilityManager[];
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
-        this.context = defer();
-        this.logger = getLogger(options);
+        this.profile = options.profile || DEFAULT_OPTIONS.profile;
 
-        // @ts-ignore
-        Postmate.debug = this._debug;
-
-        this.handshake = new Postmate.Model({
-            init: (context: AppContext) => this.init(context),
-            handleEvent: (params: HandleEventParams) => this.handleEvent(params)
+        this.framePostClient = new ChildClient<AppContext>({
+            debug: this.debug,
+            profile: this.profile,
+            parentContext: {
+                sdkVersion: SDK_VERSION
+            } as FrameContext
         });
+
+        this.logger = getLogger(options);
 
         this.capabilityManagers = capabilityManagers.map(
             Manager =>
                 new Manager(
-                    { host: this.host, debug: this.debug },
-                    this.handshake,
-                    this.context
+                    {
+                        host: this.host,
+                        debug: this.debug,
+                        profile: this.profile
+                    },
+                    this.framePostClient
                 )
         );
 
@@ -71,48 +75,26 @@ export class DDClient {
             return () => {};
         }
 
-        return manager.subscribeHandler<T>(eventType, handler);
+        const wrappedHandler: EventHandler<T> = async (...args) => {
+            const isEnabled = await manager.isEnabled();
+
+            if (isEnabled) {
+                handler(...args);
+            } else {
+                this.logger.error(
+                    `The ${manager.type} capability must be enabled to respond to events of type ${eventType}.`
+                );
+            }
+        };
+
+        return this.framePostClient.on(eventType, wrappedHandler);
     }
 
     /**
      * Returns app context data, after it is sent from the parent
      */
     async getContext(): Promise<AppContext> {
-        return this.context.promise;
-    }
-
-    /**
-     * init method is exposed in the postmate model. It must be called before other operations may proceed,
-     * in order to inform client of app context
-     */
-    private async init(context: AppContext) {
-        // parent should only be able to call this after handshake is complete, but its worth a check anyways
-        await this.handshake;
-
-        this.context.resolve(context);
-
-        this.logger.log(
-            'dd-apps: sdk handshake: parent <-> child handshake is complete'
-        );
-    }
-
-    /**
-     * handleEvent is the main method called by the parent through postmate (child.handleEvent('exec', {...})).
-     * It accepts a keyed event type and arbitrary data to be passed to event handlers. It will log an error
-     * message if the user does not have the required capability enabled
-     */
-    private async handleEvent<T>({ eventType, data }: HandleEventParams<T>) {
-        const manager = this.getManagerByEventType(eventType);
-
-        if (!manager) {
-            this.logger.error(
-                'Could not handle event: no corresponding manager found'
-            );
-
-            return;
-        }
-
-        manager.handleEvent({ eventType, data });
+        return this.framePostClient.getContext();
     }
 
     private getManagerByType(

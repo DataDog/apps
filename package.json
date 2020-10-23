@@ -1,6 +1,6 @@
 {
-    "name": "dd_ui_apps_sdk",
-    "version": "1.0.0",
+    "name": "@datadog/ui-apps-sdk",
+    "version": "0.1.0",
     "description": "Datadog UI Apps - Official JavaScript SDK ",
     "main": "src/index.js",
     "scripts": {
@@ -16,11 +16,10 @@
     "author": "Datadog",
     "license": "MIT",
     "dependencies": {
-        "postmate": "^1.5.2"
+        "@datadog/framepost": "https://github.com/DataDog/framepost.git"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",
-        "@types/postmate": "^1.5.1",
         "@typescript-eslint/eslint-plugin": "3.4.0",
         "@typescript-eslint/parser": "3.4.0",
         "eslint": "7.3.1",

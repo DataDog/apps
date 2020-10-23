@@ -3,28 +3,7 @@ import { init } from '.';
 import { DDClient } from './client';
 import { UiAppEventType, UiAppCapabilityType } from './constants';
 import { AppContext } from './types';
-
-class MockParent {
-    model: any;
-
-    setModel(model: any) {
-        this.model = model;
-    }
-
-    call(name: string, data: any) {
-        this.model[name](data);
-    }
-}
-
-const parent = new MockParent();
-
-jest.mock('postmate', () => ({
-    Model: jest.fn(async m => {
-        parent.setModel(m);
-
-        return Promise.resolve();
-    })
-}));
+import { defer, Deferred, uniqueInt } from './utils';
 
 const mockContext: AppContext = {
     name: 'User',
@@ -36,7 +15,68 @@ const mockContext: AppContext = {
     capabilities: [UiAppCapabilityType.DASHBOARD_COG_MENU]
 };
 
+class MockFramePostChildClient {
+    context: Deferred<any>;
+    subscriptions: { [ev: string]: { [od: string]: (data?: any) => any } };
+
+    constructor() {
+        this.context = defer();
+        this.subscriptions = {};
+    }
+
+    init(override?: any) {
+        this.context.resolve(override || mockContext);
+    }
+
+    async getContext() {
+        const context = await this.context.promise;
+
+        return context;
+    }
+
+    on(eventType: string, handler: (arg?: any) => any): () => void {
+        const subscriptionId = uniqueInt().toString();
+
+        if (!this.subscriptions[eventType]) {
+            this.subscriptions[eventType] = {};
+        }
+
+        this.subscriptions[eventType][subscriptionId] = handler;
+
+        return () => {
+            const {
+                [subscriptionId]: _,
+                ...otherSubscriptions
+            } = this.subscriptions[eventType];
+
+            this.subscriptions[eventType] = otherSubscriptions;
+        };
+    }
+
+    mockEvent(eventType: string, data: any) {
+        const subscriptions = this.subscriptions[eventType] || {};
+
+        Object.values(subscriptions).forEach(subscription =>
+            subscription(data)
+        );
+    }
+}
+
 const flushPromises = () => new Promise(setImmediate);
+
+let mockClient: MockFramePostChildClient;
+
+jest.mock('@datadog/framepost', () => ({
+    ChildClient: class {
+        constructor() {
+            return mockClient;
+        }
+    }
+}));
+
+beforeEach(() => {
+    mockClient = new MockFramePostChildClient();
+});
 
 describe('client', () => {
     test('instantiates without error', () => {
@@ -48,7 +88,7 @@ describe('client', () => {
     test('has a getContext() method that returns app context after it is supplied from parent', async () => {
         const client = new DDClient();
 
-        parent.call('init', mockContext);
+        mockClient.init();
 
         const context = await client.getContext();
 
@@ -73,32 +113,6 @@ describe('client', () => {
         errorSpy.mockRestore();
     });
 
-    test('logs an error in debug mode if the parent sends an invalid event type', async () => {
-        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-        const errorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {});
-
-        const client = new DDClient({ debug: true }); // eslint-disable-line
-
-        parent.call('init', mockContext);
-
-        parent.call('handleEvent', {
-            eventType: 'bad_event_type_blah',
-            data: {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
-        });
-
-        expect(errorSpy).toHaveBeenCalled();
-
-        await flushPromises();
-
-        logSpy.mockRestore();
-        errorSpy.mockRestore();
-    });
-
     test('Executes subscribed handlers when corresponding events are sent from the parent', async () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
@@ -108,14 +122,11 @@ describe('client', () => {
         client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
         client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
 
-        parent.call('init', mockContext);
+        mockClient.init();
 
-        parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            data: {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
+        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
         });
 
         await flushPromises();
@@ -145,14 +156,11 @@ describe('client', () => {
 
         unsubscribe();
 
-        parent.call('init', mockContext);
+        mockClient.init();
 
-        parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            data: {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
+        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
         });
 
         await flushPromises();
@@ -170,17 +178,14 @@ describe('client', () => {
         client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
         client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
 
-        parent.call('init', {
+        mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            data: {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
+        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
         });
 
         await flushPromises();
@@ -199,17 +204,14 @@ describe('client', () => {
 
         client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, () => {});
 
-        parent.call('init', {
+        mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            data: {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
+        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
         });
 
         await flushPromises();
@@ -236,32 +238,5 @@ describe('sdk init method', () => {
         const clientAgain = init();
 
         expect(clientAgain).toBe(client);
-    });
-
-    // test will time out
-    test('executes callback after context is supplied', async () => {
-        const callback = jest.fn();
-
-        init({}, callback);
-
-        parent.call('init', mockContext);
-
-        await flushPromises();
-
-        expect(callback).toBeCalledWith(mockContext);
-    });
-
-    test('executes new callback if called again', async () => {
-        const callback = jest.fn();
-
-        init();
-
-        await flushPromises();
-
-        init({}, callback);
-
-        await flushPromises();
-
-        expect(callback).toBeCalledWith(mockContext);
     });
 });

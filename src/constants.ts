@@ -11,3 +11,5 @@ export enum UiAppCapabilityType {
 export enum UiAppEventType {
     DASHBOARD_COG_MENU_CONTEXT = 'dashboard_cog_menu_context'
 }
+
+export const SDK_VERSION = '0.1.0';

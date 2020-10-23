@@ -1,29 +1,9 @@
-import * as Postmate from 'postmate';
+import type { ChildClient } from '@datadog/framepost';
 
 import type { DDClient } from '../client';
 import { UiAppCapabilityType, UiAppEventType } from '../constants';
 import { getLogger, Logger } from '../logger';
-import {
-    AppContext,
-    ClientOptions,
-    EventHandler,
-    HandleEventParams
-} from '../types';
-import { Deferred, uniqueInt } from '../utils';
-
-type Subscriptions = {
-    [key in UiAppEventType]: { [id: number]: EventHandler };
-};
-
-const initSubscriptions = (): Subscriptions => {
-    const subcriptions: Partial<Subscriptions> = {};
-
-    Object.values(UiAppEventType).forEach(eventType => {
-        subcriptions[eventType] = {};
-    });
-
-    return subcriptions as Subscriptions;
-};
+import { AppContext, ClientOptions } from '../types';
 
 export abstract class CapabilityManager {
     abstract type: UiAppCapabilityType;
@@ -32,23 +12,16 @@ export abstract class CapabilityManager {
     protected readonly host: string;
     protected readonly debug: boolean;
     protected readonly logger: Logger;
-    protected readonly handshake: Postmate.Model;
-    protected readonly context: Deferred<AppContext>;
-    private subscriptions: {
-        [key in UiAppEventType]: { [id: number]: EventHandler };
-    };
+    protected readonly framePostClient: ChildClient<AppContext>;
 
     constructor(
         options: Required<ClientOptions>,
-        handshake: Postmate.Model,
-        context: Deferred<AppContext>
+        framePostClient: ChildClient<AppContext>
     ) {
         this.host = options.host;
         this.debug = options.debug;
         this.logger = getLogger(options);
-        this.handshake = handshake;
-        this.context = context;
-        this.subscriptions = initSubscriptions();
+        this.framePostClient = framePostClient;
     }
 
     /**
@@ -87,57 +60,9 @@ export abstract class CapabilityManager {
         Object.assign(client, wrappedMethods);
     }
 
-    /**
-     * Called by the client to register an event handler managed by this capability. Do not override
-     */
-    subscribeHandler<T>(
-        eventType: UiAppEventType,
-        handler: EventHandler<T>
-    ): () => void {
-        const subscriptionId = uniqueInt();
-
-        this.subscriptions[eventType][subscriptionId] = handler;
-
-        return () => {
-            const {
-                [subscriptionId]: _,
-                ...otherSubscriptions
-            } = this.subscriptions[eventType];
-
-            this.subscriptions[eventType] = otherSubscriptions;
-        };
-    }
-
-    /**
-     * Called by the client to delegate event handling. Do not override
-     */
-    async handleEvent<T>({ eventType, data }: HandleEventParams<T>) {
-        const hasHandlers = this.hasHandlers(eventType);
-
-        if (!hasHandlers) {
-            return;
-        }
-
-        const isEnabled = await this.isEnabled();
-
-        if (isEnabled) {
-            const subscriptions = this.subscriptions[eventType];
-
-            Object.values(subscriptions).forEach(handler => handler(data));
-        } else {
-            this.logger.error(
-                `The ${this.type} capability must be enabled to respond to events of type ${eventType}.`
-            );
-        }
-    }
-
     async isEnabled(): Promise<boolean> {
-        const { capabilities } = await this.context.promise;
+        const { capabilities } = await this.framePostClient.getContext();
 
         return capabilities.includes(this.type);
-    }
-
-    hasHandlers(eventType: UiAppEventType): boolean {
-        return !!Object.keys(this.subscriptions[eventType]).length;
     }
 }

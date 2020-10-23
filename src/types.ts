@@ -2,6 +2,7 @@ import type { UiAppCapabilityType, UiAppEventType } from './constants';
 
 export interface ClientOptions {
     debug?: boolean;
+    profile?: boolean;
     host?: string;
 }
 
@@ -25,4 +26,8 @@ export interface AppContext {
     };
     // list of enabled capabilities
     capabilities: UiAppCapabilityType[];
+}
+
+export interface FrameContext {
+    sdkVersion: string;
 }

@@ -5,16 +5,15 @@
     </head>
     <body>
         <h1>Datadog Ui Apps SDK Sandbox: Parent</h1>
-        <div id="target"></div>
-        <script src="node_modules/postmate/build/postmate.min.js"></script>
+        <iframe id="frame" src="http://localhost:8001"></iframe>
+        <script src="node_modules/@datadog/framepost/dist/framepost.min.js"></script>
         <script>
-            const handshake = new Postmate({
-                container: document.getElementById('target'),
-                url: 'http://localhost:8001'
-            });
+            const frame = document.getElementById('frame');
 
-            handshake.then(child => {
-                child.call('init', {
+            const client = new framepost.ParentClient({ debug: true, profile: true });
+
+            frame.onload = () => {
+                client.requestChannel(frame, frame.src, {
                     name: 'User',
                     handle: 'user@email.com',
                     organization: {
@@ -23,15 +22,12 @@
                     },
                     capabilities: ['dashboard_cog_menu']
                 });
+            }
 
-                child.call('handleEvent', {
-                    eventType: 'dashboard_cog_menu_context',
-                    data: {
-                        id: 'dashboardid',
-                        shareToken: 'https://www.google.com'
-                    }
-                });
-            });
+            client.send('dashboard_cog_menu_context', {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            })
         </script>
     </body>
 </html>

@@ -8,7 +8,7 @@
         <div id="target">Link to public dashboard:&nbsp</div>
         <script src="dist/main.js"></script>
         <script>
-            const client = DD_SDK.init({ debug: true }, context => {
+            const client = DD_SDK.init({ debug: true, profile: true }, context => {
                 console.log('Received app context', context);
             })
 
