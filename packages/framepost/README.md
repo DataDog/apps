@@ -77,14 +77,14 @@ client.send('event_key', dataAboutEvent);
 
 ### `client.request()`:
 
-The counterpart to `client.handleRequest()`. A convenience method to send and receive data asynchronously from the opposite client. Designed to function like a promise-based api call. In order for a round-trip request to function correctly, a `handleRequest` handler with a matching request key must be listening in the opposite client before the requeset is initiated. See below
+The counterpart to `client.onRequest()`. A convenience method to send and receive data asynchronously from the opposite client. Designed to function like a promise-based api call. In order for a round-trip request to function correctly, a `handleRequest` handler with a matching request key must be listening in the opposite client before the requeset is initiated. See below
 
 ```
 const data = await client.request('getMyData', requestParams);
 
 ```
 
-### `client.handleRequest()`:
+### `client.onRequest()`:
 
 The counterpart to `client.request`. Receives request data send from a `client.request` call in the opposite client. Executes the provided handler, sending the returned response back to the opposite client.
 
@@ -122,7 +122,7 @@ child parentClient = new ParentClient({ profile: true });
 
 // after channel init and a few transactions:
 
-parentClient.getProfile().then(profile => {
+parentClient.getMessageProfile().then(profile => {
     // do whatever you want with profile data
     console.log(profile);
 });

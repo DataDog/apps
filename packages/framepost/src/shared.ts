@@ -1,4 +1,9 @@
-import { MessageType, ProfileEventType, REQUEST_TIMEOUT } from './constants';
+import {
+    MessageType,
+    ProfileEventType,
+    REQUEST_TIMEOUT,
+    MessageAPIVersion
+} from './constants';
 import { Logger } from './logger';
 import { Profiler, getProfiler } from './profiler';
 import type {
@@ -8,7 +13,7 @@ import type {
     EventHandler,
     RequestHandler
 } from './types';
-import { defer, randomInsecureId } from './utils';
+import { defer, randomInsecureId, omit } from './utils';
 
 export interface SharedClientOptions {
     debug?: boolean;
@@ -21,15 +26,23 @@ export abstract class SharedClient<C> {
     protected readonly channel: Deferred<Channel<C>>;
     protected readonly logger: Logger;
     protected readonly profiler: Profiler;
-    protected subscriptions: {
+    protected eventSubscriptions: {
         [eventType: string]: { [id: string]: EventHandler };
+    };
+    protected responseSubscriptions: {
+        [id: string]: EventHandler;
+    };
+    protected requestSubscriptions: {
+        [requestKey: string]: RequestHandler;
     };
 
     constructor({ debug = false, profile = false }: SharedClientOptions = {}) {
         this.debug = debug;
         this.profile = profile;
         this.channel = defer();
-        this.subscriptions = {};
+        this.eventSubscriptions = {};
+        this.responseSubscriptions = {};
+        this.requestSubscriptions = {};
 
         this.logger = this.getLogger();
         this.profiler = getProfiler(profile);
@@ -44,90 +57,210 @@ export abstract class SharedClient<C> {
         });
     }
 
+    // each client must implement these methods since they will differ slightly
+    // in parent and child
     protected abstract establishChannel(event: MessageEvent<Message<C>>): void;
     protected abstract getLogger(): Logger;
 
-    async send<T = any>(
-        eventType: string,
-        data: T,
-        requestId?: string
-    ): Promise<Message<T>> {
-        return this.postMessage(MessageType.SEND, eventType, data, requestId);
+    /**
+     * Sends an event to the opposite client
+     */
+    async send<T = any>(eventType: string, data: T): Promise<Message<T>> {
+        return this.postMessage(MessageType.EVENT, eventType, data);
     }
 
+    /**
+     * Subscribes an event handler for the given eventType. Returns an unsubscribe hook
+     */
     on<T = any>(eventType: string, handler: EventHandler<T>): () => void {
-        if (!this.subscriptions[eventType]) {
-            this.subscriptions[eventType] = {};
+        if (!this.eventSubscriptions[eventType]) {
+            this.eventSubscriptions[eventType] = {};
         }
 
         const id = randomInsecureId(8);
 
-        this.subscriptions[eventType][id] = handler;
+        this.eventSubscriptions[eventType][id] = handler;
 
         this.logger.log(`Registered handler for event "${eventType}"`);
 
         return () => {
-            const { [id]: _, ...otherSubscriptions } = this.subscriptions[
-                eventType
-            ];
-
-            this.subscriptions[eventType] = otherSubscriptions;
+            this.eventSubscriptions[eventType] = omit(
+                this.eventSubscriptions[eventType],
+                id
+            );
 
             this.logger.log(`Unsubscribed handler for event ${eventType}`);
         };
     }
 
+    /**
+     * Sends a request to the opposite client. There must be an accompanying request handler
+     * subscribed with `onRequest`. Resolves with the returned data or times out.
+     */
     async request<Q = any, R = any>(requestKey: string, data?: Q): Promise<R> {
-        const sentMessage = await this.send(requestKey, data);
+        const sentMessage = await this.postMessage(
+            MessageType.REQUEST,
+            requestKey,
+            data
+        );
+
+        const unsubscribeResponseHandler = () => {
+            this.responseSubscriptions = omit(
+                this.responseSubscriptions,
+                sentMessage.id
+            );
+        };
 
         return new Promise((resolve, reject) => {
             let timer: ReturnType<typeof setTimeout>;
 
-            const tmpEventHandler = (response: R, message: Message<R>) => {
-                if (message.requestId === sentMessage.id) {
-                    clearTimeout(timer);
+            const responseHandler: EventHandler<R> = (
+                response: R,
+                message: Message<R>
+            ) => {
+                clearTimeout(timer);
 
-                    resolve(response);
-                }
+                unsubscribeResponseHandler();
+
+                resolve(response);
             };
 
-            const unsubscribe = this.on(requestKey, tmpEventHandler);
+            this.responseSubscriptions[sentMessage.id] = responseHandler;
 
             timer = setTimeout(() => {
-                unsubscribe();
+                unsubscribeResponseHandler();
                 reject('Request timed out');
             }, REQUEST_TIMEOUT);
         });
     }
 
-    handleRequest<Q = any, R = any>(
+    /**
+     * Subscribes a request handler for the given request key. The return value
+     * from the subscribed handler is sent back to the opposite client. The handler may be async.
+     * Unlike event handlers, there may be only one request handler per request key. Returns
+     * an unsubscribe hook.
+     */
+    onRequest<Q = any, R = any>(
         requestKey: string,
         requestHandler: RequestHandler<Q, R>
     ): () => void {
-        const eventHandler = async (
+        const requestEventHandler = async (
             requestData: Q,
             requestMessage: Message<Q>
         ) => {
-            const response = await requestHandler(requestData);
+            const response = await requestHandler(requestData, requestMessage);
 
-            this.send(requestKey, response, requestMessage.id);
+            this.postMessage(
+                MessageType.RESPONSE,
+                requestKey,
+                response,
+                requestMessage.id
+            );
         };
 
-        return this.on(requestKey, eventHandler);
+        this.requestSubscriptions[requestKey] = requestEventHandler;
+
+        return () => {
+            this.requestSubscriptions = omit(
+                this.requestSubscriptions,
+                requestKey
+            );
+        };
     }
 
+    /**
+     * Returns the context provided by the opposite client.
+     */
     async getContext(): Promise<C> {
         const { context } = await this.channel.promise;
         return context;
     }
 
+    /**
+     * Detaches message listener
+     */
     destroy() {
         window.removeEventListener('message', this.messageListener);
     }
 
+    protected async messageListener(ev: MessageEvent<Message>) {
+        if (!this.isValidMessage(ev)) {
+            this.logger.error('Invalid message format. Skipping');
+
+            return;
+        }
+
+        if (ev.data.type === MessageType.CHANNEL_INIT) {
+            this.establishChannel(ev);
+
+            return;
+        }
+
+        const valid = await this.isFromValidSource(ev);
+
+        if (valid) {
+            switch (ev.data.type) {
+                case MessageType.EVENT: {
+                    this.handleEvent(ev);
+                    break;
+                }
+                case MessageType.REQUEST: {
+                    this.handleRequest(ev);
+                    break;
+                }
+                case MessageType.RESPONSE: {
+                    this.handleResponse(ev);
+                    break;
+                }
+            }
+
+            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
+        } else {
+            this.logger.error(
+                'Received message from invalid source. Skipping.'
+            );
+        }
+    }
+
+    protected handleEvent<T = any>(ev: MessageEvent<Message<T>>) {
+        const message = ev.data;
+
+        const subscriptions = this.eventSubscriptions[message.key];
+
+        if (subscriptions) {
+            Object.values(subscriptions).forEach(handler =>
+                handler(message.data, message)
+            );
+        }
+    }
+
+    protected handleRequest<Q = any, R = any>(ev: MessageEvent<Message<Q>>) {
+        const message = ev.data;
+
+        const handler = this.requestSubscriptions[message.key];
+
+        if (handler) {
+            handler(message.data, message);
+
+            this.logger.log(`Handled request type ${message.key}`);
+        }
+    }
+
+    protected handleResponse<Q = any, R = any>(ev: MessageEvent<Message<Q>>) {
+        const message = ev.data;
+
+        const requestId = message.requestId;
+
+        const handler = requestId && this.responseSubscriptions[requestId];
+
+        if (handler) {
+            handler(message.data, message);
+        }
+    }
+
     protected async postMessage<T = any>(
         type: MessageType,
-        eventType: string,
+        key: string,
         data: T,
         requestId?: string
     ): Promise<Message<T>> {
@@ -135,17 +268,14 @@ export abstract class SharedClient<C> {
 
         const message: Message = {
             type,
-            eventType,
+            apiVersion: MessageAPIVersion.v1,
+            key,
             data,
             id: randomInsecureId(),
             requestId
         };
 
         source.postMessage(message, origin);
-
-        this.logger.log(
-            `Sent message type "${type}", eventType: "${eventType || 'none'}"`
-        );
 
         this.profiler.logEvent(ProfileEventType.POST_MESSAGE, message);
 
@@ -163,49 +293,10 @@ export abstract class SharedClient<C> {
     protected isValidMessage(event: MessageEvent<any>): boolean {
         const message = event.data;
 
-        return message.type && message.id;
-    }
-
-    protected async handleEvent<T = any>(event: MessageEvent<any>) {
-        const valid = await this.isFromValidSource<T>(event);
-        if (valid) {
-            const message = event.data as Message<T>;
-
-            const subscriptions = this.subscriptions[message.eventType] || {};
-
-            Object.values(subscriptions).forEach(handler =>
-                handler(message.data, message)
-            );
-
-            this.logger.log(
-                `Triggered handlers for event type "${message.eventType}"`
-            );
-        }
-    }
-
-    protected messageListener(event: MessageEvent<Message>) {
-        if (!this.isValidMessage(event)) {
-            this.logger.error('Invalid message format. Skipping');
-
-            return;
-        }
-
-        switch (event.data.type) {
-            case MessageType.CHANNEL_INIT: {
-                this.establishChannel(event);
-                break;
-            }
-            case MessageType.SEND: {
-                this.handleEvent(event);
-            }
-        }
-
-        this.logger.log(
-            `Received message type "${event.data.type}", eventType: "${
-                event.data.eventType || 'none'
-            }"`
+        return (
+            message.type &&
+            message.id &&
+            message.apiVersion === MessageAPIVersion.v1
         );
-
-        this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, event.data);
     }
 }

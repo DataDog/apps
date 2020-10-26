@@ -1,13 +1,18 @@
-import { MessageType, ProfileEventType, EVENT_TYPE_GET_PROFILE } from './constants';
+import {
+    MessageType,
+    ProfileEventType,
+    EVENT_TYPE_GET_PROFILE,
+    MessageAPIVersion
+} from './constants';
 import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
 import type {
     Message,
     Channel,
-    ProfileEvent,
-    TransactionProfile
+    MessageProfileEvent,
+    MessageProfile
 } from './types';
-import { randomInsecureId, profileTransactions } from './utils';
+import { randomInsecureId, profileMessages } from './utils';
 
 export interface ParentClientOptions extends SharedClientOptions {}
 
@@ -19,6 +24,10 @@ export class ParentClient<C = any> extends SharedClient<C> {
         super(options);
     }
 
+    /**
+     * Request a channel with the child client. Must be called after child
+     * frame is fully loaded.
+     */
     requestChannel<T>(frame: HTMLIFrameElement, url: string, context: T) {
         this.frame = frame;
         this.url = new URL(url);
@@ -26,7 +35,8 @@ export class ParentClient<C = any> extends SharedClient<C> {
         if (frame.contentWindow) {
             const message: Message = {
                 type: MessageType.CHANNEL_INIT,
-                eventType: '',
+                apiVersion: MessageAPIVersion.v1,
+                key: '',
                 data: context,
                 id: randomInsecureId()
             };
@@ -37,13 +47,13 @@ export class ParentClient<C = any> extends SharedClient<C> {
         }
     }
 
-    async getProfile(): Promise<TransactionProfile[]> {
-        const childEvents = await this.request<any, ProfileEvent[]>(
+    async getMessageProfile(): Promise<MessageProfile[]> {
+        const childEvents = await this.request<any, MessageProfileEvent[]>(
             EVENT_TYPE_GET_PROFILE
         );
         const events = this.profiler.getEvents();
 
-        return profileTransactions(events, childEvents);
+        return profileMessages(events, childEvents);
     }
 
     protected establishChannel(event: MessageEvent<Message<C>>) {

@@ -1,6 +1,11 @@
 export declare enum MessageType {
     CHANNEL_INIT = "channel_init",
-    SEND = "send"
+    EVENT = "event",
+    REQUEST = "request",
+    RESPONSE = "response"
+}
+export declare enum MessageAPIVersion {
+    v1 = "framepost/v1"
 }
 export declare enum ProfileEventType {
     POST_MESSAGE = "post_message",
@@ -11,4 +16,4 @@ export declare enum TransactionDirection {
     DOWN = "down"
 }
 export declare const REQUEST_TIMEOUT = 10000;
-export declare const EVENT_TYPE_GET_PROFILE = "_get_profile";
+export declare const EVENT_TYPE_GET_PROFILE = "framepost_get_profile";

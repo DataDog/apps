@@ -11,17 +11,20 @@
                 profile: true,
                 parentContext: { version: '0.1.0' }
             });
+
             client
                 .getContext()
                 .then(context =>
-                    console.log('received context from parent', context)
+                    console.log('Channel established with parent', context)
                 );
+
             client.on('down', data =>
-                console.log('received data from parent', data)
+                console.log('received event from parent', data)
             );
+
             client.send('up', { data: 'up' });
 
-            client.handleRequest('requestFromChild', async () => {
+            client.onRequest('requestFromChild', async () => {
                 await new Promise(res => setTimeout(res, 1000));
 
                 return 'childResponse';

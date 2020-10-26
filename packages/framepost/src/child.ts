@@ -6,6 +6,7 @@ import type { Message, Channel } from './types';
 export interface ChildClientOptions extends SharedClientOptions {
     parentContext?: any;
 }
+
 export class ChildClient<C = any> extends SharedClient<C> {
     parentContext: any;
 
@@ -15,7 +16,7 @@ export class ChildClient<C = any> extends SharedClient<C> {
         this.parentContext = options.parentContext || null;
 
         if (this.profile) {
-            this.handleRequest(EVENT_TYPE_GET_PROFILE, () =>
+            this.onRequest(EVENT_TYPE_GET_PROFILE, () =>
                 this.profiler.getEvents()
             );
         }

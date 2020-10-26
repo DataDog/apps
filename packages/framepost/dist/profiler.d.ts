@@ -1,7 +1,7 @@
 import { ProfileEventType } from './constants';
-import type { ProfileEvent, Message } from './types';
+import type { MessageProfileEvent, Message } from './types';
 export interface Profiler {
     logEvent(type: ProfileEventType, message: Message): void;
-    getEvents(): ProfileEvent[];
+    getEvents(): MessageProfileEvent[];
 }
 export declare const getProfiler: (profile: boolean) => Profiler;
