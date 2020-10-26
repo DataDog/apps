@@ -189,6 +189,8 @@ export abstract class SharedClient<C> {
         if (isValidMessage && ev.data.type === MessageType.CHANNEL_INIT) {
             this.establishChannel(ev);
 
+            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
+
             return;
         }
 
