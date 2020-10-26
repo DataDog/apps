@@ -10,7 +10,7 @@ export declare class ParentClient<C = any> extends SharedClient<C> {
      * Request a channel with the child client. Must be called after child
      * frame is fully loaded.
      */
-    requestChannel<T>(frame: HTMLIFrameElement, url: string, context: T): void;
+    requestChannel<T>(frame: HTMLIFrameElement, context: T): void;
     getMessageProfile(): Promise<MessageProfile[]>;
     protected establishChannel(event: MessageEvent<Message<C>>): void;
     protected getLogger(): import("./logger").Logger;

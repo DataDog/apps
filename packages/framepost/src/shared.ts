@@ -184,21 +184,21 @@ export abstract class SharedClient<C> {
     }
 
     protected async messageListener(ev: MessageEvent<Message>) {
-        if (!this.isValidMessage(ev)) {
-            this.logger.error('Invalid message format. Skipping');
+        const isValidMessage = this.isValidMessage(ev);
 
-            return;
-        }
-
-        if (ev.data.type === MessageType.CHANNEL_INIT) {
+        if (isValidMessage && ev.data.type === MessageType.CHANNEL_INIT) {
             this.establishChannel(ev);
 
             return;
         }
 
-        const valid = await this.isFromValidSource(ev);
+        const isFromSource = await this.isFromSource(ev);
 
-        if (valid) {
+        if (!isFromSource) {
+            return;
+        }
+
+        if (isValidMessage) {
             switch (ev.data.type) {
                 case MessageType.EVENT: {
                     this.handleEvent(ev);
@@ -216,9 +216,7 @@ export abstract class SharedClient<C> {
 
             this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
         } else {
-            this.logger.error(
-                'Received message from invalid source. Skipping.'
-            );
+            this.logger.error('Invalid message format. Skipping.');
         }
     }
 
@@ -282,16 +280,16 @@ export abstract class SharedClient<C> {
         return message;
     }
 
-    protected async isFromValidSource<T = any>(
-        event: MessageEvent<any>
+    protected async isFromSource<T = any>(
+        ev: MessageEvent<any>
     ): Promise<boolean> {
         const { source } = await this.channel.promise;
 
-        return event.source === source;
+        return ev.source === source;
     }
 
-    protected isValidMessage(event: MessageEvent<any>): boolean {
-        const message = event.data;
+    protected isValidMessage(ev: MessageEvent<any>): boolean {
+        const message = ev.data;
 
         return (
             message.type &&

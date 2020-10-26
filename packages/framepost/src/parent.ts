@@ -28,9 +28,9 @@ export class ParentClient<C = any> extends SharedClient<C> {
      * Request a channel with the child client. Must be called after child
      * frame is fully loaded.
      */
-    requestChannel<T>(frame: HTMLIFrameElement, url: string, context: T) {
+    requestChannel<T>(frame: HTMLIFrameElement, context: T) {
         this.frame = frame;
-        this.url = new URL(url);
+        this.url = new URL(frame.src);
 
         if (frame.contentWindow) {
             const message: Message = {
