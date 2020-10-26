@@ -16,7 +16,7 @@
     "author": "Datadog",
     "license": "MIT",
     "dependencies": {
-        "@datadog/framepost": "https://github.com/DataDog/framepost.git"
+        "@datadog/framepost": "https://github.com/DataDog/framepost.git#d775ff634c64e4c74be7bf7eebe1dc93a7be22ed"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",
