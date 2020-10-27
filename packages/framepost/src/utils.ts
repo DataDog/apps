@@ -1,4 +1,8 @@
-import { ProfileEventType, TransactionDirection } from './constants';
+import {
+    ProfileEventType,
+    TransactionDirection,
+    REQUEST_KEY_GET_PROFILE
+} from './constants';
 import type { Deferred, MessageProfileEvent, MessageProfile } from './types';
 
 export const defer = <T>(): Deferred<T> => {
@@ -95,7 +99,7 @@ export const profileMessages = (
             transactions.push(transaction);
         });
 
-    return transactions.sort(
-        (a, b) => a.postTime.getTime() - b.postTime.getTime()
-    );
+    return transactions
+        .filter(item => item.message.key !== REQUEST_KEY_GET_PROFILE)
+        .sort((a, b) => a.postTime.getTime() - b.postTime.getTime());
 };

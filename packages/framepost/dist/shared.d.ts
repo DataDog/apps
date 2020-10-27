@@ -59,6 +59,6 @@ export declare abstract class SharedClient<C> {
     protected handleRequest<Q = any, R = any>(ev: MessageEvent<Message<Q>>): void;
     protected handleResponse<Q = any, R = any>(ev: MessageEvent<Message<Q>>): void;
     protected postMessage<T = any>(type: MessageType, key: string, data: T, requestId?: string): Promise<Message<T>>;
-    protected isFromValidSource<T = any>(event: MessageEvent<any>): Promise<boolean>;
-    protected isValidMessage(event: MessageEvent<any>): boolean;
+    protected isFromSource<T = any>(ev: MessageEvent<any>): Promise<boolean>;
+    protected isValidMessage(ev: MessageEvent<any>): boolean;
 }

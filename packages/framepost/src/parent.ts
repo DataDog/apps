@@ -1,7 +1,7 @@
 import {
     MessageType,
     ProfileEventType,
-    EVENT_TYPE_GET_PROFILE,
+    REQUEST_KEY_GET_PROFILE,
     MessageAPIVersion
 } from './constants';
 import { getLogger } from './logger';
@@ -49,7 +49,7 @@ export class ParentClient<C = any> extends SharedClient<C> {
 
     async getMessageProfile(): Promise<MessageProfile[]> {
         const childEvents = await this.request<any, MessageProfileEvent[]>(
-            EVENT_TYPE_GET_PROFILE
+            REQUEST_KEY_GET_PROFILE
         );
         const events = this.profiler.getEvents();
 

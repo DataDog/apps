@@ -21,4 +21,4 @@ export enum TransactionDirection {
 
 export const REQUEST_TIMEOUT = 10000;
 
-export const EVENT_TYPE_GET_PROFILE = 'framepost_get_profile';
+export const REQUEST_KEY_GET_PROFILE = 'framepost_get_profile';

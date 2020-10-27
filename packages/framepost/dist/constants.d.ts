@@ -16,4 +16,4 @@ export declare enum TransactionDirection {
     DOWN = "down"
 }
 export declare const REQUEST_TIMEOUT = 10000;
-export declare const EVENT_TYPE_GET_PROFILE = "framepost_get_profile";
+export declare const REQUEST_KEY_GET_PROFILE = "framepost_get_profile";
