@@ -5,14 +5,14 @@
     </head>
     <body>
         <h1>Datadog Ui Apps SDK Sandbox: Parent</h1>
-        <iframe id="frame" src="http://localhost:8001"></iframe>
+        <iframe id="frame" src="http://localhost:8001" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
         <script src="node_modules/@datadog/framepost/dist/framepost.min.js"></script>
         <script>
             const frame = document.getElementById('frame');
 
             const client = new framepost.ParentClient({
                 debug: true,
-                profile: true
+                profile: true,
             });
 
             frame.onload = () => {

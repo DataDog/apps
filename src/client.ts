@@ -13,14 +13,12 @@ import { AppContext, FrameContext, EventHandler, ClientOptions } from './types';
 
 const DEFAULT_OPTIONS = {
     host: Host.STAGE,
-    profile: false,
     debug: false
 };
 
 export class DDClient {
     private readonly host: string;
     private readonly debug: boolean;
-    private readonly profile: boolean;
     private readonly framePostClient: ChildClient;
     private readonly logger: Logger;
     private capabilityManagers: CapabilityManager[];
@@ -28,11 +26,10 @@ export class DDClient {
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
-        this.profile = options.profile || DEFAULT_OPTIONS.profile;
 
         this.framePostClient = new ChildClient<AppContext>({
             debug: this.debug,
-            profile: this.profile,
+            profile: this.debug,
             parentContext: {
                 sdkVersion: SDK_VERSION
             } as FrameContext
@@ -45,8 +42,7 @@ export class DDClient {
                 new Manager(
                     {
                         host: this.host,
-                        debug: this.debug,
-                        profile: this.profile
+                        debug: this.debug
                     },
                     this.framePostClient
                 )

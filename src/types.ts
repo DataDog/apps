@@ -2,7 +2,6 @@ import type { UiAppCapabilityType, UiAppEventType } from './constants';
 
 export interface ClientOptions {
     debug?: boolean;
-    profile?: boolean;
     host?: string;
 }
 
