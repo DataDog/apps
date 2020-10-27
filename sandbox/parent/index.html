@@ -10,10 +10,13 @@
         <script>
             const frame = document.getElementById('frame');
 
-            const client = new framepost.ParentClient({ debug: true, profile: true });
+            const client = new framepost.ParentClient({
+                debug: true,
+                profile: true
+            });
 
             frame.onload = () => {
-                client.requestChannel(frame, frame.src, {
+                client.requestChannel(frame, {
                     name: 'User',
                     handle: 'user@email.com',
                     organization: {
@@ -22,12 +25,12 @@
                     },
                     capabilities: ['dashboard_cog_menu']
                 });
-            }
+            };
 
             client.send('dashboard_cog_menu_context', {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
-            })
+            });
         </script>
     </body>
 </html>
