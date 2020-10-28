@@ -234,7 +234,7 @@ export abstract class SharedClient<C> {
         }
     }
 
-    protected handleRequest<Q = any, R = any>(ev: MessageEvent<Message<Q>>) {
+    protected handleRequest<Q = any>(ev: MessageEvent<Message<Q>>) {
         const message = ev.data;
 
         const handler = this.requestSubscriptions[message.key];
@@ -246,7 +246,7 @@ export abstract class SharedClient<C> {
         }
     }
 
-    protected handleResponse<Q = any, R = any>(ev: MessageEvent<Message<Q>>) {
+    protected handleResponse<R = any>(ev: MessageEvent<Message<R>>) {
         const message = ev.data;
 
         const requestId = message.requestId;
@@ -282,9 +282,7 @@ export abstract class SharedClient<C> {
         return message;
     }
 
-    protected async isFromSource<T = any>(
-        ev: MessageEvent<any>
-    ): Promise<boolean> {
+    protected async isFromSource(ev: MessageEvent<any>): Promise<boolean> {
         const { source } = await this.channel.promise;
 
         return ev.source === source;

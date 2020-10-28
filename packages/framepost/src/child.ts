@@ -10,7 +10,7 @@ export interface ChildClientOptions extends SharedClientOptions {
 export class ChildClient<C = any> extends SharedClient<C> {
     parentContext: any;
 
-    constructor(options: ChildClientOptions) {
+    constructor(options: ChildClientOptions = {}) {
         super(options);
 
         this.parentContext = options.parentContext || null;

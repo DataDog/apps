@@ -20,7 +20,7 @@ export class ParentClient<C = any> extends SharedClient<C> {
     private frame?: HTMLIFrameElement;
     private url?: URL;
 
-    constructor(options: ParentClientOptions) {
+    constructor(options: ParentClientOptions = {}) {
         super(options);
     }
 
