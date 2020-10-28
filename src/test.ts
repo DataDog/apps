@@ -1,7 +1,7 @@
 import { init } from '.';
 
 import { DDClient } from './client';
-import { UiAppEventType, UiAppCapabilityType } from './constants';
+import { UiAppEventToSubscribeType, UiAppCapabilityType } from './constants';
 import { AppContext } from './types';
 
 class MockParent {
@@ -63,7 +63,7 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on('invalid_event_blah' as UiAppEventType, () => {});
+        client.on('invalid_event_blah' as UiAppEventToSubscribeType, () => {});
 
         expect(errorSpy).toHaveBeenCalled();
 
@@ -105,13 +105,19 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         parent.call('init', mockContext);
 
         parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            eventType: UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             data: {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -137,9 +143,12 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
         const unsubscribe = client.on(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             callback2
         );
 
@@ -148,7 +157,7 @@ describe('client', () => {
         parent.call('init', mockContext);
 
         parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            eventType: UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             data: {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -167,8 +176,14 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         parent.call('init', {
             ...mockContext,
@@ -176,7 +191,7 @@ describe('client', () => {
         });
 
         parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            eventType: UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             data: {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -197,7 +212,10 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, () => {});
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            () => {}
+        );
 
         parent.call('init', {
             ...mockContext,
@@ -205,7 +223,7 @@ describe('client', () => {
         });
 
         parent.call('handleEvent', {
-            eventType: UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            eventType: UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             data: {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'

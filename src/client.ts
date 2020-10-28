@@ -2,7 +2,12 @@ import Postmate from 'postmate';
 
 import { CapabilityManager } from './capabilites/capabilityManager';
 import { capabilityManagers } from './capabilites';
-import { Host, UiAppCapabilityType, UiAppEventType } from './constants';
+import {
+    Host,
+    UiAppCapabilityType,
+    UiAppEventToSubscribeType,
+    UiAppEventToTriggerType
+} from './constants';
 import { getLogger, Logger } from './logger';
 import {
     AppContext,
@@ -60,10 +65,10 @@ export class DDClient {
      * after successsful handshake.
      */
     on<T = any>(
-        eventType: UiAppEventType,
+        eventType: UiAppEventToSubscribeType,
         handler: EventHandler<T>
     ): () => void {
-        const manager = this.getManagerByEventType(eventType);
+        const manager = this.getManagerByEventToSubscribeType(eventType);
 
         if (!manager) {
             this.logger.error('Unknown event type');
@@ -75,10 +80,41 @@ export class DDClient {
     }
 
     /**
+     * Triggers an event type to be handled in the parent. Will print
+     * an error if the installed app does not have the required capability.
+     * This method can be called before handshake is successful, but handlers will not execute until
+     * after successsful handshake.
+     */
+
+    triggerEvent(eventType: UiAppEventToTriggerType, data: any = {}) {
+        const manager = this.getManagerByEventToTriggerType(eventType);
+        if (!manager) {
+            this.logger.error('Unknown event type');
+        } else {
+            manager.triggerEvent(eventType, data);
+        }
+    }
+
+    /**
      * Returns app context data, after it is sent from the parent
      */
     async getContext(): Promise<AppContext> {
         return this.context.promise;
+    }
+
+    /**
+     * syntactic sugar trigger UiAppEventToTriggerType.RELOAD_FRAME which reloads the current child frame and re-initiate the handshake with the parent
+     */
+    reloadFrame() {
+        this.triggerEvent(UiAppEventToTriggerType.RELOAD_FRAME);
+    }
+
+    /**
+     * Reloads the current child frame and re-initiate the handshake with the parent
+     */
+    async loadFrameWithURL(url: string) {
+        const parent = await this.handshake;
+        parent.emit('loadFrameWithURL', url);
     }
 
     /**
@@ -102,7 +138,7 @@ export class DDClient {
      * message if the user does not have the required capability enabled
      */
     private async handleEvent<T>({ eventType, data }: HandleEventParams<T>) {
-        const manager = this.getManagerByEventType(eventType);
+        const manager = this.getManagerByEventToSubscribeType(eventType);
 
         if (!manager) {
             this.logger.error(
@@ -123,11 +159,19 @@ export class DDClient {
         );
     }
 
-    private getManagerByEventType(
-        eventType: UiAppEventType
+    private getManagerByEventToSubscribeType(
+        eventType: UiAppEventToSubscribeType
     ): CapabilityManager | undefined {
         return this.capabilityManagers.find(manager =>
-            manager.events.includes(eventType)
+            manager.eventsToSubscribe.includes(eventType)
+        );
+    }
+
+    private getManagerByEventToTriggerType(
+        eventType: UiAppEventToTriggerType
+    ): CapabilityManager | undefined {
+        return this.capabilityManagers.find(manager =>
+            manager.eventsToTrigger.includes(eventType)
         );
     }
 }

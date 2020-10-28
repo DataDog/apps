@@ -1,7 +1,11 @@
 import * as Postmate from 'postmate';
 
 import type { DDClient } from '../client';
-import { UiAppCapabilityType, UiAppEventType } from '../constants';
+import {
+    UiAppCapabilityType,
+    UiAppEventToSubscribeType,
+    UiAppEventToTriggerType
+} from '../constants';
 import { getLogger, Logger } from '../logger';
 import {
     AppContext,
@@ -12,13 +16,13 @@ import {
 import { Deferred, uniqueInt } from '../utils';
 
 type Subscriptions = {
-    [key in UiAppEventType]: { [id: number]: EventHandler };
+    [key in UiAppEventToSubscribeType]: { [id: number]: EventHandler };
 };
 
 const initSubscriptions = (): Subscriptions => {
     const subcriptions: Partial<Subscriptions> = {};
 
-    Object.values(UiAppEventType).forEach(eventType => {
+    Object.values(UiAppEventToSubscribeType).forEach(eventType => {
         subcriptions[eventType] = {};
     });
 
@@ -27,7 +31,8 @@ const initSubscriptions = (): Subscriptions => {
 
 export abstract class CapabilityManager {
     abstract type: UiAppCapabilityType;
-    abstract events: UiAppEventType[];
+    abstract eventsToSubscribe: UiAppEventToSubscribeType[];
+    abstract eventsToTrigger: UiAppEventToTriggerType[];
 
     protected readonly host: string;
     protected readonly debug: boolean;
@@ -35,7 +40,7 @@ export abstract class CapabilityManager {
     protected readonly handshake: Postmate.Model;
     protected readonly context: Deferred<AppContext>;
     private subscriptions: {
-        [key in UiAppEventType]: { [id: number]: EventHandler };
+        [key in UiAppEventToSubscribeType]: { [id: number]: EventHandler };
     };
 
     constructor(
@@ -91,7 +96,7 @@ export abstract class CapabilityManager {
      * Called by the client to register an event handler managed by this capability. Do not override
      */
     subscribeHandler<T>(
-        eventType: UiAppEventType,
+        eventType: UiAppEventToSubscribeType,
         handler: EventHandler<T>
     ): () => void {
         const subscriptionId = uniqueInt();
@@ -131,13 +136,26 @@ export abstract class CapabilityManager {
         }
     }
 
+    async triggerEvent(eventType: UiAppEventToTriggerType, data: any) {
+        const isEnabled = await this.isEnabled();
+
+        if (isEnabled) {
+            const parent = await this.handshake;
+            parent.emit(eventType);
+        } else {
+            this.logger.error(
+                `The ${this.type} capability must be enabled to trigger events of type ${eventType}.`
+            );
+        }
+    }
+
     async isEnabled(): Promise<boolean> {
         const { capabilities } = await this.context.promise;
 
         return capabilities.includes(this.type);
     }
 
-    hasHandlers(eventType: UiAppEventType): boolean {
+    hasHandlers(eventType: UiAppEventToSubscribeType): boolean {
         return !!Object.keys(this.subscriptions[eventType]).length;
     }
 }

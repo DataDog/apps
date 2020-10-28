@@ -1,4 +1,8 @@
-import { UiAppCapabilityType, UiAppEventType } from '../constants';
+import {
+    UiAppCapabilityType,
+    UiAppEventToSubscribeType,
+    UiAppEventToTriggerType
+} from '../constants';
 
 import { CapabilityManager } from './capabilityManager';
 
@@ -6,11 +10,25 @@ export type { CapabilityManager } from './capabilityManager';
 
 class DashboardCogMenuManager extends CapabilityManager {
     type = UiAppCapabilityType.DASHBOARD_COG_MENU;
-    events = [UiAppEventType.DASHBOARD_COG_MENU_CONTEXT];
+    eventsToSubscribe = [UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT];
+    eventsToTrigger = [];
 
     getAdditionalClientMethods() {
         return {};
     }
 }
 
-export const capabilityManagers = [DashboardCogMenuManager];
+class AppRoutingManager extends CapabilityManager {
+    type = UiAppCapabilityType.APP_ROUTING;
+    eventsToSubscribe = [];
+    eventsToTrigger = [
+        UiAppEventToTriggerType.RELOAD_FRAME,
+        UiAppEventToTriggerType.OPEN_URL
+    ];
+
+    getAdditionalClientMethods() {
+        return {};
+    }
+}
+
+export const capabilityManagers = [DashboardCogMenuManager, AppRoutingManager];
