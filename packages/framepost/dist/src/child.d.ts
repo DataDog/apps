@@ -5,7 +5,7 @@ export interface ChildClientOptions extends SharedClientOptions {
 }
 export declare class ChildClient<C = any> extends SharedClient<C> {
     parentContext: any;
-    constructor(options: ChildClientOptions);
+    constructor(options?: ChildClientOptions);
     protected getLogger(): import("./logger").Logger;
     protected establishChannel(event: MessageEvent<Message<C>>): void;
 }

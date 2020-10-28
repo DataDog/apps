@@ -2,8 +2,9 @@
     "name": "@datadog/framepost",
     "version": "0.1.0",
     "description": "A library for secure cross-domain communication",
+    "homepage": "https://github.com/DataDog/framepost",
     "main": "dist/framepost.min.js",
-    "types": "dist/index.d.ts",
+    "types": "dist/src/index.d.ts",
     "scripts": {
         "build": "webpack --mode production",
         "prepare": "yarn build",
