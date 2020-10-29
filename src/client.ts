@@ -30,7 +30,7 @@ export class DDClient {
         this.framePostClient = new ChildClient<AppContext>({
             debug: this.debug,
             profile: this.debug,
-            parentContext: {
+            context: {
                 sdkVersion: SDK_VERSION
             } as FrameContext
         });

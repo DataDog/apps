@@ -272,9 +272,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/framepost@https://github.com/DataDog/framepost.git#d775ff634c64e4c74be7bf7eebe1dc93a7be22ed":
-  version "0.1.0"
-  resolved "https://github.com/DataDog/framepost.git#d775ff634c64e4c74be7bf7eebe1dc93a7be22ed"
+"@datadog/framepost@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@datadog/framepost/-/framepost-0.1.1.tgz#7a55d0a61ec02c8117800aa045cd8c5918d2ea17"
+  integrity sha512-r9bUumPN3bhbJGQ6Gj/QxpG0Nc3ytH/N9yoFlIv6rUdwrtWsJn8o8Uw6YMatUjDGqY22wapY3SDxgiPzJ0KjwQ==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
