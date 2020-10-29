@@ -5,13 +5,16 @@ import type { Deferred, Message, Channel, EventHandler, RequestHandler } from '.
 export interface SharedClientOptions {
     debug?: boolean;
     profile?: boolean;
+    requestTimeout?: number;
 }
 export declare abstract class SharedClient<C> {
     protected readonly debug: boolean;
     protected readonly profile: boolean;
+    protected readonly requestTimeout: number;
     protected readonly channel: Deferred<Channel<C>>;
     protected readonly logger: Logger;
     protected readonly profiler: Profiler;
+    protected messagePort?: MessagePort;
     protected eventSubscriptions: {
         [eventType: string]: {
             [id: string]: EventHandler;
@@ -23,9 +26,10 @@ export declare abstract class SharedClient<C> {
     protected requestSubscriptions: {
         [requestKey: string]: RequestHandler;
     };
-    constructor({ debug, profile }?: SharedClientOptions);
-    protected abstract establishChannel(event: MessageEvent<Message<C>>): void;
+    constructor({ debug, profile, requestTimeout }?: SharedClientOptions);
+    protected abstract onChannelInit(event: MessageEvent<Message<C>>): void;
     protected abstract getLogger(): Logger;
+    abstract destroy(): void;
     /**
      * Sends an event to the opposite client
      */
@@ -50,15 +54,14 @@ export declare abstract class SharedClient<C> {
      * Returns the context provided by the opposite client.
      */
     getContext(): Promise<C>;
-    /**
-     * Detaches message listener
-     */
-    destroy(): void;
     protected messageListener(ev: MessageEvent<Message>): Promise<void>;
     protected handleEvent<T = any>(ev: MessageEvent<Message<T>>): void;
     protected handleRequest<Q = any>(ev: MessageEvent<Message<Q>>): void;
     protected handleResponse<R = any>(ev: MessageEvent<Message<R>>): void;
     protected postMessage<T = any>(type: MessageType, key: string, data: T, requestId?: string): Promise<Message<T>>;
-    protected isFromSource(ev: MessageEvent<any>): Promise<boolean>;
+    protected initListener(ev: MessageEvent<Message<C>>): void;
     protected isValidMessage(ev: MessageEvent<any>): boolean;
+    protected isInitMessage(ev: MessageEvent<any>): boolean;
+    protected resolveChannel(ev: MessageEvent<Message<C>>): void;
+    protected getInitMessage<T = any>(context: T): Message<T>;
 }

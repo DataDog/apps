@@ -1,9 +1,8 @@
 import { SharedClient, SharedClientOptions } from './shared';
-import type { Message, MessageProfile } from './types';
+import type { MessageProfile } from './types';
 export interface ParentClientOptions extends SharedClientOptions {
 }
 export declare class ParentClient<C = any> extends SharedClient<C> {
-    private frame?;
     private url?;
     constructor(options?: ParentClientOptions);
     /**
@@ -12,6 +11,7 @@ export declare class ParentClient<C = any> extends SharedClient<C> {
      */
     requestChannel<T>(frame: HTMLIFrameElement, context: T): void;
     getMessageProfile(): Promise<MessageProfile[]>;
-    protected establishChannel(event: MessageEvent<Message<C>>): void;
+    protected onChannelInit(): void;
     protected getLogger(): import("./logger").Logger;
+    destroy(): void;
 }

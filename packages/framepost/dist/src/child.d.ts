@@ -1,11 +1,12 @@
 import { SharedClient, SharedClientOptions } from './shared';
 import type { Message } from './types';
 export interface ChildClientOptions extends SharedClientOptions {
-    parentContext?: any;
+    context?: any;
 }
 export declare class ChildClient<C = any> extends SharedClient<C> {
-    parentContext: any;
+    context: any;
     constructor(options?: ChildClientOptions);
     protected getLogger(): import("./logger").Logger;
-    protected establishChannel(event: MessageEvent<Message<C>>): void;
+    protected onChannelInit(ev: MessageEvent<Message<C>>): void;
+    destroy(): void;
 }
