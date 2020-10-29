@@ -1,8 +1,12 @@
 {
     "name": "@datadog/framepost",
     "version": "0.1.0",
-    "description": "A library for secure cross-domain communication",
+    "description": "Secure parent-child iframe communication",
     "homepage": "https://github.com/DataDog/framepost",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataDog/framepost.git"
+    },
     "main": "dist/framepost.min.js",
     "types": "dist/src/index.d.ts",
     "scripts": {
@@ -16,7 +20,7 @@
         "test": "jest",
         "watch": "webpack --watch --mode development"
     },
-    "author": "Datadog",
+    "author": "Noah Muldavin <nmuldavin@gmail.com>",
     "license": "MIT",
     "dependencies": {},
     "devDependencies": {
