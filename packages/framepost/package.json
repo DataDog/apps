@@ -21,6 +21,9 @@
         "watch": "webpack --watch --mode development"
     },
     "author": "Noah Muldavin <nmuldavin@gmail.com>",
+    "files": [
+        "dist"
+    ],
     "license": "MIT",
     "publishConfig": {
         "access": "public"
