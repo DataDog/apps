@@ -13,7 +13,10 @@
         <script src="dist/framepost.min.js"></script>
         <script>
             const frame = document.getElementById('frame');
-            const client = new framepost.ParentClient({ profile: true });
+            const client = new framepost.ParentClient({
+                debug: true,
+                profile: true
+            });
             client
                 .getContext()
                 .then(context =>

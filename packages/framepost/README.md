@@ -15,7 +15,7 @@ const frame = document.createElement('iframe');
 
 frame.src = 'https://domain.dom/path/to/frame.html';
 
-const contextData = {
+const context = {
     infoAboutParent: 'it is a demo',
 }
 
@@ -26,16 +26,16 @@ frame.onload = () => {
 
 ## Child Client
 
-The child client must be initialized in the iframe during initial script execution. The child may provide context to be sent to the parent during the handshake process in the `parentContext` config option.
+The child client must be initialized in the iframe during initial script execution. The child may provide context to be sent to the parent during the handshake process in the `context` config option.
 
 ```
 import { ChildClient } from '@datadog/framepost`;
 
-const parentContext = {
-    dataAboutChild: 'It is a demo'
+const context = {
+    infoAboutChild: 'It is a demo'
 }
 
-const client = new ChildClient({ parentContext });
+const client = new ChildClient({ context });
 ```
 
 ## Shared API

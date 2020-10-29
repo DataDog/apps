@@ -8,8 +8,9 @@
         <script src="dist/framepost.min.js"></script>
         <script>
             const client = new framepost.ChildClient({
+                debug: true,
                 profile: true,
-                parentContext: { version: '0.1.0' }
+                context: { version: '0.1.0' }
             });
 
             client

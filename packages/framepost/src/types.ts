@@ -33,7 +33,7 @@ export interface Message<T = any> {
  * opposite client during initialization
  */
 export interface Channel<T = any> {
-    source: Window;
+    port: MessagePort;
     origin: string;
     context: T;
 }

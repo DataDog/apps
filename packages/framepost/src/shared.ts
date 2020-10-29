@@ -18,14 +18,17 @@ import { defer, randomInsecureId, omit } from './utils';
 export interface SharedClientOptions {
     debug?: boolean;
     profile?: boolean;
+    requestTimeout?: number;
 }
 
 export abstract class SharedClient<C> {
     protected readonly debug: boolean;
     protected readonly profile: boolean;
+    protected readonly requestTimeout: number;
     protected readonly channel: Deferred<Channel<C>>;
     protected readonly logger: Logger;
     protected readonly profiler: Profiler;
+    protected messagePort?: MessagePort;
     protected eventSubscriptions: {
         [eventType: string]: { [id: string]: EventHandler };
     };
@@ -36,9 +39,14 @@ export abstract class SharedClient<C> {
         [requestKey: string]: RequestHandler;
     };
 
-    constructor({ debug = false, profile = false }: SharedClientOptions = {}) {
+    constructor({
+        debug = false,
+        profile = false,
+        requestTimeout = REQUEST_TIMEOUT
+    }: SharedClientOptions = {}) {
         this.debug = debug;
         this.profile = profile;
+        this.requestTimeout = requestTimeout;
         this.channel = defer();
         this.eventSubscriptions = {};
         this.responseSubscriptions = {};
@@ -47,11 +55,6 @@ export abstract class SharedClient<C> {
         this.logger = this.getLogger();
         this.profiler = getProfiler(profile);
 
-        this.messageListener = this.messageListener.bind(this);
-        window.addEventListener('message', this.messageListener);
-
-        this.logger.log('Client initialized. Listening for messages');
-
         this.channel.promise.then(() => {
             this.logger.log('Secure parent <-> child channel established');
         });
@@ -59,8 +62,9 @@ export abstract class SharedClient<C> {
 
     // each client must implement these methods since they will differ slightly
     // in parent and child
-    protected abstract establishChannel(event: MessageEvent<Message<C>>): void;
+    protected abstract onChannelInit(event: MessageEvent<Message<C>>): void;
     protected abstract getLogger(): Logger;
+    abstract destroy(): void;
 
     /**
      * Sends an event to the opposite client
@@ -130,7 +134,7 @@ export abstract class SharedClient<C> {
             timer = setTimeout(() => {
                 unsubscribeResponseHandler();
                 reject('Request timed out');
-            }, REQUEST_TIMEOUT);
+            }, this.requestTimeout);
         });
     }
 
@@ -176,29 +180,10 @@ export abstract class SharedClient<C> {
         return context;
     }
 
-    /**
-     * Detaches message listener
-     */
-    destroy() {
-        window.removeEventListener('message', this.messageListener);
-    }
-
     protected async messageListener(ev: MessageEvent<Message>) {
+        await this.channel.promise;
+
         const isValidMessage = this.isValidMessage(ev);
-
-        if (isValidMessage && ev.data.type === MessageType.CHANNEL_INIT) {
-            this.establishChannel(ev);
-
-            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
-
-            return;
-        }
-
-        const isFromSource = await this.isFromSource(ev);
-
-        if (!isFromSource) {
-            return;
-        }
 
         if (isValidMessage) {
             switch (ev.data.type) {
@@ -264,7 +249,7 @@ export abstract class SharedClient<C> {
         data: T,
         requestId?: string
     ): Promise<Message<T>> {
-        const { source, origin } = await this.channel.promise;
+        const { port } = await this.channel.promise;
 
         const message: Message = {
             type,
@@ -275,17 +260,27 @@ export abstract class SharedClient<C> {
             requestId
         };
 
-        source.postMessage(message, origin);
+        port.postMessage(message);
 
         this.profiler.logEvent(ProfileEventType.POST_MESSAGE, message);
 
         return message;
     }
 
-    protected async isFromSource(ev: MessageEvent<any>): Promise<boolean> {
-        const { source } = await this.channel.promise;
+    protected initListener(ev: MessageEvent<Message<C>>) {
+        if (this.isInitMessage(ev)) {
+            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
 
-        return ev.source === source;
+            this.onChannelInit(ev);
+
+            if (this.messagePort) {
+                this.messagePort.onmessage = this.messageListener.bind(this);
+            }
+
+            this.resolveChannel(ev);
+        } else {
+            this.logger.error('Invalid message format. Skipping.');
+        }
     }
 
     protected isValidMessage(ev: MessageEvent<any>): boolean {
@@ -296,5 +291,35 @@ export abstract class SharedClient<C> {
             message.id &&
             message.apiVersion === MessageAPIVersion.v1
         );
+    }
+
+    protected isInitMessage(ev: MessageEvent<any>): boolean {
+        return (
+            this.isValidMessage(ev) && ev.data.type === MessageType.CHANNEL_INIT
+        );
+    }
+
+    protected resolveChannel(ev: MessageEvent<Message<C>>) {
+        if (this.messagePort) {
+            const channel: Channel<C> = {
+                port: this.messagePort,
+                origin: ev.origin,
+                context: ev.data.data
+            };
+
+            this.channel.resolve(channel);
+        }
+    }
+
+    protected getInitMessage<T = any>(context: T): Message<T> {
+        const message: Message<T> = {
+            type: MessageType.CHANNEL_INIT,
+            apiVersion: MessageAPIVersion.v1,
+            key: '',
+            data: context,
+            id: randomInsecureId()
+        };
+
+        return message;
     }
 }

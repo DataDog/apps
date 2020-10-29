@@ -1,19 +1,23 @@
-import { MessageType, REQUEST_KEY_GET_PROFILE } from './constants';
+import { ProfileEventType, REQUEST_KEY_GET_PROFILE } from './constants';
 import { getLogger } from './logger';
 import { SharedClient, SharedClientOptions } from './shared';
-import type { Message, Channel } from './types';
+import type { Message } from './types';
 
 export interface ChildClientOptions extends SharedClientOptions {
-    parentContext?: any;
+    context?: any;
 }
 
 export class ChildClient<C = any> extends SharedClient<C> {
-    parentContext: any;
+    context: any;
 
     constructor(options: ChildClientOptions = {}) {
         super(options);
 
-        this.parentContext = options.parentContext || null;
+        this.context = options.context || null;
+
+        this.initListener = this.initListener.bind(this);
+
+        window.addEventListener('message', this.initListener);
 
         if (this.profile) {
             this.onRequest(REQUEST_KEY_GET_PROFILE, () =>
@@ -26,13 +30,23 @@ export class ChildClient<C = any> extends SharedClient<C> {
         return getLogger('child-client', this.debug);
     }
 
-    protected establishChannel(event: MessageEvent<Message<C>>) {
-        const channel: Channel = {
-            source: event.source as Window,
-            origin: event.origin,
-            context: event.data.data
-        };
-        this.channel.resolve(channel);
-        this.postMessage(MessageType.CHANNEL_INIT, '', this.parentContext);
+    protected onChannelInit(ev: MessageEvent<Message<C>>) {
+        window.removeEventListener('message', this.initListener);
+
+        this.messagePort = ev.ports[0];
+
+        const message = this.getInitMessage(this.context);
+
+        this.messagePort.postMessage(message);
+
+        this.profiler.logEvent(ProfileEventType.POST_MESSAGE, message);
+    }
+
+    destroy() {
+        if (this.messagePort) {
+            this.messagePort.close();
+        }
+
+        window.removeEventListener('message', this.initListener);
     }
 }
