@@ -1,6 +1,6 @@
 {
-    "name": "dd_ui_apps_sdk",
-    "version": "1.0.0",
+    "name": "@datadog/ui-apps-sdk",
+    "version": "0.0.0",
     "description": "Datadog UI Apps - Official JavaScript SDK ",
     "main": "src/index.js",
     "scripts": {
