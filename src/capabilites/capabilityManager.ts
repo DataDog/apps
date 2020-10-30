@@ -141,7 +141,7 @@ export abstract class CapabilityManager {
 
         if (isEnabled) {
             const parent = await this.handshake;
-            parent.emit(eventType);
+            parent.emit(eventType, data);
         } else {
             this.logger.error(
                 `The ${this.type} capability must be enabled to trigger events of type ${eventType}.`

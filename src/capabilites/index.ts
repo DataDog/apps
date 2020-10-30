@@ -31,4 +31,18 @@ class AppRoutingManager extends CapabilityManager {
     }
 }
 
-export const capabilityManagers = [DashboardCogMenuManager, AppRoutingManager];
+class DashboardCustomWidgetManager extends CapabilityManager {
+    type = UiAppCapabilityType.DASHBOARD_CUSTOM_WIDGET;
+    eventsToSubscribe = [];
+    eventsToTrigger = [];
+
+    getAdditionalClientMethods() {
+        return {};
+    }
+}
+
+export const capabilityManagers = [
+    DashboardCogMenuManager,
+    AppRoutingManager,
+    DashboardCustomWidgetManager
+];

@@ -110,14 +110,6 @@ export class DDClient {
     }
 
     /**
-     * Reloads the current child frame and re-initiate the handshake with the parent
-     */
-    async loadFrameWithURL(url: string) {
-        const parent = await this.handshake;
-        parent.emit('loadFrameWithURL', url);
-    }
-
-    /**
      * init method is exposed in the postmate model. It must be called before other operations may proceed,
      * in order to inform client of app context
      */
