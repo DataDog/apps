@@ -1,7 +1,7 @@
 import { init } from '.';
 
 import { DDClient } from './client';
-import { UiAppEventType, UiAppCapabilityType } from './constants';
+import { UiAppEventToSubscribeType, UiAppCapabilityType } from './constants';
 import { AppContext } from './types';
 import { defer, Deferred, uniqueInt } from './utils';
 
@@ -103,7 +103,7 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on('invalid_event_blah' as UiAppEventType, () => {});
+        client.on('invalid_event_blah' as UiAppEventToSubscribeType, () => {});
 
         expect(errorSpy).toHaveBeenCalled();
 
@@ -119,15 +119,24 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         mockClient.init();
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -148,9 +157,12 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
         const unsubscribe = client.on(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             callback2
         );
 
@@ -158,10 +170,13 @@ describe('client', () => {
 
         mockClient.init();
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -175,18 +190,27 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -202,17 +226,23 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, () => {});
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            () => {}
+        );
 
         mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
