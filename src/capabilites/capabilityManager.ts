@@ -1,13 +1,18 @@
 import type { ChildClient } from '@datadog/framepost';
 
 import type { DDClient } from '../client';
-import { UiAppCapabilityType, UiAppEventType } from '../constants';
+import {
+    UiAppCapabilityType,
+    UiAppEventToSubscribeType,
+    UiAppEventToTriggerType
+} from '../constants';
 import { getLogger, Logger } from '../logger';
 import { AppContext, ClientOptions } from '../types';
 
 export abstract class CapabilityManager {
     abstract type: UiAppCapabilityType;
-    abstract events: UiAppEventType[];
+    abstract eventsToSubscribe: UiAppEventToSubscribeType[];
+    abstract eventsToTrigger: UiAppEventToTriggerType[];
 
     protected readonly host: string;
     protected readonly debug: boolean;
@@ -58,6 +63,18 @@ export abstract class CapabilityManager {
         });
 
         Object.assign(client, wrappedMethods);
+    }
+
+    async triggerEvent(eventType: UiAppEventToTriggerType, data: any) {
+        const isEnabled = await this.isEnabled();
+
+        if (isEnabled) {
+            this.framePostClient.send(eventType, data);
+        } else {
+            this.logger.error(
+                `The ${this.type} capability must be enabled to trigger events of type ${eventType}.`
+            );
+        }
     }
 
     async isEnabled(): Promise<boolean> {
