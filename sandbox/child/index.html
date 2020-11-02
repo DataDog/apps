@@ -10,7 +10,7 @@
         <script>
             const client = DD_SDK.init({ debug: true }, context => {
                 console.log('Received app context', context);
-            })
+            });
 
             client.on('dashboard_cog_menu_context', context => {
                 console.log('Received dashboard cog menu context', context);

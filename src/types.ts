@@ -26,3 +26,7 @@ export interface AppContext {
     // list of enabled capabilities
     capabilities: UiAppCapabilityType[];
 }
+
+export interface FrameContext {
+    sdkVersion: string;
+}
