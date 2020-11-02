@@ -1,10 +1,11 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     entry: './src/index.ts',
     output: {
-        filename: 'main.js',
+        filename: 'ui-apps-sdk.min.js',
         path: path.resolve(__dirname, 'dist'),
         library: 'DD_SDK',
         libraryTarget: 'umd'
@@ -17,6 +18,7 @@ module.exports = {
             }
         ]
     },
+    plugins: [new CleanWebpackPlugin()],
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
     },

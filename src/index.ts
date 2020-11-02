@@ -21,3 +21,6 @@ export const init = (
 
     return client;
 };
+
+export * from './types';
+export * from './constants';

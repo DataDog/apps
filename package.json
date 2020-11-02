@@ -2,19 +2,31 @@
     "name": "@datadog/ui-apps-sdk",
     "version": "0.0.0",
     "description": "Datadog UI Apps - Official JavaScript SDK ",
-    "main": "src/index.js",
+    "homepage": "https://github.com/DataDog/ui_apps_sdk",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataDog/ui_apps_sdk.git"
+    },
+    "main": "dist/ui-apps-sdk.min.js",
+    "types": "src/index.d.ts",
     "scripts": {
         "build": "webpack --mode production",
         "lint": "npx eslint '**/*.{ts,js}' && prettier --check .",
         "test": "yarn test:unit",
         "test:unit": "jest",
         "format": "prettier --write .",
+        "prepare": "yarn build",
         "sandbox": "node scripts/sandbox.js",
         "start": "yarn watch & webpack-dev-server --mode development --progress --color --hot",
         "watch": "webpack --watch --mode development"
     },
-    "author": "Datadog",
-    "license": "MIT",
+    "files": [
+        "dist"
+    ],
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
     "dependencies": {
         "@datadog/framepost": "0.1.1"
     },
@@ -22,6 +34,7 @@
         "@types/jest": "^26.0.14",
         "@typescript-eslint/eslint-plugin": "4.6.1",
         "@typescript-eslint/parser": "4.6.1",
+        "clean-webpack-plugin": "^3.0.0",
         "eslint": "7.12.1",
         "eslint-config-airbnb-base": "14.2.0",
         "eslint-config-prettier": "6.15.0",
