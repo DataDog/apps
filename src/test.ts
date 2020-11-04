@@ -307,8 +307,13 @@ describe('client', () => {
         });
     });
 
-    test('Does not trigger an event if the app context does not include the relevant capability', async () => {
-        const client = new DDClient();
+    test('Does not trigger an event if the app context does not include the relevant capability and logs an error in debug mode', async () => {
+        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        const errorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {});
+
+        const client = new DDClient({ debug: true });
 
         const callback = jest.fn();
         mockClient.init(
@@ -326,6 +331,11 @@ describe('client', () => {
         await flushPromises();
 
         expect(callback).not.toBeCalled();
+
+        expect(errorSpy).toHaveBeenCalled();
+
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
     });
 });
 
