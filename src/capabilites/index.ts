@@ -33,7 +33,24 @@ class AppRoutingManager extends CapabilityManager {
 
 class DashboardCustomWidgetManager extends CapabilityManager {
     type = UiAppCapabilityType.DASHBOARD_CUSTOM_WIDGET;
-    eventsToSubscribe = [];
+    eventsToSubscribe = [
+        UiAppEventToSubscribeType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+        UiAppEventToSubscribeType.DASHBOARD_TEMPLATE_VAR_CHANGE,
+        UiAppEventToSubscribeType.DASHBOARD_TIMEFRAME_CHANGE
+    ];
+    eventsToTrigger = [];
+
+    getAdditionalClientMethods() {
+        return {};
+    }
+}
+class DashboardPageContextManager extends CapabilityManager {
+    type = UiAppCapabilityType.DASHBOARD_PAGE_CONTEXT;
+    eventsToSubscribe = [
+        UiAppEventToSubscribeType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+        UiAppEventToSubscribeType.DASHBOARD_TEMPLATE_VAR_CHANGE,
+        UiAppEventToSubscribeType.DASHBOARD_TIMEFRAME_CHANGE
+    ];
     eventsToTrigger = [];
 
     getAdditionalClientMethods() {
