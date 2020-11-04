@@ -29,6 +29,7 @@ export abstract class SharedClient<C> {
     protected readonly logger: Logger;
     protected readonly profiler: Profiler;
     protected messagePort?: MessagePort;
+    protected initTimer?: ReturnType<typeof setTimeout>;
     protected eventSubscriptions: {
         [eventType: string]: { [id: string]: EventHandler };
     };
@@ -55,9 +56,13 @@ export abstract class SharedClient<C> {
         this.logger = this.getLogger();
         this.profiler = getProfiler(profile);
 
-        this.channel.promise.then(() => {
-            this.logger.log('Secure parent <-> child channel established');
-        });
+        this.channel.promise
+            .then(() => {
+                this.logger.log('Secure parent <-> child channel established');
+            })
+            .catch((reason: string) => {
+                this.logger.log(reason);
+            });
     }
 
     // each client must implement these methods since they will differ slightly
@@ -181,7 +186,11 @@ export abstract class SharedClient<C> {
     }
 
     protected async messageListener(ev: MessageEvent<Message>) {
-        await this.channel.promise;
+        try {
+            await this.channel.promise;
+        } catch (e) {
+            // if handshake fails, do nothing
+        }
 
         const isValidMessage = this.isValidMessage(ev);
 
@@ -267,9 +276,20 @@ export abstract class SharedClient<C> {
         return message;
     }
 
+    protected setInitTimer() {
+        this.initTimer = setTimeout(() => {
+            this.channel.reject('Handshake timed out');
+            this.destroy();
+        }, this.requestTimeout);
+    }
+
     protected initListener(ev: MessageEvent<Message<C>>) {
         if (this.isInitMessage(ev)) {
             this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
+
+            if (this.initTimer) {
+                clearTimeout(this.initTimer);
+            }
 
             this.onChannelInit(ev);
 

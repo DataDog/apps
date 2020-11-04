@@ -24,6 +24,8 @@ export class ChildClient<C = any> extends SharedClient<C> {
                 this.profiler.getEvents()
             );
         }
+
+        this.setInitTimer();
     }
 
     protected getLogger() {
@@ -45,6 +47,10 @@ export class ChildClient<C = any> extends SharedClient<C> {
     destroy() {
         if (this.messagePort) {
             this.messagePort.close();
+        }
+
+        if (this.initTimer) {
+            clearTimeout(this.initTimer);
         }
 
         window.removeEventListener('message', this.initListener);

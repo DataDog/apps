@@ -19,6 +19,6 @@ export enum TransactionDirection {
     DOWN = 'down'
 }
 
-export const REQUEST_TIMEOUT = 10000;
+export const REQUEST_TIMEOUT = 20000;
 
 export const REQUEST_KEY_GET_PROFILE = 'framepost_get_profile';

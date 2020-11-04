@@ -29,6 +29,8 @@ export class ParentClient<C = any> extends SharedClient<C> {
 
             this.messagePort.onmessage = this.initListener.bind(this);
 
+            this.setInitTimer();
+
             frame.contentWindow.postMessage(message, this.url.origin, [
                 messageChannel.port2
             ]);
@@ -55,6 +57,10 @@ export class ParentClient<C = any> extends SharedClient<C> {
     destroy() {
         if (this.messagePort) {
             this.messagePort.close();
+        }
+
+        if (this.initTimer) {
+            clearTimeout(this.initTimer);
         }
     }
 }

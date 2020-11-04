@@ -148,6 +148,23 @@ test('Responds correctly to channel init message', () => {
     );
 });
 
+test('Rejects queued requests after timeout', async () => {
+    client = new ChildClient({
+        requestTimeout: 200
+    });
+
+    let rejected = false;
+
+    await new Promise(resolve => {
+        client.getContext().catch(() => {
+            rejected = true;
+            resolve();
+        });
+    });
+
+    expect(rejected).toBe(true);
+});
+
 test('Resolves requests to `getContext()` after receiving context from child client', async () => {
     client = new ChildClient<ParentContext>();
 

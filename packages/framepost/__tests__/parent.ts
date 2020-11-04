@@ -163,6 +163,23 @@ test('Sends a channel init message to the provided iframe on client.requestChann
     expect(port2).toEqual(mockMessageChannel.port2);
 });
 
+test('Rejects queued requests after timeout', async () => {
+    const client = new ParentClient({ requestTimeout: 200 });
+
+    client.requestChannel(frame, parentContext);
+
+    let rejected = false;
+
+    await new Promise(resolve => {
+        client.getContext().catch(() => {
+            rejected = true;
+            resolve();
+        });
+    });
+
+    expect(rejected).toBe(true);
+});
+
 test('Resolves requests to `getContext()` after receiving context from child client', async () => {
     const client = new ParentClient<ChildContext>();
 
