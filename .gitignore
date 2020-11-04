@@ -1,7 +1,3 @@
 node_modules
 coverage
-<<<<<<< HEAD
 dist
-=======
-dist
->>>>>>> Remove dist and add more capabilities
