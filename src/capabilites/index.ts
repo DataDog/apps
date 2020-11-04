@@ -61,5 +61,6 @@ class DashboardPageContextManager extends CapabilityManager {
 export const capabilityManagers = [
     DashboardCogMenuManager,
     AppRoutingManager,
-    DashboardCustomWidgetManager
+    DashboardCustomWidgetManager,
+    DashboardPageContextManager
 ];
