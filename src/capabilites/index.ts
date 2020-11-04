@@ -44,23 +44,9 @@ class DashboardCustomWidgetManager extends CapabilityManager {
         return {};
     }
 }
-class DashboardPageContextManager extends CapabilityManager {
-    type = UiAppCapabilityType.DASHBOARD_PAGE_CONTEXT;
-    eventsToSubscribe = [
-        UiAppEventToSubscribeType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-        UiAppEventToSubscribeType.DASHBOARD_TEMPLATE_VAR_CHANGE,
-        UiAppEventToSubscribeType.DASHBOARD_TIMEFRAME_CHANGE
-    ];
-    eventsToTrigger = [];
-
-    getAdditionalClientMethods() {
-        return {};
-    }
-}
 
 export const capabilityManagers = [
     DashboardCogMenuManager,
     AppRoutingManager,
-    DashboardCustomWidgetManager,
-    DashboardPageContextManager
+    DashboardCustomWidgetManager
 ];
