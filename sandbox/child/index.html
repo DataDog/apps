@@ -21,10 +21,11 @@
             b.innerHTML = 'Click me to open the URL in a new tab';
             b.onclick = () => {
                 client.triggerEvent('open_url', { url: context.shareToken });
-            }
+            };
 
             document.getElementById('target').appendChild(b);
         });
+
 
     </script>
 </body>
