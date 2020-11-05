@@ -5,7 +5,8 @@ import { capabilityManagers } from './capabilites';
 import {
     Host,
     UiAppCapabilityType,
-    UiAppEventType,
+    UiAppEventToSubscribeType,
+    UiAppEventToTriggerType,
     SDK_VERSION
 } from './constants';
 import { getLogger, Logger } from './logger';
@@ -60,10 +61,10 @@ export class DDClient {
      * after successsful handshake.
      */
     on<T = any>(
-        eventType: UiAppEventType,
+        eventType: UiAppEventToSubscribeType,
         handler: EventHandler<T>
     ): () => void {
-        const manager = this.getManagerByEventType(eventType);
+        const manager = this.getManagerByEventToSubscribeType(eventType);
 
         if (!manager) {
             this.logger.error('Unknown event type');
@@ -87,6 +88,22 @@ export class DDClient {
     }
 
     /**
+     * Triggers an event type to be handled in the parent. Will print
+     * an error if the installed app does not have the required capability.
+     * This method can be called before handshake is successful, but handlers will not execute until
+     * after successsful handshake.
+     */
+
+    triggerEvent(eventType: UiAppEventToTriggerType, data: any = {}) {
+        const manager = this.getManagerByEventToTriggerType(eventType);
+        if (!manager) {
+            this.logger.error('Unknown event type');
+        } else {
+            manager.triggerEvent(eventType, data);
+        }
+    }
+
+    /**
      * Returns app context data, after it is sent from the parent
      */
     async getContext(): Promise<AppContext> {
@@ -101,11 +118,19 @@ export class DDClient {
         );
     }
 
-    private getManagerByEventType(
-        eventType: UiAppEventType
+    private getManagerByEventToSubscribeType(
+        eventType: UiAppEventToSubscribeType
     ): CapabilityManager | undefined {
         return this.capabilityManagers.find(manager =>
-            manager.events.includes(eventType)
+            manager.eventsToSubscribe.includes(eventType)
+        );
+    }
+
+    private getManagerByEventToTriggerType(
+        eventType: UiAppEventToTriggerType
+    ): CapabilityManager | undefined {
+        return this.capabilityManagers.find(manager =>
+            manager.eventsToTrigger.includes(eventType)
         );
     }
 }

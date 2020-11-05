@@ -3,10 +3,11 @@
     <head>
         <title>Datadog UI Apps SDK Sandbox: Child</title>
     </head>
+
     <body>
         <h4>Datadog UI Apps SDK Sandbox: Child</h4>
         <div id="target">Link to public dashboard:&nbsp</div>
-        <script src="dist/main.js"></script>
+        <script src="dist/ui-apps-sdk.min.js"></script>
         <script>
             const client = DD_SDK.init({ debug: true }, context => {
                 console.log('Received app context', context);
@@ -15,12 +16,15 @@
             client.on('dashboard_cog_menu_context', context => {
                 console.log('Received dashboard cog menu context', context);
 
-                const a = document.createElement('a');
-                a.href = context.shareToken;
-                a.target = '_blank';
-                a.innerHTML = 'Link';
+                const b = document.createElement('button');
+                b.innerHTML = 'Click me to open the URL in a new tab';
+                b.onclick = () => {
+                    client.triggerEvent('open_url', {
+                        url: context.shareToken
+                    });
+                };
 
-                document.getElementById('target').appendChild(a);
+                document.getElementById('target').appendChild(b);
             });
         </script>
     </body>

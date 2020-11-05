@@ -17,7 +17,7 @@
         "format": "prettier --write .",
         "prepare": "yarn build",
         "sandbox": "node scripts/sandbox.js",
-        "start": "yarn watch & webpack-dev-server --mode development --progress --color --hot",
+        "start": "yarn watch & webpack serve --mode development --progress --color --hot",
         "watch": "webpack --watch --mode development"
     },
     "files": [
@@ -28,7 +28,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@datadog/framepost": "0.1.1"
+        "@datadog/framepost": "0.1.2"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",

@@ -1,4 +1,7 @@
-import type { UiAppCapabilityType, UiAppEventType } from './constants';
+import type {
+    UiAppCapabilityType,
+    UiAppEventToSubscribeType
+} from './constants';
 
 export interface ClientOptions {
     debug?: boolean;
@@ -8,7 +11,7 @@ export interface ClientOptions {
 export type EventHandler<T = any> = (data: T) => void;
 
 export interface HandleEventParams<T = any> {
-    eventType: UiAppEventType;
+    eventType: UiAppEventToSubscribeType;
     data: T;
 }
 

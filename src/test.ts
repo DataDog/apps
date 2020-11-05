@@ -1,7 +1,11 @@
 import { init } from '.';
 
 import { DDClient } from './client';
-import { UiAppEventType, UiAppCapabilityType } from './constants';
+import {
+    UiAppEventToSubscribeType,
+    UiAppCapabilityType,
+    UiAppEventToTriggerType
+} from './constants';
 import { AppContext } from './types';
 import { defer, Deferred, uniqueInt } from './utils';
 
@@ -18,14 +22,16 @@ const mockContext: AppContext = {
 class MockFramePostChildClient {
     context: Deferred<any>;
     subscriptions: { [ev: string]: { [od: string]: (data?: any) => any } };
+    sendCallBack?: jest.Mock;
 
     constructor() {
         this.context = defer();
         this.subscriptions = {};
     }
 
-    init(override?: any) {
+    init(override?: any, sendCallBack?: jest.Mock) {
         this.context.resolve(override || mockContext);
+        this.sendCallBack = sendCallBack;
     }
 
     async getContext() {
@@ -51,6 +57,12 @@ class MockFramePostChildClient {
 
             this.subscriptions[eventType] = otherSubscriptions;
         };
+    }
+
+    send(eventType: string, data: any) {
+        if (this.sendCallBack) {
+            this.sendCallBack(eventType, data);
+        }
     }
 
     mockEvent(eventType: string, data: any) {
@@ -103,7 +115,7 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on('invalid_event_blah' as UiAppEventType, () => {});
+        client.on('invalid_event_blah' as UiAppEventToSubscribeType, () => {});
 
         expect(errorSpy).toHaveBeenCalled();
 
@@ -119,15 +131,24 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         mockClient.init();
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -148,9 +169,12 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
         const unsubscribe = client.on(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
             callback2
         );
 
@@ -158,10 +182,13 @@ describe('client', () => {
 
         mockClient.init();
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -175,18 +202,27 @@ describe('client', () => {
 
         const client = new DDClient();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback1
+        );
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            callback2
+        );
 
         mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -202,17 +238,23 @@ describe('client', () => {
 
         const client = new DDClient({ debug: true });
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, () => {});
+        client.on(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            () => {}
+        );
 
         mockClient.init({
             ...mockContext,
             capabilities: []
         });
 
-        mockClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.mockEvent(
+            UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -223,6 +265,78 @@ describe('client', () => {
     });
 
     // test('Has an on method that resolves with the app context data provided to the init method', () => {});
+
+    test('logs an error in debug mode if the consumer tries to trigger an invalid event', async () => {
+        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        const errorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {});
+
+        const client = new DDClient({ debug: true });
+
+        client.triggerEvent('invalid_event' as UiAppEventToTriggerType);
+
+        expect(errorSpy).toHaveBeenCalled();
+
+        await flushPromises();
+
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+
+    test('Triggers a valid event if the corresponding capablity is enabled ', async () => {
+        const client = new DDClient();
+
+        const callback = jest.fn();
+        mockClient.init(
+            {
+                ...mockContext,
+                capabilities: [UiAppCapabilityType.APP_ROUTING]
+            },
+            callback
+        );
+
+        client.triggerEvent(UiAppEventToTriggerType.OPEN_URL, {
+            url: 'https://www.google.com'
+        });
+
+        await flushPromises();
+
+        expect(callback).toBeCalledWith(UiAppEventToTriggerType.OPEN_URL, {
+            url: 'https://www.google.com'
+        });
+    });
+
+    test('Does not trigger an event if the app context does not include the relevant capability and logs an error in debug mode', async () => {
+        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+        const errorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {});
+
+        const client = new DDClient({ debug: true });
+
+        const callback = jest.fn();
+        mockClient.init(
+            {
+                ...mockContext,
+                capabilities: []
+            },
+            callback
+        );
+
+        client.triggerEvent(UiAppEventToTriggerType.OPEN_URL, {
+            url: 'https://www.google.com'
+        });
+
+        await flushPromises();
+
+        expect(callback).not.toBeCalled();
+
+        expect(errorSpy).toHaveBeenCalled();
+
+        logSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
 });
 
 describe('sdk init method', () => {

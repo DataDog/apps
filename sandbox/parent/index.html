@@ -3,6 +3,7 @@
     <head>
         <title>Datadog Ui Apps SDK Sandbox: Parent</title>
     </head>
+
     <body>
         <h1>Datadog Ui Apps SDK Sandbox: Parent</h1>
         <iframe
@@ -27,7 +28,7 @@
                         id: 'id',
                         name: 'Corporate overlord'
                     },
-                    capabilities: ['dashboard_cog_menu']
+                    capabilities: ['dashboard_cog_menu', 'app_routing']
                 });
             };
 
@@ -35,6 +36,8 @@
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
             });
+
+            client.on('open_url', ({ url }) => window.open(url, '_blank'));
         </script>
     </body>
 </html>
