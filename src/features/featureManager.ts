@@ -2,15 +2,15 @@ import type { ChildClient } from '@datadog/framepost';
 
 import type { DDClient } from '../client';
 import {
-    UiAppCapabilityType,
+    UiAppFeatureType,
     UiAppEventToSubscribeType,
     UiAppEventToTriggerType
 } from '../constants';
 import { getLogger, Logger } from '../logger';
 import { AppContext, ClientOptions } from '../types';
 
-export abstract class CapabilityManager {
-    abstract type: UiAppCapabilityType;
+export abstract class FeatureManager {
+    abstract type: UiAppFeatureType;
     abstract eventsToSubscribe: UiAppEventToSubscribeType[];
     abstract eventsToTrigger: UiAppEventToTriggerType[];
 
@@ -30,7 +30,7 @@ export abstract class CapabilityManager {
     }
 
     /**
-     * A place for eventual extensions of the base client methods, specific to a capability
+     * A place for eventual extensions of the base client methods, specific to a feature
      * Example:
      * private getAdditionalClientMethods(): { [name: string]: Function } {
      *   return  {
@@ -41,7 +41,7 @@ export abstract class CapabilityManager {
     abstract getAdditionalClientMethods(): { [name: string]: Function };
 
     /**
-     * Wraps additional methods in a check against the capability type, then applies to provided client object. Do not override
+     * Wraps additional methods in a check against the feature type, then applies to provided client object. Do not override
      */
     applyAdditionalMethods(client: DDClient) {
         const additionalMethods = this.getAdditionalClientMethods();
@@ -56,7 +56,7 @@ export abstract class CapabilityManager {
                     return method(...args);
                 } else {
                     this.logger.error(
-                        `The ${this.type} capability must be enabled to perform this action`
+                        `The ${this.type} feature must be enabled to perform this action`
                     );
                 }
             };
@@ -72,14 +72,14 @@ export abstract class CapabilityManager {
             this.framePostClient.send(eventType, data);
         } else {
             this.logger.error(
-                `The ${this.type} capability must be enabled to trigger events of type ${eventType}.`
+                `The ${this.type} feature must be enabled to trigger events of type ${eventType}.`
             );
         }
     }
 
     async isEnabled(): Promise<boolean> {
-        const { capabilities } = await this.framePostClient.getContext();
+        const { features } = await this.framePostClient.getContext();
 
-        return capabilities.includes(this.type);
+        return features.includes(this.type);
     }
 }

@@ -3,7 +3,7 @@ export enum Host {
     STAGE = 'https://dd.datad0g.com/'
 }
 
-export enum UiAppCapabilityType {
+export enum UiAppFeatureType {
     APP_CONTEXT = 'app_context',
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',

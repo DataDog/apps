@@ -3,7 +3,7 @@ import { init } from '.';
 import { DDClient } from './client';
 import {
     UiAppEventToSubscribeType,
-    UiAppCapabilityType,
+    UiAppFeatureType,
     UiAppEventToTriggerType
 } from './constants';
 import { AppContext } from './types';
@@ -16,7 +16,7 @@ const mockContext: AppContext = {
         id: 'id',
         name: 'Corporate overlord'
     },
-    capabilities: [UiAppCapabilityType.DASHBOARD_COG_MENU]
+    features: [UiAppFeatureType.DASHBOARD_COG_MENU]
 };
 
 class MockFramePostChildClient {
@@ -196,7 +196,7 @@ describe('client', () => {
         expect(callback2).not.toBeCalled();
     });
 
-    test('Does not execute suscribed handlers if the app context does not include the relevant capability', async () => {
+    test('Does not execute suscribed handlers if the app context does not include the relevant feature', async () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
@@ -213,7 +213,7 @@ describe('client', () => {
 
         mockClient.init({
             ...mockContext,
-            capabilities: []
+            features: []
         });
 
         mockClient.mockEvent(
@@ -230,7 +230,7 @@ describe('client', () => {
         expect(callback2).not.toBeCalled();
     });
 
-    test('Logs an error message in debug mode when a subscription handler is not executed because of failed capability check', async () => {
+    test('Logs an error message in debug mode when a subscription handler is not executed because of failed feature check', async () => {
         const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
         const errorSpy = jest
             .spyOn(console, 'error')
@@ -245,7 +245,7 @@ describe('client', () => {
 
         mockClient.init({
             ...mockContext,
-            capabilities: []
+            features: []
         });
 
         mockClient.mockEvent(
@@ -284,14 +284,14 @@ describe('client', () => {
         errorSpy.mockRestore();
     });
 
-    test('Triggers a valid event if the corresponding capablity is enabled ', async () => {
+    test('Triggers a valid event if the corresponding feature is enabled ', async () => {
         const client = new DDClient();
 
         const callback = jest.fn();
         mockClient.init(
             {
                 ...mockContext,
-                capabilities: [UiAppCapabilityType.APP_ROUTING]
+                features: [UiAppFeatureType.APP_ROUTING]
             },
             callback
         );
@@ -307,7 +307,7 @@ describe('client', () => {
         });
     });
 
-    test('Does not trigger an event if the app context does not include the relevant capability and logs an error in debug mode', async () => {
+    test('Does not trigger an event if the app context does not include the relevant feature and logs an error in debug mode', async () => {
         const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
         const errorSpy = jest
             .spyOn(console, 'error')
@@ -319,7 +319,7 @@ describe('client', () => {
         mockClient.init(
             {
                 ...mockContext,
-                capabilities: []
+                features: []
             },
             callback
         );

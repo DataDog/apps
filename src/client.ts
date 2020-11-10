@@ -1,14 +1,14 @@
 import { ChildClient } from '@datadog/framepost';
 
-import { CapabilityManager } from './capabilites/capabilityManager';
-import { capabilityManagers } from './capabilites';
 import {
     Host,
-    UiAppCapabilityType,
+    UiAppFeatureType,
     UiAppEventToSubscribeType,
     UiAppEventToTriggerType,
     SDK_VERSION
 } from './constants';
+import { FeatureManager } from './features/featureManager';
+import { featureManagers } from './features';
 import { getLogger, Logger } from './logger';
 import { AppContext, FrameContext, EventHandler, ClientOptions } from './types';
 
@@ -22,7 +22,7 @@ export class DDClient {
     private readonly debug: boolean;
     private readonly framePostClient: ChildClient;
     private readonly logger: Logger;
-    private capabilityManagers: CapabilityManager[];
+    private featureManagers: FeatureManager[];
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -38,7 +38,7 @@ export class DDClient {
 
         this.logger = getLogger(options);
 
-        this.capabilityManagers = capabilityManagers.map(
+        this.featureManagers = featureManagers.map(
             Manager =>
                 new Manager(
                     {
@@ -49,14 +49,14 @@ export class DDClient {
                 )
         );
 
-        this.capabilityManagers.forEach(manager =>
+        this.featureManagers.forEach(manager =>
             manager.applyAdditionalMethods(this)
         );
     }
 
     /**
      * Adds event handler to execute on a certain event type from the parent. Will print
-     * an error if the installed app does not have the required capability. Returns an unsubscribe
+     * an error if the installed app does not have the required feature. Returns an unsubscribe
      * method. This method can be called before handshake is successful, but handlers will not execute until
      * after successsful handshake.
      */
@@ -79,7 +79,7 @@ export class DDClient {
                 handler(...args);
             } else {
                 this.logger.error(
-                    `The ${manager.type} capability must be enabled to respond to events of type ${eventType}.`
+                    `The ${manager.type} feature must be enabled to respond to events of type ${eventType}.`
                 );
             }
         };
@@ -89,7 +89,7 @@ export class DDClient {
 
     /**
      * Triggers an event type to be handled in the parent. Will print
-     * an error if the installed app does not have the required capability.
+     * an error if the installed app does not have the required feature.
      * This method can be called before handshake is successful, but handlers will not execute until
      * after successsful handshake.
      */
@@ -111,25 +111,25 @@ export class DDClient {
     }
 
     private getManagerByType(
-        capabilityType: UiAppCapabilityType
-    ): CapabilityManager | undefined {
-        return this.capabilityManagers.find(
-            manager => manager.type === capabilityType
+        featureType: UiAppFeatureType
+    ): FeatureManager | undefined {
+        return this.featureManagers.find(
+            manager => manager.type === featureType
         );
     }
 
     private getManagerByEventToSubscribeType(
         eventType: UiAppEventToSubscribeType
-    ): CapabilityManager | undefined {
-        return this.capabilityManagers.find(manager =>
+    ): FeatureManager | undefined {
+        return this.featureManagers.find(manager =>
             manager.eventsToSubscribe.includes(eventType)
         );
     }
 
     private getManagerByEventToTriggerType(
         eventType: UiAppEventToTriggerType
-    ): CapabilityManager | undefined {
-        return this.capabilityManagers.find(manager =>
+    ): FeatureManager | undefined {
+        return this.featureManagers.find(manager =>
             manager.eventsToTrigger.includes(eventType)
         );
     }
