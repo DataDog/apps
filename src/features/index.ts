@@ -1,15 +1,15 @@
 import {
-    UiAppCapabilityType,
+    UiAppFeatureType,
     UiAppEventToSubscribeType,
     UiAppEventToTriggerType
 } from '../constants';
 
-import { CapabilityManager } from './capabilityManager';
+import { FeatureManager } from './featureManager';
 
-export type { CapabilityManager } from './capabilityManager';
+export type { FeatureManager } from './featureManager';
 
-class DashboardCogMenuManager extends CapabilityManager {
-    type = UiAppCapabilityType.DASHBOARD_COG_MENU;
+class DashboardCogMenuManager extends FeatureManager {
+    type = UiAppFeatureType.DASHBOARD_COG_MENU;
     eventsToSubscribe = [UiAppEventToSubscribeType.DASHBOARD_COG_MENU_CONTEXT];
     eventsToTrigger = [];
 
@@ -18,8 +18,8 @@ class DashboardCogMenuManager extends CapabilityManager {
     }
 }
 
-class AppRoutingManager extends CapabilityManager {
-    type = UiAppCapabilityType.APP_ROUTING;
+class AppRoutingManager extends FeatureManager {
+    type = UiAppFeatureType.APP_ROUTING;
     eventsToSubscribe = [];
     eventsToTrigger = [
         UiAppEventToTriggerType.RELOAD_FRAME,
@@ -31,8 +31,8 @@ class AppRoutingManager extends CapabilityManager {
     }
 }
 
-class DashboardCustomWidgetManager extends CapabilityManager {
-    type = UiAppCapabilityType.DASHBOARD_CUSTOM_WIDGET;
+class DashboardCustomWidgetManager extends FeatureManager {
+    type = UiAppFeatureType.DASHBOARD_CUSTOM_WIDGET;
     eventsToSubscribe = [
         UiAppEventToSubscribeType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
         UiAppEventToSubscribeType.DASHBOARD_TEMPLATE_VAR_CHANGE,
@@ -45,7 +45,7 @@ class DashboardCustomWidgetManager extends CapabilityManager {
     }
 }
 
-export const capabilityManagers = [
+export const featureManagers = [
     DashboardCogMenuManager,
     AppRoutingManager,
     DashboardCustomWidgetManager

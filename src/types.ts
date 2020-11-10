@@ -1,7 +1,4 @@
-import type {
-    UiAppCapabilityType,
-    UiAppEventToSubscribeType
-} from './constants';
+import type { UiAppFeatureType, UiAppEventToSubscribeType } from './constants';
 
 export interface ClientOptions {
     debug?: boolean;
@@ -26,8 +23,8 @@ export interface AppContext {
         id: string;
         name: string;
     };
-    // list of enabled capabilities
-    capabilities: UiAppCapabilityType[];
+    // list of enabled features
+    features: UiAppFeatureType[];
 }
 
 export interface FrameContext {
