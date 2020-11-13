@@ -1,5 +1,7 @@
 const path = require('path');
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const packageJson = require('./package.json');
 
 module.exports = {
     devtool: 'source-map',
@@ -18,7 +20,12 @@ module.exports = {
             }
         ]
     },
-    plugins: [new CleanWebpackPlugin()],
+    plugins: [
+        new CleanWebpackPlugin(),
+        new webpack.DefinePlugin({
+            SDK_VERSION: JSON.stringify(packageJson.version)
+        })
+    ],
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
     },
