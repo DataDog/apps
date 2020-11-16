@@ -1,6 +1,6 @@
 {
     "name": "@datadog/framepost",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "Secure parent-child iframe communication",
     "homepage": "https://github.com/DataDog/framepost",
     "repository": {
