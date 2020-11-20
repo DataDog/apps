@@ -21,3 +21,23 @@ export enum UiAppEventToTriggerType {
     RELOAD_FRAME = 'reload_frame',
     OPEN_URL = 'open_url'
 }
+
+export enum IFrameApiRequestMethod {
+    GET = 'GET',
+    POST = 'POST',
+    PUT = 'PUT',
+    PATCH = 'PATCH',
+    DELETE = 'DELETE'
+}
+
+export enum IFrameApiRequestErrorType {
+    INVALID_SCOPE = 'invalid_scope',
+    INTERNAL_ERROR = 'internal_error',
+    FAILED_REQUEST = 'failed_request'
+}
+
+// "Requests" are distinct from events in that the sdk client expects a response
+// from the frameManager, or vice-versa
+export enum UiAppRequestType {
+    API_REQUEST = 'api_request'
+}

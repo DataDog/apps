@@ -1,5 +1,6 @@
 import { ChildClient } from '@datadog/framepost';
 
+import { DDAPIClient } from './api';
 import {
     Host,
     UiAppFeatureType,
@@ -9,7 +10,12 @@ import {
 import { FeatureManager } from './features/featureManager';
 import { featureManagers } from './features';
 import { getLogger, Logger } from './logger';
-import { AppContext, FrameContext, EventHandler, ClientOptions } from './types';
+import type {
+    AppContext,
+    FrameContext,
+    EventHandler,
+    ClientOptions
+} from './types';
 
 declare const SDK_VERSION: string;
 
@@ -21,9 +27,10 @@ const DEFAULT_OPTIONS = {
 export class DDClient {
     private readonly host: string;
     private readonly debug: boolean;
-    private readonly framePostClient: ChildClient;
+    private readonly framePostClient: ChildClient<AppContext>;
     private readonly logger: Logger;
     private featureManagers: FeatureManager[];
+    api: DDAPIClient;
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -38,6 +45,12 @@ export class DDClient {
         });
 
         this.logger = getLogger(options);
+
+        this.api = new DDAPIClient(
+            this.debug,
+            this.logger,
+            this.framePostClient
+        );
 
         this.featureManagers = featureManagers.map(
             Manager =>
