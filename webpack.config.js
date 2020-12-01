@@ -5,6 +5,7 @@ const packageJson = require('./package.json');
 
 module.exports = {
     devtool: 'source-map',
+    target: ['web', 'es5'],
     entry: './src/index.ts',
     output: {
         filename: 'ui-apps-sdk.min.js',
