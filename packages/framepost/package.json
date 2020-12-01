@@ -16,7 +16,7 @@
         "test:unit": "jest",
         "format": "prettier --write .",
         "sandbox": "node scripts/sandbox.js",
-        "start": "yarn watch & webpack-dev-server --mode development --progress --color --hot",
+        "start": "yarn watch & webpack serve --mode development --progress --color --hot",
         "test": "jest",
         "watch": "webpack --watch --mode development"
     },
