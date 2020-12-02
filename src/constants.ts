@@ -21,5 +21,3 @@ export enum UiAppEventToTriggerType {
     RELOAD_FRAME = 'reload_frame',
     OPEN_URL = 'open_url'
 }
-
-export const SDK_VERSION = '0.1.0';

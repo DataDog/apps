@@ -4,13 +4,14 @@ import {
     Host,
     UiAppFeatureType,
     UiAppEventToSubscribeType,
-    UiAppEventToTriggerType,
-    SDK_VERSION
+    UiAppEventToTriggerType
 } from './constants';
 import { FeatureManager } from './features/featureManager';
 import { featureManagers } from './features';
 import { getLogger, Logger } from './logger';
 import { AppContext, FrameContext, EventHandler, ClientOptions } from './types';
+
+declare const SDK_VERSION: string;
 
 const DEFAULT_OPTIONS = {
     host: Host.STAGE,
