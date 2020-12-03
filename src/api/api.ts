@@ -68,7 +68,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.POST,
             resource,
             options,
-            body: null
+            body
         });
     }
 
@@ -81,7 +81,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.PUT,
             resource,
             options,
-            body: null
+            body
         });
     }
 
@@ -94,7 +94,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.PATCH,
             resource,
             options,
-            body: null
+            body
         });
     }
 

@@ -1,4 +1,4 @@
-import type { DDAPIClient } from '../client';
+import type { DDAPIClient } from '../api';
 
 import { DDMetricsAPIClient } from './metrics';
 

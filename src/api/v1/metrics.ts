@@ -1,4 +1,4 @@
-import type { DDAPIClient } from '../client';
+import type { DDAPIClient } from '../api';
 
 export class DDMetricsAPIClient {
     private apiClient: DDAPIClient;
@@ -28,7 +28,7 @@ export class DDMetricsAPIClient {
      * @see https://docs.datadoghq.com/api/v1/metrics/#search-metrics
      */
     search(params: SearchMetricsParams) {
-        return this.apiClient.get('/api/v1/metrics/search', { params });
+        return this.apiClient.get('/api/v1/search', { params });
     }
 
     /**
