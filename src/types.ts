@@ -1,4 +1,9 @@
-import type { UiAppFeatureType, UiAppEventToSubscribeType } from './constants';
+import type {
+    UiAppFeatureType,
+    UiAppEventToSubscribeType,
+    IFrameApiRequestMethod,
+    IFrameApiRequestErrorType
+} from './constants';
 
 export interface ClientOptions {
     debug?: boolean;
@@ -29,4 +34,24 @@ export interface AppContext {
 
 export interface FrameContext {
     sdkVersion: string;
+}
+
+export interface IframeApiRequestOptions {
+    params?: {
+        [key: string]: any;
+    };
+}
+
+export interface IFrameApiRequest<Q> {
+    method: IFrameApiRequestMethod;
+    resource: string;
+    options: IframeApiRequestOptions;
+    body: Q;
+}
+
+export interface IFrameApiRequestError {
+    isError: true;
+    type: IFrameApiRequestErrorType;
+    message: string;
+    data?: any;
 }
