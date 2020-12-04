@@ -1,6 +1,6 @@
 import { ChildClient } from '@datadog/framepost';
 
-import { DDAPIClient } from './api';
+import { DDAPIClient } from './api/api';
 import {
     Host,
     UiAppFeatureType,
