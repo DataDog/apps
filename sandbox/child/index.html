@@ -13,15 +13,16 @@
                 console.log('Received app context', context);
             });
 
-            client.on('dashboard_cog_menu_context', context => {
+            client.events.on('dashboard_cog_menu_context', context => {
                 console.log('Received dashboard cog menu context', context);
 
                 const b = document.createElement('button');
                 b.innerHTML = 'Click me to open the URL in a new tab';
                 b.onclick = () => {
-                    client.triggerEvent('open_url', {
-                        url: context.shareToken
-                    });
+                    console.log(context.shareToken);
+                    // client.triggerEvent('open_url', {
+                    //     url: context.shareToken
+                    // });
                 };
 
                 document.getElementById('target').appendChild(b);
