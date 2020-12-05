@@ -100,6 +100,8 @@ export class MockFramePostChildClient {
             subscription(data)
         );
     }
+
+    request(eventType: string, data: any): any {}
 }
 
 export const flushPromises = () => new Promise(setImmediate);

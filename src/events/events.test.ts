@@ -1,4 +1,4 @@
-import { UiAppEventType } from '../constants';
+import { UiAppEventType, UiAppRequestType } from '../constants';
 import { getLogger } from '../logger';
 import {
     MockFramePostChildClient,
@@ -20,7 +20,7 @@ beforeEach(() => {
     );
 });
 
-describe('events client', () => {
+describe('events.on()', () => {
     test('Executes subscribed handlers when corresponding events are sent from the parent', async () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
@@ -132,6 +132,57 @@ describe('events client', () => {
         expect(errorSpy).toHaveBeenCalled();
 
         logSpy.mockRestore();
+        errorSpy.mockRestore();
+    });
+});
+
+describe('events.broadcast()', () => {
+    test('sends broadcast request to parent', async () => {
+        mockFramepostClient.init();
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => ({
+                success: true,
+                frameUrls: ['https://domain.com/path/to/frame.html']
+            }));
+
+        const response = await client.broadcast('my_event', 'data');
+
+        expect(response).toEqual({
+            success: true,
+            frameUrls: ['https://domain.com/path/to/frame.html']
+        });
+
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.EVENT_BROADCAST,
+            {
+                event: 'my_event',
+                data: 'data'
+            }
+        );
+    });
+
+    test('fails and does not send request if app does not have custom_event feature enabled', async () => {
+        const errorSpy = jest
+            .spyOn(console, 'error')
+            .mockImplementation(() => {});
+
+        mockFramepostClient.init({
+            ...mockContext,
+            features: []
+        });
+
+        const requestMock = jest.spyOn(mockFramepostClient, 'request');
+
+        const response = await client.broadcast('my_event', 'data');
+
+        expect(response).toEqual({
+            success: false,
+            frameUrls: []
+        });
+        expect(requestMock).not.toHaveBeenCalled();
+        expect(errorSpy).toHaveBeenCalled();
+
         errorSpy.mockRestore();
     });
 });

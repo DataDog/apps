@@ -32,7 +32,9 @@ export enum IFrameApiRequestErrorType {
 }
 
 // "Requests" are distinct from events in that the sdk client expects a response
-// from the frameManager, or vice-versa
+// from the frameManager, or vice-versa. This is useful when the child frames
+// ask the parent frames to perform an operation.
 export enum UiAppRequestType {
-    API_REQUEST = 'api_request'
+    API_REQUEST = 'api_request',
+    EVENT_BROADCAST = 'event_broadcast'
 }

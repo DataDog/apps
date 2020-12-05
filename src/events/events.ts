@@ -1,7 +1,11 @@
 import type { ChildClient } from '@datadog/framepost';
 
-import type { UiAppEventType } from '../constants';
-import { isEventEnabled } from '../features/utils';
+import {
+    UiAppEventType,
+    UiAppFeatureType,
+    UiAppRequestType
+} from '../constants';
+import { isEventEnabled, isEnabled } from '../features/utils';
 import type { Logger } from '../logger';
 import type { Context, EventHandler } from '../types';
 
@@ -34,12 +38,12 @@ export class DDEventsClient {
         this.framePostClient
             .getContext()
             .then(context => {
-                const isEnabled = isEventEnabled(
+                const canHandleEvent = isEventEnabled(
                     eventType,
                     context.appContext.features
                 );
 
-                if (!isEnabled) {
+                if (!canHandleEvent) {
                     unsubscribe();
                     this.logger.error(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
@@ -50,4 +54,49 @@ export class DDEventsClient {
 
         return unsubscribe;
     }
+
+    /**
+     * Broadcasts a custom event to all active iframes. Returns a list of the iframe urls that received the event
+     * for debug purposes
+     */
+    async broadcast<T = any>(
+        eventType: string,
+        data: T
+    ): Promise<BroadcastResponse> {
+        const context = await this.framePostClient.getContext();
+
+        const canSendCustomEvents = isEnabled(
+            UiAppFeatureType.CUSTOM_EVENTS,
+            context.appContext.features
+        );
+
+        if (!canSendCustomEvents) {
+            this.logger.error(
+                `Event broadcasting requires the ${UiAppFeatureType.CUSTOM_EVENTS} feature`
+            );
+
+            return {
+                success: false,
+                frameUrls: []
+            };
+        }
+
+        return this.framePostClient.request<
+            BroadcastRequest<T>,
+            BroadcastResponse
+        >(UiAppRequestType.EVENT_BROADCAST, {
+            event: eventType,
+            data
+        });
+    }
+}
+
+export interface BroadcastRequest<T = any> {
+    event: string;
+    data: T;
+}
+export interface BroadcastResponse {
+    success: boolean;
+    // The iframe urls that received the event. Useful info for developers
+    frameUrls: string[];
 }
