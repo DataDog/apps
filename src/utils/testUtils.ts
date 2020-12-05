@@ -41,7 +41,10 @@ export const mockContext: AppContext = {
         id: 'id',
         name: 'Corporate overlord'
     },
-    features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+    features: [
+        UiAppFeatureType.DASHBOARD_COG_MENU,
+        UiAppFeatureType.CUSTOM_EVENTS
+    ]
 };
 
 export class MockFramePostChildClient {

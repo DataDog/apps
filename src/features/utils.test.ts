@@ -40,11 +40,15 @@ describe('feature utils', () => {
         ).toBe(false);
     });
 
-    test('isEventEnabled returns true when using a custom event', () => {
+    test('isEventEnabled returns true when using a custom event iff custom events feature is enabled', () => {
+        expect(
+            isEventEnabled('custom_event', [UiAppFeatureType.CUSTOM_EVENTS])
+        ).toBe(true);
+
         expect(
             isEventEnabled('custom_event', [
                 UiAppFeatureType.DASHBOARD_COG_MENU
             ])
-        ).toBe(true);
+        ).toBe(false);
     });
 });

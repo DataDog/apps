@@ -38,8 +38,9 @@ export const isEventEnabled = (
     // get the set of features that enable this event
     const enablingFeatures = featureTypesByEvent.get(event as UiAppEventType);
 
+    // if no enabling feature found, require that the custom_event feature is enabled
     if (!enablingFeatures) {
-        return true;
+        return enabledFeatures.includes(UiAppFeatureType.CUSTOM_EVENTS);
     }
 
     return enabledFeatures.some(feature => enablingFeatures.has(feature));

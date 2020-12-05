@@ -5,7 +5,8 @@ export enum Host {
 
 export enum UiAppFeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
-    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget'
+    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
+    CUSTOM_EVENTS = 'custom_events'
 }
 
 export enum UiAppEventType {
