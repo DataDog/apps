@@ -1,5 +1,5 @@
 import { DDClient } from './client';
-import { AppContext, ClientOptions } from './types';
+import { Context, ClientOptions } from './types';
 
 let client: DDClient;
 
@@ -9,7 +9,7 @@ let client: DDClient;
  */
 export const init = (
     options?: ClientOptions,
-    callback?: (context: AppContext) => void
+    callback?: (context: Context) => void
 ): DDClient => {
     if (!client) {
         client = new DDClient(options);

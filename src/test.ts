@@ -6,17 +6,19 @@ import {
     UiAppFeatureType,
     UiAppEventToTriggerType
 } from './constants';
-import { AppContext } from './types';
+import { Context } from './types';
 import { defer, Deferred, uniqueInt } from './utils';
 
-const mockContext: AppContext = {
-    name: 'User',
-    handle: 'user@email.com',
-    organization: {
-        id: 'id',
-        name: 'Corporate overlord'
-    },
-    features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+const mockContext: Context = {
+    appContext: {
+        name: 'User',
+        handle: 'user@email.com',
+        organization: {
+            id: 'id',
+            name: 'Corporate overlord'
+        },
+        features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+    }
 };
 
 class MockFramePostChildClient {
