@@ -6,19 +6,17 @@ import {
     UiAppFeatureType,
     UiAppEventToTriggerType
 } from './constants';
-import { Context } from './types';
+import { AppContext } from './types';
 import { defer, Deferred, uniqueInt } from './utils';
 
-const mockContext: Context = {
-    appContext: {
-        name: 'User',
-        handle: 'user@email.com',
-        organization: {
-            id: 'id',
-            name: 'Corporate overlord'
-        },
-        features: [UiAppFeatureType.DASHBOARD_COG_MENU]
-    }
+const mockAppContext: AppContext = {
+    name: 'User',
+    handle: 'user@email.com',
+    organization: {
+        id: 'id',
+        name: 'Corporate overlord'
+    },
+    features: [UiAppFeatureType.DASHBOARD_COG_MENU]
 };
 
 class MockFramePostChildClient {
@@ -32,7 +30,7 @@ class MockFramePostChildClient {
     }
 
     init(override?: any, sendCallBack?: jest.Mock) {
-        this.context.resolve(override || mockContext);
+        this.context.resolve(override || { appContext: mockAppContext });
         this.sendCallBack = sendCallBack;
     }
 
@@ -106,7 +104,7 @@ describe('client', () => {
 
         const context = await client.getContext();
 
-        expect(context).toBe(mockContext);
+        expect(context).toEqual({ appContext: mockAppContext });
     });
 
     test('logs an error in debug mode if the consumer tries to subscribe to an invalid event', async () => {
@@ -214,8 +212,10 @@ describe('client', () => {
         );
 
         mockClient.init({
-            ...mockContext,
-            features: []
+            appContext: {
+                ...mockAppContext,
+                features: []
+            }
         });
 
         mockClient.mockEvent(
@@ -246,8 +246,10 @@ describe('client', () => {
         );
 
         mockClient.init({
-            ...mockContext,
-            features: []
+            appContext: {
+                ...mockAppContext,
+                features: []
+            }
         });
 
         mockClient.mockEvent(
@@ -290,10 +292,13 @@ describe('client', () => {
         const client = new DDClient();
 
         const callback = jest.fn();
+
         mockClient.init(
             {
-                ...mockContext,
-                features: [UiAppFeatureType.APP_ROUTING]
+                appContext: {
+                    ...mockAppContext,
+                    features: [UiAppFeatureType.APP_ROUTING]
+                }
             },
             callback
         );
@@ -318,13 +323,14 @@ describe('client', () => {
         const client = new DDClient({ debug: true });
 
         const callback = jest.fn();
-        mockClient.init(
-            {
-                ...mockContext,
+
+        mockClient.init({
+            appContext: {
+                ...mockAppContext,
                 features: []
             },
             callback
-        );
+        });
 
         client.triggerEvent(UiAppEventToTriggerType.OPEN_URL, {
             url: 'https://www.google.com'

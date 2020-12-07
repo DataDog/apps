@@ -17,7 +17,7 @@ export interface HandleEventParams<T = any> {
     data: T;
 }
 
-interface AppContext {
+export interface AppContext {
     // Name of current user
     name: string;
     // Current user's email
