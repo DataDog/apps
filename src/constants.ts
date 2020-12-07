@@ -4,7 +4,6 @@ export enum Host {
 }
 
 export enum UiAppFeatureType {
-    APP_CONTEXT = 'app_context',
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
     DASHBOARD_PAGE_CONTEXT = 'dashboard_page_context',

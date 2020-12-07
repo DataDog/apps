@@ -17,7 +17,6 @@ export interface HandleEventParams<T = any> {
     data: T;
 }
 
-// App context is the data type that gets sent to the `init` method, and propagated to `app_context` event handlers
 export interface AppContext {
     // Name of current user
     name: string;
@@ -30,6 +29,12 @@ export interface AppContext {
     };
     // list of enabled features
     features: UiAppFeatureType[];
+}
+
+// Context is the data type that gets sent to the `init` method
+export interface Context {
+    appContext: AppContext;
+    frameContext?: any;
 }
 
 export interface FrameContext {

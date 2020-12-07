@@ -11,7 +11,7 @@ import { FeatureManager } from './features/featureManager';
 import { featureManagers } from './features';
 import { getLogger, Logger } from './logger';
 import type {
-    AppContext,
+    Context,
     FrameContext,
     EventHandler,
     ClientOptions
@@ -27,7 +27,7 @@ const DEFAULT_OPTIONS = {
 export class DDClient {
     private readonly host: string;
     private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<AppContext>;
+    private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
     private featureManagers: FeatureManager[];
     api: DDAPIClient;
@@ -36,7 +36,7 @@ export class DDClient {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
-        this.framePostClient = new ChildClient<AppContext>({
+        this.framePostClient = new ChildClient<Context>({
             debug: this.debug,
             profile: this.debug,
             context: {
@@ -102,6 +102,23 @@ export class DDClient {
     }
 
     /**
+     * Adds event handler to execute on a certain event type from the parent. Will print
+     * an error if the installed app does not have the required feature. Returns an unsubscribe
+     * method. This method can be called before handshake is successful, but handlers will not execute until
+     * after successsful handshake.
+     */
+    onCustomEvent<T = any>(
+        eventType: string,
+        handler: EventHandler<T>
+    ): () => void {
+        const wrappedHandler: EventHandler<T> = (...args) => {
+            handler(...args);
+        };
+
+        return this.framePostClient.on(eventType, wrappedHandler);
+    }
+
+    /**
      * Triggers an event type to be handled in the parent. Will print
      * an error if the installed app does not have the required feature.
      * This method can be called before handshake is successful, but handlers will not execute until
@@ -120,7 +137,7 @@ export class DDClient {
     /**
      * Returns app context data, after it is sent from the parent
      */
-    async getContext(): Promise<AppContext> {
+    async getContext(): Promise<Context> {
         return this.framePostClient.getContext();
     }
 

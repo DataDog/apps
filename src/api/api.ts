@@ -7,7 +7,7 @@ import {
 } from '../constants';
 import type { Logger } from '../logger';
 import type {
-    AppContext,
+    Context,
     IFrameApiRequest,
     IframeApiRequestOptions
 } from '../types';
@@ -17,7 +17,7 @@ import { DDAPIV1Client } from './v1';
 export class DDAPIClient {
     readonly v1: DDAPIV1Client;
     private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<AppContext>;
+    private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
 
     constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {

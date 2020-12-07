@@ -7,7 +7,7 @@ import {
     UiAppEventToTriggerType
 } from '../constants';
 import { getLogger, Logger } from '../logger';
-import { AppContext, ClientOptions } from '../types';
+import { Context, ClientOptions } from '../types';
 
 export abstract class FeatureManager {
     abstract type: UiAppFeatureType;
@@ -17,11 +17,11 @@ export abstract class FeatureManager {
     protected readonly host: string;
     protected readonly debug: boolean;
     protected readonly logger: Logger;
-    protected readonly framePostClient: ChildClient<AppContext>;
+    protected readonly framePostClient: ChildClient<Context>;
 
     constructor(
         options: Required<ClientOptions>,
-        framePostClient: ChildClient<AppContext>
+        framePostClient: ChildClient<Context>
     ) {
         this.host = options.host;
         this.debug = options.debug;
@@ -78,7 +78,8 @@ export abstract class FeatureManager {
     }
 
     async isEnabled(): Promise<boolean> {
-        const { features } = await this.framePostClient.getContext();
+        const { appContext } = await this.framePostClient.getContext();
+        const { features } = appContext;
 
         return features.includes(this.type);
     }
