@@ -4,15 +4,18 @@ import {
     UiAppRequestType,
     IFrameApiRequestMethod,
     IFrameApiRequestErrorType
-} from './constants';
-import type { Logger } from './logger';
+} from '../constants';
+import type { Logger } from '../logger';
 import type {
     Context,
     IFrameApiRequest,
     IframeApiRequestOptions
-} from './types';
+} from '../types';
+
+import { DDAPIV1Client } from './v1';
 
 export class DDAPIClient {
+    readonly v1: DDAPIV1Client;
     private readonly debug: boolean;
     private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
@@ -21,6 +24,8 @@ export class DDAPIClient {
         this.debug = debug;
         this.logger = logger;
         this.framePostClient = framePostClient;
+
+        this.v1 = new DDAPIV1Client(this);
     }
 
     private async request<Q = any, R = any>(
@@ -63,7 +68,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.POST,
             resource,
             options,
-            body: null
+            body
         });
     }
 
@@ -76,7 +81,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.PUT,
             resource,
             options,
-            body: null
+            body
         });
     }
 
@@ -89,7 +94,7 @@ export class DDAPIClient {
             method: IFrameApiRequestMethod.PATCH,
             resource,
             options,
-            body: null
+            body
         });
     }
 
