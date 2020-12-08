@@ -1,5 +1,5 @@
 import { UiAppEventType, UiAppRequestType } from '../constants';
-import { getLogger } from '../logger';
+import { getLogger } from '../utils/logger';
 import {
     MockFramePostChildClient,
     mockContext,
@@ -40,39 +40,12 @@ describe('events.on()', () => {
 
         await flushPromises();
 
-        expect(callback1).toBeCalledWith({
+        expect(callback1).toHaveBeenCalledWith({
             id: 'dashboardid',
             shareToken: 'https://www.google.com'
         });
 
-        expect(callback2).toBeCalledWith({
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
-    });
-
-    test('Handles custom events', async () => {
-        const callback1 = jest.fn();
-        const callback2 = jest.fn();
-
-        client.on('custom_event', callback1);
-        client.on('custom_event', callback2);
-
-        mockFramepostClient.init();
-
-        mockFramepostClient.mockEvent('custom_event', {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
-
-        await flushPromises();
-
-        expect(callback1).toBeCalledWith({
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
-
-        expect(callback2).toBeCalledWith({
+        expect(callback2).toHaveBeenCalledWith({
             id: 'dashboardid',
             shareToken: 'https://www.google.com'
         });
@@ -102,8 +75,8 @@ describe('events.on()', () => {
 
         await flushPromises();
 
-        expect(callback1).toBeCalled();
-        expect(callback2).not.toBeCalled();
+        expect(callback1).toHaveBeenCalled();
+        expect(callback2).not.toHaveBeenCalled();
     });
 
     test('Logs an error message in debug mode when attempting to subscribe to an event for which the app does not support the required features', async () => {
@@ -116,7 +89,10 @@ describe('events.on()', () => {
 
         mockFramepostClient.init({
             ...mockContext,
-            features: []
+            appContext: {
+                ...mockContext.appContext,
+                features: []
+            }
         });
 
         mockFramepostClient.mockEvent(
@@ -156,7 +132,7 @@ describe('events.broadcast()', () => {
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.EVENT_BROADCAST,
             {
-                event: 'my_event',
+                eventType: 'my_event',
                 data: 'data'
             }
         );
@@ -169,7 +145,10 @@ describe('events.broadcast()', () => {
 
         mockFramepostClient.init({
             ...mockContext,
-            features: []
+            appContext: {
+                ...mockContext.appContext,
+                features: []
+            }
         });
 
         const requestMock = jest.spyOn(mockFramepostClient, 'request');
@@ -177,12 +156,70 @@ describe('events.broadcast()', () => {
         const response = await client.broadcast('my_event', 'data');
 
         expect(response).toEqual({
-            success: false,
-            frameUrls: []
+            success: false
         });
         expect(requestMock).not.toHaveBeenCalled();
         expect(errorSpy).toHaveBeenCalled();
 
         errorSpy.mockRestore();
+    });
+});
+
+describe('events.onCustom()', () => {
+    test('Handles custom events', async () => {
+        const callback1 = jest.fn();
+        const callback2 = jest.fn();
+
+        client.onCustom('my_event', callback1);
+        client.onCustom('my_event', callback2);
+
+        mockFramepostClient.init();
+
+        mockFramepostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+            eventType: 'my_event',
+            data: {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        });
+
+        await flushPromises();
+
+        expect(callback1).toHaveBeenCalledWith({
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
+
+        expect(callback2).toHaveBeenCalledWith({
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
+    });
+
+    test('Filters handlers by custom event type', async () => {
+        const callback1 = jest.fn();
+        const callback2 = jest.fn();
+
+        client.onCustom('my_event', callback1);
+        client.onCustom('my_other_event', callback2);
+
+        mockFramepostClient.init();
+
+        mockFramepostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+            eventType: 'my_event',
+            data: {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        });
+
+        await flushPromises();
+
+        expect(callback1).toHaveBeenCalledWith({
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
+
+        expect(callback2).not.toHaveBeenCalled();
     });
 });

@@ -3,7 +3,7 @@ import {
     UiAppRequestType,
     IFrameApiRequestErrorType
 } from '../constants';
-import { getLogger } from '../logger';
+import { getLogger } from '../utils/logger';
 
 import { DDAPIClient } from './api';
 

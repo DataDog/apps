@@ -30,7 +30,7 @@ export const getFeatureTypesByEvent = memoize(
 );
 
 export const isEventEnabled = (
-    event: UiAppEventType | string,
+    event: UiAppEventType,
     enabledFeatures: UiAppFeatureType[]
 ): boolean => {
     const featureTypesByEvent = getFeatureTypesByEvent();
@@ -38,9 +38,9 @@ export const isEventEnabled = (
     // get the set of features that enable this event
     const enablingFeatures = featureTypesByEvent.get(event as UiAppEventType);
 
-    // if no enabling feature found, require that the custom_event feature is enabled
+    // if no enabling feature found, event is unknown
     if (!enablingFeatures) {
-        return enabledFeatures.includes(UiAppFeatureType.CUSTOM_EVENTS);
+        return false;
     }
 
     return enabledFeatures.some(feature => enablingFeatures.has(feature));

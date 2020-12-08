@@ -3,8 +3,8 @@ import { ChildClient } from '@datadog/framepost';
 import { DDAPIClient } from '../api/api';
 import { Host } from '../constants';
 import { DDEventsClient } from '../events/events';
-import { getLogger, Logger } from '../logger';
 import type { Context, FrameContext, ClientOptions } from '../types';
+import { getLogger, Logger } from '../utils/logger';
 
 declare const SDK_VERSION: string;
 

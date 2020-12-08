@@ -1,5 +1,5 @@
 import { UiAppFeatureType } from '../constants';
-import { AppContext } from '../types';
+import { Context } from '../types';
 
 export interface Deferred<T> {
     resolve: (t: T) => void;
@@ -34,17 +34,19 @@ export const uniqueInt = (): number => {
     return increment;
 };
 
-export const mockContext: AppContext = {
-    name: 'User',
-    handle: 'user@email.com',
-    organization: {
-        id: 'id',
-        name: 'Corporate overlord'
-    },
-    features: [
-        UiAppFeatureType.DASHBOARD_COG_MENU,
-        UiAppFeatureType.CUSTOM_EVENTS
-    ]
+export const mockContext: Context = {
+    appContext: {
+        name: 'User',
+        handle: 'user@email.com',
+        organization: {
+            id: 'id',
+            name: 'Corporate overlord'
+        },
+        features: [
+            UiAppFeatureType.DASHBOARD_COG_MENU,
+            UiAppFeatureType.CUSTOM_EVENTS
+        ]
+    }
 };
 
 export class MockFramePostChildClient {

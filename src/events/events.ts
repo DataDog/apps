@@ -6,8 +6,8 @@ import {
     UiAppRequestType
 } from '../constants';
 import { isEventEnabled, isEnabled } from '../features/utils';
-import type { Logger } from '../logger';
 import type { Context, EventHandler } from '../types';
+import type { Logger } from '../utils/logger';
 
 export class DDEventsClient {
     private readonly debug: boolean;
@@ -26,7 +26,7 @@ export class DDEventsClient {
      * after. Will print an error if the installed app does not have the required features to handle the event type.
      */
     on<T = any>(
-        eventType: UiAppEventType | string,
+        eventType: UiAppEventType,
         handler: EventHandler<T>
     ): () => void {
         // first, immediately subscribe
@@ -56,6 +56,20 @@ export class DDEventsClient {
     }
 
     /**
+     * Adds event handler to execute on a custom event from the parent. Returns an unsubscribe
+     * method. This method can be called before handshake is successful, but handlers will not execute until
+     * after. Will print an error if the installed app does not have the custom_events feature enabled
+     */
+    onCustom<T = any>(eventType: string, handler: EventHandler<T>) {
+        const wrappedHandler: EventHandler<CustomEventPayload<T>> = payload => {
+            if (payload.eventType === eventType) {
+                handler(payload.data);
+            }
+        };
+        return this.on(UiAppEventType.CUSTOM_EVENT, wrappedHandler);
+    }
+
+    /**
      * Broadcasts a custom event to all active iframes. Returns a list of the iframe urls that received the event
      * for debug purposes
      */
@@ -76,27 +90,24 @@ export class DDEventsClient {
             );
 
             return {
-                success: false,
-                frameUrls: []
+                success: false
             };
         }
 
         return this.framePostClient.request<
-            BroadcastRequest<T>,
+            CustomEventPayload<T>,
             BroadcastResponse
         >(UiAppRequestType.EVENT_BROADCAST, {
-            event: eventType,
+            eventType,
             data
         });
     }
 }
-
-export interface BroadcastRequest<T = any> {
-    event: string;
-    data: T;
-}
 export interface BroadcastResponse {
     success: boolean;
-    // The iframe urls that received the event. Useful info for developers
-    frameUrls: string[];
+}
+
+export interface CustomEventPayload<T> {
+    eventType: string;
+    data: T;
 }

@@ -10,11 +10,11 @@ export enum UiAppFeatureType {
 }
 
 export enum UiAppEventType {
-    APP_CONTEXT = 'app_context',
     DASHBOARD_COG_MENU_CONTEXT = 'dashboard_cog_menu_context',
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change'
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
+    CUSTOM_EVENT = 'custom_event'
 }
 
 export enum IFrameApiRequestMethod {

@@ -42,11 +42,13 @@ describe('feature utils', () => {
 
     test('isEventEnabled returns true when using a custom event iff custom events feature is enabled', () => {
         expect(
-            isEventEnabled('custom_event', [UiAppFeatureType.CUSTOM_EVENTS])
+            isEventEnabled(UiAppEventType.CUSTOM_EVENT, [
+                UiAppFeatureType.CUSTOM_EVENTS
+            ])
         ).toBe(true);
 
         expect(
-            isEventEnabled('custom_event', [
+            isEventEnabled(UiAppEventType.CUSTOM_EVENT, [
                 UiAppFeatureType.DASHBOARD_COG_MENU
             ])
         ).toBe(false);
