@@ -1,18 +1,22 @@
 import { UiAppFeatureType, UiAppEventType } from '../constants';
 
-import { isEnabled, getFeatureTypesByEvent, isEventEnabled } from './utils';
+import {
+    isFeatureEnabled,
+    getFeatureTypesByEvent,
+    isEventEnabled
+} from './utils';
 
 describe('feature utils', () => {
     test('isEnabled correclty tests if a feature type is in the set of enabled feature types', () => {
         expect(
-            isEnabled(UiAppFeatureType.DASHBOARD_COG_MENU, [
+            isFeatureEnabled(UiAppFeatureType.DASHBOARD_COG_MENU, [
                 UiAppFeatureType.DASHBOARD_COG_MENU,
                 UiAppFeatureType.DASHBOARD_CUSTOM_WIDGET
             ])
         ).toBe(true);
 
         expect(
-            isEnabled(UiAppFeatureType.DASHBOARD_COG_MENU, [
+            isFeatureEnabled(UiAppFeatureType.DASHBOARD_COG_MENU, [
                 UiAppFeatureType.DASHBOARD_CUSTOM_WIDGET
             ])
         ).toBe(false);

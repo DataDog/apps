@@ -5,9 +5,9 @@ import {
     UiAppFeatureType,
     UiAppRequestType
 } from '../constants';
-import { isEventEnabled, isEnabled } from '../features/utils';
 import type { Context, EventHandler } from '../types';
 import type { Logger } from '../utils/logger';
+import { isEventEnabled, isFeatureEnabled } from '../utils/utils';
 
 export class DDEventsClient {
     private readonly debug: boolean;
@@ -79,7 +79,7 @@ export class DDEventsClient {
     ): Promise<BroadcastResponse> {
         const context = await this.framePostClient.getContext();
 
-        const canSendCustomEvents = isEnabled(
+        const canSendCustomEvents = isFeatureEnabled(
             UiAppFeatureType.CUSTOM_EVENTS,
             context.appContext.features
         );
