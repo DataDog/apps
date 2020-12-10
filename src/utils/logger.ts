@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { ClientOptions } from './types';
+import { ClientOptions } from '../types';
 
 export interface Logger {
     log(message: string): void;

@@ -5,12 +5,12 @@ import {
     IFrameApiRequestMethod,
     IFrameApiRequestErrorType
 } from '../constants';
-import type { Logger } from '../logger';
 import type {
     Context,
     IFrameApiRequest,
     IframeApiRequestOptions
 } from '../types';
+import type { Logger } from '../utils/logger';
 
 import { DDAPIV1Client } from './v1';
 

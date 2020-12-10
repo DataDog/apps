@@ -6,19 +6,15 @@ export enum Host {
 export enum UiAppFeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
-    DASHBOARD_PAGE_CONTEXT = 'dashboard_page_context',
-    APP_ROUTING = 'app_routing'
+    CUSTOM_EVENTS = 'custom_events'
 }
 
-export enum UiAppEventToSubscribeType {
+export enum UiAppEventType {
     DASHBOARD_COG_MENU_CONTEXT = 'dashboard_cog_menu_context',
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change'
-}
-export enum UiAppEventToTriggerType {
-    RELOAD_FRAME = 'reload_frame',
-    OPEN_URL = 'open_url'
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
+    CUSTOM_EVENT = 'custom_event'
 }
 
 export enum IFrameApiRequestMethod {
@@ -36,7 +32,9 @@ export enum IFrameApiRequestErrorType {
 }
 
 // "Requests" are distinct from events in that the sdk client expects a response
-// from the frameManager, or vice-versa
+// from the frameManager, or vice-versa. This is useful when the child frames
+// ask the parent frames to perform an operation.
 export enum UiAppRequestType {
-    API_REQUEST = 'api_request'
+    API_REQUEST = 'api_request',
+    EVENT_BROADCAST = 'event_broadcast'
 }

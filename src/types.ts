@@ -1,6 +1,6 @@
 import type {
     UiAppFeatureType,
-    UiAppEventToSubscribeType,
+    UiAppEventType,
     IFrameApiRequestMethod,
     IFrameApiRequestErrorType
 } from './constants';
@@ -13,7 +13,7 @@ export interface ClientOptions {
 export type EventHandler<T = any> = (data: T) => void;
 
 export interface HandleEventParams<T = any> {
-    eventType: UiAppEventToSubscribeType;
+    eventType: UiAppEventType;
     data: T;
 }
 
@@ -39,6 +39,13 @@ export interface Context {
 
 export interface FrameContext {
     sdkVersion: string;
+}
+
+export interface UiAppFeature {
+    /* Feature type */
+    type: UiAppFeatureType;
+    /* The events associated with this feature */
+    events: UiAppEventType[];
 }
 
 export interface IframeApiRequestOptions {
