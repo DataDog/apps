@@ -45,10 +45,7 @@ export const mockContext: Context = {
             id: 12345,
             name: 'Corporate overlord'
         },
-        features: [
-            UiAppFeatureType.DASHBOARD_COG_MENU,
-            UiAppFeatureType.CUSTOM_EVENTS
-        ]
+        features: [UiAppFeatureType.DASHBOARD_COG_MENU]
     },
     frameContext: null
 };

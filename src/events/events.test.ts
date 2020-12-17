@@ -137,32 +137,6 @@ describe('events.broadcast()', () => {
             }
         );
     });
-
-    test('fails and does not send request if app does not have custom_event feature enabled', async () => {
-        const errorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {});
-
-        mockFramepostClient.init({
-            ...mockContext,
-            appContext: {
-                ...mockContext.appContext,
-                features: []
-            }
-        });
-
-        const requestMock = jest.spyOn(mockFramepostClient, 'request');
-
-        const response = await client.broadcast('my_event', 'data');
-
-        expect(response).toEqual({
-            success: false
-        });
-        expect(requestMock).not.toHaveBeenCalled();
-        expect(errorSpy).toHaveBeenCalled();
-
-        errorSpy.mockRestore();
-    });
 });
 
 describe('events.onCustom()', () => {

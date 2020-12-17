@@ -44,17 +44,13 @@ describe('feature utils', () => {
         ).toBe(false);
     });
 
-    test('isEventEnabled returns true when using a custom event iff custom events feature is enabled', () => {
-        expect(
-            isEventEnabled(UiAppEventType.CUSTOM_EVENT, [
-                UiAppFeatureType.CUSTOM_EVENTS
-            ])
-        ).toBe(true);
+    test('isEventEnabled returns true for globally enabled events', () => {
+        expect(isEventEnabled(UiAppEventType.CUSTOM_EVENT, [])).toBe(true);
 
         expect(
             isEventEnabled(UiAppEventType.CUSTOM_EVENT, [
                 UiAppFeatureType.DASHBOARD_COG_MENU
             ])
-        ).toBe(false);
+        ).toBe(true);
     });
 });
