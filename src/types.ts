@@ -36,10 +36,30 @@ export interface AppContext {
     features: UiAppFeatureType[];
 }
 
+// TODO: Could colocate these feature-specific types with feature defs
+export interface TemplateVariableValue {
+    name: string;
+    value: string;
+    prefix?: string;
+    default?: string;
+}
+
+export interface CustomWidgetFrameContext {
+    timeframe: {
+        from_ts: number;
+        to_ts: number;
+        live: boolean;
+    };
+    templateVars: TemplateVariableValue[];
+    options: {
+        [key: string]: any;
+    };
+}
+
 // Context is the data type that gets sent to the `init` method
-export interface Context {
+export interface Context<T = any> {
     appContext: AppContext;
-    frameContext?: any;
+    frameContext: T;
 }
 
 export interface FrameContext {

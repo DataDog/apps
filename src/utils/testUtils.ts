@@ -49,7 +49,8 @@ export const mockContext: Context = {
             UiAppFeatureType.DASHBOARD_COG_MENU,
             UiAppFeatureType.CUSTOM_EVENTS
         ]
-    }
+    },
+    frameContext: null
 };
 
 export class MockFramePostChildClient {
