@@ -8,7 +8,7 @@
         "url": "git+https://github.com/DataDog/ui_apps_sdk.git"
     },
     "main": "dist/ui-apps-sdk.min.js",
-    "types": "src/index.d.ts",
+    "types": "dist/index.d.ts",
     "scripts": {
         "build": "webpack --mode production",
         "lint": "npx eslint '**/*.{ts,js}' && prettier --check .",
