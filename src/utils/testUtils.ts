@@ -36,10 +36,13 @@ export const uniqueInt = (): number => {
 
 export const mockContext: Context = {
     appContext: {
-        name: 'User',
-        handle: 'user@email.com',
+        currentUser: {
+            id: 45678,
+            name: 'User',
+            handle: 'user@email.com'
+        },
         organization: {
-            id: 'id',
+            id: 12345,
             name: 'Corporate overlord'
         },
         features: [

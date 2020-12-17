@@ -18,13 +18,18 @@ export interface HandleEventParams<T = any> {
 }
 
 export interface AppContext {
-    // Name of current user
-    name: string;
-    // Current user's email
-    handle: string;
+    currentUser: {
+        // ID of current user
+        id: number;
+        // Name of current user
+        name: string;
+        // Current user's email
+        handle: string;
+    };
+
     // user's org
     organization: {
-        id: string;
+        id: number;
         name: string;
     };
     // list of enabled features
