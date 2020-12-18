@@ -18,23 +18,48 @@ export interface HandleEventParams<T = any> {
 }
 
 export interface AppContext {
-    // Name of current user
-    name: string;
-    // Current user's email
-    handle: string;
+    currentUser: {
+        // ID of current user
+        id: number;
+        // Name of current user
+        name: string;
+        // Current user's email
+        handle: string;
+    };
+
     // user's org
     organization: {
-        id: string;
+        id: number;
         name: string;
     };
     // list of enabled features
     features: UiAppFeatureType[];
 }
 
+// TODO: Could colocate these feature-specific types with feature defs
+export interface TemplateVariableValue {
+    name: string;
+    value: string;
+    prefix?: string;
+    default?: string;
+}
+
+export interface CustomWidgetFrameContext {
+    timeframe: {
+        from_ts: number;
+        to_ts: number;
+        live: boolean;
+    };
+    templateVars: TemplateVariableValue[];
+    options: {
+        [key: string]: any;
+    };
+}
+
 // Context is the data type that gets sent to the `init` method
-export interface Context {
+export interface Context<T = any> {
     appContext: AppContext;
-    frameContext?: any;
+    frameContext: T;
 }
 
 export interface FrameContext {
