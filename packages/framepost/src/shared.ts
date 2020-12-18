@@ -4,6 +4,7 @@ import {
     REQUEST_TIMEOUT,
     MessageAPIVersion
 } from './constants';
+import { HandshakeTimeoutError, RequestTimeoutError } from './errors';
 import { Logger } from './logger';
 import { Profiler, getProfiler } from './profiler';
 import type {
@@ -13,7 +14,7 @@ import type {
     EventHandler,
     RequestHandler
 } from './types';
-import { defer, randomInsecureId, omit } from './utils';
+import { defer, randomInsecureId, omit, serialize, deserialize } from './utils';
 
 export interface SharedClientOptions {
     debug?: boolean;
@@ -131,14 +132,18 @@ export abstract class SharedClient<C> {
 
                 unsubscribeResponseHandler();
 
-                resolve(response);
+                if (message.type === MessageType.ERROR_RESPONSE) {
+                    reject(response);
+                } else {
+                    resolve(response);
+                }
             };
 
             this.responseSubscriptions[sentMessage.id] = responseHandler;
 
             timer = setTimeout(() => {
                 unsubscribeResponseHandler();
-                reject('Request timed out');
+                reject(new RequestTimeoutError());
             }, this.requestTimeout);
         });
     }
@@ -157,14 +162,26 @@ export abstract class SharedClient<C> {
             requestData: Q,
             requestMessage: Message<Q>
         ) => {
-            const response = await requestHandler(requestData, requestMessage);
+            try {
+                const response = await requestHandler(
+                    requestData,
+                    requestMessage
+                );
 
-            this.postMessage(
-                MessageType.RESPONSE,
-                requestKey,
-                response,
-                requestMessage.id
-            );
+                this.postMessage(
+                    MessageType.RESPONSE,
+                    requestKey,
+                    response,
+                    requestMessage.id
+                );
+            } catch (e) {
+                this.postMessage(
+                    MessageType.ERROR_RESPONSE,
+                    requestKey,
+                    e,
+                    requestMessage.id
+                );
+            }
         };
 
         this.requestSubscriptions[requestKey] = requestEventHandler;
@@ -194,31 +211,32 @@ export abstract class SharedClient<C> {
 
         const isValidMessage = this.isValidMessage(ev);
 
+        const message = deserialize(ev.data);
+
         if (isValidMessage) {
-            switch (ev.data.type) {
+            switch (message.type) {
                 case MessageType.EVENT: {
-                    this.handleEvent(ev);
+                    this.handleEvent(message);
                     break;
                 }
                 case MessageType.REQUEST: {
-                    this.handleRequest(ev);
+                    this.handleRequest(message);
                     break;
                 }
+                case MessageType.ERROR_RESPONSE:
                 case MessageType.RESPONSE: {
-                    this.handleResponse(ev);
+                    this.handleResponse(message);
                     break;
                 }
             }
 
-            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, ev.data);
+            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, message);
         } else {
             this.logger.error('Invalid message format. Skipping.');
         }
     }
 
-    protected handleEvent<T = any>(ev: MessageEvent<Message<T>>) {
-        const message = ev.data;
-
+    protected handleEvent<T = any>(message: Message<T>) {
         const subscriptions = this.eventSubscriptions[message.key];
 
         if (subscriptions) {
@@ -228,9 +246,7 @@ export abstract class SharedClient<C> {
         }
     }
 
-    protected handleRequest<Q = any>(ev: MessageEvent<Message<Q>>) {
-        const message = ev.data;
-
+    protected handleRequest<Q = any>(message: Message<Q>) {
         const handler = this.requestSubscriptions[message.key];
 
         if (handler) {
@@ -240,9 +256,7 @@ export abstract class SharedClient<C> {
         }
     }
 
-    protected handleResponse<R = any>(ev: MessageEvent<Message<R>>) {
-        const message = ev.data;
-
+    protected handleResponse<R = any>(message: Message<R>) {
         const requestId = message.requestId;
 
         const handler = requestId && this.responseSubscriptions[requestId];
@@ -260,14 +274,14 @@ export abstract class SharedClient<C> {
     ): Promise<Message<T>> {
         const { port } = await this.channel.promise;
 
-        const message: Message = {
+        const message: Message = serialize({
             type,
             apiVersion: MessageAPIVersion.v1,
             key,
             data,
             id: randomInsecureId(),
             requestId
-        };
+        });
 
         port.postMessage(message);
 
@@ -278,7 +292,7 @@ export abstract class SharedClient<C> {
 
     protected setInitTimer() {
         this.initTimer = setTimeout(() => {
-            this.channel.reject('Handshake timed out');
+            this.channel.reject(new HandshakeTimeoutError());
             this.destroy();
         }, this.requestTimeout);
     }
@@ -332,13 +346,13 @@ export abstract class SharedClient<C> {
     }
 
     protected getInitMessage<T = any>(context: T): Message<T> {
-        const message: Message<T> = {
+        const message: Message<T> = serialize({
             type: MessageType.CHANNEL_INIT,
             apiVersion: MessageAPIVersion.v1,
             key: '',
             data: context,
             id: randomInsecureId()
-        };
+        });
 
         return message;
     }

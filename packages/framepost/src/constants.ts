@@ -2,7 +2,8 @@ export enum MessageType {
     CHANNEL_INIT = 'channel_init',
     EVENT = 'event',
     REQUEST = 'request',
-    RESPONSE = 'response'
+    RESPONSE = 'response',
+    ERROR_RESPONSE = 'error_response'
 }
 
 export enum MessageAPIVersion {
@@ -17,6 +18,11 @@ export enum ProfileEventType {
 export enum TransactionDirection {
     UP = 'up',
     DOWN = 'down'
+}
+
+export enum SerializationType {
+    NONE = 'none',
+    ERROR = 'error'
 }
 
 export const REQUEST_TIMEOUT = 20000;

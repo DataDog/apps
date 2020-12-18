@@ -2,7 +2,8 @@ import type {
     MessageType,
     MessageAPIVersion,
     ProfileEventType,
-    TransactionDirection
+    TransactionDirection,
+    SerializationType
 } from './constants';
 
 /**
@@ -23,6 +24,7 @@ export interface Message<T = any> {
     apiVersion: MessageAPIVersion;
     key: string;
     data: T;
+    serialization: SerializationType;
     id: string;
     requestId?: string;
 }
@@ -51,6 +53,12 @@ export type RequestHandler<Q = any, R = any> = (
     requestData: Q,
     message: Message<Q>
 ) => R;
+
+export interface SerializedError {
+    name: string;
+    message: string;
+    stack?: string;
+}
 
 /**
  * Profiling metadata about a message

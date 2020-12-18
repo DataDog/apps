@@ -42,9 +42,14 @@
 
             client.send('down', { data: 'down' });
 
-            client.request('requestFromChild').then(data => {
-                console.log('received requested data from child', data);
-            });
+            client
+                .request('requestFromChild')
+                .then(data => {
+                    console.log('received requested data from child', data);
+                })
+                .catch(e => {
+                    console.log(e);
+                });
         </script>
     </body>
 </html>

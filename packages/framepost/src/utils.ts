@@ -1,9 +1,16 @@
 import {
     ProfileEventType,
     TransactionDirection,
-    REQUEST_KEY_GET_PROFILE
+    REQUEST_KEY_GET_PROFILE,
+    SerializationType
 } from './constants';
-import type { Deferred, MessageProfileEvent, MessageProfile } from './types';
+import type {
+    Deferred,
+    Message,
+    MessageProfileEvent,
+    MessageProfile,
+    SerializedError
+} from './types';
 
 export const defer = <T>(): Deferred<T> => {
     let resolve: (t: T) => void = () => {};
@@ -102,4 +109,46 @@ export const profileMessages = (
     return transactions
         .filter(item => item.message.key !== REQUEST_KEY_GET_PROFILE)
         .sort((a, b) => a.postTime.getTime() - b.postTime.getTime());
+};
+
+const serializeError = (error: Error): SerializedError => {
+    return {
+        message: error.message,
+        name: error.name,
+        stack: error.stack
+    };
+};
+
+const deserializeError = ({ name, message, stack }: SerializedError): Error => {
+    const e = new Error(message);
+    e.name = name;
+    e.stack = stack;
+    return e;
+};
+
+export const serialize = (message: Omit<Message, 'serialization'>): Message => {
+    let data = message.data;
+    let serialization = SerializationType.NONE;
+
+    if (data instanceof Error) {
+        serialization = SerializationType.ERROR;
+        data = serializeError(data);
+    }
+
+    return {
+        ...message,
+        serialization,
+        data
+    };
+};
+
+export const deserialize = (message: Message): Message => {
+    if (message.serialization === SerializationType.ERROR) {
+        return {
+            ...message,
+            data: deserializeError(message.data)
+        };
+    }
+
+    return message;
 };

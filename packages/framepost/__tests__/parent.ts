@@ -1,6 +1,11 @@
-import { MessageAPIVersion, MessageType } from '../src/constants';
-import { ParentClient } from '../src';
+import {
+    MessageAPIVersion,
+    MessageType,
+    SerializationType
+} from '../src/constants';
+import { serialize } from '../src/utils';
 import type { Message } from '../src';
+import { ParentClient } from '../src';
 
 interface ParentContext {
     parentData: string;
@@ -62,6 +67,7 @@ const mockInitResponseFromChild = () => {
     const messageEvent = new MessageEvent<Message<ChildContext>>('message', {
         data: {
             type: MessageType.CHANNEL_INIT,
+            serialization: SerializationType.NONE,
             apiVersion: MessageAPIVersion.v1,
             data: childContext,
             key: '',
@@ -76,6 +82,7 @@ const mockEventFromChild = (key: string, data: any) => {
     const messageEvent = new MessageEvent<Message<any>>('message', {
         data: {
             type: MessageType.EVENT,
+            serialization: SerializationType.NONE,
             apiVersion: MessageAPIVersion.v1,
             data,
             key,
@@ -90,6 +97,7 @@ const mockRequestFromChild = (key: string, data: any) => {
     const messageEvent = new MessageEvent<Message<any>>('message', {
         data: {
             type: MessageType.REQUEST,
+            serialization: SerializationType.NONE,
             apiVersion: MessageAPIVersion.v1,
             data,
             key,
@@ -100,10 +108,30 @@ const mockRequestFromChild = (key: string, data: any) => {
     mockMessageChannel.port1.onmessage(messageEvent);
 };
 
+const mockErrorResponseFromChild = (
+    key: string,
+    data: any,
+    requestId: string
+) => {
+    const messageEvent = new MessageEvent<Message<any>>('message', {
+        data: serialize({
+            type: MessageType.ERROR_RESPONSE,
+            apiVersion: MessageAPIVersion.v1,
+            data,
+            key,
+            id: 'alfkejfl',
+            requestId
+        })
+    });
+
+    mockMessageChannel.port1.onmessage(messageEvent);
+};
+
 const mockResponseFromChild = (key: string, data: any, requestId: string) => {
     const messageEvent = new MessageEvent<Message<any>>('message', {
         data: {
             type: MessageType.RESPONSE,
+            serialization: SerializationType.NONE,
             apiVersion: MessageAPIVersion.v1,
             data,
             key,
@@ -153,6 +181,7 @@ test('Sends a channel init message to the provided iframe on client.requestChann
 
     expect(message).toMatchObject({
         type: MessageType.CHANNEL_INIT,
+        serialization: SerializationType.NONE,
         apiVersion: MessageAPIVersion.v1,
         data: parentContext,
         key: ''
@@ -173,7 +202,7 @@ test('Rejects queued requests after timeout', async () => {
     await new Promise(resolve => {
         client.getContext().catch(() => {
             rejected = true;
-            resolve();
+            resolve(undefined);
         });
     });
 
@@ -288,6 +317,53 @@ test('Sends events to child client after channel is established', async () => {
     );
 });
 
+test('Serializes error instances when sent with postMessage', async () => {
+    const client = new ParentClient<ChildContext>();
+    client.requestChannel(frame, parentContext);
+
+    const error1 = new Error('error1');
+    client.send('event1', error1);
+    expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
+
+    mockInitResponseFromChild();
+
+    const error2 = new Error('error2');
+    error2.name = 'MyError';
+    error2.stack = 'My Error: blablah';
+    client.send('event2', error2);
+
+    await flushPromises();
+
+    expect(mockMessageChannel.port1.postMessage).toHaveBeenCalledTimes(2);
+
+    expect(mockMessageChannel.port1.postMessage.mock.calls[0][0]).toMatchObject(
+        {
+            type: MessageType.EVENT,
+            serialization: SerializationType.ERROR,
+            apiVersion: MessageAPIVersion.v1,
+            key: 'event1',
+            data: {
+                message: 'error1',
+                name: 'Error'
+            }
+        }
+    );
+
+    expect(mockMessageChannel.port1.postMessage.mock.calls[1][0]).toMatchObject(
+        {
+            type: MessageType.EVENT,
+            serialization: SerializationType.ERROR,
+            apiVersion: MessageAPIVersion.v1,
+            key: 'event2',
+            data: {
+                message: 'error2',
+                name: 'MyError',
+                stack: 'My Error: blablah'
+            }
+        }
+    );
+});
+
 test('Executes response handlers on appropriate request messages, returning returned data in new message', async () => {
     const callback1 = jest.fn(data => {
         return 'response1';
@@ -358,6 +434,61 @@ test('Resovles with data returned from handlers subscribed in the child client',
     expect(response).toEqual('responseData');
 });
 
+test('Rejects with data thrown from handlers subscribed in parent client', async () => {
+    const client = new ParentClient<ChildContext>();
+
+    client.requestChannel(frame, parentContext);
+    mockInitResponseFromChild();
+
+    await flushPromises();
+
+    setTimeout(() => {
+        const requestId =
+            mockMessageChannel.port1.postMessage.mock.calls[0][0].id;
+        mockErrorResponseFromChild('request', 'errorResponseData', requestId);
+    }, 500);
+
+    let response = '';
+
+    try {
+        await client.request('request', 'requestData');
+    } catch (e) {
+        response = e;
+    }
+
+    expect(response).toEqual('errorResponseData');
+});
+
+test('Propagates errors thrown from request handlers', async () => {
+    const client = new ParentClient<ChildContext>();
+
+    client.requestChannel(frame, parentContext);
+    mockInitResponseFromChild();
+
+    await flushPromises();
+
+    setTimeout(() => {
+        const requestId =
+            mockMessageChannel.port1.postMessage.mock.calls[0][0].id;
+        mockErrorResponseFromChild(
+            'request',
+            new Error('errorResponseData'),
+            requestId
+        );
+    }, 500);
+
+    let response = null;
+
+    try {
+        await client.request('request', 'requestData');
+    } catch (e) {
+        response = e;
+    }
+
+    expect(response).toBeInstanceOf(Error);
+    expect(response.message).toBe('errorResponseData');
+});
+
 test('Sends requests to child client after channel is established', async () => {
     const client = new ParentClient<ChildContext>();
 
@@ -418,7 +549,7 @@ test('Rejects unhandled requests after a timeout', async () => {
     await new Promise(resolve => {
         client.request('request', 'requestData').catch(() => {
             rejected = true;
-            resolve();
+            resolve(undefined);
         });
     });
 

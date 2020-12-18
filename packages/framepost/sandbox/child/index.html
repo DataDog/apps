@@ -28,7 +28,7 @@
             client.onRequest('requestFromChild', async () => {
                 await new Promise(res => setTimeout(res, 1000));
 
-                return 'childResponse';
+                throw new Error('hihi');
             });
 
             client.request('requestFromParent').then(data => {
