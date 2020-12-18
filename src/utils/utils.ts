@@ -1,4 +1,4 @@
-import { UiAppEventType, UiAppFeatureType } from '../constants';
+import { UiAppEventType, UiAppFeatureType, enabledEvents } from '../constants';
 import { features } from '../features';
 
 const memoize = <T>(getter: () => T): (() => T) => {
@@ -28,7 +28,7 @@ export const getFeatureTypesByEvent = memoize(
         >();
 
         features.forEach(feature => {
-            feature.events.forEach(e => {
+            feature.events.forEach((e: UiAppEventType) => {
                 if (!featureTypesByEvent.has(e)) {
                     featureTypesByEvent.set(e, new Set());
                 }
@@ -45,6 +45,10 @@ export const isEventEnabled = (
     event: UiAppEventType,
     enabledFeatures: UiAppFeatureType[]
 ): boolean => {
+    if (enabledEvents.has(event)) {
+        return true;
+    }
+
     const featureTypesByEvent = getFeatureTypesByEvent();
 
     // get the set of features that enable this event

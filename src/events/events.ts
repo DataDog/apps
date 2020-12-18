@@ -1,13 +1,9 @@
 import type { ChildClient } from '@datadog/framepost';
 
-import {
-    UiAppEventType,
-    UiAppFeatureType,
-    UiAppRequestType
-} from '../constants';
+import { UiAppEventType, UiAppRequestType } from '../constants';
 import type { Context, EventHandler } from '../types';
 import type { Logger } from '../utils/logger';
-import { isEventEnabled, isFeatureEnabled } from '../utils/utils';
+import { isEventEnabled } from '../utils/utils';
 
 export class DDEventsClient {
     private readonly debug: boolean;
@@ -77,23 +73,6 @@ export class DDEventsClient {
         eventType: string,
         data: T
     ): Promise<BroadcastResponse> {
-        const context = await this.framePostClient.getContext();
-
-        const canSendCustomEvents = isFeatureEnabled(
-            UiAppFeatureType.CUSTOM_EVENTS,
-            context.appContext.features
-        );
-
-        if (!canSendCustomEvents) {
-            this.logger.error(
-                `Event broadcasting requires the ${UiAppFeatureType.CUSTOM_EVENTS} feature`
-            );
-
-            return {
-                success: false
-            };
-        }
-
         return this.framePostClient.request<
             CustomEventPayload<T>,
             BroadcastResponse

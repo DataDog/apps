@@ -5,8 +5,7 @@ export enum Host {
 
 export enum UiAppFeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
-    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
-    CUSTOM_EVENTS = 'custom_events'
+    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget'
 }
 
 export enum UiAppEventType {
@@ -38,3 +37,8 @@ export enum UiAppRequestType {
     API_REQUEST = 'api_request',
     EVENT_BROADCAST = 'event_broadcast'
 }
+
+// These event types are always allowed, regardless of what features have been enabled
+export const enabledEvents = new Set<UiAppEventType>([
+    UiAppEventType.CUSTOM_EVENT
+]);
