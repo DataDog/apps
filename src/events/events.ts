@@ -69,21 +69,15 @@ export class DDEventsClient {
      * Broadcasts a custom event to all active iframes. Returns a list of the iframe urls that received the event
      * for debug purposes
      */
-    async broadcast<T = any>(
-        eventType: string,
-        data: T
-    ): Promise<BroadcastResponse> {
-        return this.framePostClient.request<
-            CustomEventPayload<T>,
-            BroadcastResponse
-        >(UiAppRequestType.EVENT_BROADCAST, {
-            eventType,
-            data
-        });
+    async broadcast<T = any>(eventType: string, data: T) {
+        return this.framePostClient.request<CustomEventPayload<T>, undefined>(
+            UiAppRequestType.EVENT_BROADCAST,
+            {
+                eventType,
+                data
+            }
+        );
     }
-}
-export interface BroadcastResponse {
-    success: boolean;
 }
 
 export interface CustomEventPayload<T> {
