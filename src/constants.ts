@@ -29,7 +29,8 @@ export enum IFrameApiRequestMethod {
 // ask the parent frames to perform an operation.
 export enum UiAppRequestType {
     API_REQUEST = 'api_request',
-    EVENT_BROADCAST = 'event_broadcast'
+    EVENT_BROADCAST = 'event_broadcast',
+    NAVIGATE_TOP = 'navigate_top'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
