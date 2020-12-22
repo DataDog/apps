@@ -1,10 +1,6 @@
 import type { ChildClient } from '@datadog/framepost';
 
-import {
-    UiAppRequestType,
-    IFrameApiRequestMethod,
-    IFrameApiRequestErrorType
-} from '../constants';
+import { UiAppRequestType, IFrameApiRequestMethod } from '../constants';
 import type {
     Context,
     IFrameApiRequest,
@@ -31,20 +27,10 @@ export class DDAPIClient {
     private async request<Q = any, R = any>(
         req: IFrameApiRequest<Q>
     ): Promise<R> {
-        const response = await this.framePostClient.request<
-            IFrameApiRequest<Q>,
-            any
-        >(UiAppRequestType.API_REQUEST, req);
-
-        if (response.isError) {
-            if (response.type === IFrameApiRequestErrorType.FAILED_REQUEST) {
-                throw response.data;
-            }
-
-            throw new Error(response.message);
-        }
-
-        return response as R;
+        return this.framePostClient.request<IFrameApiRequest<Q>, R>(
+            UiAppRequestType.API_REQUEST,
+            req
+        );
     }
 
     async get<R = any>(

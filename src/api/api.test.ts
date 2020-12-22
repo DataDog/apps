@@ -1,8 +1,4 @@
-import {
-    IFrameApiRequestMethod,
-    UiAppRequestType,
-    IFrameApiRequestErrorType
-} from '../constants';
+import { IFrameApiRequestMethod, UiAppRequestType } from '../constants';
 import { getLogger } from '../utils/logger';
 
 import { DDAPIClient } from './api';
@@ -109,12 +105,10 @@ describe('api', () => {
         );
     });
 
-    test('throws an error containing response.message if request returns with an error signature object', async () => {
-        framepostClient.request = jest.fn(() => ({
-            isError: true,
-            type: IFrameApiRequestErrorType.INTERNAL_ERROR,
-            message: 'Something went wrong'
-        }));
+    test('propagates errors from framepost request method', async () => {
+        framepostClient.request = jest.fn(() => {
+            throw new Error('Something went wrong');
+        });
 
         let error;
 
@@ -125,25 +119,5 @@ describe('api', () => {
         }
 
         expect(error.message).toEqual('Something went wrong');
-    });
-
-    test('throws response.data if request returns with an error signature object with type failed_request', async () => {
-        framepostClient.request = jest.fn(() => ({
-            isError: true,
-            type: IFrameApiRequestErrorType.FAILED_REQUEST,
-            data: {
-                testKey: 'testValue'
-            }
-        }));
-
-        let error;
-
-        try {
-            await apiClient.get('/test/endpoint');
-        } catch (e) {
-            error = e;
-        }
-
-        expect(error).toEqual({ testKey: 'testValue' });
     });
 });

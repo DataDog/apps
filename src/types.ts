@@ -1,8 +1,7 @@
 import type {
     UiAppFeatureType,
     UiAppEventType,
-    IFrameApiRequestMethod,
-    IFrameApiRequestErrorType
+    IFrameApiRequestMethod
 } from './constants';
 
 export interface ClientOptions {
@@ -84,11 +83,4 @@ export interface IFrameApiRequest<Q> {
     resource: string;
     options: IframeApiRequestOptions;
     body: Q;
-}
-
-export interface IFrameApiRequestError {
-    isError: true;
-    type: IFrameApiRequestErrorType;
-    message: string;
-    data?: any;
 }

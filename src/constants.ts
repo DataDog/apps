@@ -24,18 +24,13 @@ export enum IFrameApiRequestMethod {
     DELETE = 'DELETE'
 }
 
-export enum IFrameApiRequestErrorType {
-    INVALID_SCOPE = 'invalid_scope',
-    INTERNAL_ERROR = 'internal_error',
-    FAILED_REQUEST = 'failed_request'
-}
-
 // "Requests" are distinct from events in that the sdk client expects a response
 // from the frameManager, or vice-versa. This is useful when the child frames
 // ask the parent frames to perform an operation.
 export enum UiAppRequestType {
     API_REQUEST = 'api_request',
-    EVENT_BROADCAST = 'event_broadcast'
+    EVENT_BROADCAST = 'event_broadcast',
+    NAVIGATE_TOP = 'navigate_top'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
