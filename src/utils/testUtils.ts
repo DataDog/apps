@@ -35,7 +35,7 @@ export const uniqueInt = (): number => {
 };
 
 export const mockContext: Context = {
-    appContext: {
+    app: {
         currentUser: {
             id: 45678,
             name: 'User',
@@ -46,8 +46,7 @@ export const mockContext: Context = {
             name: 'Corporate overlord'
         },
         features: [UiAppFeatureType.DASHBOARD_COG_MENU]
-    },
-    frameContext: null
+    }
 };
 
 export class MockFramePostChildClient {

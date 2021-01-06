@@ -43,24 +43,41 @@ export interface TemplateVariableValue {
     default?: string;
 }
 
-export interface CustomWidgetFrameContext {
+export interface DashboardContext {
+    // dashboard id
+    id: string;
+    // public dashboard share token
+    shareToken: string;
     timeframe: {
         from_ts: number;
         to_ts: number;
         live: boolean;
     };
     templateVars: TemplateVariableValue[];
+}
+
+export interface DashboardWidgetContext {
+    // probably need more here
     options: {
         [key: string]: any;
     };
 }
 
-// Context is the data type that gets sent to the `init` method
-export interface Context<T = any> {
-    appContext: AppContext;
-    frameContext: T;
+export interface MenuItemContext {
+    key: string;
 }
 
+// A combined object specifing data about the context of a feature within the app
+export interface FeatureContext {
+    dashboard?: DashboardContext;
+    widget?: DashboardWidgetContext;
+    menuItem?: MenuItemContext;
+}
+
+// A full context object including above feature context and additional global app context
+export interface Context extends FeatureContext {
+    app: AppContext;
+}
 export interface FrameContext {
     sdkVersion: string;
 }

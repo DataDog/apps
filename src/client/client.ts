@@ -59,7 +59,7 @@ export class DDClient {
     /**
      * Returns app context data, after it is sent from the parent
      */
-    async getContext<T = any>(): Promise<Context<T>> {
+    async getContext(): Promise<Context> {
         return this.framePostClient.getContext();
     }
 }

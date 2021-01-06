@@ -36,7 +36,7 @@ export class DDEventsClient {
             .then(context => {
                 const canHandleEvent = isEventEnabled(
                     eventType,
-                    context.appContext.features
+                    context.app.features
                 );
 
                 if (!canHandleEvent) {
