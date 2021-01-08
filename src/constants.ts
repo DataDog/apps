@@ -5,7 +5,8 @@ export enum Host {
 
 export enum UiAppFeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
-    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget'
+    DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
+    MODALS = 'modals'
 }
 
 export enum UiAppEventType {
@@ -30,7 +31,9 @@ export enum IFrameApiRequestMethod {
 export enum UiAppRequestType {
     API_REQUEST = 'api_request',
     EVENT_BROADCAST = 'event_broadcast',
-    NAVIGATE_TOP = 'navigate_top'
+    NAVIGATE_TOP = 'navigate_top',
+    OPEN_MODAL = 'open_modal',
+    CLOSE_MODAL = 'close_modal'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
