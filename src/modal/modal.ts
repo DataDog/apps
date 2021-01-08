@@ -23,16 +23,18 @@ export class DDModalClient {
     async open(definitionOrKey: ModalDefinition | string) {
         const isEnabled = await this.isEnabled();
 
-        if (isEnabled) {
-            return this.framePostClient.request(
-                UiAppRequestType.OPEN_MODAL,
-                definitionOrKey
-            );
-        } else {
-            this.logger.error(
+        if (!isEnabled) {
+            throw new Error(
                 `Please enable the "${UiAppFeatureType.MODALS}" feature to access this functionality.`
             );
         }
+
+        this.validateModalDefinition(definitionOrKey);
+
+        return this.framePostClient.request(
+            UiAppRequestType.OPEN_MODAL,
+            definitionOrKey
+        );
     }
 
     /**
@@ -42,16 +44,13 @@ export class DDModalClient {
     async close(key?: string) {
         const isEnabled = await this.isEnabled();
 
-        if (isEnabled) {
-            return this.framePostClient.request(
-                UiAppRequestType.CLOSE_MODAL,
-                key
-            );
-        } else {
-            this.logger.error(
+        if (!isEnabled) {
+            throw new Error(
                 `Please enable the "${UiAppFeatureType.MODALS}" feature to access this functionality.`
             );
         }
+
+        return this.framePostClient.request(UiAppRequestType.CLOSE_MODAL, key);
     }
 
     private async isEnabled() {
@@ -60,6 +59,22 @@ export class DDModalClient {
         } = await this.framePostClient.getContext();
 
         return isFeatureEnabled(UiAppFeatureType.MODALS, features);
+    }
+
+    private validateModalDefinition(
+        definitionOrKey: ModalDefinition | string
+    ): boolean {
+        if (typeof definitionOrKey === 'string') {
+            return definitionOrKey.length > 0;
+        }
+
+        const definition = definitionOrKey as ModalDefinition;
+
+        if (!definition.key) {
+            throw new Error('Modal definition missing required field ".key"');
+        }
+
+        return true;
     }
 }
 

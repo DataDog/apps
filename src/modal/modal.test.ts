@@ -42,28 +42,44 @@ describe('modal.open()', () => {
         });
     });
 
-    test('logs an error and does not send request if app does not have modals feature enabled', async () => {
-        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-        const errorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {});
-
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        mockFramepostClient.init();
-
-        await client.open({
-            key: 'my-modal',
-            source: 'https://domain.com/modal.html'
+    test('throws an error if app does not have modals feature enabled', async () => {
+        mockFramepostClient.init({
+            ...mockContext,
+            app: {
+                ...mockContext.app,
+                features: [UiAppFeatureType.MODALS]
+            }
         });
 
-        expect(errorSpy).toHaveBeenCalled();
-        expect(requestMock).not.toHaveBeenCalled();
+        let error;
 
-        logSpy.mockRestore();
-        errorSpy.mockRestore();
+        try {
+            // @ts-ignore
+            await client.open({
+                source: 'https://domain.com/modal.html'
+            });
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error).toBeInstanceOf(Error);
+    });
+
+    test('throws an error if modal definition is invalid', async () => {
+        mockFramepostClient.init();
+
+        let error;
+
+        try {
+            await client.open({
+                key: 'my-modal',
+                source: 'https://domain.com/modal.html'
+            });
+        } catch (e) {
+            error = e;
+        }
+
+        expect(error).toBeInstanceOf(Error);
     });
 });
 
@@ -90,24 +106,17 @@ describe('modal.close()', () => {
         );
     });
 
-    test('logs an error and does not send request if app does not have modals feature enabled', async () => {
-        const logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-        const errorSpy = jest
-            .spyOn(console, 'error')
-            .mockImplementation(() => {});
-
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
+    test('Throws an error if the app does not have the modals feature enabled', async () => {
         mockFramepostClient.init();
 
-        await client.close('my-modal');
+        let error;
 
-        expect(errorSpy).toHaveBeenCalled();
-        expect(requestMock).not.toHaveBeenCalled();
+        try {
+            await client.close('my-modal');
+        } catch (e) {
+            error = e;
+        }
 
-        logSpy.mockRestore();
-        errorSpy.mockRestore();
+        expect(error).toBeInstanceOf(Error);
     });
 });
