@@ -43,16 +43,18 @@ export interface TemplateVariableValue {
     default?: string;
 }
 
+export interface Timeframe {
+    from_ts: number;
+    to_ts: number;
+    live: boolean;
+}
+
 export interface DashboardContext {
     // dashboard id
     id: string;
     // public dashboard share token
     shareToken: string;
-    timeframe: {
-        from_ts: number;
-        to_ts: number;
-        live: boolean;
-    };
+    timeframe: Timeframe;
     templateVars: TemplateVariableValue[];
 }
 
@@ -78,6 +80,7 @@ export interface FeatureContext {
 export interface Context extends FeatureContext {
     app: AppContext;
 }
+
 export interface FrameContext {
     sdkVersion: string;
 }
