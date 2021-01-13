@@ -14,7 +14,10 @@ export enum UiAppEventType {
     DASHBOARD_COG_MENU_CLICK = 'dashboard_cog_menu_click',
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change'
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
+    MODAL_CLOSE = 'modal_close',
+    MODAL_ACTION = 'modal_action',
+    MODAL_CANCEL = 'modal_cancel'
 }
 
 export enum IFrameApiRequestMethod {
@@ -38,6 +41,5 @@ export enum UiAppRequestType {
 
 // These event types are always allowed, regardless of what features have been enabled
 export const enabledEvents = new Set<UiAppEventType>([
-    UiAppEventType.CUSTOM_EVENT,
-    UiAppEventType.DASHBOARD_COG_MENU_CLICK
+    UiAppEventType.CUSTOM_EVENT
 ]);
