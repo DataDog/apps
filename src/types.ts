@@ -58,11 +58,16 @@ export interface DashboardContext {
     templateVars: TemplateVariableValue[];
 }
 
+// TODO: This is an incomplete typing because widget API typing is exenstive and varied based on widget type.
+// We should port full typing here eventually
 export interface DashboardWidgetContext {
-    // probably need more here
-    options: {
-        [key: string]: any;
+    id?: number;
+    definition: {
+        options?: {
+            [key: string]: any;
+        };
     };
+    layout?: any;
 }
 
 export interface MenuItemContext {
