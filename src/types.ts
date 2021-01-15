@@ -27,7 +27,7 @@ export interface AppContext {
     };
 
     // user's org
-    organization: {
+    org: {
         id: number;
         name: string;
     };
