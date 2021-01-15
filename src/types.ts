@@ -1,7 +1,9 @@
 import type {
     UiAppFeatureType,
     UiAppEventType,
-    IFrameApiRequestMethod
+    IFrameApiRequestMethod,
+    ModalSize,
+    ModalActionLevel
 } from './constants';
 
 export interface ClientOptions {
@@ -108,4 +110,16 @@ export interface IFrameApiRequest<Q> {
     resource: string;
     options: IframeApiRequestOptions;
     body: Q;
+}
+
+export interface ModalDefinition {
+    key: string;
+    title?: string;
+    size?: ModalSize;
+    isCloseable?: boolean;
+    message?: string;
+    source?: string;
+    actionLabel?: string;
+    actionLevel?: ModalActionLevel;
+    cancelLabel?: string;
 }

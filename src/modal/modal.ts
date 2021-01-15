@@ -1,7 +1,7 @@
 import type { ChildClient } from '@datadog/framepost';
 
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import type { Context } from '../types';
+import type { Context, ModalDefinition } from '../types';
 import type { Logger } from '../utils/logger';
 import { isFeatureEnabled } from '../utils/utils';
 
@@ -76,30 +76,4 @@ export class DDModalClient {
 
         return true;
     }
-}
-
-export enum ModalSize {
-    SMALL = 'sm',
-    MEDIUM = 'md',
-    LARGE = 'lg'
-    // TODO: implement auto-sized modals
-}
-
-export enum ModalActionLevel {
-    PRIMARY = 'primary',
-    SUCCESS = 'success',
-    WARNING = 'warning',
-    DANGER = 'danger'
-}
-
-export interface ModalDefinition {
-    key: string;
-    title?: string;
-    size?: ModalSize;
-    isCloseable?: boolean;
-    message?: string;
-    source?: string;
-    actionLabel?: string;
-    actionLevel?: ModalActionLevel;
-    cancelLabel?: string;
 }
