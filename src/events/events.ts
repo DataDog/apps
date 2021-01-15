@@ -1,9 +1,32 @@
 import type { ChildClient } from '@datadog/framepost';
 
 import { UiAppEventType, UiAppRequestType } from '../constants';
-import type { Context, EventHandler } from '../types';
+import type { ModalDefinition } from '../modal/modal';
+import type {
+    Context,
+    EventHandler,
+    FeatureContext,
+    Timeframe,
+    TemplateVariableValue
+} from '../types';
 import type { Logger } from '../utils/logger';
 import { isEventEnabled } from '../utils/utils';
+
+// This interface mapping provides types for event handlers subscribed to with `client.events.on`
+interface DDEventDataTypes {
+    [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
+    [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: Required<
+        Pick<FeatureContext, 'dashboard' | 'menuItem'>
+    >;
+    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
+    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
+    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
+    [UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
+    [UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
+    [UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
+        [key: string]: any;
+    };
+}
 
 export class DDEventsClient {
     private readonly debug: boolean;
@@ -21,9 +44,9 @@ export class DDEventsClient {
      * method. This method can be called before handshake is successful, but handlers will not execute until
      * after. Will print an error if the installed app does not have the required features to handle the event type.
      */
-    on<T = any>(
-        eventType: UiAppEventType,
-        handler: EventHandler<T>
+    on<K extends keyof DDEventDataTypes>(
+        eventType: K,
+        handler: EventHandler<DDEventDataTypes[K]>
     ): () => void {
         // first, immediately subscribe
         const unsubscribe = this.framePostClient.on(eventType, handler);
@@ -36,7 +59,7 @@ export class DDEventsClient {
             .then(context => {
                 const canHandleEvent = isEventEnabled(
                     eventType,
-                    context.appContext.features
+                    context.app.features
                 );
 
                 if (!canHandleEvent) {

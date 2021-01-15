@@ -43,22 +43,47 @@ export interface TemplateVariableValue {
     default?: string;
 }
 
-export interface CustomWidgetFrameContext {
-    timeframe: {
-        from_ts: number;
-        to_ts: number;
-        live: boolean;
-    };
-    templateVars: TemplateVariableValue[];
-    options: {
-        [key: string]: any;
-    };
+export interface Timeframe {
+    from_ts: number;
+    to_ts: number;
+    live: boolean;
 }
 
-// Context is the data type that gets sent to the `init` method
-export interface Context<T = any> {
-    appContext: AppContext;
-    frameContext: T;
+export interface DashboardContext {
+    // dashboard id
+    id: string;
+    // public dashboard share token
+    shareToken: string;
+    timeframe: Timeframe;
+    templateVars: TemplateVariableValue[];
+}
+
+// TODO: This is an incomplete typing because widget API typing is exenstive and varied based on widget type.
+// We should port full typing here eventually
+export interface DashboardWidgetContext {
+    id?: number;
+    definition: {
+        options?: {
+            [key: string]: any;
+        };
+    };
+    layout?: any;
+}
+
+export interface MenuItemContext {
+    key: string;
+}
+
+// A combined object specifing data about the context of a feature within the app
+export interface FeatureContext {
+    dashboard?: DashboardContext;
+    widget?: DashboardWidgetContext;
+    menuItem?: MenuItemContext;
+}
+
+// A full context object including above feature context and additional global app context
+export interface Context extends FeatureContext {
+    app: AppContext;
 }
 
 export interface FrameContext {

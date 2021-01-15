@@ -25,18 +25,15 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback2);
+        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
+        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback2);
 
         mockFramepostClient.init();
 
-        mockFramepostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
-        );
+        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
 
         await flushPromises();
 
@@ -55,9 +52,9 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, callback1);
+        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
         const unsubscribe = client.on(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
+            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
             callback2
         );
 
@@ -65,13 +62,10 @@ describe('events.on()', () => {
 
         mockFramepostClient.init();
 
-        mockFramepostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
-        );
+        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
 
         await flushPromises();
 
@@ -85,23 +79,23 @@ describe('events.on()', () => {
             .spyOn(console, 'error')
             .mockImplementation(() => {});
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CONTEXT, () => {});
+        client.on(
+            UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+            () => {}
+        );
 
         mockFramepostClient.init({
             ...mockContext,
-            appContext: {
-                ...mockContext.appContext,
+            app: {
+                ...mockContext.app,
                 features: []
             }
         });
 
-        mockFramepostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CONTEXT,
-            {
-                id: 'dashboardid',
-                shareToken: 'https://www.google.com'
-            }
-        );
+        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
+            id: 'dashboardid',
+            shareToken: 'https://www.google.com'
+        });
 
         await flushPromises();
 
