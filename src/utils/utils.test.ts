@@ -1,10 +1,54 @@
 import { UiAppFeatureType, UiAppEventType } from '../constants';
+import { ModalDefinition } from '../modal/modal';
+import { SidePanelDefinition } from '../side-panel/side-panel';
 
 import {
     isFeatureEnabled,
     getFeatureTypesByEvent,
-    isEventEnabled
+    isEventEnabled,
+    validateKey
 } from './utils';
+
+describe('validateKey', () => {
+    it('accepts a valid ModalDefinition', () => {
+        const defintion: ModalDefinition = {
+            key: 'my-modal',
+            source: 'modal.html'
+        };
+
+        const result = validateKey(defintion);
+        expect(result).toBeTruthy();
+    });
+
+    it('accepts a valid SidePanelDefinition', () => {
+        const defintion: SidePanelDefinition = {
+            key: 'side-panel',
+            source: 'panel.html'
+        };
+
+        const result = validateKey(defintion);
+        expect(result).toBeTruthy();
+    });
+
+    it('accepts a valid string key', () => {
+        const result = validateKey('side-panel');
+        expect(result).toBeTruthy();
+    });
+
+    it('rejects a definition without a key', () => {
+        const defintion = {
+            foo: 'bar'
+        };
+
+        expect(() => validateKey(defintion)).toThrowError(
+            'Definition missing required field ".key"'
+        );
+    });
+    it('rejects an empty string', () => {
+        const result = validateKey('');
+        expect(result).toBeFalsy();
+    });
+});
 
 describe('feature utils', () => {
     test('isEnabled correclty tests if a feature type is in the set of enabled feature types', () => {

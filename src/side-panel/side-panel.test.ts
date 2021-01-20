@@ -2,27 +2,27 @@ import { UiAppFeatureType, UiAppRequestType } from '../constants';
 import { getLogger } from '../utils/logger';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
-import { DDModalClient } from './modal';
+import { DDSidePanelClient } from './side-panel';
 
 let mockFramepostClient: MockFramePostChildClient;
-let client: DDModalClient;
+let client: DDSidePanelClient;
 
 beforeEach(() => {
     mockFramepostClient = new MockFramePostChildClient();
-    client = new DDModalClient(
+    client = new DDSidePanelClient(
         true,
         getLogger({ debug: true }),
         mockFramepostClient as any
     );
 });
 
-describe('modal.open()', () => {
-    test('sends an open modal request with definition to parent', async () => {
+describe('sidePanel.open()', () => {
+    test('sends an open request with definition to parent', async () => {
         mockFramepostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [UiAppFeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
@@ -30,46 +30,49 @@ describe('modal.open()', () => {
             .mockImplementation(() => null);
 
         const response = await client.open({
-            key: 'my-modal',
-            source: 'modal.html'
+            key: 'my-panel',
+            source: 'panel.html'
         });
 
         expect(response).toEqual(null);
 
-        expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.OPEN_MODAL, {
-            key: 'my-modal',
-            source: 'modal.html'
-        });
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.OPEN_SIDE_PANEL,
+            {
+                key: 'my-panel',
+                source: 'panel.html'
+            }
+        );
     });
 
-    test('sends an open modal request with key to parent', async () => {
+    test('sends an open request with key to parent', async () => {
         mockFramepostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [UiAppFeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
             .spyOn(mockFramepostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.open('my-modal');
+        const response = await client.open('my-panel');
 
         expect(response).toEqual(null);
 
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_MODAL,
-            'my-modal'
+            UiAppRequestType.OPEN_SIDE_PANEL,
+            'my-panel'
         );
     });
 
-    test('throws an error if modal definition is invalid', async () => {
+    test('throws an error if definition is invalid', async () => {
         mockFramepostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [UiAppFeatureType.SIDE_PANELS]
             }
         });
 
@@ -78,7 +81,7 @@ describe('modal.open()', () => {
         try {
             // @ts-ignore
             await client.open({
-                source: 'modal.html'
+                source: 'panel.html'
             });
         } catch (e) {
             error = e;
@@ -92,7 +95,7 @@ describe('modal.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [UiAppFeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
@@ -106,15 +109,15 @@ describe('modal.open()', () => {
         expect(requestMock).not.toHaveBeenCalled();
     });
 
-    test('throws an error if app does not have modals feature enabled', async () => {
+    test('throws an error if app does not have the feature enabled', async () => {
         mockFramepostClient.init();
 
         let error;
 
         try {
             await client.open({
-                key: 'my-modal',
-                source: 'modal.html'
+                key: 'my-panel',
+                source: 'panel.html'
             });
         } catch (e) {
             error = e;
@@ -124,36 +127,36 @@ describe('modal.open()', () => {
     });
 });
 
-describe('modal.close()', () => {
-    test('sends an close modal request to parent', async () => {
+describe('sidePanel.close()', () => {
+    test('sends an close request to parent', async () => {
         mockFramepostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [UiAppFeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
             .spyOn(mockFramepostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.close('my-modal');
+        const response = await client.close('my-panel');
 
         expect(response).toEqual(null);
 
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.CLOSE_MODAL,
-            'my-modal'
+            UiAppRequestType.CLOSE_SIDE_PANEL,
+            'my-panel'
         );
     });
 
-    test('Throws an error if the app does not have the modals feature enabled', async () => {
+    test('Throws an error if the app does not have the feature enabled', async () => {
         mockFramepostClient.init();
 
         let error;
 
         try {
-            await client.close('my-modal');
+            await client.close('my-panel');
         } catch (e) {
             error = e;
         }

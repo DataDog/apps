@@ -109,3 +109,7 @@ export interface IFrameApiRequest<Q> {
     options: IframeApiRequestOptions;
     body: Q;
 }
+
+export interface DefinitionWithKey {
+    key: string;
+}

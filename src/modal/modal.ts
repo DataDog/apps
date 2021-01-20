@@ -1,19 +1,14 @@
 import type { ChildClient } from '@datadog/framepost';
 
+import { DDFeatureClient } from '../client/featureClient';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import type { Context } from '../types';
+import type { DefinitionWithKey } from '../types';
 import type { Logger } from '../utils/logger';
-import { isFeatureEnabled } from '../utils/utils';
+import { validateKey } from '../utils/utils';
 
-export class DDModalClient {
-    private readonly debug: boolean;
-    private readonly logger: Logger;
-    private readonly framePostClient: ChildClient<Context>;
-
+export class DDModalClient extends DDFeatureClient {
     constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+        super(debug, logger, framePostClient, UiAppFeatureType.MODALS);
     }
 
     /**
@@ -21,20 +16,14 @@ export class DDModalClient {
      * definition pre-defined in the app manifest
      */
     async open(definitionOrKey: ModalDefinition | string) {
-        const isEnabled = await this.isEnabled();
+        await this.validateFeatureIsEnabled();
 
-        if (!isEnabled) {
-            throw new Error(
-                `Please enable the "${UiAppFeatureType.MODALS}" feature to access this functionality.`
+        if (validateKey(definitionOrKey)) {
+            return this.framePostClient.request(
+                UiAppRequestType.OPEN_MODAL,
+                definitionOrKey
             );
         }
-
-        this.validateModalDefinition(definitionOrKey);
-
-        return this.framePostClient.request(
-            UiAppRequestType.OPEN_MODAL,
-            definitionOrKey
-        );
     }
 
     /**
@@ -42,39 +31,9 @@ export class DDModalClient {
      * if it matches the provided key.
      */
     async close(key?: string) {
-        const isEnabled = await this.isEnabled();
-
-        if (!isEnabled) {
-            throw new Error(
-                `Please enable the "${UiAppFeatureType.MODALS}" feature to access this functionality.`
-            );
-        }
+        await this.validateFeatureIsEnabled();
 
         return this.framePostClient.request(UiAppRequestType.CLOSE_MODAL, key);
-    }
-
-    private async isEnabled() {
-        const {
-            app: { features }
-        } = await this.framePostClient.getContext();
-
-        return isFeatureEnabled(UiAppFeatureType.MODALS, features);
-    }
-
-    private validateModalDefinition(
-        definitionOrKey: ModalDefinition | string
-    ): boolean {
-        if (typeof definitionOrKey === 'string') {
-            return definitionOrKey.length > 0;
-        }
-
-        const definition = definitionOrKey as ModalDefinition;
-
-        if (!definition.key) {
-            throw new Error('Modal definition missing required field ".key"');
-        }
-
-        return true;
     }
 }
 
@@ -92,8 +51,7 @@ export enum ModalActionLevel {
     DANGER = 'danger'
 }
 
-export interface ModalDefinition {
-    key: string;
+export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
     isCloseable?: boolean;
