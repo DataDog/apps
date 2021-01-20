@@ -2,7 +2,7 @@ import type { ChildClient } from '@datadog/framepost';
 
 import { DDFeatureClient } from '../client/featureClient';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import type { DefinitionWithKey } from '../types';
+import { SidePanelDefinition } from '../types';
 import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
 
@@ -38,11 +38,4 @@ export class DDSidePanelClient extends DDFeatureClient {
             key
         );
     }
-}
-
-export interface SidePanelDefinition extends DefinitionWithKey {
-    width?: string;
-    source?: string;
-    hideCloseButton?: boolean;
-    willCloseOnEsc?: boolean;
 }

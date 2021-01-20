@@ -1,6 +1,5 @@
 import { UiAppFeatureType, UiAppEventType } from '../constants';
-import { ModalDefinition } from '../modal/modal';
-import { SidePanelDefinition } from '../side-panel/side-panel';
+import { ModalDefinition, SidePanelDefinition } from '../types';
 
 import {
     isFeatureEnabled,

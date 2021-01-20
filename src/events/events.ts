@@ -1,13 +1,13 @@
 import type { ChildClient } from '@datadog/framepost';
 
 import { UiAppEventType, UiAppRequestType } from '../constants';
-import type { ModalDefinition } from '../modal/modal';
 import type {
     Context,
     EventHandler,
     FeatureContext,
     Timeframe,
-    TemplateVariableValue
+    TemplateVariableValue,
+    ModalDefinition
 } from '../types';
 import type { Logger } from '../utils/logger';
 import { isEventEnabled } from '../utils/utils';

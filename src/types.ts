@@ -1,7 +1,9 @@
 import type {
     UiAppFeatureType,
     UiAppEventType,
-    IFrameApiRequestMethod
+    IFrameApiRequestMethod,
+    ModalSize,
+    ModalActionLevel
 } from './constants';
 
 export interface ClientOptions {
@@ -27,7 +29,7 @@ export interface AppContext {
     };
 
     // user's org
-    organization: {
+    org: {
         id: number;
         name: string;
     };
@@ -112,4 +114,21 @@ export interface IFrameApiRequest<Q> {
 
 export interface DefinitionWithKey {
     key: string;
+}
+export interface ModalDefinition extends DefinitionWithKey {
+    title?: string;
+    size?: ModalSize;
+    isCloseable?: boolean;
+    message?: string;
+    source?: string;
+    actionLabel?: string;
+    actionLevel?: ModalActionLevel;
+    cancelLabel?: string;
+}
+
+export interface SidePanelDefinition extends DefinitionWithKey {
+    width?: string;
+    source?: string;
+    hideCloseButton?: boolean;
+    willCloseOnEsc?: boolean;
 }

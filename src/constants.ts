@@ -67,3 +67,17 @@ export enum UiAppRequestType {
 export const enabledEvents = new Set<UiAppEventType>([
     UiAppEventType.CUSTOM_EVENT
 ]);
+
+export enum ModalSize {
+    SMALL = 'sm',
+    MEDIUM = 'md',
+    LARGE = 'lg'
+    // TODO: implement auto-sized modals
+}
+
+export enum ModalActionLevel {
+    PRIMARY = 'primary',
+    SUCCESS = 'success',
+    WARNING = 'warning',
+    DANGER = 'danger'
+}

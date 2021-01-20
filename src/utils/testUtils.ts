@@ -41,7 +41,7 @@ export const mockContext: Context = {
             name: 'User',
             handle: 'user@email.com'
         },
-        organization: {
+        org: {
             id: 12345,
             name: 'Corporate overlord'
         },
