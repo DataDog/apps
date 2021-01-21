@@ -112,8 +112,10 @@ export interface IFrameApiRequest<Q> {
     body: Q;
 }
 
-export interface ModalDefinition {
+export interface DefinitionWithKey {
     key: string;
+}
+export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
     isCloseable?: boolean;
@@ -122,4 +124,11 @@ export interface ModalDefinition {
     actionLabel?: string;
     actionLevel?: ModalActionLevel;
     cancelLabel?: string;
+}
+
+export interface SidePanelDefinition extends DefinitionWithKey {
+    width?: string;
+    source?: string;
+    hideCloseButton?: boolean;
+    willCloseOnEsc?: boolean;
 }

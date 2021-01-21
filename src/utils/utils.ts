@@ -1,5 +1,6 @@
 import { UiAppEventType, UiAppFeatureType, enabledEvents } from '../constants';
 import { features } from '../features';
+import type { DefinitionWithKey } from '../types';
 
 const memoize = <T>(getter: () => T): (() => T) => {
     let executed = false;
@@ -60,4 +61,22 @@ export const isEventEnabled = (
     }
 
     return enabledFeatures.some(feature => enablingFeatures.has(feature));
+};
+
+const isDefinitionWithKey = (
+    defenition: any
+): defenition is DefinitionWithKey => !!defenition.key;
+
+export const validateKey = <T = any>(definitionOrKey: T | string): boolean => {
+    if (typeof definitionOrKey === 'string') {
+        return definitionOrKey.length > 0;
+    }
+
+    const definition = definitionOrKey as T;
+
+    if (!isDefinitionWithKey(definition)) {
+        throw new Error('Definition missing required field ".key"');
+    }
+
+    return true;
 };
