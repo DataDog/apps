@@ -26,7 +26,6 @@ export enum UiAppEventType {
     MODAL_CANCEL = 'modal_cancel',
 
     // Side panels
-    SIDE_PANEL_OPEN = 'side_panel_open',
     SIDE_PANEL_CLOSE = 'side_panel_close'
 }
 
@@ -50,9 +49,6 @@ export enum UiAppRequestType {
 
     // Location
     NAVIGATE_TOP = 'navigate_top',
-
-    // Frame resize
-    FRAME_RESIZE = 'frame_resize',
 
     // Modals
     OPEN_MODAL = 'open_modal',
