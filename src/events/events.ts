@@ -18,6 +18,9 @@ interface DDEventDataTypes {
     [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: Required<
         Pick<FeatureContext, 'dashboard' | 'menuItem'>
     >;
+    [UiAppEventType.DASHBOARD_CONTEXT_MENU_CLICK]: Required<
+        Pick<FeatureContext, 'dashboard' | 'widget' | 'menuItem'>
+    >;
     [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
     [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
     [UiAppEventType.MODAL_ACTION]: ModalDefinition;
