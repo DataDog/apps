@@ -39,8 +39,10 @@ describe('sidePanel.open()', () => {
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.OPEN_SIDE_PANEL,
             {
-                key: 'my-panel',
-                source: 'panel.html'
+                definitionOrKey: {
+                    key: 'my-panel',
+                    source: 'panel.html'
+                }
             }
         );
     });
@@ -63,7 +65,9 @@ describe('sidePanel.open()', () => {
 
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.OPEN_SIDE_PANEL,
-            'my-panel'
+            {
+                definitionOrKey: 'my-panel'
+            }
         );
     });
 
