@@ -15,13 +15,13 @@ export class DDSidePanelClient extends DDFeatureClient {
      * Opens a side panel, given a full side panel definition or the key of a side panel
      * definition pre-defined in the app manifest
      */
-    async open(definitionOrKey: SidePanelDefinition | string, context?: any) {
+    async open(definitionOrKey: SidePanelDefinition | string, args?: any) {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definitionOrKey)) {
             return this.framePostClient.request(
                 UiAppRequestType.OPEN_SIDE_PANEL,
-                { definitionOrKey, context }
+                { definitionOrKey, args }
             );
         }
     }

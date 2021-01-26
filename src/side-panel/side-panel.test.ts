@@ -91,7 +91,7 @@ describe('sidePanel.open()', () => {
             UiAppRequestType.OPEN_SIDE_PANEL,
             {
                 definitionOrKey: 'my-panel',
-                context: { foo: 'baar' }
+                args: { foo: 'baar' }
             }
         );
     });
@@ -125,7 +125,7 @@ describe('sidePanel.open()', () => {
                     key: 'my-panel',
                     source: 'panel.html'
                 },
-                context: { foo: 'baar' }
+                args: { foo: 'baar' }
             }
         );
     });
