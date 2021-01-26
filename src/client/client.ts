@@ -5,6 +5,7 @@ import { Host } from '../constants';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
+import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type { Context, FrameContext, ClientOptions } from '../types';
 import { getLogger, Logger } from '../utils/logger';
@@ -26,6 +27,7 @@ export class DDClient {
     location: DDLocationClient;
     modal: DDModalClient;
     sidePanel: DDSidePanelClient;
+    secrets: DDSecretsClient;
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -66,6 +68,12 @@ export class DDClient {
         );
 
         this.sidePanel = new DDSidePanelClient(
+            this.debug,
+            this.logger,
+            this.framePostClient
+        );
+
+        this.secrets = new DDSecretsClient(
             this.debug,
             this.logger,
             this.framePostClient

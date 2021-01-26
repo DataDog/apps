@@ -14,21 +14,26 @@ import { isEventEnabled } from '../utils/utils';
 
 // This interface mapping provides types for event handlers subscribed to with `client.events.on`
 interface DDEventDataTypes {
+    // General
     [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
+
+    // Dashboards
     [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: Required<
         Pick<FeatureContext, 'dashboard' | 'menuItem'>
     >;
     [UiAppEventType.DASHBOARD_CONTEXT_MENU_CLICK]: Required<
         Pick<FeatureContext, 'dashboard' | 'widget' | 'menuItem'>
     >;
-    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
-    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
-    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
     [UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
     [UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
     [UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
         [key: string]: any;
     };
+
+    // Modals
+    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
+    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
+    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
 }
 
 export class DDEventsClient {
