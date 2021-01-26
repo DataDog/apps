@@ -71,6 +71,65 @@ describe('sidePanel.open()', () => {
         );
     });
 
+    test('sends an open request with key and context to parent', async () => {
+        mockFramepostClient.init({
+            ...mockContext,
+            app: {
+                ...mockContext.app,
+                features: [UiAppFeatureType.SIDE_PANELS]
+            }
+        });
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => null);
+
+        const response = await client.open('my-panel', { foo: 'baar' });
+
+        expect(response).toEqual(null);
+
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.OPEN_SIDE_PANEL,
+            {
+                definitionOrKey: 'my-panel',
+                context: { foo: 'baar' }
+            }
+        );
+    });
+
+    test('sends an open request with definition and context to parent', async () => {
+        mockFramepostClient.init({
+            ...mockContext,
+            app: {
+                ...mockContext.app,
+                features: [UiAppFeatureType.SIDE_PANELS]
+            }
+        });
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => null);
+
+        const response = await client.open(
+            {
+                key: 'my-panel',
+                source: 'panel.html'
+            },
+            { foo: 'baar' }
+        );
+
+        expect(response).toEqual(null);
+
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.OPEN_SIDE_PANEL,
+            {
+                definitionOrKey: {
+                    key: 'my-panel',
+                    source: 'panel.html'
+                },
+                context: { foo: 'baar' }
+            }
+        );
+    });
+
     test('throws an error if definition is invalid', async () => {
         mockFramepostClient.init({
             ...mockContext,
