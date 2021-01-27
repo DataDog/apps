@@ -75,17 +75,14 @@ export interface DashboardWidgetContext {
 export interface MenuItemContext {
     key: string;
 }
-// Generic type of optional arguements passed to different feature components like modal, sidepanel, etc
-export interface CustomFeatureContext {
-    [key: string]: any;
-}
 
 // A combined object specifing data about the context of a feature within the app
 export interface FeatureContext {
     dashboard?: DashboardContext;
     widget?: DashboardWidgetContext;
     menuItem?: MenuItemContext;
-    sidePanel?: CustomFeatureContext;
+    // Optional arguements passed to different feature components like modal, side panel, etc
+    args?: any;
 }
 
 // A full context object including above feature context and additional global app context
