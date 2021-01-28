@@ -24,3 +24,4 @@ export const init = (
 
 export * from './types';
 export * from './constants';
+export { DDClient };
