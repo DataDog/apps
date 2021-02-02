@@ -68,7 +68,10 @@ export enum UiAppRequestType {
     REMOVE_ALL_SECRETS = 'remove_all_secrets',
     LOAD_SECRET = 'load_secret',
     GET_SECRET = 'get_secret',
-    SET_SECRET = 'set_secret'
+    SET_SECRET = 'set_secret',
+
+    // Context Menu
+    GET_CONTEXT_MENU_ITEMS = 'get_context_menu_items'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
@@ -88,4 +91,9 @@ export enum ModalActionLevel {
     SUCCESS = 'success',
     WARNING = 'warning',
     DANGER = 'danger'
+}
+
+export enum MenuItemType {
+    LINK = 'link',
+    EVENT = 'event'
 }

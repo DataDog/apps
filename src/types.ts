@@ -3,8 +3,10 @@ import type {
     UiAppEventType,
     IFrameApiRequestMethod,
     ModalSize,
-    ModalActionLevel
+    ModalActionLevel,
+    MenuItemType
 } from './constants';
+import type { RequireKeys } from './utils/utils';
 
 export interface ClientOptions {
     debug?: boolean;
@@ -64,11 +66,13 @@ export interface DashboardContext {
 // We should port full typing here eventually
 export interface DashboardWidgetContext {
     id?: number;
-    definition: {
-        options?: {
-            [key: string]: any;
-        };
-    };
+    definition:
+        | {
+              options?: {
+                  [key: string]: any;
+              };
+          }
+        | any;
     layout?: any;
 }
 
@@ -117,6 +121,23 @@ export interface IFrameApiRequest<Q> {
 export interface DefinitionWithKey {
     key: string;
 }
+
+export interface MenuItemCommon extends DefinitionWithKey {
+    label: string;
+}
+
+export interface LinkMenuItem extends MenuItemCommon {
+    type: MenuItemType.LINK;
+    href: string;
+}
+
+export interface EventMenuItem extends MenuItemCommon {
+    type: MenuItemType.EVENT;
+}
+
+export type MenuItem = LinkMenuItem | EventMenuItem;
+
+// Modals
 export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
@@ -128,9 +149,28 @@ export interface ModalDefinition extends DefinitionWithKey {
     cancelLabel?: string;
 }
 
+// Sidepanels
 export interface SidePanelDefinition extends DefinitionWithKey {
     width?: string;
     source?: string;
     hideCloseButton?: boolean;
     willCloseOnEsc?: boolean;
 }
+
+// Context Menus
+export type ContextMenuClickData = RequireKeys<
+    FeatureContext,
+    'widget' | 'menuItem'
+>;
+
+export type GetContextMenuItemsRequest = RequireKeys<FeatureContext, 'widget'>;
+
+export interface GetContextMenuItemsResponse {
+    items: (MenuItem | string)[];
+}
+
+// Cog Menus
+export type DashboardCogMenuClickData = RequireKeys<
+    FeatureContext,
+    'dashboard' | 'menuItem'
+>;

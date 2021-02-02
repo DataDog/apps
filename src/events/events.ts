@@ -4,10 +4,12 @@ import { UiAppEventType, UiAppRequestType } from '../constants';
 import type {
     Context,
     EventHandler,
-    FeatureContext,
     Timeframe,
     TemplateVariableValue,
-    ModalDefinition
+    ModalDefinition,
+    ContextMenuClickData,
+    DashboardCogMenuClickData,
+    SidePanelDefinition
 } from '../types';
 import type { Logger } from '../utils/logger';
 import { isEventEnabled } from '../utils/utils';
@@ -16,14 +18,12 @@ import { isEventEnabled } from '../utils/utils';
 interface DDEventDataTypes {
     // General
     [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
-
-    // Dashboards
-    [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: Required<
-        Pick<FeatureContext, 'dashboard' | 'menuItem'>
-    >;
-    [UiAppEventType.DASHBOARD_CONTEXT_MENU_CLICK]: Required<
-        Pick<FeatureContext, 'dashboard' | 'widget' | 'menuItem'>
-    >;
+    [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
+    [UiAppEventType.DASHBOARD_CONTEXT_MENU_CLICK]: ContextMenuClickData;
+    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
+    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
+    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
+    [UiAppEventType.SIDE_PANEL_CLOSE]: SidePanelDefinition;
     [UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
     [UiAppEventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
