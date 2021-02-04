@@ -111,33 +111,31 @@ export class MockFramePostChildClient {
 
     onRequest(requestKey: string, requestHandler: (arg?: any) => any) {
         this.requestSubscriptions[requestKey] = requestHandler;
-        return () => {
-            // const { [requestKey]: _, ...rest } = this.requestSubscriptions;
-
-            // this.requestSubscriptions = rest;
-            delete this.requestSubscriptions[requestKey];
-        };
+        return () => delete this.requestSubscriptions[requestKey];
     }
 
     mockRequest(requestKey: string, data: any) {
         const handler = this.requestSubscriptions[requestKey];
         if (handler) {
-            handler(data);
+            return handler(data);
         }
     }
 }
 
 export const flushPromises = () => new Promise(setImmediate);
 
-export class LocalStorageMock {
+export class MockLocalStorage {
     store: {
         [key: string]: string;
     };
+    length: number;
     constructor() {
         this.store = {};
+        this.length = 0;
     }
     clear() {
         this.store = {};
+        this.length = 0;
     }
 
     getItem(key: string): string | null {
@@ -146,9 +144,15 @@ export class LocalStorageMock {
 
     setItem(key: string, value: string): void {
         this.store[key] = String(value);
+        this.length = Object.keys(this.store).length;
     }
 
-    removeItem(key: string) {
+    removeItem(key: string): void {
         delete this.store[key];
+        this.length = Object.keys(this.store).length;
+    }
+
+    key(index: number): string | null {
+        return Object.keys(this.store)[index];
     }
 }

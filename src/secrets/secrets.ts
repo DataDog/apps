@@ -1,9 +1,16 @@
+/* eslint-disable no-undef */
 import type { ChildClient } from '@datadog/framepost';
 
 import { UiAppRequestType } from '../constants';
 import type { Context } from '../types';
 import type { Logger } from '../utils/logger';
 
+const getLocalStorageKeys = () => {
+    // we cannot use because it doesn't work with the mocked localStorage Object.keys(window.localStorage)
+    return [...Array(window.localStorage.length)].map((_, i) =>
+        window.localStorage.key(i)
+    );
+};
 export class DDSecretsClient {
     private readonly debug: boolean;
     private readonly framePostClient: ChildClient<Context>;
@@ -46,7 +53,6 @@ export class DDSecretsClient {
 
     private handleSetSecretRequest({ key, secret }: SetSecretRequest) {
         try {
-            // eslint-disable-next-line no-undef
             window.localStorage.setItem(key, secret);
             return true;
         } catch (error) {
@@ -57,7 +63,6 @@ export class DDSecretsClient {
 
     private handleGetSecretRequest({ key }: GetSecretRequest) {
         try {
-            // eslint-disable-next-line no-undef
             return window.localStorage.getItem(key);
         } catch (error) {
             // the user has disabled storage or if the quota has been exceeded
@@ -67,13 +72,12 @@ export class DDSecretsClient {
 
     private handleGetAllSecretsRequest({ prefix }: GetAllSecretsRequest) {
         try {
-            // eslint-disable-next-line no-undef
-            const keys = Object.keys(localStorage).filter(key =>
-                key.startsWith(prefix)
+            const keys = getLocalStorageKeys().filter(
+                key => key && key.startsWith(prefix)
             );
-            const result = keys.reduce((agg: any, key: string) => {
-                // eslint-disable-next-line no-undef
-                agg[key] = window.localStorage.getItem(key);
+
+            const result = keys.reduce((agg: any, key: string | null) => {
+                agg[key!] = window.localStorage.getItem(key!);
                 return agg;
             }, {});
             return result;
@@ -85,7 +89,6 @@ export class DDSecretsClient {
 
     private handleRemoveSecretRequest({ key }: RemoveSecretRequest) {
         try {
-            // eslint-disable-next-line no-undef
             window.localStorage.removeItem(key);
             return true;
         } catch (error) {
@@ -96,11 +99,10 @@ export class DDSecretsClient {
 
     private handleRemoveAllSecretsRequest({ prefix }: RemoveAllSecretsRequest) {
         try {
-            // eslint-disable-next-line no-undef
-            Object.keys(localStorage)
-                .filter(key => key.startsWith(prefix))
-                // eslint-disable-next-line no-undef
-                .forEach(key => window.localStorage.removeItem(key));
+            getLocalStorageKeys()
+                .filter(key => key && key.startsWith(prefix))
+
+                .forEach(key => key && window.localStorage.removeItem(key));
 
             return true;
         } catch (error) {
