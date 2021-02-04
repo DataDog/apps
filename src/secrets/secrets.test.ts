@@ -112,7 +112,6 @@ describe('secrets request handlers', () => {
 
     it('handles REMOVE_SECRET request when sent from the parent frame', () => {
         mockFramepostClient.init();
-        const prefix = 'my_app_prefix:';
         mockStorage.setItem(key, secret);
 
         const result = mockFramepostClient.mockRequest(
