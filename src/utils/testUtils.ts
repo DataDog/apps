@@ -52,11 +52,15 @@ export const mockContext: Context = {
 export class MockFramePostChildClient {
     context: Deferred<any>;
     subscriptions: { [ev: string]: { [od: string]: (data?: any) => any } };
+    requestSubscriptions: {
+        [reqKey: string]: (data?: any) => any;
+    };
     sendCallBack?: jest.Mock;
 
     constructor() {
         this.context = defer();
         this.subscriptions = {};
+        this.requestSubscriptions = {};
     }
 
     init(override?: any, sendCallBack?: jest.Mock) {
@@ -104,6 +108,23 @@ export class MockFramePostChildClient {
     }
 
     request(eventType: string, data: any): any {}
+
+    onRequest(requestKey: string, requestHandler: (arg?: any) => any) {
+        this.requestSubscriptions[requestKey] = requestHandler;
+        return () => {
+            // const { [requestKey]: _, ...rest } = this.requestSubscriptions;
+
+            // this.requestSubscriptions = rest;
+            delete this.requestSubscriptions[requestKey];
+        };
+    }
+
+    mockRequest(requestKey: string, data: any) {
+        const handler = this.requestSubscriptions[requestKey];
+        if (handler) {
+            handler(data);
+        }
+    }
 }
 
 export const flushPromises = () => new Promise(setImmediate);
