@@ -128,3 +128,27 @@ export class MockFramePostChildClient {
 }
 
 export const flushPromises = () => new Promise(setImmediate);
+
+export class LocalStorageMock {
+    store: {
+        [key: string]: string;
+    };
+    constructor() {
+        this.store = {};
+    }
+    clear() {
+        this.store = {};
+    }
+
+    getItem(key: string): string | null {
+        return this.store[key] || null;
+    }
+
+    setItem(key: string, value: string): void {
+        this.store[key] = String(value);
+    }
+
+    removeItem(key: string) {
+        delete this.store[key];
+    }
+}
