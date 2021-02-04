@@ -24,8 +24,18 @@ export class DDSecretsClient {
         );
 
         this.framePostClient.onRequest(
+            UiAppRequestType.GET_SECRET,
+            this.handleGetSecretRequest.bind(this)
+        );
+
+        this.framePostClient.onRequest(
             UiAppRequestType.GET_ALL_SECRETS,
             this.handleGetAllSecretsRequest.bind(this)
+        );
+
+        this.framePostClient.onRequest(
+            UiAppRequestType.REMOVE_ALL_SECRETS,
+            this.handleRemoveAllSecretsRequest.bind(this)
         );
 
         this.framePostClient.onRequest(
@@ -39,6 +49,16 @@ export class DDSecretsClient {
             // eslint-disable-next-line no-undef
             window.localStorage.setItem(key, secret);
             return true;
+        } catch (error) {
+            // the user has disabled storage or if the quota has been exceeded
+            return false;
+        }
+    }
+
+    private handleGetSecretRequest({ key }: GetSecretRequest) {
+        try {
+            // eslint-disable-next-line no-undef
+            return window.localStorage.getItem(key);
         } catch (error) {
             // the user has disabled storage or if the quota has been exceeded
             return false;
@@ -73,6 +93,28 @@ export class DDSecretsClient {
             return false;
         }
     }
+
+    private handleRemoveAllSecretsRequest({ prefix }: RemoveAllSecretsRequest) {
+        try {
+            // eslint-disable-next-line no-undef
+            Object.keys(localStorage)
+                .filter(key => key.startsWith(prefix))
+                // eslint-disable-next-line no-undef
+                .forEach(key => window.localStorage.removeItem(key));
+
+            return true;
+        } catch (error) {
+            // the user has disabled storage or if the quota has been exceeded
+            return false;
+        }
+    }
+
+    async loadPrivateSecret(key: string) {
+        return this.framePostClient.request(
+            UiAppRequestType.DECRYPT_SECRET,
+            key
+        );
+    }
 }
 
 export interface SetSecretRequest {
@@ -83,7 +125,13 @@ export interface SetSecretRequest {
 export interface GetAllSecretsRequest {
     prefix: string;
 }
+export interface RemoveAllSecretsRequest {
+    prefix: string;
+}
 
+export interface GetSecretRequest {
+    key: string;
+}
 export interface RemoveSecretRequest {
     key: string;
 }

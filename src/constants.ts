@@ -62,9 +62,11 @@ export enum UiAppRequestType {
 
     // Secrets
     SET_SECRET = 'set_secret',
-    GET_SECRET = 'get_secret',
     REMOVE_SECRET = 'remove_secret',
-    GET_ALL_SECRETS = 'get_all_secrets'
+    GET_ALL_SECRETS = 'get_all_secrets',
+    REMOVE_ALL_SECRETS = 'remove_all_secrets',
+    GET_SECRET = 'get_secret',
+    DECRYPT_SECRET = 'decrypt_secret'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
