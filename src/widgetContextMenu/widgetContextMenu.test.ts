@@ -2,14 +2,14 @@ import { UiAppFeatureType, UiAppRequestType, MenuItemType } from '../constants';
 import { getLogger } from '../utils/logger';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
-import { DDDashboardContextMenuClient } from './dashboardContextMenu';
+import { DDWidgetContextMenuClient } from './widgetContextMenu';
 
 let mockFramepostClient: MockFramePostChildClient;
-let client: DDDashboardContextMenuClient;
+let client: DDWidgetContextMenuClient;
 
 beforeEach(() => {
     mockFramepostClient = new MockFramePostChildClient();
-    client = new DDDashboardContextMenuClient(
+    client = new DDWidgetContextMenuClient(
         true,
         getLogger({ debug: true }),
         mockFramepostClient as any
@@ -22,12 +22,12 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_CONTEXT_MENU]
+                features: [UiAppFeatureType.WIDGET_CONTEXT_MENU]
             }
         });
 
         const response = await mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_CONTEXT_MENU_ITEMS,
+            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             'data'
         );
 
@@ -39,7 +39,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_CONTEXT_MENU]
+                features: [UiAppFeatureType.WIDGET_CONTEXT_MENU]
             }
         });
 
@@ -59,7 +59,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         client.onRequestItems(handler);
 
         const response = await mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_CONTEXT_MENU_ITEMS,
+            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             'data'
         );
 
@@ -84,7 +84,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_CONTEXT_MENU]
+                features: [UiAppFeatureType.WIDGET_CONTEXT_MENU]
             }
         });
 
@@ -104,7 +104,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         client.onRequestItems(handler);
 
         const response = await mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_CONTEXT_MENU_ITEMS,
+            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             'data'
         );
 
@@ -122,7 +122,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_CONTEXT_MENU]
+                features: [UiAppFeatureType.WIDGET_CONTEXT_MENU]
             }
         });
 
@@ -144,7 +144,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         unsubscribe();
 
         const response = await mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_CONTEXT_MENU_ITEMS,
+            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             'data'
         );
 

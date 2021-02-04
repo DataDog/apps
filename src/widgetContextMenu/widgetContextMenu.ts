@@ -3,21 +3,21 @@ import type { ChildClient } from '@datadog/framepost';
 import { DDFeatureClient } from '../client/featureClient';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
 import type {
-    GetContextMenuItemsRequest,
-    GetContextMenuItemsResponse
+    GetWidgetContextMenuItemsRequest,
+    GetWidgetContextMenuItemsResponse
 } from '../types';
 import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
 
-const emptyConfig: GetContextMenuItemsResponse = { items: [] };
+const emptyConfig: GetWidgetContextMenuItemsResponse = { items: [] };
 
-export class DDDashboardContextMenuClient extends DDFeatureClient {
+export class DDWidgetContextMenuClient extends DDFeatureClient {
     constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
         super(
             debug,
             logger,
             framePostClient,
-            UiAppFeatureType.DASHBOARD_CONTEXT_MENU
+            UiAppFeatureType.WIDGET_CONTEXT_MENU
         );
 
         // initialize with an empty reponse handler
@@ -29,12 +29,14 @@ export class DDDashboardContextMenuClient extends DDFeatureClient {
      */
     onRequestItems(
         requestHandler: (
-            context: GetContextMenuItemsRequest
-        ) => GetContextMenuItemsResponse | Promise<GetContextMenuItemsResponse>
+            context: GetWidgetContextMenuItemsRequest
+        ) =>
+            | GetWidgetContextMenuItemsResponse
+            | Promise<GetWidgetContextMenuItemsResponse>
     ) {
         const wrappedHandler = async (
-            context: GetContextMenuItemsRequest
-        ): Promise<GetContextMenuItemsResponse> => {
+            context: GetWidgetContextMenuItemsRequest
+        ): Promise<GetWidgetContextMenuItemsResponse> => {
             try {
                 await this.validateFeatureIsEnabled();
             } catch (e) {
@@ -61,7 +63,7 @@ export class DDDashboardContextMenuClient extends DDFeatureClient {
         };
 
         this.framePostClient.onRequest(
-            UiAppRequestType.GET_CONTEXT_MENU_ITEMS,
+            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             wrappedHandler
         );
 

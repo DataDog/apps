@@ -157,15 +157,18 @@ export interface SidePanelDefinition extends DefinitionWithKey {
     willCloseOnEsc?: boolean;
 }
 
-// Context Menus
-export type ContextMenuClickData = RequireKeys<
+// Widget Context Menus
+export type WidgetContextMenuClickData = RequireKeys<
     FeatureContext,
     'widget' | 'menuItem'
 >;
 
-export type GetContextMenuItemsRequest = RequireKeys<FeatureContext, 'widget'>;
+export type GetWidgetContextMenuItemsRequest = RequireKeys<
+    FeatureContext,
+    'widget'
+>;
 
-export interface GetContextMenuItemsResponse {
+export interface GetWidgetContextMenuItemsResponse {
     items: (MenuItem | string)[];
 }
 

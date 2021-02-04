@@ -7,7 +7,7 @@ import type {
     Timeframe,
     TemplateVariableValue,
     ModalDefinition,
-    ContextMenuClickData,
+    WidgetContextMenuClickData,
     DashboardCogMenuClickData,
     SidePanelDefinition
 } from '../types';
@@ -19,7 +19,7 @@ interface DDEventDataTypes {
     // General
     [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
     [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
-    [UiAppEventType.DASHBOARD_CONTEXT_MENU_CLICK]: ContextMenuClickData;
+    [UiAppEventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
     [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
     [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
     [UiAppEventType.MODAL_ACTION]: ModalDefinition;
