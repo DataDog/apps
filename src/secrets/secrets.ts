@@ -111,7 +111,8 @@ export class DDSecretsClient {
         }
     }
 
-    async loadPrivateSecret(key: string) {
+    // returns the decrypted secret for a given key
+    async get(key: string) {
         return this.framePostClient.request(
             UiAppRequestType.DECRYPT_SECRET,
             key

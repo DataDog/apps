@@ -21,7 +21,7 @@ beforeEach(() => {
     );
 });
 
-describe('loadPrivateSecret', () => {
+describe('client.get', () => {
     it('sends a DECRYPT_SECRET request to the parent with the data to encrypt', async () => {
         mockFramepostClient.init(mockContext);
 
@@ -29,7 +29,7 @@ describe('loadPrivateSecret', () => {
             .spyOn(mockFramepostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.loadPrivateSecret('my-secret-key');
+        const response = await client.get('my-secret-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.DECRYPT_SECRET,
