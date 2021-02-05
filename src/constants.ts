@@ -58,7 +58,15 @@ export enum UiAppRequestType {
 
     // Side panels
     OPEN_SIDE_PANEL = 'open_side_panel',
-    CLOSE_SIDE_PANEL = 'close_side_panel'
+    CLOSE_SIDE_PANEL = 'close_side_panel',
+
+    // Secrets
+    SET_SECRET = 'set_secret',
+    REMOVE_SECRET = 'remove_secret',
+    GET_ALL_SECRETS = 'get_all_secrets',
+    REMOVE_ALL_SECRETS = 'remove_all_secrets',
+    GET_SECRET = 'get_secret',
+    DECRYPT_SECRET = 'decrypt_secret'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
