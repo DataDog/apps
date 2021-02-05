@@ -25,6 +25,7 @@ interface DDEventDataTypes {
         Pick<FeatureContext, 'dashboard' | 'widget' | 'menuItem'>
     >;
     [UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
+    [UiAppEventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
     [UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
         [key: string]: any;

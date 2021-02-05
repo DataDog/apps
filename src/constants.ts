@@ -19,6 +19,7 @@ export enum UiAppEventType {
     DASHBOARD_COG_MENU_CLICK = 'dashboard_cog_menu_click',
     DASHBOARD_CONTEXT_MENU_CLICK = 'dashboard_context_menu_click',
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
+    DASHBOARD_CURSOR_CHANGE = 'dashboard_cursor_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
 
