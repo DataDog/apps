@@ -2,7 +2,7 @@ import { UiAppFeatureType, UiAppRequestType, MenuItemType } from '../constants';
 import { getLogger } from '../utils/logger';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
-import { DDWidgetContextMenuClient } from './widgetContextMenu';
+import { DDWidgetContextMenuClient } from './widget-context-menu';
 
 let mockFramepostClient: MockFramePostChildClient;
 let client: DDWidgetContextMenuClient;

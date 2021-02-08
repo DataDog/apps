@@ -2,7 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { Host } from '../constants';
-import { DDDashboardCogMenuClient } from '../dashboardCogMenu/dashboardCogMenu';
+import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
@@ -10,7 +10,7 @@ import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type { Context, FrameContext, ClientOptions } from '../types';
 import { getLogger, Logger } from '../utils/logger';
-import { DDWidgetContextMenuClient } from '../widgetContextMenu/widgetContextMenu';
+import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
 

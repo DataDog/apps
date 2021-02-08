@@ -1,7 +1,7 @@
 import type { ChildClient } from '@datadog/framepost';
 
-import { DDFeatureClient } from '../client/featureClient';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { DDFeatureClient } from '../shared/feature-client';
 import type {
     GetDashboardCogMenuItemsRequest,
     GetDashboardCogMenuItemsResponse

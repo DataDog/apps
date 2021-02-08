@@ -2,7 +2,7 @@ import { UiAppFeatureType, UiAppRequestType, MenuItemType } from '../constants';
 import { getLogger } from '../utils/logger';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
-import { DDDashboardCogMenuClient } from './dashboardCogMenu';
+import { DDDashboardCogMenuClient } from './dashboard-cog-menu';
 
 let mockFramepostClient: MockFramePostChildClient;
 let client: DDDashboardCogMenuClient;
