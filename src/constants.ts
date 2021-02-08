@@ -61,11 +61,11 @@ export enum UiAppRequestType {
     CLOSE_SIDE_PANEL = 'close_side_panel',
 
     // Secrets
-    SET_SECRET = 'set_secret',
+    SAVE_SECRET = 'save_secret',
     REMOVE_SECRET = 'remove_secret',
     GET_ALL_SECRETS = 'get_all_secrets',
     REMOVE_ALL_SECRETS = 'remove_all_secrets',
-    GET_SECRET = 'get_secret',
+    LOAD_SECRET = 'load_secret',
     DECRYPT_SECRET = 'decrypt_secret'
 }
 
