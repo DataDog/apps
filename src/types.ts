@@ -137,6 +137,10 @@ export interface EventMenuItem extends MenuItemCommon {
 
 export type MenuItem = LinkMenuItem | EventMenuItem;
 
+export interface MenuItemRequestResponse {
+    items: MenuItem[];
+}
+
 // Modals
 export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
@@ -168,12 +172,19 @@ export type GetWidgetContextMenuItemsRequest = RequireKeys<
     'widget'
 >;
 
-export interface GetWidgetContextMenuItemsResponse {
-    items: (MenuItem | string)[];
-}
+export interface GetWidgetContextMenuItemsResponse
+    extends MenuItemRequestResponse {}
 
 // Cog Menus
 export type DashboardCogMenuClickData = RequireKeys<
     FeatureContext,
     'dashboard' | 'menuItem'
 >;
+
+export type GetDashboardCogMenuItemsRequest = RequireKeys<
+    FeatureContext,
+    'dashboard'
+>;
+
+export interface GetDashboardCogMenuItemsResponse
+    extends MenuItemRequestResponse {}

@@ -73,7 +73,10 @@ export enum UiAppRequestType {
     SET_SECRET = 'set_secret',
 
     // Context Menu
-    GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items'
+    GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
+
+    // Dashboard Cog Menu
+    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items'
 }
 
 // These event types are always allowed, regardless of what features have been enabled

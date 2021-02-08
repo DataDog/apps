@@ -2,6 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { Host } from '../constants';
+import { DDDashboardCogMenuClient } from '../dashboardCogMenu/dashboardCogMenu';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
@@ -24,12 +25,13 @@ export class DDClient {
     private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
     api: DDAPIClient;
-    widgetContextMenu: DDWidgetContextMenuClient;
     events: DDEventsClient;
+    dashboardCogMenu: DDDashboardCogMenuClient;
     location: DDLocationClient;
     modal: DDModalClient;
     sidePanel: DDSidePanelClient;
     secrets: DDSecretsClient;
+    widgetContextMenu: DDWidgetContextMenuClient;
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -51,13 +53,13 @@ export class DDClient {
             this.framePostClient
         );
 
-        this.widgetContextMenu = new DDWidgetContextMenuClient(
+        this.events = new DDEventsClient(
             this.debug,
             this.logger,
             this.framePostClient
         );
 
-        this.events = new DDEventsClient(
+        this.dashboardCogMenu = new DDDashboardCogMenuClient(
             this.debug,
             this.logger,
             this.framePostClient
@@ -82,6 +84,12 @@ export class DDClient {
         );
 
         this.secrets = new DDSecretsClient(
+            this.debug,
+            this.logger,
+            this.framePostClient
+        );
+
+        this.widgetContextMenu = new DDWidgetContextMenuClient(
             this.debug,
             this.logger,
             this.framePostClient
