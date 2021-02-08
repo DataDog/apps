@@ -113,17 +113,11 @@ export class DDSecretsClient {
 
     // returns a promises that resolves with the decrypted secret for a given key
     async get(key: string) {
-        return this.framePostClient.request(
-            UiAppRequestType.DECRYPT_SECRET,
-            key
-        );
+        return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
     }
 
     async set(key: string) {
-        return this.framePostClient.request(
-            UiAppRequestType.DECRYPT_SECRET,
-            key
-        );
+        return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
     }
 }
 
