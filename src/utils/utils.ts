@@ -67,13 +67,7 @@ export const isDefinitionWithKey = (
     defenition: any
 ): defenition is DefinitionWithKey => !!defenition.key;
 
-export const validateKey = <T = any>(definitionOrKey: T | string): boolean => {
-    if (typeof definitionOrKey === 'string') {
-        return definitionOrKey.length > 0;
-    }
-
-    const definition = definitionOrKey as T;
-
+export const validateKey = <T = any>(definition: T): boolean => {
     if (!isDefinitionWithKey(definition)) {
         throw new Error('Definition missing required field ".key"');
     }

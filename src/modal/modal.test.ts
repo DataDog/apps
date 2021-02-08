@@ -37,31 +37,11 @@ describe('modal.open()', () => {
         expect(response).toEqual(null);
 
         expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.OPEN_MODAL, {
-            key: 'my-modal',
-            source: 'modal.html'
-        });
-    });
-
-    test('sends an open modal request with key to parent', async () => {
-        mockFramepostClient.init({
-            ...mockContext,
-            app: {
-                ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+            definition: {
+                key: 'my-modal',
+                source: 'modal.html'
             }
         });
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        const response = await client.open('my-modal');
-
-        expect(response).toEqual(null);
-
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_MODAL,
-            'my-modal'
-        );
     });
 
     test('throws an error if modal definition is invalid', async () => {
@@ -85,25 +65,6 @@ describe('modal.open()', () => {
         }
 
         expect(error).toBeInstanceOf(Error);
-    });
-
-    test('ignores request if key is empty', async () => {
-        mockFramepostClient.init({
-            ...mockContext,
-            app: {
-                ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
-            }
-        });
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        const response = await client.open('');
-
-        expect(response).toBeUndefined();
-
-        expect(requestMock).not.toHaveBeenCalled();
     });
 
     test('throws an error if app does not have modals feature enabled', async () => {
