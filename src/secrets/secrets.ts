@@ -116,8 +116,11 @@ export class DDSecretsClient {
         return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
     }
 
-    async set(key: string) {
-        return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
+    async set(key: string, data: string) {
+        return this.framePostClient.request(UiAppRequestType.SET_SECRET, {
+            key,
+            data
+        });
     }
 }
 

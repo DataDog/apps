@@ -22,7 +22,7 @@ beforeEach(() => {
 });
 
 describe('client.get', () => {
-    it('sends a DECRYPT_SECRET request to the parent with the data to encrypt', async () => {
+    it('sends a GET_SECRET request to the parent with the data to encrypt', async () => {
         mockFramepostClient.init(mockContext);
 
         const requestMock = jest
@@ -32,7 +32,7 @@ describe('client.get', () => {
         const response = await client.get('my-secret-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.DECRYPT_SECRET,
+            UiAppRequestType.GET_SECRET,
             'my-secret-key'
         );
     });
