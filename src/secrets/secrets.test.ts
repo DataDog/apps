@@ -56,7 +56,7 @@ describe('secrets request handlers', () => {
     let getItemMock: jest.SpyInstance;
     let removeItemMock: jest.SpyInstance;
 
-    it('handles SAVE_STOREET request when sent from the parent frame', () => {
+    it('handles STORE_SECRET request when sent from the parent frame', () => {
         mockFramepostClient.init();
 
         const result = mockFramepostClient.mockRequest(
