@@ -48,9 +48,9 @@ export interface TemplateVariableValue {
 }
 
 export interface Timeframe {
-    from_ts: number;
-    to_ts: number;
-    live: boolean;
+    start: number;
+    end: number;
+    isLive: boolean;
 }
 
 export interface DashboardContext {
