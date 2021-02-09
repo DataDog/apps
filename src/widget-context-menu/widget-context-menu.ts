@@ -21,13 +21,13 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
         );
 
         // initialize with an empty reponse handler
-        this.onRequestItems(() => emptyConfig);
+        this.onRequest(() => emptyConfig);
     }
 
     /**
      * Registers a request handler for providing context menu items dynamically
      */
-    onRequestItems(
+    onRequest(
         requestHandler: (
             context: GetWidgetContextMenuItemsRequest
         ) =>
@@ -69,7 +69,7 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
 
         // return an unsubscribe hook
         return () => {
-            this.onRequestItems(() => emptyConfig);
+            this.onRequest(() => emptyConfig);
         };
     }
 }

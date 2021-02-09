@@ -56,7 +56,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             };
         });
 
-        client.onRequestItems(handler);
+        client.onRequest(handler);
 
         const response = await mockFramepostClient.mockRequest(
             UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
@@ -101,7 +101,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         });
 
         // @ts-ignore
-        client.onRequestItems(handler);
+        client.onRequest(handler);
 
         const response = await mockFramepostClient.mockRequest(
             UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
@@ -139,7 +139,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             };
         });
 
-        const unsubscribe = client.onRequestItems(handler);
+        const unsubscribe = client.onRequest(handler);
 
         unsubscribe();
 
