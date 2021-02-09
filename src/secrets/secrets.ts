@@ -26,18 +26,18 @@ export class DDSecretsClient {
 
     private registerRequestHandlers() {
         this.framePostClient.onRequest(
-            UiAppRequestType.SET_SECRET,
-            this.handleSetSecretRequest.bind(this)
+            UiAppRequestType.STORE_SECRET,
+            this.handleStoreSecretRequest.bind(this)
         );
 
         this.framePostClient.onRequest(
-            UiAppRequestType.GET_SECRET,
-            this.handleGetSecretRequest.bind(this)
+            UiAppRequestType.LOAD_SECRET,
+            this.handleLoadSecretRequest.bind(this)
         );
 
         this.framePostClient.onRequest(
-            UiAppRequestType.GET_ALL_SECRETS,
-            this.handleGetAllSecretsRequest.bind(this)
+            UiAppRequestType.LOAD_ALL_SECRETS,
+            this.handleLoadAllSecretsRequest.bind(this)
         );
 
         this.framePostClient.onRequest(
@@ -51,7 +51,7 @@ export class DDSecretsClient {
         );
     }
 
-    private handleSetSecretRequest({ key, secret }: SetSecretRequest) {
+    private handleStoreSecretRequest({ key, secret }: StoreSecretRequest) {
         try {
             window.localStorage.setItem(key, secret);
             return true;
@@ -61,7 +61,7 @@ export class DDSecretsClient {
         }
     }
 
-    private handleGetSecretRequest({ key }: GetSecretRequest) {
+    private handleLoadSecretRequest({ key }: LoadSecretRequest) {
         try {
             return window.localStorage.getItem(key);
         } catch (error) {
@@ -70,7 +70,7 @@ export class DDSecretsClient {
         }
     }
 
-    private handleGetAllSecretsRequest({ prefix }: GetAllSecretsRequest) {
+    private handleLoadAllSecretsRequest({ prefix }: LoadAllSecretsRequest) {
         try {
             const keys = getLocalStorageKeys().filter(
                 key => key && key.startsWith(prefix)
@@ -111,28 +111,32 @@ export class DDSecretsClient {
         }
     }
 
-    // returns the decrypted secret for a given key
+    // returns a promises that resolves with the decrypted secret for a given key
     async get(key: string) {
-        return this.framePostClient.request(
-            UiAppRequestType.DECRYPT_SECRET,
-            key
-        );
+        return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
+    }
+
+    async set(key: string, data: string) {
+        return this.framePostClient.request(UiAppRequestType.SET_SECRET, {
+            key,
+            data
+        });
     }
 }
 
-export interface SetSecretRequest {
+export interface StoreSecretRequest {
     key: string;
     secret: string;
 }
 
-export interface GetAllSecretsRequest {
+export interface LoadAllSecretsRequest {
     prefix: string;
 }
 export interface RemoveAllSecretsRequest {
     prefix: string;
 }
 
-export interface GetSecretRequest {
+export interface LoadSecretRequest {
     key: string;
 }
 export interface RemoveSecretRequest {

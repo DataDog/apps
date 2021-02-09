@@ -22,7 +22,7 @@ beforeEach(() => {
 });
 
 describe('client.get', () => {
-    it('sends a DECRYPT_SECRET request to the parent with the data to encrypt', async () => {
+    it('sends a GET_SECRET request to the parent with the data to encrypt', async () => {
         mockFramepostClient.init(mockContext);
 
         const requestMock = jest
@@ -32,7 +32,7 @@ describe('client.get', () => {
         const response = await client.get('my-secret-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.DECRYPT_SECRET,
+            UiAppRequestType.GET_SECRET,
             'my-secret-key'
         );
     });
@@ -56,11 +56,11 @@ describe('secrets request handlers', () => {
     let getItemMock: jest.SpyInstance;
     let removeItemMock: jest.SpyInstance;
 
-    it('handles SET_SECRET request when sent from the parent frame', () => {
+    it('handles STORE_SECRET request when sent from the parent frame', () => {
         mockFramepostClient.init();
 
         const result = mockFramepostClient.mockRequest(
-            UiAppRequestType.SET_SECRET,
+            UiAppRequestType.STORE_SECRET,
             {
                 key,
                 secret
@@ -71,12 +71,12 @@ describe('secrets request handlers', () => {
         expect(mockStorage.getItem(key)).toEqual(secret);
     });
 
-    it('handles GET_SECRET request when sent from the parent frame', () => {
+    it('handles LOAD_SECRET request when sent from the parent frame', () => {
         mockFramepostClient.init();
         mockStorage.setItem(key, secret);
 
         const result = mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_SECRET,
+            UiAppRequestType.LOAD_SECRET,
             {
                 key
             }
@@ -86,7 +86,7 @@ describe('secrets request handlers', () => {
         expect(mockStorage.getItem(key)).toEqual(secret);
     });
 
-    it('handles GET_ALL_SECRETS request when sent from the parent frame', () => {
+    it('handles LOAD_ALL_SECRETS request when sent from the parent frame', () => {
         mockFramepostClient.init();
         const prefix = 'my_app_prefix:';
         mockStorage.setItem(`${prefix}key_1`, 'secret_1');
@@ -94,7 +94,7 @@ describe('secrets request handlers', () => {
         mockStorage.setItem('another_key', 'secret_3');
 
         const result = mockFramepostClient.mockRequest(
-            UiAppRequestType.GET_ALL_SECRETS,
+            UiAppRequestType.LOAD_ALL_SECRETS,
             {
                 prefix
             }
