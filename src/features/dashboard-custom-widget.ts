@@ -6,6 +6,7 @@ export const dashboardCustomWidget: UiAppFeature = {
     events: [
         UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
         UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE,
-        UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE
+        UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE,
+        UiAppEventType.DASHBOARD_CURSOR_CHANGE
     ]
 };
