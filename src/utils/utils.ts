@@ -63,20 +63,25 @@ export const isEventEnabled = (
     return enabledFeatures.some(feature => enablingFeatures.has(feature));
 };
 
-const isDefinitionWithKey = (
+export const isDefinitionWithKey = (
     defenition: any
 ): defenition is DefinitionWithKey => !!defenition.key;
 
-export const validateKey = <T = any>(definitionOrKey: T | string): boolean => {
-    if (typeof definitionOrKey === 'string') {
-        return definitionOrKey.length > 0;
-    }
-
-    const definition = definitionOrKey as T;
-
+export const validateKey = <T = any>(definition: T): boolean => {
     if (!isDefinitionWithKey(definition)) {
         throw new Error('Definition missing required field ".key"');
     }
 
     return true;
 };
+
+/**
+ * Typescript utility type, takes an interface and makes the specified keys required
+ * Example: RequireKeys<MyType, 'a' | 'b'>
+ */
+export type RequireKeys<T, K extends keyof T> = {
+    [X in Exclude<keyof T, K>]?: T[X];
+} &
+    {
+        [P in K]-?: T[P];
+    };

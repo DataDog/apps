@@ -39,59 +39,10 @@ describe('sidePanel.open()', () => {
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.OPEN_SIDE_PANEL,
             {
-                definitionOrKey: {
+                definition: {
                     key: 'my-panel',
                     source: 'panel.html'
                 }
-            }
-        );
-    });
-
-    test('sends an open request with key to parent', async () => {
-        mockFramepostClient.init({
-            ...mockContext,
-            app: {
-                ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
-            }
-        });
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        const response = await client.open('my-panel');
-
-        expect(response).toEqual(null);
-
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_SIDE_PANEL,
-            {
-                definitionOrKey: 'my-panel'
-            }
-        );
-    });
-
-    test('sends an open request with key and context to parent', async () => {
-        mockFramepostClient.init({
-            ...mockContext,
-            app: {
-                ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
-            }
-        });
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        const response = await client.open('my-panel', { foo: 'baar' });
-
-        expect(response).toEqual(null);
-
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_SIDE_PANEL,
-            {
-                definitionOrKey: 'my-panel',
-                args: { foo: 'baar' }
             }
         );
     });
@@ -121,7 +72,7 @@ describe('sidePanel.open()', () => {
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.OPEN_SIDE_PANEL,
             {
-                definitionOrKey: {
+                definition: {
                     key: 'my-panel',
                     source: 'panel.html'
                 },
@@ -151,25 +102,6 @@ describe('sidePanel.open()', () => {
         }
 
         expect(error).toBeInstanceOf(Error);
-    });
-
-    test('ignores request if key is empty', async () => {
-        mockFramepostClient.init({
-            ...mockContext,
-            app: {
-                ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
-            }
-        });
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => null);
-
-        const response = await client.open('');
-
-        expect(response).toBeUndefined();
-
-        expect(requestMock).not.toHaveBeenCalled();
     });
 
     test('throws an error if app does not have the feature enabled', async () => {

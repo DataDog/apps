@@ -5,10 +5,10 @@ export enum Host {
 
 export enum UiAppFeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
-    DASHBOARD_CONTEXT_MENU = 'dashboard_context_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
     MODALS = 'modals',
-    SIDE_PANELS = 'side_panels'
+    SIDE_PANELS = 'side_panels',
+    WIDGET_CONTEXT_MENU = 'widget_context_menu'
 }
 
 export enum UiAppEventType {
@@ -17,7 +17,6 @@ export enum UiAppEventType {
 
     // Dashboards
     DASHBOARD_COG_MENU_CLICK = 'dashboard_cog_menu_click',
-    DASHBOARD_CONTEXT_MENU_CLICK = 'dashboard_context_menu_click',
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
     DASHBOARD_CURSOR_CHANGE = 'dashboard_cursor_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
@@ -29,7 +28,10 @@ export enum UiAppEventType {
     MODAL_CANCEL = 'modal_cancel',
 
     // Side panels
-    SIDE_PANEL_CLOSE = 'side_panel_close'
+    SIDE_PANEL_CLOSE = 'side_panel_close',
+
+    // Widgets
+    WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click'
 }
 
 export enum IFrameApiRequestMethod {
@@ -68,7 +70,13 @@ export enum UiAppRequestType {
     REMOVE_ALL_SECRETS = 'remove_all_secrets',
     LOAD_SECRET = 'load_secret',
     GET_SECRET = 'get_secret',
-    SET_SECRET = 'set_secret'
+    SET_SECRET = 'set_secret',
+
+    // Context Menu
+    GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
+
+    // Dashboard Cog Menu
+    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
@@ -88,4 +96,9 @@ export enum ModalActionLevel {
     SUCCESS = 'success',
     WARNING = 'warning',
     DANGER = 'danger'
+}
+
+export enum MenuItemType {
+    LINK = 'link',
+    EVENT = 'event'
 }

@@ -1,7 +1,7 @@
 import type { ChildClient } from '@datadog/framepost';
 
-import { DDFeatureClient } from '../client/featureClient';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { DDFeatureClient } from '../shared/feature-client';
 import { SidePanelDefinition } from '../types';
 import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
@@ -15,13 +15,13 @@ export class DDSidePanelClient extends DDFeatureClient {
      * Opens a side panel, given a full side panel definition or the key of a side panel
      * definition pre-defined in the app manifest
      */
-    async open(definitionOrKey: SidePanelDefinition | string, args?: any) {
+    async open(definition: SidePanelDefinition, args?: any) {
         await this.validateFeatureIsEnabled();
 
-        if (validateKey(definitionOrKey)) {
+        if (validateKey(definition)) {
             return this.framePostClient.request(
                 UiAppRequestType.OPEN_SIDE_PANEL,
-                { definitionOrKey, args }
+                { definition, args }
             );
         }
     }

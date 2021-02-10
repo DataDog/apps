@@ -29,11 +29,6 @@ describe('validateKey', () => {
         expect(result).toBeTruthy();
     });
 
-    it('accepts a valid string key', () => {
-        const result = validateKey('side-panel');
-        expect(result).toBeTruthy();
-    });
-
     it('rejects a definition without a key', () => {
         const defintion = {
             foo: 'bar'
@@ -42,10 +37,6 @@ describe('validateKey', () => {
         expect(() => validateKey(defintion)).toThrowError(
             'Definition missing required field ".key"'
         );
-    });
-    it('rejects an empty string', () => {
-        const result = validateKey('');
-        expect(result).toBeFalsy();
     });
 });
 
