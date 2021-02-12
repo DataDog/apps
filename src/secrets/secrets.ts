@@ -123,6 +123,13 @@ export class DDSecretsClient {
         });
     }
 
+    async remove(key: string) {
+        return this.framePostClient.request(
+            UiAppRequestType.REMOVE_SECRET_PUBLIC,
+            key
+        );
+    }
+
     async requestAuthTokens(authUrl: string): Promise<URLSearchParams> {
         const paramsString = await this.framePostClient.request(
             UiAppRequestType.REQUEST_AUTH_TOKENS,
