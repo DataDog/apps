@@ -122,6 +122,14 @@ export class DDSecretsClient {
             data
         });
     }
+
+    async requestAuthTokens(authUrl: string): Promise<URLSearchParams> {
+        const paramsString = await this.framePostClient.request(
+            UiAppRequestType.REQUEST_AUTH_TOKENS,
+            authUrl
+        );
+        return new URLSearchParams(paramsString);
+    }
 }
 
 export interface StoreSecretRequest {
