@@ -22,21 +22,74 @@ beforeEach(() => {
 });
 
 describe('client.get', () => {
-    it('sends a GET_SECRET request to the parent with the data to encrypt', async () => {
+    it('sends a GET_SECRET request to the parent with the data to decrypt', async () => {
         mockFramepostClient.init(mockContext);
 
         const requestMock = jest
             .spyOn(mockFramepostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.get('my-secret-key');
+        const response = await client.get('my-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.GET_SECRET,
-            'my-secret-key'
+            'my-key'
         );
     });
 });
+
+describe('client.set', () => {
+    it('sends a SET_SECRET request to the parent with the data to encrypt', async () => {
+        mockFramepostClient.init(mockContext);
+
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => null);
+
+        const response = await client.set('my-key', 'my-secret');
+        expect(response).toEqual(null);
+        expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.SET_SECRET, {
+            key: 'my-key',
+            data: 'my-secret'
+        });
+    });
+});
+
+describe('client.remove', () => {
+    it('sends a REMOVE_SECRET_PUBLIC request to the parent with the key to remove', async () => {
+        mockFramepostClient.init(mockContext);
+
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => null);
+
+        const response = await client.remove('my-key');
+        expect(response).toEqual(null);
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.REMOVE_SECRET_PUBLIC,
+            'my-key'
+        );
+    });
+});
+
+describe('client.requestAuthTokens', () => {
+    it('sends a REQUEST_AUTH_TOKENS request to the parent with the auth url', async () => {
+        mockFramepostClient.init(mockContext);
+
+        const requestMock = jest
+            .spyOn(mockFramepostClient, 'request')
+            .mockImplementation(() => 'a=abc&b=xyz');
+
+        const response = await client.requestAuthTokens('https:///auth.com');
+        expect(response.get('a')).toEqual('abc');
+        expect(response.get('b')).toEqual('xyz');
+        expect(requestMock).toHaveBeenCalledWith(
+            UiAppRequestType.REQUEST_AUTH_TOKENS,
+            'https:///auth.com'
+        );
+    });
+});
+
 describe('secrets request handlers', () => {
     beforeAll(() => {
         mockStorage = new MockLocalStorage();
