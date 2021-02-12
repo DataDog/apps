@@ -131,6 +131,7 @@ export class DDSecretsClient {
     }
 
     // returns a promises that resolves with the params passed to the redirection url after a successful auth
+    // Throws an error if the params were not received within 30 seconds
     async requestAuthTokens(authUrl: string): Promise<URLSearchParams> {
         const paramsString = await this.framePostClient.request(
             UiAppRequestType.REQUEST_AUTH_TOKENS,
