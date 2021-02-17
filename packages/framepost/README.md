@@ -7,7 +7,7 @@ FramePost is a library for parent-child iframe communication. It is designed to 
 The parent client is responsible for initializing a channel with the child. When establishing a channel, the parent may include arbitrary data as `context` sent to the child during the handshake process. _This must be done after the iframe is fully loaded_. It is highly recommended that the channel be initialized in an `onload` event:
 
 ```
-import { ParentClient } from '@datadog/framepost`;
+import { ParentClient } from '@datadog/framepost';
 
 const client = new ParentClient();
 
@@ -20,7 +20,7 @@ const context = {
 }
 
 frame.onload = () => {
-    client.requestChannel(frame, frame.src, contextData);
+    client.requestChannel(frame, frame.src, context);
 }
 ```
 
