@@ -29,7 +29,7 @@ frame.onload = () => {
 The child client must be initialized in the iframe during initial script execution. The child may provide context to be sent to the parent during the handshake process in the `context` config option.
 
 ```
-import { ChildClient } from '@datadog/framepost`;
+import { ChildClient } from '@datadog/framepost';
 
 const context = {
     infoAboutChild: 'It is a demo'
