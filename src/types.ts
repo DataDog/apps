@@ -94,7 +94,7 @@ export interface Context extends FeatureContext {
     app: AppContext;
 }
 
-export interface FrameContext {
+export interface ClientContext {
     sdkVersion: string;
 }
 

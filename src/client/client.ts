@@ -8,7 +8,7 @@ import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
 import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
-import type { Context, FrameContext, ClientOptions } from '../types';
+import type { Context, ClientContext, ClientOptions } from '../types';
 import { getLogger, Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
@@ -42,7 +42,7 @@ export class DDClient {
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION
-            } as FrameContext
+            } as ClientContext
         });
 
         this.logger = getLogger(options);
