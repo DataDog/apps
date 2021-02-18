@@ -15,8 +15,8 @@ export class DDAuthClient {
         this.framePostClient = framePostClient;
     }
 
-    // returns a promises that resolves with the params passed to the redirection url after a successful auth
-    // Throws an error if the params were not received within 30 seconds
+    // Returns a promises that resolves with the params passed to the redirection url after a successful auth
+    // The counterpart to resolveAuthTokens()
     async requestAuthTokens(
         authUrl: string,
         redirectUrlOrigin: string
@@ -28,8 +28,8 @@ export class DDAuthClient {
         return new URLSearchParams(paramsString);
     }
 
-    // returns a promises that resolves with the params passed to the redirection url after a successful auth
-    // Throws an error if the params were not received within 30 seconds
+    // Pass the URL query params. Must be called in a popup window opened by requestAuthTokens()
+    // The counterpart to requestAuthTokens()
     resolveAuthTokens() {
         // eslint-disable-next-line no-undef
         const paramsString = window.location.search;
