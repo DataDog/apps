@@ -16,6 +16,7 @@ export class DDAuthClient {
     }
 
     // Returns a promises that resolves with the params passed to the redirection url after a successful auth
+    // Throws an error if the popup window was blocked out or if the user did not consent within 5 minutes
     // The counterpart to resolveAuthTokens()
     async requestAuthTokens(
         authUrl: string,
