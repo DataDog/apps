@@ -47,7 +47,7 @@ describe('client.resolveAuthTokens', () => {
             search: '?a=abc&b=xyz'
         }
     });
-    it('sends a REQUEST_AUTH_TOKENS request to the parent with the auth url', async () => {
+    it('responds to REQUEST_AUTH_TOKENS request to the parent with the current URL query params', async () => {
         mockFramepostClient.init(mockContext);
 
         let response = await mockFramepostClient.mockRequest(
