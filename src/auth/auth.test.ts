@@ -51,8 +51,7 @@ describe('client.resolveAuthTokens', () => {
         mockFramepostClient.init(mockContext);
 
         let response = await mockFramepostClient.mockRequest(
-            UiAppRequestType.REQUEST_AUTH_TOKENS,
-            ''
+            UiAppRequestType.REQUEST_AUTH_TOKENS
         );
 
         expect(response).toBeUndefined();
