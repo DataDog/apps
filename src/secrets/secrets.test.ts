@@ -72,24 +72,6 @@ describe('client.remove', () => {
     });
 });
 
-describe('client.requestAuthTokens', () => {
-    it('sends a REQUEST_AUTH_TOKENS request to the parent with the auth url', async () => {
-        mockFramepostClient.init(mockContext);
-
-        const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
-            .mockImplementation(() => 'a=abc&b=xyz');
-
-        const response = await client.requestAuthTokens('https:///auth.com');
-        expect(response.get('a')).toEqual('abc');
-        expect(response.get('b')).toEqual('xyz');
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.REQUEST_AUTH_TOKENS,
-            'https:///auth.com'
-        );
-    });
-});
-
 describe('secrets request handlers', () => {
     beforeAll(() => {
         mockStorage = new MockLocalStorage();

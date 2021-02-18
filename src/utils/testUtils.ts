@@ -114,7 +114,7 @@ export class MockFramePostChildClient {
         return () => delete this.requestSubscriptions[requestKey];
     }
 
-    mockRequest(requestKey: string, data: any) {
+    mockRequest(requestKey: string, data?: any) {
         const handler = this.requestSubscriptions[requestKey];
         if (handler) {
             return handler(data);

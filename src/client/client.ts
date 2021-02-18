@@ -1,6 +1,7 @@
 import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
+import { DDAuthClient } from '../auth/auth';
 import { Host } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDEventsClient } from '../events/events';
@@ -32,6 +33,7 @@ export class DDClient {
     sidePanel: DDSidePanelClient;
     secrets: DDSecretsClient;
     widgetContextMenu: DDWidgetContextMenuClient;
+    auth: DDAuthClient;
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -90,6 +92,12 @@ export class DDClient {
         );
 
         this.widgetContextMenu = new DDWidgetContextMenuClient(
+            this.debug,
+            this.logger,
+            this.framePostClient
+        );
+
+        this.auth = new DDAuthClient(
             this.debug,
             this.logger,
             this.framePostClient
