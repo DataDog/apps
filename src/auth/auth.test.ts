@@ -41,12 +41,6 @@ describe('client.requestAuthTokens', () => {
 });
 
 describe('client.resolveAuthTokens', () => {
-    // eslint-disable-next-line no-undef
-    Object.defineProperty(window, 'location', {
-        value: {
-            search: '?a=abc&b=xyz'
-        }
-    });
     it('responds to REQUEST_AUTH_TOKENS request to the parent with the current URL query params', async () => {
         mockFramepostClient.init(mockContext);
 
@@ -56,7 +50,7 @@ describe('client.resolveAuthTokens', () => {
 
         expect(response).toBeUndefined();
 
-        client.resolveAuthTokens();
+        client.resolveAuthTokens('?a=abc&b=xyz');
 
         response = await mockFramepostClient.mockRequest(
             UiAppRequestType.REQUEST_AUTH_TOKENS

@@ -31,9 +31,7 @@ export class DDAuthClient {
 
     // Pass the URL query params. Must be called in a popup window opened by requestAuthTokens()
     // The counterpart to requestAuthTokens()
-    resolveAuthTokens() {
-        // eslint-disable-next-line no-undef
-        const paramsString = window.location.search;
+    resolveAuthTokens(paramsString: string) {
         this.framePostClient.onRequest(
             UiAppRequestType.REQUEST_AUTH_TOKENS,
             () => paramsString
