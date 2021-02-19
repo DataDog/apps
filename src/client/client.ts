@@ -10,7 +10,7 @@ import { DDModalClient } from '../modal/modal';
 import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type { Context, ClientContext, ClientOptions } from '../types';
-import { getLogger, Logger } from '../utils/logger';
+import { Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
@@ -48,7 +48,7 @@ export class DDClient {
             } as ClientContext
         });
 
-        this.logger = getLogger(options);
+        this.logger = new Logger(this);
 
         this.api = new DDAPIClient(this);
         this.auth = new DDAuthClient(this);
@@ -62,6 +62,12 @@ export class DDClient {
 
         this.events.on(UiAppEventType.CONTEXT_CHANGE, newContext => {
             this.context = newContext;
+
+            this.syncDebugMode(this.context);
+        });
+
+        this.getContext().then(context => {
+            this.syncDebugMode(context);
         });
     }
 
@@ -74,5 +80,10 @@ export class DDClient {
         }
 
         return this.context;
+    }
+
+    // Turn on debugger if dev mode is on in parent
+    private syncDebugMode(context: Context) {
+        this.debug = context.app.debug || this.debug;
     }
 }

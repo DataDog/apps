@@ -1,7 +1,7 @@
 import { UiAppFeatureType } from '../constants';
 import { Context } from '../types';
 
-import { getLogger, Logger } from './logger';
+import { Logger } from './logger';
 
 export interface Deferred<T> {
     resolve: (t: T) => void;
@@ -47,7 +47,8 @@ export const mockContext: Context = {
             id: 12345,
             name: 'Corporate overlord'
         },
-        features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+        features: [UiAppFeatureType.DASHBOARD_COG_MENU],
+        debug: true
     }
 };
 
@@ -162,9 +163,11 @@ export class MockLocalStorage {
 export class MockClient {
     framePostClient: MockFramePostChildClient;
     logger: Logger;
+    debug: boolean = true;
+
     constructor() {
         this.framePostClient = new MockFramePostChildClient();
-        this.logger = getLogger({ debug: true });
+        this.logger = new Logger(this as any);
     }
 
     getContext() {
