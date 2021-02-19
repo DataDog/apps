@@ -1,24 +1,19 @@
 import { UiAppFeatureType, UiAppRequestType, MenuItemType } from '../constants';
-import { getLogger } from '../utils/logger';
-import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
+import { MockClient, mockContext } from '../utils/testUtils';
 
 import { DDDashboardCogMenuClient } from './dashboard-cog-menu';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDDashboardCogMenuClient;
+let client: MockClient;
+let cogMenuClient: DDDashboardCogMenuClient;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDDashboardCogMenuClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    client = new MockClient();
+    cogMenuClient = new DDDashboardCogMenuClient(client as any);
 });
 
 describe('dashboardContextMenu.onRequestItems()', () => {
     test('Registers a handler returning an empty array on init', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -26,7 +21,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             }
         });
 
-        const response = await mockFramepostClient.mockRequest(
+        const response = await client.framePostClient.mockRequest(
             UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
@@ -35,7 +30,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
     });
 
     test('registers the provided handler when onRequestItems is called', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -56,9 +51,9 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             };
         });
 
-        client.onRequest(handler);
+        cogMenuClient.onRequest(handler);
 
-        const response = await mockFramepostClient.mockRequest(
+        const response = await client.framePostClient.mockRequest(
             UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
@@ -80,7 +75,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             .spyOn(console, 'error')
             .mockImplementation(() => {});
 
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -101,9 +96,9 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         });
 
         // @ts-ignore
-        client.onRequest(handler);
+        cogMenuClient.onRequest(handler);
 
-        const response = await mockFramepostClient.mockRequest(
+        const response = await client.framePostClient.mockRequest(
             UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
@@ -118,7 +113,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
     });
 
     test('returns an unsubscribe hook that replaces with an empty handler', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -139,11 +134,11 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             };
         });
 
-        const unsubscribe = client.onRequest(handler);
+        const unsubscribe = cogMenuClient.onRequest(handler);
 
         unsubscribe();
 
-        const response = await mockFramepostClient.mockRequest(
+        const response = await client.framePostClient.mockRequest(
             UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );

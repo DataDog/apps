@@ -1,30 +1,25 @@
 import { UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
-import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
+import { MockClient, mockContext } from '../utils/testUtils';
 
 import { DDAuthClient } from './auth';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDAuthClient;
+let client: MockClient;
+let authClient: DDAuthClient;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDAuthClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    client = new MockClient();
+    authClient = new DDAuthClient(client as any);
 });
 
 describe('client.requestAuthTokens', () => {
     it('sends a REQUEST_AUTH_TOKENS request to the parent with the auth url', async () => {
-        mockFramepostClient.init(mockContext);
+        client.framePostClient.init(mockContext);
 
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => 'a=abc&b=xyz');
 
-        const response = await client.requestAuthTokens(
+        const response = await authClient.requestAuthTokens(
             'https:///auth.com',
             'http://domain.com'
         );
@@ -42,17 +37,17 @@ describe('client.requestAuthTokens', () => {
 
 describe('client.resolveAuthTokens', () => {
     it('responds to REQUEST_AUTH_TOKENS request to the parent with the current URL query params', async () => {
-        mockFramepostClient.init(mockContext);
+        client.framePostClient.init(mockContext);
 
-        let response = await mockFramepostClient.mockRequest(
+        let response = await client.framePostClient.mockRequest(
             UiAppRequestType.REQUEST_AUTH_TOKENS
         );
 
         expect(response).toBeUndefined();
 
-        client.resolveAuthTokens('?a=abc&b=xyz');
+        authClient.resolveAuthTokens('?a=abc&b=xyz');
 
-        response = await mockFramepostClient.mockRequest(
+        response = await client.framePostClient.mockRequest(
             UiAppRequestType.REQUEST_AUTH_TOKENS
         );
 

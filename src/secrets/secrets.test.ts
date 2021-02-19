@@ -1,35 +1,26 @@
 import { UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
-import {
-    MockFramePostChildClient,
-    mockContext,
-    MockLocalStorage
-} from '../utils/testUtils';
+import { mockContext, MockLocalStorage, MockClient } from '../utils/testUtils';
 
 import { DDSecretsClient } from './secrets';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDSecretsClient;
+let client: MockClient;
+let secretsClient: DDSecretsClient;
 let mockStorage: MockLocalStorage;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDSecretsClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    client = new MockClient();
+    secretsClient = new DDSecretsClient(client as any);
 });
 
 describe('client.get', () => {
     it('sends a GET_SECRET request to the parent with the data to decrypt', async () => {
-        mockFramepostClient.init(mockContext);
+        client.framePostClient.init(mockContext);
 
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.get('my-key');
+        const response = await secretsClient.get('my-secret-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.GET_SECRET,
@@ -40,13 +31,13 @@ describe('client.get', () => {
 
 describe('client.set', () => {
     it('sends a SET_SECRET request to the parent with the data to encrypt', async () => {
-        mockFramepostClient.init(mockContext);
+        client.framePostClient.init(mockContext);
 
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.set('my-key', 'my-secret');
+        const response = await secretsClient.set('my-key', 'my-secret');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.SET_SECRET, {
             key: 'my-key',
@@ -57,13 +48,13 @@ describe('client.set', () => {
 
 describe('client.remove', () => {
     it('sends a REMOVE_SECRET_PUBLIC request to the parent with the key to remove', async () => {
-        mockFramepostClient.init(mockContext);
+        client.framePostClient.init(mockContext);
 
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.remove('my-key');
+        const response = await secretsClient.remove('my-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.REMOVE_SECRET_PUBLIC,
@@ -92,9 +83,9 @@ describe('secrets request handlers', () => {
     let removeItemMock: jest.SpyInstance;
 
     it('handles STORE_SECRET request when sent from the parent frame', () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
 
-        const result = mockFramepostClient.mockRequest(
+        const result = client.framePostClient.mockRequest(
             UiAppRequestType.STORE_SECRET,
             {
                 key,
@@ -107,10 +98,10 @@ describe('secrets request handlers', () => {
     });
 
     it('handles LOAD_SECRET request when sent from the parent frame', () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
         mockStorage.setItem(key, secret);
 
-        const result = mockFramepostClient.mockRequest(
+        const result = client.framePostClient.mockRequest(
             UiAppRequestType.LOAD_SECRET,
             {
                 key
@@ -122,13 +113,13 @@ describe('secrets request handlers', () => {
     });
 
     it('handles LOAD_ALL_SECRETS request when sent from the parent frame', () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
         const prefix = 'my_app_prefix:';
         mockStorage.setItem(`${prefix}key_1`, 'secret_1');
         mockStorage.setItem(`${prefix}key_2`, 'secret_2');
         mockStorage.setItem('another_key', 'secret_3');
 
-        const result = mockFramepostClient.mockRequest(
+        const result = client.framePostClient.mockRequest(
             UiAppRequestType.LOAD_ALL_SECRETS,
             {
                 prefix
@@ -146,10 +137,10 @@ describe('secrets request handlers', () => {
     });
 
     it('handles REMOVE_SECRET request when sent from the parent frame', () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
         mockStorage.setItem(key, secret);
 
-        const result = mockFramepostClient.mockRequest(
+        const result = client.framePostClient.mockRequest(
             UiAppRequestType.REMOVE_SECRET,
             {
                 key
@@ -162,13 +153,13 @@ describe('secrets request handlers', () => {
     });
 
     it('handles REMOVE_ALL_SECRETS request when sent from the parent frame', () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
         const prefix = 'my_app_prefix:';
         mockStorage.setItem(`${prefix}key_1`, 'secret_1');
         mockStorage.setItem(`${prefix}key_2`, 'secret_2');
         mockStorage.setItem('another_key', 'secret_3');
 
-        const result = mockFramepostClient.mockRequest(
+        const result = client.framePostClient.mockRequest(
             UiAppRequestType.REMOVE_ALL_SECRETS,
             {
                 prefix

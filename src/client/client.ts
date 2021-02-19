@@ -2,7 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import { Host } from '../constants';
+import { UiAppEventType, Host } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -22,10 +22,11 @@ const DEFAULT_OPTIONS = {
 
 export class DDClient {
     private readonly host: string;
-    private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<Context>;
-    private readonly logger: Logger;
+    private context?: Context;
+    readonly framePostClient: ChildClient<Context>;
+    readonly logger: Logger;
     api: DDAPIClient;
+    debug: boolean;
     events: DDEventsClient;
     dashboardCogMenu: DDDashboardCogMenuClient;
     location: DDLocationClient;
@@ -49,65 +50,29 @@ export class DDClient {
 
         this.logger = getLogger(options);
 
-        this.api = new DDAPIClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
+        this.api = new DDAPIClient(this);
+        this.auth = new DDAuthClient(this);
+        this.events = new DDEventsClient(this);
+        this.dashboardCogMenu = new DDDashboardCogMenuClient(this);
+        this.location = new DDLocationClient(this);
+        this.modal = new DDModalClient(this);
+        this.sidePanel = new DDSidePanelClient(this);
+        this.secrets = new DDSecretsClient(this);
+        this.widgetContextMenu = new DDWidgetContextMenuClient(this);
 
-        this.events = new DDEventsClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.dashboardCogMenu = new DDDashboardCogMenuClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.location = new DDLocationClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.modal = new DDModalClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.sidePanel = new DDSidePanelClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.secrets = new DDSecretsClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.widgetContextMenu = new DDWidgetContextMenuClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
-
-        this.auth = new DDAuthClient(
-            this.debug,
-            this.logger,
-            this.framePostClient
-        );
+        this.events.on(UiAppEventType.CONTEXT_CHANGE, newContext => {
+            this.context = newContext;
+        });
     }
 
     /**
      * Returns app context data, after it is sent from the parent
      */
     async getContext(): Promise<Context> {
-        return this.framePostClient.getContext();
+        if (!this.context) {
+            this.context = await this.framePostClient.getContext();
+        }
+
+        return this.context;
     }
 }

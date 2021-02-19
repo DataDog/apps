@@ -1,27 +1,16 @@
 import { IFrameApiRequestMethod, UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
+import { MockClient } from '../utils/testUtils';
 
 import { DDAPIClient } from './api';
 
-class MockFramepostClient {
-    request: jest.Mock;
+let client: MockClient;
+let apiClient: DDAPIClient;
 
-    constructor() {
-        this.request = jest.fn(() => ({
-            isError: false
-        }));
-    }
-}
+beforeEach(() => {
+    client = new MockClient();
+    apiClient = new DDAPIClient(client as any);
 
-const framepostClient = new MockFramepostClient();
-const apiClient = new DDAPIClient(
-    false,
-    getLogger({ debug: false }),
-    framepostClient as any
-);
-
-afterEach(() => {
-    framepostClient.request = jest.fn(() => ({
+    client.framePostClient.request = jest.fn(() => ({
         isError: false
     }));
 });
@@ -34,7 +23,7 @@ describe('api', () => {
             }
         });
 
-        expect(framepostClient.request).toBeCalledWith(
+        expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
                 method: IFrameApiRequestMethod.GET,
@@ -52,7 +41,7 @@ describe('api', () => {
     test('has an HTTP post method', () => {
         apiClient.post('/test/endpoint', 'body');
 
-        expect(framepostClient.request).toBeCalledWith(
+        expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
                 method: IFrameApiRequestMethod.POST,
@@ -66,7 +55,7 @@ describe('api', () => {
     test('has an HTTP put method', () => {
         apiClient.put('/test/endpoint', 'body');
 
-        expect(framepostClient.request).toBeCalledWith(
+        expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
                 method: IFrameApiRequestMethod.PUT,
@@ -80,7 +69,7 @@ describe('api', () => {
     test('has an HTTP patch method', () => {
         apiClient.patch('/test/endpoint', 'body');
 
-        expect(framepostClient.request).toBeCalledWith(
+        expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
                 method: IFrameApiRequestMethod.PATCH,
@@ -94,7 +83,7 @@ describe('api', () => {
     test('has an HTTP delete method', () => {
         apiClient.delete('/test/endpoint');
 
-        expect(framepostClient.request).toBeCalledWith(
+        expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
                 method: IFrameApiRequestMethod.DELETE,
@@ -106,7 +95,7 @@ describe('api', () => {
     });
 
     test('propagates errors from framepost request method', async () => {
-        framepostClient.request = jest.fn(() => {
+        client.framePostClient.request = jest.fn(() => {
             throw new Error('Something went wrong');
         });
 

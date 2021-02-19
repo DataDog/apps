@@ -1,24 +1,17 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import type {
     GetDashboardCogMenuItemsRequest,
     GetDashboardCogMenuItemsResponse
 } from '../types';
-import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
 
 const emptyConfig: GetDashboardCogMenuItemsResponse = { items: [] };
 
 export class DDDashboardCogMenuClient extends DDFeatureClient {
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        super(
-            debug,
-            logger,
-            framePostClient,
-            UiAppFeatureType.DASHBOARD_COG_MENU
-        );
+    constructor(client: DDClient) {
+        super(client, UiAppFeatureType.DASHBOARD_COG_MENU);
 
         // initialize with an empty reponse handler
         this.onRequest(() => emptyConfig);
@@ -40,7 +33,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             try {
                 await this.validateFeatureIsEnabled();
             } catch (e) {
-                this.logger.error(e.message);
+                this.client.logger.error(e.message);
 
                 return emptyConfig;
             }
@@ -52,7 +45,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
                     try {
                         validateKey(item);
                     } catch (e) {
-                        this.logger.error(e.message);
+                        this.client.logger.error(e.message);
 
                         return false;
                     }
@@ -62,7 +55,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             };
         };
 
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             wrappedHandler
         );

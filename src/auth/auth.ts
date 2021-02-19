@@ -1,18 +1,11 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppRequestType } from '../constants';
-import type { Context } from '../types';
-import type { Logger } from '../utils/logger';
 
 export class DDAuthClient {
-    private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<Context>;
-    private readonly logger: Logger;
+    private readonly client: DDClient;
 
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient) {
+        this.client = client;
     }
 
     // Returns a promises that resolves with the params passed to the redirection url after a successful auth
@@ -22,7 +15,7 @@ export class DDAuthClient {
         authUrl: string,
         redirectUrlOrigin: string
     ): Promise<URLSearchParams> {
-        const paramsString = await this.framePostClient.request(
+        const paramsString = await this.client.framePostClient.request(
             UiAppRequestType.REQUEST_AUTH_TOKENS,
             { authUrl, redirectUrlOrigin }
         );
@@ -32,7 +25,7 @@ export class DDAuthClient {
     // Pass the URL query params. Must be called in a popup window opened by requestAuthTokens()
     // The counterpart to requestAuthTokens()
     resolveAuthTokens(paramsString: string) {
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.REQUEST_AUTH_TOKENS,
             () => paramsString
         );

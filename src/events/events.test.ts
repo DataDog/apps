@@ -1,23 +1,14 @@
 import { UiAppEventType, UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
-import {
-    MockFramePostChildClient,
-    mockContext,
-    flushPromises
-} from '../utils/testUtils';
+import { MockClient, mockContext, flushPromises } from '../utils/testUtils';
 
 import { DDEventsClient } from './events';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDEventsClient;
+let mockClient: MockClient;
+let eventsClient: DDEventsClient;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDEventsClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    mockClient = new MockClient();
+    eventsClient = new DDEventsClient(mockClient as any);
 });
 
 describe('events.on()', () => {
@@ -25,15 +16,18 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback2);
+        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
+        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback2);
 
-        mockFramepostClient.init();
+        mockClient.framePostClient.init();
 
-        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.framePostClient.mockEvent(
+            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -52,20 +46,23 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
-        const unsubscribe = client.on(
+        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
+        const unsubscribe = eventsClient.on(
             UiAppEventType.DASHBOARD_COG_MENU_CLICK,
             callback2
         );
 
         unsubscribe();
 
-        mockFramepostClient.init();
+        mockClient.framePostClient.init();
 
-        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.framePostClient.mockEvent(
+            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -79,12 +76,12 @@ describe('events.on()', () => {
             .spyOn(console, 'error')
             .mockImplementation(() => {});
 
-        client.on(
+        eventsClient.on(
             UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
             () => {}
         );
 
-        mockFramepostClient.init({
+        mockClient.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -92,10 +89,13 @@ describe('events.on()', () => {
             }
         });
 
-        mockFramepostClient.mockEvent(UiAppEventType.DASHBOARD_COG_MENU_CLICK, {
-            id: 'dashboardid',
-            shareToken: 'https://www.google.com'
-        });
+        mockClient.framePostClient.mockEvent(
+            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            {
+                id: 'dashboardid',
+                shareToken: 'https://www.google.com'
+            }
+        );
 
         await flushPromises();
 
@@ -108,15 +108,15 @@ describe('events.on()', () => {
 
 describe('events.broadcast()', () => {
     test('sends broadcast request to parent', async () => {
-        mockFramepostClient.init();
+        mockClient.framePostClient.init();
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(mockClient.framePostClient, 'request')
             .mockImplementation(() => ({
                 success: true,
                 frameUrls: ['https://domain.com/path/to/frame.html']
             }));
 
-        const response = await client.broadcast('my_event', 'data');
+        const response = await eventsClient.broadcast('my_event', 'data');
 
         expect(response).toEqual({
             success: true,
@@ -138,12 +138,12 @@ describe('events.onCustom()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.onCustom('my_event', callback1);
-        client.onCustom('my_event', callback2);
+        eventsClient.onCustom('my_event', callback1);
+        eventsClient.onCustom('my_event', callback2);
 
-        mockFramepostClient.init();
+        mockClient.framePostClient.init();
 
-        mockFramepostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+        mockClient.framePostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',
@@ -168,12 +168,12 @@ describe('events.onCustom()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        client.onCustom('my_event', callback1);
-        client.onCustom('my_other_event', callback2);
+        eventsClient.onCustom('my_event', callback1);
+        eventsClient.onCustom('my_other_event', callback2);
 
-        mockFramepostClient.init();
+        mockClient.framePostClient.init();
 
-        mockFramepostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+        mockClient.framePostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',

@@ -1,32 +1,20 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import type { UiAppFeatureType } from '../constants';
-import type { Context } from '../types';
-import type { Logger } from '../utils/logger';
 import { isFeatureEnabled } from '../utils/utils';
 
 export class DDFeatureClient {
-    protected readonly debug: boolean;
-    protected readonly logger: Logger;
-    protected readonly framePostClient: ChildClient<Context>;
+    protected readonly client: DDClient;
     protected readonly featureType: UiAppFeatureType;
 
-    constructor(
-        debug: boolean,
-        logger: Logger,
-        framePostClient: ChildClient,
-        featureType: UiAppFeatureType
-    ) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient, featureType: UiAppFeatureType) {
+        this.client = client;
         this.featureType = featureType;
     }
 
     private async isEnabled() {
         const {
             app: { features }
-        } = await this.framePostClient.getContext();
+        } = await this.client.getContext();
 
         return isFeatureEnabled(this.featureType, features);
     }

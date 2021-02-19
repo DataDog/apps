@@ -1,5 +1,4 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppEventType, UiAppRequestType } from '../constants';
 import type {
     Context,
@@ -11,13 +10,13 @@ import type {
     DashboardCogMenuClickData,
     SidePanelDefinition
 } from '../types';
-import type { Logger } from '../utils/logger';
 import { isEventEnabled } from '../utils/utils';
 
 // This interface mapping provides types for event handlers subscribed to with `client.events.on`
 interface DDEventDataTypes {
     // General
     [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
+    [UiAppEventType.CONTEXT_CHANGE]: Context;
     [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
     [UiAppEventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
     [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
@@ -38,14 +37,10 @@ interface DDEventDataTypes {
 }
 
 export class DDEventsClient {
-    private readonly debug: boolean;
-    private readonly logger: Logger;
-    private readonly framePostClient: ChildClient<Context>;
+    private readonly client: DDClient;
 
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient) {
+        this.client = client;
     }
 
     /**
@@ -58,12 +53,12 @@ export class DDEventsClient {
         handler: EventHandler<DDEventDataTypes[K]>
     ): () => void {
         // first, immediately subscribe
-        const unsubscribe = this.framePostClient.on(eventType, handler);
+        const unsubscribe = this.client.framePostClient.on(eventType, handler);
 
         // kick off async process to message access errors after handshake succeeds.
         // failure also unsubscribes. This routine is to message errors to devs.
         // actual gating of events happens in the main datadog UI
-        this.framePostClient
+        this.client
             .getContext()
             .then(context => {
                 const canHandleEvent = isEventEnabled(
@@ -73,7 +68,7 @@ export class DDEventsClient {
 
                 if (!canHandleEvent) {
                     unsubscribe();
-                    this.logger.error(
+                    this.client.logger.error(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
                     );
                 }
@@ -102,13 +97,13 @@ export class DDEventsClient {
      * for debug purposes
      */
     async broadcast<T = any>(eventType: string, data: T) {
-        return this.framePostClient.request<CustomEventPayload<T>, undefined>(
-            UiAppRequestType.EVENT_BROADCAST,
-            {
-                eventType,
-                data
-            }
-        );
+        return this.client.framePostClient.request<
+            CustomEventPayload<T>,
+            undefined
+        >(UiAppRequestType.EVENT_BROADCAST, {
+            eventType,
+            data
+        });
     }
 }
 

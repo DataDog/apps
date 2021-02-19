@@ -1,24 +1,19 @@
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
-import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
+import { mockContext, MockClient } from '../utils/testUtils';
 
 import { DDSidePanelClient } from './side-panel';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDSidePanelClient;
+let client: MockClient;
+let sidePanelClient: DDSidePanelClient;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDSidePanelClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    client = new MockClient();
+    sidePanelClient = new DDSidePanelClient(client as any);
 });
 
 describe('sidePanel.open()', () => {
     test('sends an open request with definition to parent', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -26,10 +21,10 @@ describe('sidePanel.open()', () => {
             }
         });
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.open({
+        const response = await sidePanelClient.open({
             key: 'my-panel',
             source: 'panel.html'
         });
@@ -48,7 +43,7 @@ describe('sidePanel.open()', () => {
     });
 
     test('sends an open request with definition and context to parent', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -56,10 +51,10 @@ describe('sidePanel.open()', () => {
             }
         });
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.open(
+        const response = await sidePanelClient.open(
             {
                 key: 'my-panel',
                 source: 'panel.html'
@@ -82,7 +77,7 @@ describe('sidePanel.open()', () => {
     });
 
     test('throws an error if definition is invalid', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -94,7 +89,7 @@ describe('sidePanel.open()', () => {
 
         try {
             // @ts-ignore
-            await client.open({
+            await sidePanelClient.open({
                 source: 'panel.html'
             });
         } catch (e) {
@@ -105,12 +100,12 @@ describe('sidePanel.open()', () => {
     });
 
     test('throws an error if app does not have the feature enabled', async () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
 
         let error;
 
         try {
-            await client.open({
+            await sidePanelClient.open({
                 key: 'my-panel',
                 source: 'panel.html'
             });
@@ -124,7 +119,7 @@ describe('sidePanel.open()', () => {
 
 describe('sidePanel.close()', () => {
     test('sends an close request to parent', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -132,10 +127,10 @@ describe('sidePanel.close()', () => {
             }
         });
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.close('my-panel');
+        const response = await sidePanelClient.close('my-panel');
 
         expect(response).toEqual(null);
 
@@ -146,12 +141,12 @@ describe('sidePanel.close()', () => {
     });
 
     test('Throws an error if the app does not have the feature enabled', async () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
 
         let error;
 
         try {
-            await client.close('my-panel');
+            await sidePanelClient.close('my-panel');
         } catch (e) {
             error = e;
         }
