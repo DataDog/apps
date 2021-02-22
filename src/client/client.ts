@@ -1,6 +1,7 @@
 import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
+import { DDAuthClient } from '../auth/auth';
 import { Host } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDEventsClient } from '../events/events';
@@ -8,7 +9,7 @@ import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
 import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
-import type { Context, FrameContext, ClientOptions } from '../types';
+import type { Context, ClientContext, ClientOptions } from '../types';
 import { getLogger, Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
@@ -32,6 +33,7 @@ export class DDClient {
     sidePanel: DDSidePanelClient;
     secrets: DDSecretsClient;
     widgetContextMenu: DDWidgetContextMenuClient;
+    auth: DDAuthClient;
 
     constructor(options: ClientOptions = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -42,7 +44,7 @@ export class DDClient {
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION
-            } as FrameContext
+            } as ClientContext
         });
 
         this.logger = getLogger(options);
@@ -90,6 +92,12 @@ export class DDClient {
         );
 
         this.widgetContextMenu = new DDWidgetContextMenuClient(
+            this.debug,
+            this.logger,
+            this.framePostClient
+        );
+
+        this.auth = new DDAuthClient(
             this.debug,
             this.logger,
             this.framePostClient

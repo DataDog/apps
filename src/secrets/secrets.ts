@@ -6,7 +6,7 @@ import type { Context } from '../types';
 import type { Logger } from '../utils/logger';
 
 const getLocalStorageKeys = () => {
-    // we cannot use because it doesn't work with the mocked localStorage Object.keys(window.localStorage)
+    // we cannot use Obbjey.keys because it doesn't work with the mocked localStorage Object.keys(window.localStorage)
     return [...Array(window.localStorage.length)].map((_, i) =>
         window.localStorage.key(i)
     );
@@ -121,6 +121,13 @@ export class DDSecretsClient {
             key,
             data
         });
+    }
+
+    async remove(key: string) {
+        return this.framePostClient.request(
+            UiAppRequestType.REMOVE_SECRET_PUBLIC,
+            key
+        );
     }
 }
 
