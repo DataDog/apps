@@ -24,7 +24,7 @@ describe('client.get', () => {
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
             UiAppRequestType.GET_SECRET,
-            'my-key'
+            'my-secret-key'
         );
     });
 });

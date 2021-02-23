@@ -279,9 +279,9 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/framepost@git://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136":
+"@datadog/framepost@https://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136":
   version "0.2.1"
-  resolved "git://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136"
+  resolved "https://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136"
 
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
