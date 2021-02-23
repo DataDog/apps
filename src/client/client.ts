@@ -74,9 +74,9 @@ export class DDClient {
     /**
      * Returns app context data, after it is sent from the parent
      */
-    async getContext(): Promise<Context | null> {
-        if (this.context === undefined) {
-            this.context = await this.framePostClient.getContext();
+    async getContext(): Promise<Context> {
+        if (!this.context) {
+            this.context = await this.framePostClient.handshake();
         }
 
         return this.context;

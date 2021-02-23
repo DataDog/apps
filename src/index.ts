@@ -9,7 +9,7 @@ let client: DDClient;
  */
 export const init = (
     options?: ClientOptions,
-    callback?: (context: Context | null) => void
+    callback?: (context: Context) => void
 ): DDClient => {
     if (!client) {
         client = new DDClient(options);
