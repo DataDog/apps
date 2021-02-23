@@ -41,7 +41,7 @@ export class DDClient {
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
         this.framePostClient = new ChildClient<Context>({
-            debug: this.debug,
+            debug: false, // 3p devs most likely dont need to see framepost debug messages
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION
