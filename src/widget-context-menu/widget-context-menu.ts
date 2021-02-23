@@ -30,13 +30,7 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
         const wrappedHandler = async (
             context: GetWidgetContextMenuItemsRequest
         ): Promise<GetWidgetContextMenuItemsResponse> => {
-            try {
-                await this.validateFeatureIsEnabled();
-            } catch (e) {
-                this.client.logger.error(e.message);
-
-                return emptyConfig;
-            }
+            await this.validateFeatureIsEnabled();
 
             const { items } = await requestHandler(context);
 

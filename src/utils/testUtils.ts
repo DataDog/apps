@@ -77,6 +77,10 @@ export class MockFramePostChildClient {
         return context;
     }
 
+    handshake() {
+        return this.getContext();
+    }
+
     on(eventType: string, handler: (arg?: any) => any): () => void {
         const subscriptionId = uniqueInt().toString();
 

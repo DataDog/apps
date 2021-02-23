@@ -22,7 +22,7 @@ const DEFAULT_OPTIONS = {
 
 export class DDClient {
     private readonly host: string;
-    private context?: Context;
+    private context?: Context | null;
     readonly framePostClient: ChildClient<Context>;
     readonly logger: Logger;
     api: DDAPIClient;
@@ -74,8 +74,8 @@ export class DDClient {
     /**
      * Returns app context data, after it is sent from the parent
      */
-    async getContext(): Promise<Context> {
-        if (!this.context) {
+    async getContext(): Promise<Context | null> {
+        if (this.context === undefined) {
             this.context = await this.framePostClient.getContext();
         }
 
@@ -83,7 +83,7 @@ export class DDClient {
     }
 
     // Turn on debugger if dev mode is on in parent
-    private syncDebugMode(context: Context) {
-        this.debug = context.app.debug || this.debug;
+    private syncDebugMode(context: Context | null) {
+        this.debug = context?.app?.debug || this.debug;
     }
 }

@@ -11,15 +11,24 @@ export class DDFeatureClient {
         this.featureType = featureType;
     }
 
-    private async isEnabled() {
+    private async isEnabled(): Promise<boolean> {
+        const context = await this.client.getContext();
+
+        if (!context) {
+            return false;
+        }
+
         const {
             app: { features }
-        } = await this.client.getContext();
+        } = context;
 
         return isFeatureEnabled(this.featureType, features);
     }
 
     protected async validateFeatureIsEnabled() {
+        // will throw a handshake error if handshake fails
+        await this.client.framePostClient.handshake();
+
         const isEnabled = await this.isEnabled();
 
         if (!isEnabled) {
