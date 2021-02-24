@@ -28,7 +28,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@datadog/framepost": "https://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136"
+        "@datadog/framepost": "0.2.2"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",

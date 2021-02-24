@@ -279,9 +279,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/framepost@https://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136":
-  version "0.2.1"
-  resolved "https://github.com/DataDog/framepost.git#263c75d619ada57833e0cb6f0d7de386a3ccc136"
+"@datadog/framepost@0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@datadog/framepost/-/framepost-0.2.2.tgz#3e1cd271f69f9359345fcf765a1c5a6d60cb56fc"
+  integrity sha512-3OpjjpiRUaJCp/GVjuZl8zNcfQ1uVXcl0ZvEg29J2z01mdXO11c8Wfuwhh87KXYMn9vtHrwasTV39EXLmF7ULg==
 
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
