@@ -160,184 +160,204 @@ beforeEach(() => {
 
 const flushPromises = () => new Promise(setImmediate);
 
-test('Instantiates without error', () => {
-    const client = new ParentClient();
+describe('client', () => {
+    test('Instantiates without error', () => {
+        const client = new ParentClient();
 
-    expect(client).toBeInstanceOf(ParentClient);
-});
-
-test('Sends a channel init message to the provided iframe on client.requestChannel', () => {
-    const client = new ParentClient();
-
-    client.requestChannel(frame, parentContext);
-
-    expect(mockFrame.contentWindow?.postMessage).toHaveBeenCalledTimes(1);
-
-    const [
-        message,
-        origin,
-        [port2]
-    ] = mockFrame.contentWindow?.postMessage.mock.calls[0];
-
-    expect(message).toMatchObject({
-        type: MessageType.CHANNEL_INIT,
-        serialization: SerializationType.NONE,
-        apiVersion: MessageAPIVersion.v1,
-        data: parentContext,
-        key: ''
+        expect(client).toBeInstanceOf(ParentClient);
     });
 
-    expect(origin).toEqual('https://wikipedia.org');
+    test('Sends a channel init message to the provided iframe on client.requestChannel', () => {
+        const client = new ParentClient();
 
-    expect(port2).toEqual(mockMessageChannel.port2);
-});
+        client.requestChannel(frame, parentContext);
 
-test('Rejects queued requests after timeout', async () => {
-    const client = new ParentClient({ requestTimeout: 200 });
+        expect(mockFrame.contentWindow?.postMessage).toHaveBeenCalledTimes(1);
 
-    client.requestChannel(frame, parentContext);
+        const [
+            message,
+            origin,
+            [port2]
+        ] = mockFrame.contentWindow?.postMessage.mock.calls[0];
 
-    let rejected = false;
-
-    await new Promise(resolve => {
-        client.getContext().catch(() => {
-            rejected = true;
-            resolve(undefined);
+        expect(message).toMatchObject({
+            type: MessageType.CHANNEL_INIT,
+            serialization: SerializationType.NONE,
+            apiVersion: MessageAPIVersion.v1,
+            data: parentContext,
+            key: ''
         });
+
+        expect(origin).toEqual('https://wikipedia.org');
+
+        expect(port2).toEqual(mockMessageChannel.port2);
+    });
+});
+
+describe('client.getContext()', () => {
+    test('Returns null if handshake fails. Does not reject', async () => {
+        const client = new ParentClient({ requestTimeout: 200 });
+
+        client.requestChannel(frame, parentContext);
+
+        const context = await client.getContext();
+
+        expect(context).toBe(null);
     });
 
-    expect(rejected).toBe(true);
+    test('Resolves requests after receiving context from child client', async () => {
+        const client = new ParentClient<ChildContext>();
+
+        client.requestChannel(frame, parentContext);
+
+        mockInitResponseFromChild();
+
+        const context = await client.getContext();
+
+        expect(context).toEqual(childContext);
+    });
 });
 
-test('Resolves requests to `getContext()` after receiving context from child client', async () => {
-    const client = new ParentClient<ChildContext>();
+describe('client.handshake()', () => {
+    test('Rejects queued requests after timeout', async () => {
+        const client = new ParentClient({ requestTimeout: 200 });
 
-    client.requestChannel(frame, parentContext);
+        client.requestChannel(frame, parentContext);
 
-    mockInitResponseFromChild();
+        let rejected = false;
 
-    const context = await client.getContext();
+        await new Promise(resolve => {
+            client.handshake().catch(() => {
+                rejected = true;
+                resolve(undefined);
+            });
+        });
 
-    expect(context).toEqual(childContext);
+        expect(rejected).toBe(true);
+    });
 });
 
-test('Executes subscribed handlers when corresponding events are sent from the parent', async () => {
-    const callback1 = jest.fn();
-    const callback2 = jest.fn();
+describe('client.on()', () => {
+    test('Executes subscribed handlers when corresponding events are sent from the parent', async () => {
+        const callback1 = jest.fn();
+        const callback2 = jest.fn();
 
-    const client = new ParentClient<ChildContext>();
+        const client = new ParentClient<ChildContext>();
 
-    client.on('event1', callback1);
-    client.on('event1', callback2);
+        client.on('event1', callback1);
+        client.on('event1', callback2);
 
-    client.requestChannel(frame, parentContext);
+        client.requestChannel(frame, parentContext);
 
-    mockInitResponseFromChild();
+        mockInitResponseFromChild();
 
-    mockEventFromChild('event1', 'datalore');
+        mockEventFromChild('event1', 'datalore');
 
-    await flushPromises();
+        await flushPromises();
 
-    expect(callback1).toBeCalled();
-    expect(callback1.mock.calls[0][0]).toEqual('datalore');
+        expect(callback1).toBeCalled();
+        expect(callback1.mock.calls[0][0]).toEqual('datalore');
 
-    expect(callback2).toBeCalled();
-    expect(callback2.mock.calls[0][0]).toEqual('datalore');
+        expect(callback2).toBeCalled();
+        expect(callback2.mock.calls[0][0]).toEqual('datalore');
+    });
+
+    test('Unsubscribes handlers if unsubscribe hook is executed', async () => {
+        const callback1 = jest.fn();
+        const callback2 = jest.fn();
+
+        const client = new ParentClient<ChildContext>();
+
+        client.on('event1', callback1);
+        const unsubscribe = client.on('event1', callback2);
+
+        client.requestChannel(frame, parentContext);
+
+        mockInitResponseFromChild();
+
+        unsubscribe();
+
+        mockEventFromChild('event1', 'datalore');
+
+        await flushPromises();
+
+        expect(callback1).toBeCalled();
+        expect(callback1.mock.calls[0][0]).toEqual('datalore');
+
+        expect(callback2).not.toBeCalled();
+    });
 });
 
-test('Unsubscribes handlers if unsubscribe hook is executed', async () => {
-    const callback1 = jest.fn();
-    const callback2 = jest.fn();
+describe('client.send()', () => {
+    test('Sends events to child client after channel is established', async () => {
+        const client = new ParentClient<ChildContext>();
 
-    const client = new ParentClient<ChildContext>();
+        client.send('event1', 'data1');
+        expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
 
-    client.on('event1', callback1);
-    const unsubscribe = client.on('event1', callback2);
+        client.requestChannel(frame, parentContext);
 
-    client.requestChannel(frame, parentContext);
+        client.send('event2', 'data2');
+        expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
 
-    mockInitResponseFromChild();
+        mockInitResponseFromChild();
 
-    unsubscribe();
+        client.send('event3', 'data3');
 
-    mockEventFromChild('event1', 'datalore');
+        await flushPromises();
 
-    await flushPromises();
+        expect(mockMessageChannel.port1.postMessage).toHaveBeenCalledTimes(3);
 
-    expect(callback1).toBeCalled();
-    expect(callback1.mock.calls[0][0]).toEqual('datalore');
-
-    expect(callback2).not.toBeCalled();
-});
-
-test('Sends events to child client after channel is established', async () => {
-    const client = new ParentClient<ChildContext>();
-
-    client.send('event1', 'data1');
-    expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
-
-    client.requestChannel(frame, parentContext);
-
-    client.send('event2', 'data2');
-    expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
-
-    mockInitResponseFromChild();
-
-    client.send('event3', 'data3');
-
-    await flushPromises();
-
-    expect(mockMessageChannel.port1.postMessage).toHaveBeenCalledTimes(3);
-
-    expect(mockMessageChannel.port1.postMessage.mock.calls[0][0]).toMatchObject(
-        {
+        expect(
+            mockMessageChannel.port1.postMessage.mock.calls[0][0]
+        ).toMatchObject({
             type: MessageType.EVENT,
             apiVersion: MessageAPIVersion.v1,
             key: 'event1',
             data: 'data1'
-        }
-    );
+        });
 
-    expect(mockMessageChannel.port1.postMessage.mock.calls[1][0]).toMatchObject(
-        {
+        expect(
+            mockMessageChannel.port1.postMessage.mock.calls[1][0]
+        ).toMatchObject({
             type: MessageType.EVENT,
             apiVersion: MessageAPIVersion.v1,
             key: 'event2',
             data: 'data2'
-        }
-    );
+        });
 
-    expect(mockMessageChannel.port1.postMessage.mock.calls[2][0]).toMatchObject(
-        {
+        expect(
+            mockMessageChannel.port1.postMessage.mock.calls[2][0]
+        ).toMatchObject({
             type: MessageType.EVENT,
             apiVersion: MessageAPIVersion.v1,
             key: 'event3',
             data: 'data3'
-        }
-    );
-});
+        });
+    });
 
-test('Serializes error instances when sent with postMessage', async () => {
-    const client = new ParentClient<ChildContext>();
-    client.requestChannel(frame, parentContext);
+    test('Serializes error instances when sent with postMessage', async () => {
+        const client = new ParentClient<ChildContext>();
+        client.requestChannel(frame, parentContext);
 
-    const error1 = new Error('error1');
-    client.send('event1', error1);
-    expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
+        const error1 = new Error('error1');
+        client.send('event1', error1);
+        expect(mockMessageChannel.port1.postMessage).not.toHaveBeenCalled();
 
-    mockInitResponseFromChild();
+        mockInitResponseFromChild();
 
-    const error2 = new Error('error2');
-    error2.name = 'MyError';
-    error2.stack = 'My Error: blablah';
-    client.send('event2', error2);
+        const error2 = new Error('error2');
+        error2.name = 'MyError';
+        error2.stack = 'My Error: blablah';
+        client.send('event2', error2);
 
-    await flushPromises();
+        await flushPromises();
 
-    expect(mockMessageChannel.port1.postMessage).toHaveBeenCalledTimes(2);
+        expect(mockMessageChannel.port1.postMessage).toHaveBeenCalledTimes(2);
 
-    expect(mockMessageChannel.port1.postMessage.mock.calls[0][0]).toMatchObject(
-        {
+        expect(
+            mockMessageChannel.port1.postMessage.mock.calls[0][0]
+        ).toMatchObject({
             type: MessageType.EVENT,
             serialization: SerializationType.ERROR,
             apiVersion: MessageAPIVersion.v1,
@@ -346,11 +366,11 @@ test('Serializes error instances when sent with postMessage', async () => {
                 message: 'error1',
                 name: 'Error'
             }
-        }
-    );
+        });
 
-    expect(mockMessageChannel.port1.postMessage.mock.calls[1][0]).toMatchObject(
-        {
+        expect(
+            mockMessageChannel.port1.postMessage.mock.calls[1][0]
+        ).toMatchObject({
             type: MessageType.EVENT,
             serialization: SerializationType.ERROR,
             apiVersion: MessageAPIVersion.v1,
@@ -360,8 +380,20 @@ test('Serializes error instances when sent with postMessage', async () => {
                 name: 'MyError',
                 stack: 'My Error: blablah'
             }
-        }
-    );
+        });
+    });
+
+    test('does not throw if handshake fails', async () => {
+        const client = new ParentClient({
+            requestTimeout: 200
+        });
+
+        client.requestChannel(frame, parentContext);
+
+        const message = await client.send('event1', 'data');
+
+        expect(message).toBe(null);
+    });
 });
 
 test('Executes response handlers on appropriate request messages, returning returned data in new message', async () => {

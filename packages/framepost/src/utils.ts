@@ -4,6 +4,7 @@ import {
     REQUEST_KEY_GET_PROFILE,
     SerializationType
 } from './constants';
+import { HandshakeTimeoutError, RequestTimeoutError } from './errors';
 import type {
     Deferred,
     Message,
@@ -120,10 +121,20 @@ const serializeError = (error: Error): SerializedError => {
 };
 
 const deserializeError = ({ name, message, stack }: SerializedError): Error => {
-    const e = new Error(message);
-    e.name = name;
-    e.stack = stack;
-    return e;
+    switch (name) {
+        case HandshakeTimeoutError.name: {
+            return new HandshakeTimeoutError();
+        }
+        case RequestTimeoutError.name: {
+            return new RequestTimeoutError();
+        }
+        default: {
+            const e = new Error(message);
+            e.name = name;
+            e.stack = stack;
+            return e;
+        }
+    }
 };
 
 export const serialize = (message: Omit<Message, 'serialization'>): Message => {
