@@ -1,9 +1,6 @@
 /* eslint-disable no-undef */
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppRequestType } from '../constants';
-import type { Context } from '../types';
-import type { Logger } from '../utils/logger';
 
 const getLocalStorageKeys = () => {
     // we cannot use Obbjey.keys because it doesn't work with the mocked localStorage Object.keys(window.localStorage)
@@ -12,40 +9,36 @@ const getLocalStorageKeys = () => {
     );
 };
 export class DDSecretsClient {
-    private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<Context>;
-    private readonly logger: Logger;
+    private readonly client: DDClient;
 
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient) {
+        this.client = client;
 
         this.registerRequestHandlers();
     }
 
     private registerRequestHandlers() {
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.STORE_SECRET,
             this.handleStoreSecretRequest.bind(this)
         );
 
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.LOAD_SECRET,
             this.handleLoadSecretRequest.bind(this)
         );
 
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.LOAD_ALL_SECRETS,
             this.handleLoadAllSecretsRequest.bind(this)
         );
 
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.REMOVE_ALL_SECRETS,
             this.handleRemoveAllSecretsRequest.bind(this)
         );
 
-        this.framePostClient.onRequest(
+        this.client.framePostClient.onRequest(
             UiAppRequestType.REMOVE_SECRET,
             this.handleRemoveSecretRequest.bind(this)
         );
@@ -113,18 +106,24 @@ export class DDSecretsClient {
 
     // returns a promises that resolves with the decrypted secret for a given key
     async get(key: string) {
-        return this.framePostClient.request(UiAppRequestType.GET_SECRET, key);
+        return this.client.framePostClient.request(
+            UiAppRequestType.GET_SECRET,
+            key
+        );
     }
 
     async set(key: string, data: string) {
-        return this.framePostClient.request(UiAppRequestType.SET_SECRET, {
-            key,
-            data
-        });
+        return this.client.framePostClient.request(
+            UiAppRequestType.SET_SECRET,
+            {
+                key,
+                data
+            }
+        );
     }
 
     async remove(key: string) {
-        return this.framePostClient.request(
+        return this.client.framePostClient.request(
             UiAppRequestType.REMOVE_SECRET_PUBLIC,
             key
         );

@@ -1,5 +1,6 @@
 import { init } from '..';
 
+import { UiAppEventType } from '../constants';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
 import { DDClient } from './client';
@@ -24,8 +25,10 @@ describe('client', () => {
 
         expect(client).toBeInstanceOf(Object);
     });
+});
 
-    test('has a getContext() method that returns app context after it is supplied from parent', async () => {
+describe('client.getContext()', () => {
+    test('returns app context after it is supplied from parent', async () => {
         const client = new DDClient();
 
         mockClient.init();
@@ -33,6 +36,22 @@ describe('client', () => {
         const context = await client.getContext();
 
         expect(context).toBe(mockContext);
+    });
+
+    test('updates returned context data on context_change event', async () => {
+        const client = new DDClient();
+
+        mockClient.init();
+
+        mockClient.mockEvent(UiAppEventType.CONTEXT_CHANGE, {
+            data: 'new context'
+        });
+
+        const context = await client.getContext();
+
+        expect(context).toEqual({
+            data: 'new context'
+        });
     });
 });
 

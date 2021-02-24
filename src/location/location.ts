@@ -1,22 +1,15 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppRequestType } from '../constants';
-import type { Context } from '../types';
-import type { Logger } from '../utils/logger';
 
 export class DDLocationClient {
-    private readonly debug: boolean;
-    private readonly logger: Logger;
-    private readonly framePostClient: ChildClient<Context>;
+    private readonly client: DDClient;
 
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient) {
+        this.client = client;
     }
 
     async goTo(url: string) {
-        return this.framePostClient.request<NavigateTopRequest>(
+        return this.client.framePostClient.request<NavigateTopRequest>(
             UiAppRequestType.NAVIGATE_TOP,
             {
                 url

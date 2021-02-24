@@ -1,14 +1,12 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import { SidePanelDefinition } from '../types';
-import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        super(debug, logger, framePostClient, UiAppFeatureType.SIDE_PANELS);
+    constructor(client: DDClient) {
+        super(client, UiAppFeatureType.SIDE_PANELS);
     }
 
     /**
@@ -19,7 +17,7 @@ export class DDSidePanelClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
-            return this.framePostClient.request(
+            return this.client.framePostClient.request(
                 UiAppRequestType.OPEN_SIDE_PANEL,
                 { definition, args }
             );
@@ -33,7 +31,7 @@ export class DDSidePanelClient extends DDFeatureClient {
     async close(key?: string) {
         await this.validateFeatureIsEnabled();
 
-        return this.framePostClient.request(
+        return this.client.framePostClient.request(
             UiAppRequestType.CLOSE_SIDE_PANEL,
             key
         );

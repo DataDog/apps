@@ -1,24 +1,19 @@
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import { getLogger } from '../utils/logger';
-import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
+import { MockClient, mockContext } from '../utils/testUtils';
 
 import { DDModalClient } from './modal';
 
-let mockFramepostClient: MockFramePostChildClient;
-let client: DDModalClient;
+let client: MockClient;
+let modalClient: DDModalClient;
 
 beforeEach(() => {
-    mockFramepostClient = new MockFramePostChildClient();
-    client = new DDModalClient(
-        true,
-        getLogger({ debug: true }),
-        mockFramepostClient as any
-    );
+    client = new MockClient();
+    modalClient = new DDModalClient(client as any);
 });
 
 describe('modal.open()', () => {
     test('sends an open modal request with definition to parent', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -26,10 +21,10 @@ describe('modal.open()', () => {
             }
         });
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.open({
+        const response = await modalClient.open({
             key: 'my-modal',
             source: 'modal.html'
         });
@@ -45,7 +40,7 @@ describe('modal.open()', () => {
     });
 
     test('throws an error if modal definition is invalid', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -57,7 +52,7 @@ describe('modal.open()', () => {
 
         try {
             // @ts-ignore
-            await client.open({
+            await modalClient.open({
                 source: 'modal.html'
             });
         } catch (e) {
@@ -68,12 +63,12 @@ describe('modal.open()', () => {
     });
 
     test('throws an error if app does not have modals feature enabled', async () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
 
         let error;
 
         try {
-            await client.open({
+            await modalClient.open({
                 key: 'my-modal',
                 source: 'modal.html'
             });
@@ -87,7 +82,7 @@ describe('modal.open()', () => {
 
 describe('modal.close()', () => {
     test('sends an close modal request to parent', async () => {
-        mockFramepostClient.init({
+        client.framePostClient.init({
             ...mockContext,
             app: {
                 ...mockContext.app,
@@ -95,10 +90,10 @@ describe('modal.close()', () => {
             }
         });
         const requestMock = jest
-            .spyOn(mockFramepostClient, 'request')
+            .spyOn(client.framePostClient, 'request')
             .mockImplementation(() => null);
 
-        const response = await client.close('my-modal');
+        const response = await modalClient.close('my-modal');
 
         expect(response).toEqual(null);
 
@@ -109,12 +104,12 @@ describe('modal.close()', () => {
     });
 
     test('Throws an error if the app does not have the modals feature enabled', async () => {
-        mockFramepostClient.init();
+        client.framePostClient.init();
 
         let error;
 
         try {
-            await client.close('my-modal');
+            await modalClient.close('my-modal');
         } catch (e) {
             error = e;
         }

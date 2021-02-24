@@ -1,25 +1,15 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppRequestType, IFrameApiRequestMethod } from '../constants';
-import type {
-    Context,
-    IFrameApiRequest,
-    IframeApiRequestOptions
-} from '../types';
-import type { Logger } from '../utils/logger';
+import type { IFrameApiRequest, IframeApiRequestOptions } from '../types';
 
 import { DDAPIV1Client } from './v1';
 
 export class DDAPIClient {
     readonly v1: DDAPIV1Client;
-    private readonly debug: boolean;
-    private readonly framePostClient: ChildClient<Context>;
-    private readonly logger: Logger;
+    private readonly client: DDClient;
 
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        this.debug = debug;
-        this.logger = logger;
-        this.framePostClient = framePostClient;
+    constructor(client: DDClient) {
+        this.client = client;
 
         this.v1 = new DDAPIV1Client(this);
     }
@@ -27,7 +17,7 @@ export class DDAPIClient {
     private async request<Q = any, R = any>(
         req: IFrameApiRequest<Q>
     ): Promise<R> {
-        return this.framePostClient.request<IFrameApiRequest<Q>, R>(
+        return this.client.framePostClient.request<IFrameApiRequest<Q>, R>(
             UiAppRequestType.API_REQUEST,
             req
         );

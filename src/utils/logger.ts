@@ -1,25 +1,27 @@
 /* eslint-disable no-console */
-import { ClientOptions } from '../types';
+import type { DDClient } from '../client/client';
 
-export interface Logger {
-    log(message: string): void;
-    error(message: string): void;
-}
+export class Logger {
+    private readonly client: DDClient;
 
-export const getLogger = (options: ClientOptions): Logger => {
-    if (options.debug) {
-        return {
-            log(message: string) {
-                return console.log(`dd-apps: ${message}`);
-            },
-            error(message: string) {
-                return console.error(`dd-apps: ${message}`);
-            }
-        };
-    } else {
-        return {
-            log() {},
-            error() {}
-        };
+    constructor(client: DDClient) {
+        this.client = client;
     }
-};
+
+    private getPrefix(): string {
+        return `dd-apps@${window.location.href}: `; // eslint-disable-line
+    }
+
+    // TODO: would be nice to prefix with some info about the app
+    log(message: string) {
+        if (this.client.debug) {
+            return console.log(`${this.getPrefix()}${message}`);
+        }
+    }
+
+    error(message: string) {
+        if (this.client.debug) {
+            return console.error(`${this.getPrefix()}${message}`);
+        }
+    }
+}

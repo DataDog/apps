@@ -37,6 +37,8 @@ export interface AppContext {
     };
     // list of enabled features
     features: UiAppFeatureType[];
+    // is app running in debug mode
+    debug: boolean;
 }
 
 // TODO: Could colocate these feature-specific types with feature defs

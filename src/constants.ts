@@ -14,6 +14,7 @@ export enum UiAppFeatureType {
 export enum UiAppEventType {
     // General
     CUSTOM_EVENT = 'custom_event',
+    CONTEXT_CHANGE = 'context_change',
 
     // Dashboards
     DASHBOARD_COG_MENU_CLICK = 'dashboard_cog_menu_click',
@@ -83,7 +84,8 @@ export enum UiAppRequestType {
 
 // These event types are always allowed, regardless of what features have been enabled
 export const enabledEvents = new Set<UiAppEventType>([
-    UiAppEventType.CUSTOM_EVENT
+    UiAppEventType.CUSTOM_EVENT,
+    UiAppEventType.CONTEXT_CHANGE
 ]);
 
 export enum ModalSize {

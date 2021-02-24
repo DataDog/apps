@@ -1,14 +1,12 @@
-import type { ChildClient } from '@datadog/framepost';
-
+import type { DDClient } from '../client/client';
 import { UiAppFeatureType, UiAppRequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import type { ModalDefinition } from '../types';
-import type { Logger } from '../utils/logger';
 import { validateKey } from '../utils/utils';
 
 export class DDModalClient extends DDFeatureClient {
-    constructor(debug: boolean, logger: Logger, framePostClient: ChildClient) {
-        super(debug, logger, framePostClient, UiAppFeatureType.MODALS);
+    constructor(client: DDClient) {
+        super(client, UiAppFeatureType.MODALS);
     }
 
     /**
@@ -19,9 +17,12 @@ export class DDModalClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
-            return this.framePostClient.request(UiAppRequestType.OPEN_MODAL, {
-                definition
-            });
+            return this.client.framePostClient.request(
+                UiAppRequestType.OPEN_MODAL,
+                {
+                    definition
+                }
+            );
         }
     }
 
@@ -32,6 +33,9 @@ export class DDModalClient extends DDFeatureClient {
     async close(key?: string) {
         await this.validateFeatureIsEnabled();
 
-        return this.framePostClient.request(UiAppRequestType.CLOSE_MODAL, key);
+        return this.client.framePostClient.request(
+            UiAppRequestType.CLOSE_MODAL,
+            key
+        );
     }
 }
