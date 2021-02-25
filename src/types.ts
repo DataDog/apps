@@ -79,7 +79,7 @@ export interface DashboardWidgetContext {
 }
 
 export interface WidgetInteractionContext {
-    groupTags?: string[];
+    groupTags: string[];
 }
 
 export interface MenuItemContext {
