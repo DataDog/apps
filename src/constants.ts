@@ -79,7 +79,12 @@ export enum UiAppRequestType {
     GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
 
     // Dashboard Cog Menu
-    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items'
+    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
+
+    // Notify parent
+    SET_DASHBOARD_TEMPLATE_VARS = 'set_dashboard_template_vars',
+    SET_DASHBOARD_TIMEFRAME = 'set_dashboard_timeframe',
+    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
 }
 
 // These event types are always allowed, regardless of what features have been enabled
