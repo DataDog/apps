@@ -10,7 +10,7 @@ export class DDActionsClient {
         this.client = client;
     }
 
-    async setDashboardCursorRequest({ timestamp }: SetDashboardCursorRequest) {
+    async setDashboardCursor({ timestamp }: SetDashboardCursorRequest) {
         return this.client.framePostClient.request<SetDashboardCursorRequest>(
             UiAppRequestType.SET_DASHBOARD_CURSOR,
             {
@@ -47,5 +47,5 @@ interface SetDashboardCursorRequest {
 }
 
 interface SetDashboardTemplateVarsRequest {
-    vars: Record<string, string>; // Doesn't have to set every one. Parent takes care of merging with current. TODO: permit null state?
+    vars: Record<string, string>; // Doesn't have to set every var. Parent takes care of merging with current.
 }
