@@ -4,7 +4,8 @@ import type {
     IFrameApiRequestMethod,
     ModalSize,
     ModalActionLevel,
-    MenuItemType
+    MenuItemType,
+    AuthStateStatus
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
@@ -195,3 +196,10 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
+export interface CustomAuthState {
+    args?: any;
+    isAuthenticated: boolean;
+}
+export interface AuthState extends CustomAuthState {
+    status: AuthStateStatus;
+}
