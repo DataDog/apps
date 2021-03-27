@@ -4,10 +4,7 @@ import type { CustomAuthState } from '../../types';
 import { AuthProvider, AuthProviderOptions } from './auth-provider';
 
 interface CustomAuthProviderOptions extends AuthProviderOptions {
-    authStateCallback: () =>
-        | Promise<CustomAuthState | boolean>
-        | CustomAuthState
-        | boolean;
+    authStateCallback: () => Promise<CustomAuthState | boolean> | boolean;
     url: string;
 }
 const defaultOptions: Partial<CustomAuthProviderOptions> = {
