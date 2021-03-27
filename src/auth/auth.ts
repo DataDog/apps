@@ -38,31 +38,20 @@ export class DDAuthClient {
 
         // as soon as the provider is set, we execute the callback in case is the user is already authenticated due to a pre-existing condition like a cookie
         if (isCustomAuthProvider(this.authProvider)) {
-            const authState = await this.checkCustomAuthState();
-            if (authState.isAuthenticated) {
-                this.updateAuthState({
-                    status: AuthStateStatus.SUCCESS,
-                    ...authState
-                });
-            }
+            await this.checkCustomAuthState();
         }
     }
 
-    updateAuthState(changes: Partial<AuthState>) {
-        const newAuthState = {
+    updateAuthState(newAuthState: Partial<AuthState>) {
+        this.authState = {
             ...defaultAuthState,
-            ...changes
+            ...newAuthState
         };
 
-        // todo: do a diff instead to catch other changes
-        if (newAuthState.status !== this.authState.status) {
-            this.client.framePostClient.send(
-                UiAppRequestType.REQUEST_AUTH_STATE_BROADCAST,
-                newAuthState
-            );
-        }
-
-        this.authState = newAuthState;
+        this.client.framePostClient.send(
+            UiAppRequestType.REQUEST_AUTH_STATE_BROADCAST,
+            this.authState
+        );
     }
 
     async getAuthState(): Promise<AuthState> {
@@ -117,11 +106,36 @@ export class DDAuthClient {
                 }
             );
 
+            const checkAndRetry = async () => {
+                const authState = await this.checkCustomAuthState();
+                if (authState.isAuthenticated) {
+                    if (this.authProvider!.getOptions().closePopupAfterAuth) {
+                        try {
+                            await this.client.framePostClient.request(
+                                UiAppRequestType.AUTH_WITH_POPUP_CLOSE
+                            );
+
+                            this.client.logger.log('auth popup closed');
+                        } catch (e) {
+                            // if this specific request failed, likely due to a timeout, let's catch it and continue because it has a trivial impact
+                            this.client.logger.error(
+                                `Unable to close auth popup. Error: ${e.message}`
+                            );
+                        }
+                    }
+                } else {
+                    setTimeout(checkAndRetry, 2000);
+                }
+            };
+
+            checkAndRetry();
+
             return new Promise(resolve => {
                 const timeout = setTimeout(() => {
                     clearTimeout(timeout);
                     clearInterval(interval);
                     const newAuthState = {
+                        ...defaultAuthState,
                         status: AuthStateStatus.FAILED,
                         isAuthenticated: false
                     };
@@ -148,15 +162,12 @@ export class DDAuthClient {
                                 );
                             }
                         }
-
                         clearInterval(interval);
                         clearTimeout(timeout);
-                        const newAuthState = {
+                        resolve({
                             ...authState,
                             status: AuthStateStatus.SUCCESS
-                        };
-                        this.updateAuthState(newAuthState);
-                        resolve(newAuthState);
+                        });
                     }
                 }, 2000);
             });
@@ -165,27 +176,21 @@ export class DDAuthClient {
         return this.authState;
     }
 
-    private async checkCustomAuthState(
-        invalidate: boolean = false
-    ): Promise<CustomAuthState> {
+    public async checkCustomAuthState() {
         if (!isCustomAuthProvider(this.authProvider)) {
             throw new Error(
                 'This functionality is only provided if a Custom Auth Provider is set.'
             );
         }
-        return this.authProvider.resolveAuthState(invalidate);
-    }
-
-    public async updateCustomAuthState() {
-        const newAuthState = await this.checkCustomAuthState(true);
-        if (newAuthState.isAuthenticated !== this.authState.isAuthenticated) {
+        const authState = await this.authProvider.resolveAuthState();
+        if (authState.isAuthenticated) {
             this.updateAuthState({
-                ...newAuthState,
-                status: newAuthState.isAuthenticated
-                    ? AuthStateStatus.SUCCESS
-                    : AuthStateStatus.SET
+                status: AuthStateStatus.SUCCESS,
+                ...authState
             });
         }
+
+        return authState;
     }
 
     resolveAuthState(authState: CustomAuthState) {
