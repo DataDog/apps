@@ -129,9 +129,51 @@ export class DDAuthClient {
             };
 
             checkAndRetry();
+
+            return new Promise(resolve => {
+                const timeout = setTimeout(() => {
+                    clearTimeout(timeout);
+                    clearInterval(interval);
+                    const newAuthState = {
+                        ...defaultAuthState,
+                        status: AuthStateStatus.FAILED,
+                        isAuthenticated: false
+                    };
+
+                    this.updateAuthState(newAuthState);
+                    resolve(newAuthState);
+                }, 5000);
+                const interval = setInterval(async () => {
+                    const authState = await this.checkCustomAuthState();
+                    if (authState.isAuthenticated) {
+                        if (
+                            this.authProvider!.getOptions().closePopupAfterAuth
+                        ) {
+                            try {
+                                await this.client.framePostClient.request(
+                                    UiAppRequestType.AUTH_WITH_POPUP_CLOSE
+                                );
+
+                                this.client.logger.log('auth popup closed');
+                            } catch (e) {
+                                // if this specific request failed, likely due to a timeout, let's catch it and continue because it has a trivial impact
+                                this.client.logger.error(
+                                    `Unable to close auth popup. Error: ${e.message}`
+                                );
+                            }
+                        }
+                        clearInterval(interval);
+                        clearTimeout(timeout);
+                        resolve({
+                            ...authState,
+                            status: AuthStateStatus.SUCCESS
+                        });
+                    }
+                }, 2000);
+            });
         }
 
-        return defaultAuthState;
+        return this.authState;
     }
 
     public async checkCustomAuthState() {
