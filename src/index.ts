@@ -24,5 +24,4 @@ export const init = (
 
 export * from './types';
 export * from './constants';
-export * from './auth/providers';
 export { DDClient };

@@ -40,8 +40,7 @@
         "**/.pnp.js": true,
         "**/.yarn/": true,
         "**/.yarnrc.yml": true,
-        "**/yarn.lock": true,
-        "**/dist/": true
+        "**/yarn.lock": true
     },
     "typescript.enablePromptUseWorkspaceTsdk": true
 }
