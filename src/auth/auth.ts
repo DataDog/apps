@@ -178,6 +178,7 @@ export class DDAuthClient {
 
     public async updateCustomAuthState() {
         const newAuthState = await this.checkCustomAuthState(true);
+
         if (newAuthState.isAuthenticated !== this.authState.isAuthenticated) {
             this.updateAuthState({
                 ...newAuthState,
