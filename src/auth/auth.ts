@@ -5,6 +5,7 @@ import { AuthState, CustomAuthState } from '../types';
 import {
     BasicAuthProvider,
     CustomAuthProvider,
+    isBasicAuthProvider,
     isCustomAuthProvider
 } from './providers';
 
@@ -108,7 +109,16 @@ export class DDAuthClient {
             );
         }
 
-        if (this.authProvider && isCustomAuthProvider(this.authProvider)) {
+        if (isBasicAuthProvider(this.authProvider)) {
+            console.log('xxx i am here still');
+            await this.client.framePostClient.request(
+                UiAppRequestType.AUTH_WITH_POPUP_INIT,
+                {
+                    authUrl: this.authProvider.getOptions().path,
+                    providerType: this.authProvider.type
+                }
+            );
+        } else if (isCustomAuthProvider(this.authProvider)) {
             await this.client.framePostClient.request(
                 UiAppRequestType.AUTH_WITH_POPUP_INIT,
                 {
