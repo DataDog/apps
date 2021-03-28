@@ -1,5 +1,11 @@
 export {
     CustomAuthProvider,
-    isCustomAuthProvider
+    isCustomAuthProvider,
+    CustomAuthProviderOptions,
+    isCustomAuthProviderOptions
 } from './custom-auth-provider';
-export { BasicAuthProvider, isBasicAuthProvider } from './basic-auth-provider';
+export {
+    BasicAuthProvider,
+    isBasicAuthProvider,
+    BasicAuthProviderOptions
+} from './basic-auth-provider';

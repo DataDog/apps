@@ -4,12 +4,11 @@ import type { CustomAuthState } from '../../types';
 
 import { AuthProvider, AuthProviderOptions } from './auth-provider';
 
-interface CustomAuthProviderOptions extends AuthProviderOptions {
+export interface CustomAuthProviderOptions extends AuthProviderOptions {
     authStateCallback: () =>
         | Promise<CustomAuthState | boolean>
         | CustomAuthState
         | boolean;
-    url: string;
 }
 const defaultOptions: Partial<CustomAuthProviderOptions> = {
     persistance: AuthStatePersistance.NONE,
@@ -45,3 +44,8 @@ export const isCustomAuthProvider = (
     provider?: AuthProvider
 ): provider is CustomAuthProvider =>
     provider !== undefined && provider.type === AuthProviderType.CUSTOM;
+
+export const isCustomAuthProviderOptions = (
+    options: AuthProviderOptions
+): options is CustomAuthProviderOptions =>
+    (options as CustomAuthProviderOptions).authStateCallback !== undefined;

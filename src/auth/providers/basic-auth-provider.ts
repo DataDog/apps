@@ -2,9 +2,7 @@ import { AuthProviderType } from '../../constants';
 
 import { AuthProvider, AuthProviderOptions } from './auth-provider';
 
-interface BasicAuthProviderOptions extends AuthProviderOptions {
-    path: string;
-}
+export interface BasicAuthProviderOptions extends AuthProviderOptions {}
 export class BasicAuthProvider extends AuthProvider<BasicAuthProviderOptions> {
     readonly options: BasicAuthProviderOptions;
     constructor(options: BasicAuthProviderOptions) {

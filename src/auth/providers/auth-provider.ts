@@ -1,6 +1,7 @@
 import type { AuthProviderType, AuthStatePersistance } from '../../constants';
 
 export interface AuthProviderOptions {
+    url: string;
     persistance?: AuthStatePersistance;
     customPersistanceExpiry?: number;
     closePopupAfterAuth?: boolean;

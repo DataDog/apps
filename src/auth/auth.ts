@@ -6,7 +6,10 @@ import {
     BasicAuthProvider,
     CustomAuthProvider,
     isBasicAuthProvider,
-    isCustomAuthProvider
+    isCustomAuthProvider,
+    BasicAuthProviderOptions,
+    CustomAuthProviderOptions,
+    isCustomAuthProviderOptions
 } from './providers';
 
 const defaultAuthState: Required<AuthState> = {
@@ -94,13 +97,12 @@ export class DDAuthClient {
         );
     }
 
-    async authenticateWithPopup(): Promise<AuthState> {
-        if (
-            !this.authProvider ||
-            this.authState.status === AuthStateStatus.NONE
-        ) {
+    async authenticateWithPopup(
+        options?: BasicAuthProviderOptions | CustomAuthProviderOptions
+    ): Promise<AuthState> {
+        if (!options && this.authState.status === AuthStateStatus.NONE) {
             throw new Error(
-                'Please set the Auth Provider before using this functionality.'
+                'Auth provider is not set. Either pass the provider options to this method or set the provider explicitly using setProvider().'
             );
         }
         if (this.authState.status === AuthStateStatus.INITIATED) {
@@ -109,12 +111,19 @@ export class DDAuthClient {
             );
         }
 
+        if (options) {
+            if (isCustomAuthProviderOptions(options)) {
+                await this.setProvider(new CustomAuthProvider(options));
+            } else {
+                await this.setProvider(new BasicAuthProvider(options));
+            }
+        }
+
         if (isBasicAuthProvider(this.authProvider)) {
-            console.log('xxx i am here still');
             await this.client.framePostClient.request(
                 UiAppRequestType.AUTH_WITH_POPUP_INIT,
                 {
-                    authUrl: this.authProvider.getOptions().path,
+                    authUrl: this.authProvider.getOptions().url,
                     providerType: this.authProvider.type
                 }
             );
@@ -138,7 +147,7 @@ export class DDAuthClient {
 
                     this.updateAuthState(newAuthState);
                     resolve(newAuthState);
-                }, 5000);
+                }, 30000);
                 const interval = setInterval(async () => {
                     const authState = await this.checkCustomAuthState();
                     if (authState.isAuthenticated) {
@@ -168,7 +177,7 @@ export class DDAuthClient {
                         this.updateAuthState(newAuthState);
                         resolve(newAuthState);
                     }
-                }, 2000);
+                }, 5000);
             });
         }
 
