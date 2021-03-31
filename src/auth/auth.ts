@@ -111,7 +111,7 @@ export class DDAuthClient {
                     this.updateAuthState(newAuthState);
                     resolve(newAuthState);
                 }
-            }, 5000);
+            }, this.authStateProvider!.options.retryInterval);
         });
     }
 
