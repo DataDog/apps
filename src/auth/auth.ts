@@ -95,7 +95,7 @@ export class DDAuthClient {
 
                             this.client.logger.log('auth popup closed');
                         } catch (e) {
-                            // if this specific request failed, likely due to a timeout, let's catch it and continue because it has a trivial impact
+                            // if this specific request failed, likely due to a framepost timeout, let's catch it and continue because it has a trivial impact
                             this.client.logger.error(
                                 `Unable to close auth popup. Error: ${e.message}`
                             );
