@@ -204,3 +204,14 @@ export interface CustomAuthState {
 export interface AuthState extends CustomAuthState {
     status: AuthStateStatus;
 }
+
+export interface AuthStateOptions {
+    url: string;
+    closePopupAfterAuth?: boolean;
+    authStateCallback: () =>
+        | Promise<CustomAuthState | boolean>
+        | CustomAuthState
+        | boolean;
+    retryInterval?: number;
+    totalTimeout?: number;
+}
