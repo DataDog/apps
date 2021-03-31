@@ -32,7 +32,10 @@ export enum UiAppEventType {
     SIDE_PANEL_CLOSE = 'side_panel_close',
 
     // Widgets
-    WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click'
+    WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click',
+
+    // Auth
+    AUTH_STATE_CHANGE = 'auth_state_change'
 }
 
 export enum IFrameApiRequestMethod {
@@ -79,13 +82,19 @@ export enum UiAppRequestType {
     GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
 
     // Dashboard Cog Menu
-    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items'
+    GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
+
+    // Auth
+    AUTH_WITH_POPUP_INIT = 'auth_with_popup_init',
+    AUTH_WITH_POPUP_CLOSE = 'auth_with_popup_init_close',
+    REQUEST_AUTH_STATE_BROADCAST = 'request_auth_state_broadcast'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
 export const enabledEvents = new Set<UiAppEventType>([
     UiAppEventType.CUSTOM_EVENT,
-    UiAppEventType.CONTEXT_CHANGE
+    UiAppEventType.CONTEXT_CHANGE,
+    UiAppEventType.AUTH_STATE_CHANGE
 ]);
 
 export enum ModalSize {
@@ -105,4 +114,12 @@ export enum ModalActionLevel {
 export enum MenuItemType {
     LINK = 'link',
     EVENT = 'event'
+}
+
+export enum AuthStateStatus {
+    NONE = 'none',
+    SET = 'set',
+    INITIATED = 'initiated',
+    SUCCESS = 'success',
+    FAILED = 'failed'
 }
