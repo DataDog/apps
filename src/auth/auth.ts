@@ -1,6 +1,6 @@
 import type { DDClient } from '../client/client';
 import { AuthStateStatus, UiAppRequestType } from '../constants';
-import { AuthState } from '../types';
+import { AuthState, AuthStateOptions } from '../types';
 
 import { AuthStateProvider } from './auth-state-provider';
 
@@ -21,7 +21,7 @@ export class DDAuthClient {
 
     // Public methods
 
-    async setAuthStateProvider(options: AuthOptions) {
+    async setAuthStateProvider(options: AuthStateOptions) {
         await this.client.getContext();
         if (this.authState.status === AuthStateStatus.INITIATED) {
             throw new Error(
