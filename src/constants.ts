@@ -76,7 +76,6 @@ export enum UiAppRequestType {
     GET_SECRET = 'get_secret',
     SET_SECRET = 'set_secret',
     REMOVE_SECRET_PUBLIC = 'remove_secret_public',
-    REQUEST_AUTH_TOKENS = 'request_auth_tokens',
 
     // Context Menu
     GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
