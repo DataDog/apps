@@ -1,6 +1,6 @@
 import { ChildClient } from '@datadog/framepost';
 
-import { DDActionsClient } from '../actions/actions';
+import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
 import { UiAppEventType, Host } from '../constants';
@@ -27,7 +27,7 @@ export class DDClient {
     readonly framePostClient: ChildClient<Context>;
     readonly logger: Logger;
     api: DDAPIClient;
-    actions: DDActionsClient;
+    dashboard: DDDashboardClient;
     debug: boolean;
     events: DDEventsClient;
     dashboardCogMenu: DDDashboardCogMenuClient;
@@ -52,10 +52,10 @@ export class DDClient {
 
         this.logger = new Logger(this);
 
-        this.actions = new DDActionsClient(this);
         this.api = new DDAPIClient(this);
         this.auth = new DDAuthClient(this);
         this.events = new DDEventsClient(this);
+        this.dashboard = new DDDashboardClient(this);
         this.dashboardCogMenu = new DDDashboardCogMenuClient(this);
         this.location = new DDLocationClient(this);
         this.modal = new DDModalClient(this);
