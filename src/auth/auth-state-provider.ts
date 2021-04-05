@@ -3,7 +3,7 @@ import type { AuthStateOptions, CustomAuthState } from '../types';
 const defaultOptions: Partial<AuthStateOptions> = {
     closePopupAfterAuth: true,
     retryInterval: 5000,
-    totalTimeout: 60000
+    totalTimeout: 300000
 };
 
 export class AuthStateProvider {

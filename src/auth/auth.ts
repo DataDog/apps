@@ -20,7 +20,6 @@ export class DDAuthClient {
     }
 
     // Public methods
-
     async setAuthStateProvider(options: AuthStateOptions) {
         await this.client.getContext();
         if (this.authState.status === AuthStateStatus.INITIATED) {
