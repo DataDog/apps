@@ -37,14 +37,12 @@ export class DDAuthClient {
         await this.client.getContext();
         if (forceUpdate || this.authState.status === AuthStateStatus.SET) {
             const customAuthState = await this.authStateProvider!.checkAuthState();
-            if (customAuthState.isAuthenticated) {
-                const newAuthState = {
-                    ...customAuthState,
-                    status: AuthStateStatus.SUCCESS
-                };
-                this.updateAuthState(newAuthState);
-                return newAuthState;
-            }
+            const newAuthState = {
+                ...customAuthState,
+                status: AuthStateStatus.SUCCESS
+            };
+            this.updateAuthState(newAuthState);
+            return newAuthState;
         }
 
         return this.authState;
@@ -127,8 +125,10 @@ export class DDAuthClient {
             ...changes
         };
 
-        // todo: do a diff instead to catch other changes
-        if (newAuthState.status !== this.authState.status) {
+        if (
+            newAuthState.isAuthenticated !== this.authState.isAuthenticated ||
+            newAuthState.status !== this.authState.status
+        ) {
             this.client.framePostClient.send(
                 UiAppRequestType.REQUEST_AUTH_STATE_BROADCAST,
                 newAuthState
