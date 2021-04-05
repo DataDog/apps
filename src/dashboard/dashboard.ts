@@ -27,15 +27,6 @@ export class DDDashboardClient {
             }
         );
     }
-
-    async setTemplateVars({ vars }: SetDashboardTemplateVarsRequest) {
-        return this.client.framePostClient.request<SetDashboardTemplateVarsRequest>(
-            UiAppRequestType.SET_DASHBOARD_TEMPLATE_VARS,
-            {
-                vars
-            }
-        );
-    }
 }
 
 interface SetDashboardTimeframeRequest {
@@ -44,8 +35,4 @@ interface SetDashboardTimeframeRequest {
 
 interface SetDashboardCursorRequest {
     timestamp: number | null; // Match
-}
-
-interface SetDashboardTemplateVarsRequest {
-    vars: Record<string, string>; // Doesn't have to set every var. Parent takes care of merging with current.
 }
