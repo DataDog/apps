@@ -1,4 +1,5 @@
 import { UiAppRequestType, AuthStateStatus } from '../constants';
+import { CustomAuthState } from '../types';
 import { MockClient, mockContext } from '../utils/testUtils';
 
 import { DDAuthClient } from './auth';
