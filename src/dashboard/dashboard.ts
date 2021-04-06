@@ -20,12 +20,11 @@ export class DDDashboardClient {
     }
 
     async setTimeframe({ timeframe }: SetDashboardTimeframeRequest) {
-        return this.client.framePostClient.request<SetDashboardTimeframeRequest>(
-            UiAppRequestType.SET_DASHBOARD_TIMEFRAME,
-            {
-                timeframe
-            }
-        );
+        return this.client.framePostClient.request<
+            SetDashboardTimeframeRequest
+        >(UiAppRequestType.SET_DASHBOARD_TIMEFRAME, {
+            timeframe
+        });
     }
 }
 

@@ -83,7 +83,7 @@ export enum UiAppRequestType {
 
     // Notify parent
     SET_DASHBOARD_TIMEFRAME = 'set_dashboard_timeframe',
-    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
+    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
