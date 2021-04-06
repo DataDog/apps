@@ -34,5 +34,5 @@ interface SetDashboardTimeframeRequest {
 }
 
 interface SetDashboardCursorRequest {
-    timestamp: number | null; // Match
+    timestamp: number | null;
 }
