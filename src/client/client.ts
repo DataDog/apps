@@ -1,10 +1,10 @@
 import { ChildClient } from '@datadog/framepost';
 
-import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
 import { UiAppEventType, Host } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
+import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';

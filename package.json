@@ -11,7 +11,9 @@
     "types": "dist/index.d.ts",
     "scripts": {
         "build": "webpack --mode production",
-        "lint": "npx eslint '**/*.{ts,js}' && prettier --check .",
+        "lint": "yarn run lint:check && prettier --check .",
+        "lint:check": "npx eslint '**/*.{ts,js}'",
+        "lint:fix": "yarn run lint:check --fix",
         "test": "yarn test:unit",
         "test:unit": "jest",
         "format": "prettier --write .",
