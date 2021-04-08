@@ -81,6 +81,9 @@ export enum UiAppRequestType {
     // Dashboard Cog Menu
     GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
 
+    // Dashboard Custom Widget
+    GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS = 'get_dashboard_custom_widget_options',
+
     // Notify parent
     SET_DASHBOARD_TIMEFRAME = 'set_dashboard_timeframe',
     SET_DASHBOARD_CURSOR = 'set_dashboard_cursor'
@@ -109,4 +112,9 @@ export enum ModalActionLevel {
 export enum MenuItemType {
     LINK = 'link',
     EVENT = 'event'
+}
+
+export enum WidgetOptionItemType {
+    BOOLEAN = 'boolean',
+    STRING = 'string'
 }

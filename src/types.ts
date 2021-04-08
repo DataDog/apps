@@ -4,7 +4,8 @@ import type {
     IFrameApiRequestMethod,
     ModalSize,
     ModalActionLevel,
-    MenuItemType
+    MenuItemType,
+    WidgetOptionItemType
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
@@ -195,3 +196,19 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
+
+export type GetDashboardCustomWidgetOptionsRequest = RequireKeys<
+    FeatureContext,
+    'dashboard' | 'widget'
+>;
+
+interface WidgetOptionItem {
+    label: string;
+    name: string;
+    type: WidgetOptionItemType;
+    default?: any;
+    enum?: string[];
+}
+export interface GetDashboardCustomWidgetOptionsResponse {
+    options: WidgetOptionItem[];
+}
