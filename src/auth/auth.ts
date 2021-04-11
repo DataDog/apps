@@ -1,8 +1,6 @@
 import type { DDClient } from '../client/client';
 import { AuthStateStatus, UiAppRequestType } from '../constants';
-import { AuthState, AuthStateOptions } from '../types';
-
-import { AuthStateProvider } from './auth-state-provider';
+import { AuthState, AuthStateOptions, CustomAuthState } from '../types';
 
 const defaultAuthState: Required<AuthState> = {
     isAuthenticated: false,
@@ -12,128 +10,46 @@ const defaultAuthState: Required<AuthState> = {
 export class DDAuthClient {
     private readonly client: DDClient;
     private authState: AuthState;
-    private authStateProvider?: AuthStateProvider;
+    readonly options?: AuthStateOptions;
 
-    constructor(client: DDClient) {
+    constructor(client: DDClient, options?: AuthStateOptions) {
         this.client = client;
         this.authState = defaultAuthState;
-    }
-
-    // Public methods
-    async setAuthStateProvider(options: AuthStateOptions) {
-        await this.client.getContext();
-        if (this.authState.status === AuthStateStatus.INITIATED) {
-            throw new Error(
-                'Another auth flow is in progress. Please wait for the other flow to fail or succeed before trying again.'
-            );
+        if (options) {
+            this.options = options;
         }
 
-        this.authStateProvider = new AuthStateProvider(options);
-        this.updateAuthState({ status: AuthStateStatus.SET });
-    }
-
-    async getAuthState(forceUpdate = false): Promise<AuthState> {
-        await this.client.getContext();
-        if (forceUpdate || this.authState.status === AuthStateStatus.SET) {
-            const customAuthState = await this.authStateProvider!.checkAuthState();
-            const newAuthState = {
-                ...customAuthState,
-                status: AuthStateStatus.SUCCESS
-            };
-            this.updateAuthState(newAuthState);
-            return newAuthState;
-        }
-
-        return this.authState;
-    }
-
-    async authenticateWithPopup(): Promise<AuthState> {
-        if (this.authState.status === AuthStateStatus.NONE) {
-            throw new Error(
-                'Auth State Provider is not set. Please use setAuthStateProvider() to set the provider before using this method.'
-            );
-        }
-        if (this.authState.status === AuthStateStatus.INITIATED) {
-            throw new Error(
-                'Another auth flow is in progress. Please wait for the other flow to fail or succeed before trying again.'
-            );
-        }
-
-        this.updateAuthState({ status: AuthStateStatus.INITIATED });
-
-        await this.client.framePostClient.request(
-            UiAppRequestType.AUTH_WITH_POPUP_INIT,
-            {
-                authUrl: this.authStateProvider!.options.url
-            }
+        this.client.framePostClient.onRequest(
+            UiAppRequestType.CHECK_AUTH_STATE,
+            this.checkAuthState.bind(this)
         );
-
-        return new Promise(resolve => {
-            const timeout = setTimeout(() => {
-                clearTimeout(timeout);
-                clearInterval(interval);
-                const newAuthState = {
-                    status: AuthStateStatus.FAILED,
-                    isAuthenticated: false
-                };
-
-                this.updateAuthState(newAuthState);
-                resolve(newAuthState);
-            }, this.authStateProvider!.options.totalTimeout);
-
-            const interval = setInterval(async () => {
-                const customAuthState = await this.authStateProvider!.checkAuthState();
-                if (customAuthState.isAuthenticated) {
-                    if (this.authStateProvider!.options.closePopupAfterAuth) {
-                        try {
-                            await this.client.framePostClient.request(
-                                UiAppRequestType.AUTH_WITH_POPUP_CLOSE
-                            );
-
-                            this.client.logger.log('auth popup closed');
-                        } catch (e) {
-                            // if this specific request failed, likely due to a framepost timeout, let's catch it and continue because it has a trivial impact
-                            this.client.logger.error(
-                                `Unable to close auth popup. Error: ${e.message}`
-                            );
-                        }
-                    }
-
-                    clearInterval(interval);
-                    clearTimeout(timeout);
-                    const newAuthState = {
-                        ...customAuthState,
-                        status: AuthStateStatus.SUCCESS
-                    };
-                    this.updateAuthState(newAuthState);
-                    resolve(newAuthState);
-                }
-            }, this.authStateProvider!.options.retryInterval);
-        });
     }
 
-    public async updateCustomAuthState() {
-        return this.getAuthState(true);
-    }
-
-    // Private methods
-
-    private updateAuthState(changes: Partial<AuthState>) {
-        const newAuthState = {
-            ...defaultAuthState,
-            ...changes
-        };
-
-        if (
-            newAuthState.isAuthenticated !== this.authState.isAuthenticated ||
-            newAuthState.status !== this.authState.status
-        ) {
-            this.client.framePostClient.send(
-                UiAppRequestType.REQUEST_AUTH_STATE_BROADCAST,
-                newAuthState
-            );
+    private async checkAuthState(): Promise<CustomAuthState | null> {
+        if (!this.options) {
+            this.client.logger.error('Auth Provider is not set');
+            return null;
         }
+        const rawState = await this.options.authStateCallback();
+        if (typeof rawState === 'boolean') {
+            return { isAuthenticated: rawState };
+        }
+        return rawState;
+    }
 
-        this.authState = newAuthState;
+    async getAuthState(): Promise<AuthState> {
+        await this.client.getContext();
+        return this.client.framePostClient.request(
+            UiAppRequestType.GET_AUTH_STATE,
+            { force: false }
+        );
+    }
+
+    async updateAuthState() {
+        await this.client.getContext();
+        return this.client.framePostClient.request(
+            UiAppRequestType.GET_AUTH_STATE,
+            { force: true }
+        );
     }
 }

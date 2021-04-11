@@ -12,6 +12,7 @@ import type { RequireKeys } from './utils/utils';
 export interface ClientOptions {
     debug?: boolean;
     host?: string;
+    authProvider?: AuthStateOptions;
 }
 
 export type EventHandler<T = any> = (data: T) => void;
@@ -104,6 +105,7 @@ export interface Context extends FeatureContext {
 
 export interface ClientContext {
     sdkVersion: string;
+    authStateOptions?: ParentAuthStateOptions;
 }
 
 export interface UiAppFeature {
@@ -205,13 +207,15 @@ export interface AuthState extends CustomAuthState {
     status: AuthStateStatus;
 }
 
-export interface AuthStateOptions {
+export interface ParentAuthStateOptions {
     url: string;
     closePopupAfterAuth?: boolean;
+    retryInterval?: number;
+    totalTimeout?: number;
+}
+export interface AuthStateOptions extends ParentAuthStateOptions {
     authStateCallback: () =>
         | Promise<CustomAuthState | boolean>
         | CustomAuthState
         | boolean;
-    retryInterval?: number;
-    totalTimeout?: number;
 }

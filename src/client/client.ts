@@ -9,7 +9,12 @@ import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
 import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
-import type { Context, ClientContext, ClientOptions } from '../types';
+import type {
+    Context,
+    ClientContext,
+    ClientOptions,
+    ParentAuthStateOptions
+} from '../types';
 import { Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
@@ -40,18 +45,26 @@ export class DDClient {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
+        let authStateOptions: ParentAuthStateOptions | undefined;
+        if (options.authProvider) {
+            // pluck authStateCallback since it's not serializable
+            const { authStateCallback, ...rest } = options.authProvider;
+            authStateOptions = rest;
+        }
+
         this.framePostClient = new ChildClient<Context>({
             debug: false, // 3p devs most likely dont need to see framepost debug messages
             profile: this.debug,
             context: {
-                sdkVersion: SDK_VERSION
+                sdkVersion: SDK_VERSION,
+                authStateOptions
             } as ClientContext
         });
 
         this.logger = new Logger(this);
 
         this.api = new DDAPIClient(this);
-        this.auth = new DDAuthClient(this);
+        this.auth = new DDAuthClient(this, options.authProvider);
         this.events = new DDEventsClient(this);
         this.dashboardCogMenu = new DDDashboardCogMenuClient(this);
         this.location = new DDLocationClient(this);
