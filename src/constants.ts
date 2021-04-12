@@ -84,10 +84,6 @@ export enum UiAppRequestType {
     GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
 
     // Auth
-    AUTH_WITH_POPUP_INIT = 'auth_with_popup_init',
-    AUTH_WITH_POPUP_CLOSE = 'auth_with_popup_init_close',
-    REQUEST_AUTH_STATE_BROADCAST = 'request_auth_state_broadcast',
-
     CHECK_AUTH_STATE = 'check_auth_state',
     GET_AUTH_STATE = 'get_auth_state',
 

@@ -49,7 +49,7 @@ export class DDClient {
 
         let authStateOptions: ParentAuthStateOptions | undefined;
         if (options.authProvider) {
-            // pluck authStateCallback since it's not serializable
+            // pluck authStateCallback since it's not serializable and not needed in the client
             const { authStateCallback, ...rest } = options.authProvider;
             authStateOptions = rest;
         }
