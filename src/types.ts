@@ -4,13 +4,15 @@ import type {
     IFrameApiRequestMethod,
     ModalSize,
     ModalActionLevel,
-    MenuItemType
+    MenuItemType,
+    AuthStateStatus
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
 export interface ClientOptions {
     debug?: boolean;
     host?: string;
+    authProvider?: AuthStateOptions;
 }
 
 export type EventHandler<T = any> = (data: T) => void;
@@ -103,6 +105,7 @@ export interface Context extends FeatureContext {
 
 export interface ClientContext {
     sdkVersion: string;
+    authStateOptions?: ParentAuthStateOptions;
 }
 
 export interface UiAppFeature {
@@ -195,3 +198,24 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
+
+export interface CustomAuthState {
+    args?: any;
+    isAuthenticated: boolean;
+}
+export interface AuthState extends CustomAuthState {
+    status: AuthStateStatus;
+}
+
+export interface ParentAuthStateOptions {
+    url: string;
+    closePopupAfterAuth?: boolean;
+    retryInterval?: number;
+    totalTimeout?: number;
+}
+export interface AuthStateOptions extends ParentAuthStateOptions {
+    authStateCallback: () =>
+        | Promise<CustomAuthState | boolean>
+        | CustomAuthState
+        | boolean;
+}

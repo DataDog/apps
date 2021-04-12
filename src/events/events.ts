@@ -8,7 +8,8 @@ import type {
     ModalDefinition,
     WidgetContextMenuClickData,
     DashboardCogMenuClickData,
-    SidePanelDefinition
+    SidePanelDefinition,
+    AuthState
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -34,6 +35,9 @@ interface DDEventDataTypes {
     [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
     [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
     [UiAppEventType.MODAL_ACTION]: ModalDefinition;
+
+    // Auth
+    [UiAppEventType.AUTH_STATE_CHANGE]: AuthState;
 }
 
 export class DDEventsClient {
