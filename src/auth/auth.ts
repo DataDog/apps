@@ -41,7 +41,7 @@ export class DDAuthClient {
         await this.client.getContext();
         return this.client.framePostClient.request(
             UiAppRequestType.GET_AUTH_STATE,
-            { force: false }
+            { forceUpdate: false }
         );
     }
 
@@ -49,7 +49,7 @@ export class DDAuthClient {
         await this.client.getContext();
         return this.client.framePostClient.request(
             UiAppRequestType.GET_AUTH_STATE,
-            { force: true }
+            { forceUpdate: true }
         );
     }
 }
