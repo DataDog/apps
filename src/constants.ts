@@ -89,7 +89,11 @@ export enum UiAppRequestType {
     REQUEST_AUTH_STATE_BROADCAST = 'request_auth_state_broadcast',
 
     CHECK_AUTH_STATE = 'check_auth_state',
-    GET_AUTH_STATE = 'get_auth_state'
+    GET_AUTH_STATE = 'get_auth_state',
+
+    // Notify parent
+    SET_DASHBOARD_TIMEFRAME = 'set_dashboard_timeframe',
+    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor'
 }
 
 // These event types are always allowed, regardless of what features have been enabled

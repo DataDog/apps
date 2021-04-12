@@ -4,6 +4,7 @@ import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
 import { UiAppEventType, Host } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
+import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
@@ -31,6 +32,7 @@ export class DDClient {
     readonly framePostClient: ChildClient<Context>;
     readonly logger: Logger;
     api: DDAPIClient;
+    dashboard: DDDashboardClient;
     debug: boolean;
     events: DDEventsClient;
     dashboardCogMenu: DDDashboardCogMenuClient;
@@ -66,6 +68,7 @@ export class DDClient {
         this.api = new DDAPIClient(this);
         this.auth = new DDAuthClient(this, options.authProvider);
         this.events = new DDEventsClient(this);
+        this.dashboard = new DDDashboardClient(this);
         this.dashboardCogMenu = new DDDashboardCogMenuClient(this);
         this.location = new DDLocationClient(this);
         this.modal = new DDModalClient(this);
