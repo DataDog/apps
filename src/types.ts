@@ -31,9 +31,9 @@ export interface AppContext {
         name: string;
         // Current user's email
         handle: string;
-        // User timezone
+        // Current user's time zone
         timeZone?: string;
-        // Current user's Color Theme (dark, light, system)
+        // Current user's Color Theme (dark, light)
         colorTheme?: ColorTheme;
     };
 
