@@ -3,7 +3,6 @@ import { ChildClient } from '@datadog/framepost';
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
 import { UiAppEventType, Host } from '../constants';
-import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -35,7 +34,6 @@ export class DDClient {
     dashboard: DDDashboardClient;
     debug: boolean;
     events: DDEventsClient;
-    dashboardCogMenu: DDDashboardCogMenuClient;
     location: DDLocationClient;
     modal: DDModalClient;
     sidePanel: DDSidePanelClient;
@@ -69,7 +67,6 @@ export class DDClient {
         this.auth = new DDAuthClient(this, options.authProvider);
         this.events = new DDEventsClient(this);
         this.dashboard = new DDDashboardClient(this);
-        this.dashboardCogMenu = new DDDashboardCogMenuClient(this);
         this.location = new DDLocationClient(this);
         this.modal = new DDModalClient(this);
         this.sidePanel = new DDSidePanelClient(this);

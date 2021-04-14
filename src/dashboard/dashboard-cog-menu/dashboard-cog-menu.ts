@@ -1,11 +1,11 @@
-import type { DDClient } from '../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import { DDFeatureClient } from '../shared/feature-client';
+import type { DDClient } from '../../client/client';
+import { UiAppFeatureType, UiAppRequestType } from '../../constants';
+import { DDFeatureClient } from '../../shared/feature-client';
 import type {
     GetDashboardCogMenuItemsRequest,
     GetDashboardCogMenuItemsResponse
-} from '../types';
-import { validateKey } from '../utils/utils';
+} from '../../types';
+import { validateKey } from '../../utils/utils';
 
 const emptyConfig: GetDashboardCogMenuItemsResponse = { items: [] };
 

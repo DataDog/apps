@@ -3,11 +3,15 @@ import type { DDClient } from '../client/client';
 import { UiAppRequestType } from '../constants';
 import type { Timeframe } from '../types';
 
+import { DDDashboardCogMenuClient } from './dashboard-cog-menu/dashboard-cog-menu';
+
 export class DDDashboardClient {
     private readonly client: DDClient;
+    cogMenu: DDDashboardCogMenuClient;
 
     constructor(client: DDClient) {
         this.client = client;
+        this.cogMenu = new DDDashboardCogMenuClient(this.client);
     }
 
     async setCursor({ timestamp }: SetDashboardCursorRequest) {
