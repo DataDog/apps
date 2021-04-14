@@ -5,7 +5,8 @@ import type {
     ModalSize,
     ModalActionLevel,
     MenuItemType,
-    AuthStateStatus
+    AuthStateStatus,
+    ColorTheme
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
@@ -30,6 +31,10 @@ export interface AppContext {
         name: string;
         // Current user's email
         handle: string;
+        // User timezone
+        timeZone?: string;
+        // Current user's Color Theme (dark, light, system)
+        colorTheme?: ColorTheme;
     };
 
     // user's org

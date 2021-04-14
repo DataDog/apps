@@ -125,3 +125,8 @@ export enum AuthStateStatus {
     SUCCESS = 'success',
     FAILED = 'failed'
 }
+
+export enum ColorTheme {
+    dark = 'dark',
+    light = 'light'
+}
