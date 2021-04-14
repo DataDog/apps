@@ -1,7 +1,7 @@
 import type { DDAPIClient } from '../api';
 
-import { DDMetricsAPIClient } from './metrics';
 import { DDLogsAPIClient } from './logs-analytics';
+import { DDMetricsAPIClient } from './metrics';
 
 export class DDAPIV1Client {
     readonly metrics: DDMetricsAPIClient;
