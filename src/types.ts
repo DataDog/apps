@@ -5,7 +5,8 @@ import type {
     ModalSize,
     ModalActionLevel,
     MenuItemType,
-    AuthStateStatus
+    AuthStateStatus,
+    WidgetOptionItemType
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
@@ -218,4 +219,20 @@ export interface AuthStateOptions extends ParentAuthStateOptions {
         | Promise<CustomAuthState | boolean>
         | CustomAuthState
         | boolean;
+}
+
+export type GetDashboardCustomWidgetOptionsRequest = RequireKeys<
+    FeatureContext,
+    'dashboard' | 'widget'
+>;
+
+interface WidgetOptionItem {
+    label: string;
+    name: string;
+    type: WidgetOptionItemType;
+    default?: any;
+    enum?: string[];
+}
+export interface GetDashboardCustomWidgetOptionsResponse {
+    options: WidgetOptionItem[];
 }
