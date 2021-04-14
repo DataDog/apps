@@ -31,10 +31,11 @@ export interface AppContext {
         name: string;
         // Current user's email
         handle: string;
-        // Current user's time zone
-        timeZone?: string;
+        // Current user's time zone. The time zone can differ from the browser's time zone
+        // if user has changed it in the Datadog settings.
+        timeZone: string;
         // Current user's Color Theme (dark, light)
-        colorTheme?: ColorTheme;
+        colorTheme: ColorTheme;
     };
 
     // user's org
