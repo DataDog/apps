@@ -233,6 +233,15 @@ interface WidgetOptionItem {
     default?: any;
     enum?: string[];
 }
-export interface GetDashboardCustomWidgetOptionsResponse {
+
+export interface CustomWidgetItem {
+    name: string;
+    source: string;
+    hasTitle?: boolean;
     options: WidgetOptionItem[];
+    customWidgetKey: string;
+    icon?: string;
+}
+export interface GetDashboardCustomWidgetOptionsResponse {
+    widgets: CustomWidgetItem[];
 }
