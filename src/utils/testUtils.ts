@@ -1,4 +1,4 @@
-import { UiAppFeatureType } from '../constants';
+import { ColorTheme, UiAppFeatureType } from '../constants';
 import { Context } from '../types';
 
 import { Logger } from './logger';
@@ -41,7 +41,9 @@ export const mockContext: Context = {
         currentUser: {
             id: 45678,
             name: 'User',
-            handle: 'user@email.com'
+            handle: 'user@email.com',
+            timeZone: 'America/New_York',
+            colorTheme: ColorTheme.light
         },
         org: {
             id: 12345,
