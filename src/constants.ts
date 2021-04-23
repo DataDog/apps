@@ -22,6 +22,7 @@ export enum UiAppEventType {
     DASHBOARD_CURSOR_CHANGE = 'dashboard_cursor_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
 
     // Modals
     MODAL_CLOSE = 'modal_close',
@@ -92,6 +93,7 @@ export enum UiAppRequestType {
     SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
 
     // Dashboard Custom Widget
+    GET_DASHBOARD_CUSTOM_WIDGET_ITEMS = 'get_dashboard_custom_widget_items',
     GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS = 'get_dashboard_custom_widget_options'
 }
 

@@ -76,6 +76,7 @@ export interface DashboardWidgetContext {
               options?: {
                   [key: string]: any;
               };
+              custom_widget_key: string;
           }
         | any;
     layout?: any;
@@ -226,7 +227,7 @@ export type GetDashboardCustomWidgetOptionsRequest = RequireKeys<
     'dashboard' | 'widget'
 >;
 
-interface WidgetOptionItem {
+export interface WidgetOptionItem {
     label: string;
     name: string;
     type: WidgetOptionItemType;
