@@ -49,8 +49,8 @@ export enum IFrameApiRequestMethod {
 export const FramePostClientSettings = Object.freeze({
     // 3p devs most likely dont need to see framepost debug messages
     DEBUG: false,
-    // TODO: Revisit approach; the 10s is to unblock specific app developers
-    // Must match `HANDSHAKE_TIMEOUT` constant in web-ui
+    // TODO: Revisit approach; the 10s is to unblock 3p devs
+    // Must match server-side constant
     CLIENT_REQUEST_TIMEOUT: 10000
 });
 
