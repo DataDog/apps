@@ -2,7 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import { UiAppEventType, Host } from '../constants';
+import { UiAppEventType, Host, FramePostClientSettings } from '../constants';
 import { DDDashboardCogMenuClient } from '../dashboard-cog-menu/dashboard-cog-menu';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
@@ -55,7 +55,8 @@ export class DDClient {
         }
 
         this.framePostClient = new ChildClient<Context>({
-            debug: false, // 3p devs most likely dont need to see framepost debug messages
+            debug: FramePostClientSettings.DEBUG,
+            requestTimeout: FramePostClientSettings.CLIENT_REQUEST_TIMEOUT,
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION,

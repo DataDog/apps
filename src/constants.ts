@@ -46,6 +46,14 @@ export enum IFrameApiRequestMethod {
     DELETE = 'DELETE'
 }
 
+export const FramePostClientSettings = Object.freeze({
+    // 3p devs most likely dont need to see framepost debug messages
+    DEBUG: false,
+    // TODO: Revisit approach; the 10s is to unblock 3p devs
+    // Must match server-side constant
+    CLIENT_REQUEST_TIMEOUT: 10000
+});
+
 // "Requests" are distinct from events in that the sdk client expects a response
 // from the frameManager, or vice-versa. This is useful when the child frames
 // ask the parent frames to perform an operation.
