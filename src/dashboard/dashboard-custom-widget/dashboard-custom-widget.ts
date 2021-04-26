@@ -10,7 +10,6 @@ import type {
     GetDashboardCustomWidgetOptionsResponse,
     WidgetOptionItem
 } from '../../types';
-import { validateKey } from '../../utils/utils';
 
 const emptyConfig: GetDashboardCustomWidgetOptionsResponse = { widgets: [] };
 
@@ -46,19 +45,7 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
 
                 const { widgets } = await requestHandler(context);
 
-                return {
-                    widgets: widgets.filter(widget => {
-                        try {
-                            validateKey(widget);
-                        } catch (e) {
-                            this.client.logger.error(e.message);
-
-                            return false;
-                        }
-
-                        return true;
-                    })
-                };
+                return { widgets };
             }
         );
 
