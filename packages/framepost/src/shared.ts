@@ -1,7 +1,7 @@
 import {
     MessageType,
     ProfileEventType,
-    REQUEST_TIMEOUT,
+    DEFAULT_REQUEST_TIMEOUT,
     MessageAPIVersion
 } from './constants';
 import { HandshakeTimeoutError, RequestTimeoutError } from './errors';
@@ -12,19 +12,22 @@ import type {
     Message,
     Channel,
     EventHandler,
-    RequestHandler
+    RequestHandler,
+    RequestOptions
 } from './types';
 import { defer, randomInsecureId, omit, serialize, deserialize } from './utils';
 
 export interface SharedClientOptions {
     debug?: boolean;
     profile?: boolean;
+    handshakeTimeout?: number;
     requestTimeout?: number;
 }
 
 export abstract class SharedClient<C> {
     protected readonly debug: boolean;
     protected readonly profile: boolean;
+    protected readonly handshakeTimeout: number;
     protected readonly requestTimeout: number;
     protected readonly channel: Deferred<Channel<C>>;
     protected readonly logger: Logger;
@@ -44,10 +47,13 @@ export abstract class SharedClient<C> {
     constructor({
         debug = false,
         profile = false,
-        requestTimeout = REQUEST_TIMEOUT
+        handshakeTimeout,
+        requestTimeout = DEFAULT_REQUEST_TIMEOUT
     }: SharedClientOptions = {}) {
         this.debug = debug;
         this.profile = profile;
+        this.handshakeTimeout =
+            handshakeTimeout !== undefined ? handshakeTimeout : requestTimeout;
         this.requestTimeout = requestTimeout;
         this.channel = defer();
         this.eventSubscriptions = {};
@@ -116,7 +122,11 @@ export abstract class SharedClient<C> {
      * Sends a request to the opposite client. There must be an accompanying request handler
      * subscribed with `onRequest`. Resolves with the returned data or times out.
      */
-    async request<Q = any, R = any>(requestKey: string, data?: Q): Promise<R> {
+    async request<Q = any, R = any>(
+        requestKey: string,
+        data?: Q,
+        options: RequestOptions = {}
+    ): Promise<R> {
         const sentMessage = await this.postMessage(
             MessageType.REQUEST,
             requestKey,
@@ -153,7 +163,7 @@ export abstract class SharedClient<C> {
             timer = setTimeout(() => {
                 unsubscribeResponseHandler();
                 reject(new RequestTimeoutError());
-            }, this.requestTimeout);
+            }, options.timeout || this.requestTimeout);
         });
     }
 
@@ -318,7 +328,7 @@ export abstract class SharedClient<C> {
         this.initTimer = setTimeout(() => {
             this.channel.reject(new HandshakeTimeoutError());
             this.destroy();
-        }, this.requestTimeout);
+        }, this.handshakeTimeout);
     }
 
     protected initListener(ev: MessageEvent<Message<C>>) {

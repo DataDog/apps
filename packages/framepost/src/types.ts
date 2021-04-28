@@ -80,3 +80,10 @@ export interface MessageProfile {
     duration?: number;
     message: Message;
 }
+
+/**
+ * Request options passed to client.request()
+ */
+export interface RequestOptions {
+    timeout?: number;
+}

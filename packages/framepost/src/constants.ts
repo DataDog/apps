@@ -25,6 +25,6 @@ export enum SerializationType {
     ERROR = 'error'
 }
 
-export const REQUEST_TIMEOUT = 20000;
+export const DEFAULT_REQUEST_TIMEOUT = 20000;
 
 export const REQUEST_KEY_GET_PROFILE = 'framepost_get_profile';
