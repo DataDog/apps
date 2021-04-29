@@ -14,16 +14,11 @@ import type {
 const emptyConfig: GetDashboardCustomWidgetOptionsResponse = { widgets: [] };
 
 export class DDDashboardCustomWidgetClient extends DDFeatureClient {
-    private optionsMap: Map<string, string[]>;
     constructor(client: DDClient) {
         super(client, UiAppFeatureType.DASHBOARD_CUSTOM_WIDGET);
 
         // initialize with an empty reponse handler
         this.onRequest(() => emptyConfig);
-
-        // setup dynamic options
-        this.optionsMap = new Map();
-        this.initDynamicOptions();
     }
 
     /**
@@ -70,14 +65,5 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
                 }
             );
         }
-    }
-
-    private initDynamicOptions() {
-        this.client.framePostClient.onRequest(
-            UiAppRequestType.GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS,
-            () => {
-                return this.optionsMap;
-            }
-        );
     }
 }

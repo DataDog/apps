@@ -93,8 +93,7 @@ export enum UiAppRequestType {
     SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
 
     // Dashboard Custom Widget
-    GET_DASHBOARD_CUSTOM_WIDGET_ITEMS = 'get_dashboard_custom_widget_items',
-    GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS = 'get_dashboard_custom_widget_options'
+    GET_DASHBOARD_CUSTOM_WIDGET_ITEMS = 'get_dashboard_custom_widget_items'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
