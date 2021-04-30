@@ -18,7 +18,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
     }
 
     /**
-     * Registers a request handler for providing context menu items dynamically
+     * Registers a request handler for providing cog menu items dynamically
      */
     onRequest(
         requestHandler: (
@@ -31,6 +31,8 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             context: GetDashboardCogMenuItemsRequest
         ): Promise<GetDashboardCogMenuItemsResponse> => {
             await this.validateFeatureIsEnabled();
+
+            console.log('xxx sdk onRequest context cog', context);
 
             const { items } = await requestHandler(context);
 

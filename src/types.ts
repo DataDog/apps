@@ -227,12 +227,18 @@ export type GetDashboardCustomWidgetOptionsRequest = RequireKeys<
     'dashboard' | 'widget'
 >;
 
+interface WidgetOptionEnum {
+    label: string;
+    value: string;
+}
 export interface WidgetOptionItem {
     label: string;
     name: string;
     type: WidgetOptionItemType;
     default?: any;
-    enum?: string[];
+    enum?: (string | WidgetOptionEnum)[];
+    required?: boolean;
+    order?: number;
 }
 
 export interface CustomWidgetItem {

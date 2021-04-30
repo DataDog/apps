@@ -22,7 +22,7 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
     }
 
     /**
-     * Registers a request handler for providing context menu items dynamically
+     * Registers a request handler for providing custom widget items dynamically
      */
     onRequest(
         requestHandler: (
@@ -31,17 +31,23 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
             | GetDashboardCustomWidgetOptionsResponse
             | Promise<GetDashboardCustomWidgetOptionsResponse>
     ) {
+        // this.client.framePostClient.onRequest(
+        //     UiAppRequestType.GET_DASHBOARD_CUSTOM_WIDGET_ITEMS,
+        //     async (
+        //         context: GetDashboardCustomWidgetOptionsRequest
+        //     ): Promise<GetDashboardCustomWidgetOptionsResponse> => {
+        //         await this.validateFeatureIsEnabled();
+
+        //         console.log('xxx sdk onRequest context', context);
+        //         const { widgets } = await requestHandler(context);
+
+        //         return { widgets };
+        //     }
+        // );
+
         this.client.framePostClient.onRequest(
             UiAppRequestType.GET_DASHBOARD_CUSTOM_WIDGET_ITEMS,
-            async (
-                context: GetDashboardCustomWidgetOptionsRequest
-            ): Promise<GetDashboardCustomWidgetOptionsResponse> => {
-                await this.validateFeatureIsEnabled();
-
-                const { widgets } = await requestHandler(context);
-
-                return { widgets };
-            }
+            async c => console.log('xxx GET_DASHBOARD_CUSTOM_WIDGET_ITEMS c', c)
         );
 
         // return an unsubscribe hook
