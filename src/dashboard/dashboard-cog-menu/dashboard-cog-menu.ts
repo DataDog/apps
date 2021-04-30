@@ -32,8 +32,6 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
         ): Promise<GetDashboardCogMenuItemsResponse> => {
             await this.validateFeatureIsEnabled();
 
-            console.log('xxx sdk onRequest context cog', context);
-
             const { items } = await requestHandler(context);
 
             return {
