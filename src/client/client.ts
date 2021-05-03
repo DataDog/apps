@@ -56,7 +56,9 @@ export class DDClient {
 
         this.framePostClient = new ChildClient<Context>({
             debug: FramePostClientSettings.DEBUG,
-            handshakeTimeout: FramePostClientSettings.HANDSHAKE_TIMEOUT,
+            handshakeTimeout: FramePostClientSettings.DEBUG
+                ? FramePostClientSettings.HANDSHAKE_TIMEOUT_DEV_MODE
+                : FramePostClientSettings.HANDSHAKE_TIMEOUT,
             requestTimeout: FramePostClientSettings.REQUEST_TIMEOUT,
             profile: this.debug,
             context: {
