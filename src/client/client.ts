@@ -13,7 +13,7 @@ import type {
     Context,
     ClientContext,
     ClientOptions,
-    ParentAuthStateOptions
+    ParentAuthProviderOptions
 } from '../types';
 import { Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
@@ -45,7 +45,7 @@ export class DDClient {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
-        let authStateOptions: ParentAuthStateOptions | undefined;
+        let authStateOptions: ParentAuthProviderOptions | undefined;
         if (options.authProvider) {
             // pluck authStateCallback since it's not serializable and not needed in the client
             const { authStateCallback, ...rest } = options.authProvider;
@@ -61,7 +61,10 @@ export class DDClient {
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION,
-                authStateOptions
+                authStateOptions: {
+                    resolution: 'poll',
+                    ...authStateOptions
+                }
             } as ClientContext
         });
 

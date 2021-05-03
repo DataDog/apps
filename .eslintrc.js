@@ -369,6 +369,7 @@ module.exports = {
     env: {
         jest: true,
         es6: true,
-        node: true
+        node: true,
+        browser: true
     }
 };

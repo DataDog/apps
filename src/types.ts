@@ -5,7 +5,6 @@ import type {
     ModalSize,
     ModalActionLevel,
     MenuItemType,
-    AuthStateStatus,
     WidgetOptionItemType,
     ColorTheme
 } from './constants';
@@ -14,7 +13,7 @@ import type { RequireKeys } from './utils/utils';
 export interface ClientOptions {
     debug?: boolean;
     host?: string;
-    authProvider?: AuthStateOptions;
+    authProvider?: AuthProviderOptions;
 }
 
 export type EventHandler<T = any> = (data: T) => void;
@@ -113,7 +112,7 @@ export interface Context extends FeatureContext {
 
 export interface ClientContext {
     sdkVersion: string;
-    authStateOptions?: ParentAuthStateOptions;
+    authStateOptions?: ParentAuthProviderOptions;
 }
 
 export interface UiAppFeature {
@@ -207,26 +206,20 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
 
-export interface CustomAuthState {
+export interface AuthState {
     args?: any;
     isAuthenticated: boolean;
 }
-export interface AuthState extends CustomAuthState {
-    status: AuthStateStatus;
-}
 
-export interface ParentAuthStateOptions {
-    url: string;
-    closePopupAfterAuth?: boolean;
+// poll resolution is the default
+export interface AuthProviderPollResolution {
     retryInterval?: number;
     totalTimeout?: number;
     requestTimeout?: number;
 }
-export interface AuthStateOptions extends ParentAuthStateOptions {
-    authStateCallback: () =>
-        | Promise<CustomAuthState | boolean>
-        | CustomAuthState
-        | boolean;
+
+export interface AuthProviderMessageResolution {
+    resolution: 'message';
 }
 
 interface WidgetOptionEnum {
@@ -255,3 +248,10 @@ export interface CustomWidgetItem {
 export interface GetDashboardCustomWidgetOptionsResponse {
     widgets: CustomWidgetItem[];
 }
+export type ParentAuthProviderOptions = {
+    url: string;
+} & (AuthProviderPollResolution | AuthProviderMessageResolution);
+
+export type AuthProviderOptions = ParentAuthProviderOptions & {
+    authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
+};

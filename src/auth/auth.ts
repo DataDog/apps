@@ -1,18 +1,17 @@
 import type { DDClient } from '../client/client';
-import { AuthStateStatus, UiAppRequestType } from '../constants';
-import { AuthState, AuthStateOptions, CustomAuthState } from '../types';
+import { UiAppRequestType } from '../constants';
+import { AuthState, AuthProviderOptions } from '../types';
 
 const defaultAuthState: Required<AuthState> = {
     isAuthenticated: false,
-    status: AuthStateStatus.NONE,
     args: {}
 };
 export class DDAuthClient {
     private readonly client: DDClient;
     private authState: AuthState;
-    readonly options?: AuthStateOptions;
+    readonly options?: AuthProviderOptions;
 
-    constructor(client: DDClient, options?: AuthStateOptions) {
+    constructor(client: DDClient, options?: AuthProviderOptions) {
         this.client = client;
         this.authState = defaultAuthState;
         if (options) {
@@ -25,7 +24,7 @@ export class DDAuthClient {
         );
     }
 
-    private async checkAuthState(): Promise<CustomAuthState | null> {
+    private async checkAuthState(): Promise<AuthState | null> {
         if (!this.options) {
             this.client.logger.error('Auth Provider is not set');
             return null;
@@ -53,3 +52,9 @@ export class DDAuthClient {
         );
     }
 }
+
+export const resolveAuthFlow = (state: AuthState) => {
+    if (window.opener) {
+        window.opener.postMessage(state, '*');
+    }
+};
