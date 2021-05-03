@@ -222,11 +222,6 @@ export interface AuthStateOptions extends ParentAuthStateOptions {
         | boolean;
 }
 
-export type GetDashboardCustomWidgetOptionsRequest = RequireKeys<
-    FeatureContext,
-    'dashboard' | 'widget'
->;
-
 interface WidgetOptionEnum {
     label: string;
     value: string;

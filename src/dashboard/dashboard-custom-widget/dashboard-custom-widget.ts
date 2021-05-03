@@ -6,7 +6,6 @@ import {
 } from '../../constants';
 import { DDFeatureClient } from '../../shared/feature-client';
 import type {
-    GetDashboardCustomWidgetOptionsRequest,
     GetDashboardCustomWidgetOptionsResponse,
     WidgetOptionItem
 } from '../../types';
@@ -25,20 +24,16 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
      * Registers a request handler for providing custom widget items dynamically
      */
     onRequest(
-        requestHandler: (
-            context: GetDashboardCustomWidgetOptionsRequest
-        ) =>
+        requestHandler: () =>
             | GetDashboardCustomWidgetOptionsResponse
             | Promise<GetDashboardCustomWidgetOptionsResponse>
     ) {
         this.client.framePostClient.onRequest(
             UiAppRequestType.GET_DASHBOARD_CUSTOM_WIDGET_ITEMS,
-            async (
-                context: GetDashboardCustomWidgetOptionsRequest
-            ): Promise<GetDashboardCustomWidgetOptionsResponse> => {
+            async (): Promise<GetDashboardCustomWidgetOptionsResponse> => {
                 await this.validateFeatureIsEnabled();
 
-                const { widgets } = await requestHandler(context);
+                const { widgets } = await requestHandler();
 
                 return { widgets };
             }
