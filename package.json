@@ -30,7 +30,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@datadog/framepost": "0.2.2"
+        "@datadog/framepost": "^0.2.3"
     },
     "devDependencies": {
         "@types/jest": "^26.0.14",
