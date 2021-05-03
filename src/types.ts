@@ -218,6 +218,7 @@ export interface ParentAuthStateOptions {
     closePopupAfterAuth?: boolean;
     retryInterval?: number;
     totalTimeout?: number;
+    requestTimeout?: number;
 }
 export interface AuthStateOptions extends ParentAuthStateOptions {
     authStateCallback: () =>
