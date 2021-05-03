@@ -279,10 +279,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@datadog/framepost@0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@datadog/framepost/-/framepost-0.2.2.tgz#3e1cd271f69f9359345fcf765a1c5a6d60cb56fc"
-  integrity sha512-3OpjjpiRUaJCp/GVjuZl8zNcfQ1uVXcl0ZvEg29J2z01mdXO11c8Wfuwhh87KXYMn9vtHrwasTV39EXLmF7ULg==
+"@datadog/framepost@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@datadog/framepost/-/framepost-0.2.3.tgz#11ad6c2208123041c47b16da62032dadaf1b7f9e"
+  integrity sha512-jTzJdbtVOT997XxKJ2iM+gvK0P0t3l4vpgy5lAvvs69nSMfJi+K9c3MTjil9qACFxd9RTGCG13IAnW5Ouy/aBQ==
 
 "@eslint/eslintrc@^0.2.1":
   version "0.2.1"
