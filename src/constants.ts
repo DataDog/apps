@@ -49,7 +49,7 @@ export enum IFrameApiRequestMethod {
 export const FramePostClientSettings = Object.freeze({
     // 3p devs most likely dont need to see framepost debug messages
     DEBUG: false,
-    HANDSHAKE_TIMEOUT: 5000,
+    HANDSHAKE_TIMEOUT: 10000,
     HANDSHAKE_TIMEOUT_DEV_MODE: 2000,
     REQUEST_TIMEOUT: 20000
 });
