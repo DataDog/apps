@@ -1,7 +1,6 @@
 import type {
     UiAppFeatureType,
     UiAppEventType,
-    IFrameApiRequestMethod,
     ModalSize,
     ModalActionLevel,
     MenuItemType,
@@ -128,11 +127,18 @@ export interface IframeApiRequestOptions {
     };
 }
 
-export interface IFrameApiRequest<Q> {
-    method: IFrameApiRequestMethod;
+export type ApiRequestMethod = 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
+export type ApiRequestContentType = 'json' | 'urlencoded' | 'formdata';
+
+export interface ApiRequestOptions<Q> {
+    method?: ApiRequestMethod;
+    params?: Record<string, string>;
+    contentType?: ApiRequestContentType;
+    data?: Q;
+}
+
+export interface ApiRequest<Q> extends ApiRequestOptions<Q> {
     resource: string;
-    options: IframeApiRequestOptions;
-    body: Q;
 }
 
 export interface DefinitionWithKey {

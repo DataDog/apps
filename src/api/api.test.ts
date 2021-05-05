@@ -1,4 +1,4 @@
-import { IFrameApiRequestMethod, UiAppRequestType } from '../constants';
+import { UiAppRequestType } from '../constants';
 import { MockClient } from '../utils/testUtils';
 
 import { DDAPIClient } from './api';
@@ -26,56 +26,58 @@ describe('api', () => {
         expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
-                method: IFrameApiRequestMethod.GET,
+                method: 'GET',
                 resource: '/test/endpoint',
-                options: {
-                    params: {
-                        testparam: 'testy'
-                    }
+                contentType: 'json',
+                params: {
+                    testparam: 'testy'
                 },
-                body: null
+                data: undefined
             }
         );
     });
 
     test('has an HTTP post method', () => {
-        apiClient.post('/test/endpoint', 'body');
+        apiClient.post('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
-                method: IFrameApiRequestMethod.POST,
+                method: 'POST',
                 resource: '/test/endpoint',
-                options: {},
-                body: 'body'
+                contentType: 'json',
+                params: {},
+                data: 'data'
             }
         );
     });
 
     test('has an HTTP put method', () => {
-        apiClient.put('/test/endpoint', 'body');
+        apiClient.put('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
-                method: IFrameApiRequestMethod.PUT,
+                method: 'PUT',
                 resource: '/test/endpoint',
-                options: {},
-                body: 'body'
+                contentType: 'json',
+                params: {},
+                data: 'data'
             }
         );
     });
 
     test('has an HTTP patch method', () => {
-        apiClient.patch('/test/endpoint', 'body');
+        apiClient.patch('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
-                method: IFrameApiRequestMethod.PATCH,
+                method: 'PATCH',
                 resource: '/test/endpoint',
-                options: {},
-                body: 'body'
+                contentType: 'json',
+                params: {},
+                data: 'data'
             }
         );
     });
@@ -86,10 +88,11 @@ describe('api', () => {
         expect(client.framePostClient.request).toBeCalledWith(
             UiAppRequestType.API_REQUEST,
             {
-                method: IFrameApiRequestMethod.DELETE,
+                method: 'DELETE',
                 resource: '/test/endpoint',
-                options: {},
-                body: null
+                contentType: 'json',
+                params: {},
+                data: undefined
             }
         );
     });

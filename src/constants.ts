@@ -39,14 +39,6 @@ export enum UiAppEventType {
     AUTH_STATE_CHANGE = 'auth_state_change'
 }
 
-export enum IFrameApiRequestMethod {
-    GET = 'GET',
-    POST = 'POST',
-    PUT = 'PUT',
-    PATCH = 'PATCH',
-    DELETE = 'DELETE'
-}
-
 export const FramePostClientSettings = Object.freeze({
     // 3p devs most likely dont need to see framepost debug messages
     DEBUG: false,
