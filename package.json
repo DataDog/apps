@@ -1,6 +1,6 @@
 {
     "name": "@datadog/ui-apps-sdk",
-    "version": "0.12.4",
+    "version": "0.12.5",
     "description": "Datadog UI Apps - Official JavaScript SDK ",
     "homepage": "https://github.com/DataDog/ui_apps_sdk",
     "repository": {
