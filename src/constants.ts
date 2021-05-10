@@ -35,8 +35,8 @@ export enum UiAppEventType {
     // Widgets
     WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click',
 
-    // Auth
-    AUTH_STATE_CHANGE = 'auth_state_change'
+    // when api access has changed, for example when a new access token is granted
+    API_ACCESS_CHANGE = 'api_access_change'
 }
 
 export const FramePostClientSettings = Object.freeze({
@@ -100,7 +100,7 @@ export enum UiAppRequestType {
 export const enabledEvents = new Set<UiAppEventType>([
     UiAppEventType.CUSTOM_EVENT,
     UiAppEventType.CONTEXT_CHANGE,
-    UiAppEventType.AUTH_STATE_CHANGE
+    UiAppEventType.API_ACCESS_CHANGE
 ]);
 
 export enum ModalSize {

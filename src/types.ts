@@ -261,3 +261,8 @@ export type ParentAuthProviderOptions = {
 export type AuthProviderOptions = ParentAuthProviderOptions & {
     authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
 };
+
+// Payload of event broadcast when oauth access is updated
+export interface APIAccessChangeEvent {
+    isAuthorized: boolean;
+}
