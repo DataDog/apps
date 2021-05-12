@@ -254,9 +254,17 @@ export interface CustomWidgetItem {
 export interface GetDashboardCustomWidgetOptionsResponse {
     widgets: CustomWidgetItem[];
 }
+export interface AuthProviderCloseResolution {
+    resolution: 'close';
+}
+
 export type ParentAuthProviderOptions = {
     url: string;
-} & (AuthProviderPollResolution | AuthProviderMessageResolution);
+} & (
+    | AuthProviderPollResolution
+    | AuthProviderMessageResolution
+    | AuthProviderCloseResolution
+);
 
 export type AuthProviderOptions = ParentAuthProviderOptions & {
     authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
