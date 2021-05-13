@@ -9,6 +9,7 @@ import type {
     WidgetContextMenuClickData,
     DashboardCogMenuClickData,
     SidePanelDefinition,
+    AuthState,
     APIAccessChangeEvent
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
@@ -35,6 +36,9 @@ interface DDEventDataTypes {
     [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
     [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
     [UiAppEventType.MODAL_ACTION]: ModalDefinition;
+
+    // Auth
+    [UiAppEventType.AUTH_STATE_CHANGE]: AuthState;
     [UiAppEventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
 

@@ -91,4 +91,10 @@ export class DDAPIClient {
             ...options
         });
     }
+
+    async clearCredentials() {
+        return this.client.framePostClient.request(
+            UiAppRequestType.CLEAR_OAUTH_CREDENTIALS
+        );
+    }
 }
