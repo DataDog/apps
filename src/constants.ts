@@ -47,6 +47,14 @@ export enum IFrameApiRequestMethod {
     DELETE = 'DELETE'
 }
 
+export const FramePostClientSettings = Object.freeze({
+    // 3p devs most likely dont need to see framepost debug messages
+    DEBUG: false,
+    HANDSHAKE_TIMEOUT: 10000,
+    HANDSHAKE_TIMEOUT_DEV_MODE: 2000,
+    REQUEST_TIMEOUT: 20000
+});
+
 // "Requests" are distinct from events in that the sdk client expects a response
 // from the frameManager, or vice-versa. This is useful when the child frames
 // ask the parent frames to perform an operation.
@@ -133,4 +141,9 @@ export enum AuthStateStatus {
 export enum WidgetOptionItemType {
     BOOLEAN = 'boolean',
     STRING = 'string'
+}
+
+export enum ColorTheme {
+    dark = 'dark',
+    light = 'light'
 }
