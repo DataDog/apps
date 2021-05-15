@@ -45,18 +45,14 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
         };
     }
 
-    async updateOptions(
-        optionsToAdd: WidgetOptionItem[],
-        optionsNamesToRemove: string[] = []
-    ) {
+    async updateOptions(newOptions: WidgetOptionItem[]) {
         const { widget } = await this.client.getContext();
         if (widget?.definition) {
             this.client.framePostClient.send(
                 UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE,
                 {
                     customWidgetKey: widget.definition.custom_widget_key,
-                    optionsToAdd,
-                    optionsNamesToRemove
+                    newOptions
                 }
             );
         }
