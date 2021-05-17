@@ -241,6 +241,7 @@ export interface WidgetOptionItem {
     enum?: (string | WidgetOptionEnum)[];
     required?: boolean;
     order?: number;
+    loading?: boolean;
 }
 
 export interface CustomWidgetItem {
