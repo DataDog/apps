@@ -220,8 +220,6 @@ export interface AuthState {
 // poll resolution is the default
 export interface AuthStateOptionsPollResolution {
     retryInterval?: number;
-    totalTimeout?: number;
-    requestTimeout?: number;
 }
 
 export interface AuthStateOptionsMessageResolution {
@@ -234,6 +232,8 @@ export interface AuthStateOptionsCloseResolution {
 
 export type ParentAuthStateOptions = {
     url: string;
+    totalTimeout?: number;
+    requestTimeout?: number;
 } & (
     | AuthStateOptionsPollResolution
     | AuthStateOptionsMessageResolution
