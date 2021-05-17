@@ -1,6 +1,6 @@
 import type { DDClient } from '../client/client';
 import { UiAppRequestType } from '../constants';
-import { AuthState, AuthProviderOptions } from '../types';
+import { AuthState, AuthStateOptions } from '../types';
 
 const defaultAuthState: Required<AuthState> = {
     isAuthenticated: false,
@@ -9,9 +9,9 @@ const defaultAuthState: Required<AuthState> = {
 export class DDAuthClient {
     private readonly client: DDClient;
     private authState: AuthState;
-    readonly options?: AuthProviderOptions;
+    readonly options?: AuthStateOptions;
 
-    constructor(client: DDClient, options?: AuthProviderOptions) {
+    constructor(client: DDClient, options?: AuthStateOptions) {
         this.client = client;
         this.authState = defaultAuthState;
         if (options) {

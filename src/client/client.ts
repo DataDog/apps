@@ -13,7 +13,7 @@ import type {
     Context,
     ClientContext,
     ClientOptions,
-    ParentAuthProviderOptions
+    ParentAuthStateOptions
 } from '../types';
 import { Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
@@ -45,7 +45,7 @@ export class DDClient {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
-        let authStateOptions: ParentAuthProviderOptions | undefined;
+        let authStateOptions: ParentAuthStateOptions | undefined;
         if (options.authProvider) {
             // pluck authStateCallback since it's not serializable and not needed in the client
             const { authStateCallback, ...rest } = options.authProvider;

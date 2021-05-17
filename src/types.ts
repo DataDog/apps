@@ -12,7 +12,7 @@ import type { RequireKeys } from './utils/utils';
 export interface ClientOptions {
     debug?: boolean;
     host?: string;
-    authProvider?: AuthProviderOptions;
+    authProvider?: AuthStateOptions;
 }
 
 export type EventHandler<T = any> = (data: T) => void;
@@ -111,7 +111,7 @@ export interface Context extends FeatureContext {
 
 export interface ClientContext {
     sdkVersion: string;
-    authStateOptions?: ParentAuthProviderOptions;
+    authStateOptions?: ParentAuthStateOptions;
 }
 
 export interface UiAppFeature {
@@ -218,15 +218,31 @@ export interface AuthState {
 }
 
 // poll resolution is the default
-export interface AuthProviderPollResolution {
+export interface AuthStateOptionsPollResolution {
     retryInterval?: number;
     totalTimeout?: number;
     requestTimeout?: number;
 }
 
-export interface AuthProviderMessageResolution {
+export interface AuthStateOptionsMessageResolution {
     resolution: 'message';
 }
+
+export interface AuthStateOptionsCloseResolution {
+    resolution: 'close';
+}
+
+export type ParentAuthStateOptions = {
+    url: string;
+} & (
+    | AuthStateOptionsPollResolution
+    | AuthStateOptionsMessageResolution
+    | AuthStateOptionsCloseResolution
+);
+
+export type AuthStateOptions = ParentAuthStateOptions & {
+    authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
+};
 
 interface WidgetOptionEnum {
     label: string;
@@ -254,21 +270,6 @@ export interface CustomWidgetItem {
 export interface GetDashboardCustomWidgetOptionsResponse {
     widgets: CustomWidgetItem[];
 }
-export interface AuthProviderCloseResolution {
-    resolution: 'close';
-}
-
-export type ParentAuthProviderOptions = {
-    url: string;
-} & (
-    | AuthProviderPollResolution
-    | AuthProviderMessageResolution
-    | AuthProviderCloseResolution
-);
-
-export type AuthProviderOptions = ParentAuthProviderOptions & {
-    authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
-};
 
 // Payload of event broadcast when oauth access is updated
 export interface APIAccessChangeEvent {
