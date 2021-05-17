@@ -1,5 +1,9 @@
-import { UiAppFeatureType, UiAppRequestType, MenuItemType } from '../constants';
-import { MockClient, mockContext } from '../utils/testUtils';
+import {
+    UiAppFeatureType,
+    UiAppRequestType,
+    MenuItemType
+} from '../../constants';
+import { MockClient, mockContext } from '../../utils/testUtils';
 
 import { DDDashboardCogMenuClient } from './dashboard-cog-menu';
 

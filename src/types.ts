@@ -6,6 +6,7 @@ import type {
     ModalActionLevel,
     MenuItemType,
     AuthStateStatus,
+    WidgetOptionItemType,
     ColorTheme
 } from './constants';
 import type { RequireKeys } from './utils/utils';
@@ -81,6 +82,7 @@ export interface DashboardWidgetContext {
               options?: {
                   [key: string]: any;
               };
+              custom_widget_key: string;
           }
         | any;
     layout?: any;
@@ -225,4 +227,31 @@ export interface AuthStateOptions extends ParentAuthStateOptions {
         | Promise<CustomAuthState | boolean>
         | CustomAuthState
         | boolean;
+}
+
+interface WidgetOptionEnum {
+    label: string;
+    value: string;
+}
+export interface WidgetOptionItem {
+    label: string;
+    name: string;
+    type: WidgetOptionItemType;
+    default?: any;
+    enum?: (string | WidgetOptionEnum)[];
+    required?: boolean;
+    order?: number;
+    loading?: boolean;
+}
+
+export interface CustomWidgetItem {
+    name: string;
+    source: string;
+    hasTitle?: boolean;
+    options: WidgetOptionItem[];
+    customWidgetKey: string;
+    icon?: string;
+}
+export interface GetDashboardCustomWidgetOptionsResponse {
+    widgets: CustomWidgetItem[];
 }

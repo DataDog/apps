@@ -1,11 +1,11 @@
-import type { DDClient } from '../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
-import { DDFeatureClient } from '../shared/feature-client';
+import type { DDClient } from '../../client/client';
+import { UiAppFeatureType, UiAppRequestType } from '../../constants';
+import { DDFeatureClient } from '../../shared/feature-client';
 import type {
     GetDashboardCogMenuItemsRequest,
     GetDashboardCogMenuItemsResponse
-} from '../types';
-import { validateKey } from '../utils/utils';
+} from '../../types';
+import { validateKey } from '../../utils/utils';
 
 const emptyConfig: GetDashboardCogMenuItemsResponse = { items: [] };
 
@@ -18,7 +18,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
     }
 
     /**
-     * Registers a request handler for providing context menu items dynamically
+     * Registers a request handler for providing cog menu items dynamically
      */
     onRequest(
         requestHandler: (
