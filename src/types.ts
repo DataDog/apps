@@ -173,10 +173,8 @@ export interface ModalDefinition extends DefinitionWithKey {
 
 // Sidepanels
 export interface SidePanelDefinition extends DefinitionWithKey {
-    width?: string;
+    title?: string;
     source?: string;
-    hideCloseButton?: boolean;
-    willCloseOnEsc?: boolean;
 }
 
 // Widget Context Menus
