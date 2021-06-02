@@ -47,11 +47,12 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
 
     async updateOptions(newOptions: WidgetOptionItem[]) {
         const { widget } = await this.client.getContext();
-        if (widget?.definition) {
+        if (widget?.definition && widget?.id) {
             return this.client.framePostClient.request(
                 UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE,
                 {
                     customWidgetKey: widget.definition.custom_widget_key,
+                    customWidgetID: widget.id,
                     newOptions
                 }
             );
