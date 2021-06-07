@@ -9,7 +9,8 @@ import type {
     WidgetContextMenuClickData,
     DashboardCogMenuClickData,
     SidePanelDefinition,
-    AuthState
+    AuthState,
+    APIAccessChangeEvent
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -38,6 +39,7 @@ interface DDEventDataTypes {
 
     // Auth
     [UiAppEventType.AUTH_STATE_CHANGE]: AuthState;
+    [UiAppEventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
 
 export class DDEventsClient {

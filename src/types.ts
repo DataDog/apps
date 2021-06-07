@@ -1,11 +1,9 @@
 import type {
     UiAppFeatureType,
     UiAppEventType,
-    IFrameApiRequestMethod,
     ModalSize,
     ModalActionLevel,
     MenuItemType,
-    AuthStateStatus,
     WidgetOptionItemType,
     ColorTheme
 } from './constants';
@@ -129,11 +127,18 @@ export interface IframeApiRequestOptions {
     };
 }
 
-export interface IFrameApiRequest<Q> {
-    method: IFrameApiRequestMethod;
+export type ApiRequestMethod = 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
+export type ApiRequestContentType = 'json' | 'urlencoded' | 'formdata';
+
+export interface ApiRequestOptions<Q> {
+    method?: ApiRequestMethod;
+    params?: Record<string, string>;
+    contentType?: ApiRequestContentType;
+    data?: Q;
+}
+
+export interface ApiRequest<Q> extends ApiRequestOptions<Q> {
     resource: string;
-    options: IframeApiRequestOptions;
-    body: Q;
 }
 
 export interface DefinitionWithKey {
@@ -205,27 +210,37 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
 
-export interface CustomAuthState {
+export interface AuthState {
     args?: any;
     isAuthenticated: boolean;
 }
-export interface AuthState extends CustomAuthState {
-    status: AuthStateStatus;
+
+// poll resolution is the default
+export interface AuthStateOptionsPollResolution {
+    retryInterval?: number;
 }
 
-export interface ParentAuthStateOptions {
+export interface AuthStateOptionsMessageResolution {
+    resolution: 'message';
+}
+
+export interface AuthStateOptionsCloseResolution {
+    resolution: 'close';
+}
+
+export type ParentAuthStateOptions = {
     url: string;
-    closePopupAfterAuth?: boolean;
-    retryInterval?: number;
     totalTimeout?: number;
     requestTimeout?: number;
-}
-export interface AuthStateOptions extends ParentAuthStateOptions {
-    authStateCallback: () =>
-        | Promise<CustomAuthState | boolean>
-        | CustomAuthState
-        | boolean;
-}
+} & (
+    | AuthStateOptionsPollResolution
+    | AuthStateOptionsMessageResolution
+    | AuthStateOptionsCloseResolution
+);
+
+export type AuthStateOptions = ParentAuthStateOptions & {
+    authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
+};
 
 interface WidgetOptionEnum {
     label: string;
@@ -252,4 +267,9 @@ export interface CustomWidgetItem {
 }
 export interface GetDashboardCustomWidgetOptionsResponse {
     widgets: CustomWidgetItem[];
+}
+
+// Payload of event broadcast when oauth access is updated
+export interface APIAccessChangeEvent {
+    isAuthorized: boolean;
 }
