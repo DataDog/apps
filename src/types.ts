@@ -145,7 +145,7 @@ export interface DefinitionWithKey {
     key: string;
 }
 
-export interface MenuItemCommon extends DefinitionWithKey {
+export interface MenuItemCommon extends DefinitionWithKey, OrderedItem {
     label: string;
 }
 
@@ -271,4 +271,8 @@ export interface GetDashboardCustomWidgetOptionsResponse {
 // Payload of event broadcast when oauth access is updated
 export interface APIAccessChangeEvent {
     isAuthorized: boolean;
+}
+
+export interface OrderedItem {
+    order?: number;
 }
