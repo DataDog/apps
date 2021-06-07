@@ -61,7 +61,10 @@ export class DDClient {
             profile: this.debug,
             context: {
                 sdkVersion: SDK_VERSION,
-                authStateOptions
+                authStateOptions: {
+                    resolution: 'poll',
+                    ...authStateOptions
+                }
             } as ClientContext
         });
 

@@ -1,6 +1,8 @@
 import { DDClient } from './client/client';
 import { Context, ClientOptions } from './types';
 
+export { resolveAuthFlow } from './auth/auth';
+
 let client: DDClient;
 
 /**
@@ -24,4 +26,5 @@ export const init = (
 
 export * from './types';
 export * from './constants';
+
 export { DDClient };
