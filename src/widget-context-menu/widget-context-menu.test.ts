@@ -44,7 +44,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
                     {
                         key: 'item-a',
                         label: 'Label A',
-                        type: MenuItemType.LINK,
+                        actionType: MenuItemType.LINK,
                         href: 'https://google.com'
                     }
                 ]
@@ -127,7 +127,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
                     {
                         key: 'item-a',
                         label: 'Label A',
-                        type: MenuItemType.LINK,
+                        actionType: MenuItemType.LINK,
                         href: 'https://google.com'
                     }
                 ]

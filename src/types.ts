@@ -150,12 +150,12 @@ export interface MenuItemCommon extends DefinitionWithKey {
 }
 
 export interface LinkMenuItem extends MenuItemCommon {
-    type: MenuItemType.LINK;
+    actionType: MenuItemType.LINK;
     href: string;
 }
 
 export interface EventMenuItem extends MenuItemCommon {
-    type: MenuItemType.EVENT;
+    actionType: MenuItemType.EVENT;
 }
 
 export type MenuItem = LinkMenuItem | EventMenuItem;
@@ -168,7 +168,6 @@ export interface MenuItemRequestResponse {
 export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
-    isCloseable?: boolean;
     message?: string;
     source?: string;
     actionLabel?: string;
