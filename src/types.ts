@@ -245,14 +245,13 @@ interface WidgetOptionEnum {
     label: string;
     value: string;
 }
-export interface WidgetOptionItem {
+export interface WidgetOptionItem extends OrderedItem {
     label: string;
     name: string;
     type: WidgetOptionItemType;
     default?: any;
     enum?: (string | WidgetOptionEnum)[];
     required?: boolean;
-    order?: number;
     loading?: boolean;
 }
 
