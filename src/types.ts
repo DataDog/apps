@@ -258,7 +258,6 @@ export interface WidgetOptionItem extends OrderedItem {
 export interface CustomWidgetItem {
     name: string;
     source: string;
-    hasTitle?: boolean;
     options: WidgetOptionItem[];
     customWidgetKey: string;
     icon?: string;
