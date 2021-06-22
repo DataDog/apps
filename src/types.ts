@@ -145,17 +145,17 @@ export interface DefinitionWithKey {
     key: string;
 }
 
-export interface MenuItemCommon extends DefinitionWithKey {
+export interface MenuItemCommon extends DefinitionWithKey, OrderedItem {
     label: string;
 }
 
 export interface LinkMenuItem extends MenuItemCommon {
-    type: MenuItemType.LINK;
+    actionType: MenuItemType.LINK;
     href: string;
 }
 
 export interface EventMenuItem extends MenuItemCommon {
-    type: MenuItemType.EVENT;
+    actionType: MenuItemType.EVENT;
 }
 
 export type MenuItem = LinkMenuItem | EventMenuItem;
@@ -168,7 +168,6 @@ export interface MenuItemRequestResponse {
 export interface ModalDefinition extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
-    isCloseable?: boolean;
     message?: string;
     source?: string;
     actionLabel?: string;
@@ -178,10 +177,8 @@ export interface ModalDefinition extends DefinitionWithKey {
 
 // Sidepanels
 export interface SidePanelDefinition extends DefinitionWithKey {
-    width?: string;
+    title?: string;
     source?: string;
-    hideCloseButton?: boolean;
-    willCloseOnEsc?: boolean;
 }
 
 // Widget Context Menus
@@ -248,21 +245,19 @@ interface WidgetOptionEnum {
     label: string;
     value: string;
 }
-export interface WidgetOptionItem {
+export interface WidgetOptionItem extends OrderedItem {
     label: string;
     name: string;
     type: WidgetOptionItemType;
     default?: any;
     enum?: (string | WidgetOptionEnum)[];
     required?: boolean;
-    order?: number;
     loading?: boolean;
 }
 
 export interface CustomWidgetItem {
     name: string;
     source: string;
-    hasTitle?: boolean;
     options: WidgetOptionItem[];
     customWidgetKey: string;
     icon?: string;
@@ -274,4 +269,8 @@ export interface GetDashboardCustomWidgetOptionsResponse {
 // Payload of event broadcast when oauth access is updated
 export interface APIAccessChangeEvent {
     isAuthorized: boolean;
+}
+
+export interface OrderedItem {
+    order?: number;
 }
