@@ -1,0 +1,12 @@
+{
+  "name": "@datadog/apps",
+  "version": "0.1.0",
+  "description": "DataDog Apps",
+  "main": "index.js",
+  "repository": "https://github.com/DataDog/apps.git",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "examples/*"
+  ]
+}

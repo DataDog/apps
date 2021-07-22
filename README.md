@@ -8,5 +8,8 @@ DataDog Apps allow third party developers to extend the native functionality off
 * [Programming Model](docs/en/programming-model.md)
 * [API Reference](https://docs.datadoghq.com/api/latest/)
 
+## Examples
+
+* [Starter Kit](examples/starter-kit)
 ## Code resources
 * [SDK](https://github.com/DataDog/ui_apps_sdk)

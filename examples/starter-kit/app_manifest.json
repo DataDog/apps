@@ -1,0 +1,78 @@
+{
+  "scopes": [],
+  "description": "A hello-world like application used as a starting point for apps",
+  "dev_mode_url": "http://localhost:3000",
+  "name": "Your first app!",
+  "features": [
+    {
+      "name": "dashboard_custom_widget",
+      "options": {
+        "widgets": [
+          {
+            "name": "Your first app",
+            "has_title": true,
+            "custom_widget_key": "your_first_app",
+            "source": "widget",
+            "options": [
+              {
+                "enum": [
+                  "system.cpu.idle",
+                  "system.load.1",
+                  "system.load.5",
+                  "system.load.15"
+                ],
+                "type": "string",
+                "name": "metric",
+                "label": "Your favorite metric"
+              },
+              {
+                "enum": ["Chevre", "Gruyere", "Mozzarella"],
+                "type": "string",
+                "name": "favorite-cheese",
+                "label": "Your favorite cheese"
+              }
+            ],
+            "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emojione_1F44B.svg/1024px-Emojione_1F44B.svg.png"
+          }
+        ]
+      }
+    },
+    {
+      "name": "dashboard_cog_menu",
+      "options": {
+        "items": [
+          {
+            "action_type": "event",
+            "key": "open-confirmation",
+            "label": "Please confirm"
+          },
+          {
+            "action_type": "event",
+            "key": "open-custom-modal",
+            "label": "Open a custom modal"
+          },
+          {
+            "action_type": "event",
+            "key": "open-custom-panel",
+            "label": "Open a custom side panel with args"
+          }
+        ]
+      }
+    },
+    {
+      "name": "modals",
+      "options": {}
+    },
+    {
+      "name": "side_panels",
+      "options": {}
+    },
+    {
+      "name": "widget_context_menu",
+      "options": {}
+    }
+  ],
+  "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emojione_1F44B.svg/1024px-Emojione_1F44B.svg.png",
+  "api_version": "v1.0",
+  "main_url": "http://localhost:3000"
+}
