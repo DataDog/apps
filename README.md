@@ -1,6 +1,6 @@
-# DataDog Developer Platform
+# DataDog Apps
 
-The DataDog Developer Platform allows third party developers to create Apps that extend the native functionality offered by DataDog. This initiative is in a private alpha release, please contact Datadog support to request access.
+DataDog Apps allow third party developers to extend the native functionality offered by DataDog. This initiative is in a private alpha release, please contact Datadog support to request access.
 
 ## Documentation
 
@@ -9,4 +9,4 @@ The DataDog Developer Platform allows third party developers to create Apps that
 * [API Reference](https://docs.datadoghq.com/api/latest/)
 
 ## Code resources
-* [UI Apps SDK](https://github.com/DataDog/ui_apps_sdk)
+* [SDK](https://github.com/DataDog/ui_apps_sdk)
