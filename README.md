@@ -6,3 +6,7 @@ The DataDog Developer Platform allows third party developers to create Apps that
 
 * [Getting Started](docs/en/getting-started.md)
 * [Programming Model](docs/en/programming-model.md)
+* [API Reference](https://docs.datadoghq.com/api/latest/)
+
+## Code resources
+* [UI Apps SDK](https://github.com/DataDog/ui_apps_sdk)
