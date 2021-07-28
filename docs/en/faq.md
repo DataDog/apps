@@ -18,3 +18,6 @@ Yes, an API client is provided as part of the SDK to access Datadog’s public A
 
 ## What about authentication?
 You can authenticate your app users by integrating your existing login mechanism through the SDK. More details can be found [here](./programming-model.md#authentication).
+
+## What browsers do you support?
+Our intention is to support all major browsers, however we have encountered some errors in both Safari and Firefox. We are actively investigating these issues, but in the mean time we reocmmend using Google Chrome when developing and using UI Extension apps.
