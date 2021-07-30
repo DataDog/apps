@@ -54,4 +54,4 @@ https://user-images.githubusercontent.com/228230/127715995-aa66fb84-9900-4e88-bc
 
 
 
-This app demo shows usage of the side panel, modal, and they dashboard cog menu. To find out more about how to utilize the SDK please check out the documentation at [/docs/en](../docs/en)
+This app demo shows usage of the side panel, modal, and they dashboard cog menu. To find out more about how to utilize the SDK please check out the documentation at [/docs/en](../../../docs/en)
