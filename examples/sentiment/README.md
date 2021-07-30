@@ -8,7 +8,7 @@ This app is a sample app mocking a usecase for Sentiment Analysis based off of t
 
 # Usage
 
-Once inside this folder, install all the necessary packages by navigating to the containing folder with your CLI of choice and running `npm i`. 
+Once inside this folder, install all the necessary packages with your CLI of choice by running `npm i`. 
 
 After that has completed, run `npm start` to get a local instance of the application running on your machine, take note of the port its using, we're going to assume it's using `3000` going forward. 
 
