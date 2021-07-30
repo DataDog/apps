@@ -1,0 +1,81 @@
+{
+  "scopes": [
+    "dashboards_read",
+    "dashboards_write",
+    "dashboards_public_share",
+    "ddsql_read",
+    "metrics.readonly",
+    "monitors_read",
+    "monitors_write",
+    "monitors_downtime"
+  ],
+  "features": [
+    {
+      "name": "dashboard_cog_menu",
+      "options": {
+        "items": [
+          {
+            "action_type": "event",
+            "key": "open-custom-modal",
+            "label": "Modal for Twitter Sentiment"
+          }
+        ]
+      }
+    },
+    {
+      "name": "dashboard_custom_widget",
+      "options": {
+        "widgets": [
+          {
+            "source": "widget",
+            "custom_widget_key": "your_first_widget",
+            "options": [
+              {
+                "enum": [
+                  "system.cpu.idle",
+                  "system.load.1",
+                  "system.load.5",
+                  "system.load.15"
+                ],
+                "type": "string",
+                "name": "metric",
+                "label": "Your favorite metric"
+              },
+              {
+                "enum": [
+                  "Chevre",
+                  "Gruyere",
+                  "Mozzarella"
+                ],
+                "type": "string",
+                "name": "favorite-cheese",
+                "label": "Your favorite cheese"
+              }
+            ],
+            "name": "Twitter Sentiment Analysis",
+            "icon": "https://static.datadoghq.com/static/favicon.ico"
+          }
+        ]
+      }
+    },
+    {
+      "name": "modals",
+      "options": {}
+    },
+    {
+      "name": "side_panels",
+      "options": {}
+    },
+    {
+      "name": "widget_context_menu",
+      "options": {}
+    }
+  ],
+  "description": "A hello-world like application used as a starting point for apps",
+  "dev_mode_url": "http://localhost:3000",
+  "name": "Twitter Sentiment Analysis",
+  "controller_source": "",
+  "icon": "https://static.datadoghq.com/static/favicon.ico",
+  "api_version": "v1.0",
+  "main_url": "http://localhost:3000"
+}
