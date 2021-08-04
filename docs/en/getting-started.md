@@ -21,7 +21,7 @@ Steps:
 
 ![s1](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/kpu7mnQ5/691d1b66-1622-419d-a561-dbda1054e732.png?source=viewer&v=0e8849313e0baaf4e4068003cca5e872)
 
-2ꓸ Under the "features" section, toggle "Dashboard custom widget".
+2ꓸ Under the "features > UI Extensions" section, toggle "Dashboard custom widget".
 
 Tip: Try changing the name of the application / widget it will add.
 
