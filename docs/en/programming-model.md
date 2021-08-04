@@ -465,7 +465,7 @@ Allows applications to extend widget visualizations with custom context menu ite
 
 **Configuration:**
 
-Cog menu items should be provided dynamically by the main controller IFrame. When a context menu renders, it will send a request to the main controller iframe asking for a set of menu items. Items can be provided by registering a handler with `client.widgetContextMenu.onRequest()`. The handler will be provided with a set of context data about the widget, so that items may be rendered (or excluded) based on that data:
+Context menu items should be provided dynamically by the main controller IFrame. When a context menu renders, it will send a request to the main controller iframe asking for a set of menu items. Items can be provided by registering a handler with `client.widgetContextMenu.onRequest()`. The handler will be provided with a set of context data about the widget, so that items may be rendered (or excluded) based on that data:
 
 ```javascript
 
