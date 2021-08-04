@@ -41,7 +41,7 @@ You will soon notice it’s a blank widget ! No worries ! We’ll show you how t
 First, let's get our dev environment set up.
 
 ```
-cd examples/apps-starter-kit
+cd examples/starter-kit
 yarn install
 yarn start
 ```
