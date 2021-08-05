@@ -90,11 +90,11 @@ If everything went well, the widget should now display in a the dashboard.
 
 ✅ Tip: Try modifying the content of your code and see the widget change in the dashboard.
 
-## Using developer Mode
+## Using debug Mode
 
 ![dev_mode1](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/yAu6LyoN/3ee9c354-00a6-4789-8a62-42abcac4500f.png?source=viewer&v=0eaa32e5d1121d0261332af776a89f9b)
 
-With developer mode, every widget will have a toolbar to make your DX better. For example, it allows you to refresh the widget you’re developing without refreshing the whole dashboard.
+With debug mode, every widget will have a toolbar to make your DX better. For example, it allows you to refresh the widget you’re developing without refreshing the whole dashboard.
 
 ![dev_mode2](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/jkuen4y2/6c92f76c-5540-47fe-9c84-74a3676f5c1e.png?source=viewer&v=97ec2c27cb0b98c69ce09d5a3a5d7a6c)
 
