@@ -21,18 +21,14 @@ Steps:
 
 ![s1](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/kpu7mnQ5/691d1b66-1622-419d-a561-dbda1054e732.png?source=viewer&v=0e8849313e0baaf4e4068003cca5e872)
 
-2ꓸ Under the "features" section, toggle "Dashboard custom widget".
+2ꓸ Under the "features > UI Extensions" section, toggle "Dashboard custom widget".
 
 Tip: Try changing the name of the application / widget it will add.
 
 ![s2](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/ApuRO9ng/ef85d969-0c75-4b78-a51b-5ceaaec16c6a.png?source=viewer&v=01285d41744c1d83a80c1c4f79a47027)
 
 
-3ꓸ Save your application, then install it.
-
-![s3](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/wbu9kR6b/95bdb3b4-e89e-448e-b0be-e03a00afd6f0.png?source=viewer&v=f086ccdaf1495c9534cd3ad26051b630)
-
-4ꓸ Open any dashboard and browse the widget tray, you will see the new widget type there. Try dragging it on your board.
+3ꓸ Open any dashboard and browse the widget tray, you will see the new widget type there. Try dragging it on your board.
 
 ![s4](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/geu4rA0v/a2642123-dec1-4bd4-a230-7fdea09ab4c4.png?source=viewer&v=010ae411a8121978f232705050d64d75)
 
@@ -45,7 +41,7 @@ You will soon notice it’s a blank widget ! No worries ! We’ll show you how t
 First, let's get our dev environment set up.
 
 ```
-cd examples/apps-starter-kit
+cd examples/starter-kit
 yarn install
 yarn start
 ```
