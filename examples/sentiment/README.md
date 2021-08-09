@@ -49,6 +49,9 @@ Now you will have a pop up preview of your brand new widget, as well as any addi
 Hit done, and then resize the widget to the size of your choosing and you're ready to explore. 
 
 
-![Confirm add widget](./docs/sentiment-video.mp4)
 
-This app demo shows usage of the side panel, modal, and they dashboard cog menu. To find out more about how 
+https://user-images.githubusercontent.com/228230/127715995-aa66fb84-9900-4e88-bcb8-ea4340fa3cd8.mp4
+
+
+
+This app demo shows usage of the side panel, modal, and they dashboard cog menu. To find out more about how to utilize the SDK please check out the documentation at [/docs/en](../../../docs/en)
