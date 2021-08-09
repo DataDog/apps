@@ -17,7 +17,7 @@
           {
             "action_type": "event",
             "key": "open-custom-modal",
-            "label": "Modal for Twitter Sentiment"
+            "label": "About Twitter Sentiment App"
           }
         ]
       }
@@ -28,30 +28,7 @@
         "widgets": [
           {
             "source": "widget",
-            "custom_widget_key": "your_first_widget",
-            "options": [
-              {
-                "enum": [
-                  "system.cpu.idle",
-                  "system.load.1",
-                  "system.load.5",
-                  "system.load.15"
-                ],
-                "type": "string",
-                "name": "metric",
-                "label": "Your favorite metric"
-              },
-              {
-                "enum": [
-                  "Chevre",
-                  "Gruyere",
-                  "Mozzarella"
-                ],
-                "type": "string",
-                "name": "favorite-cheese",
-                "label": "Your favorite cheese"
-              }
-            ],
+            "custom_widget_key": "Sentiment_Analysis",
             "name": "Twitter Sentiment Analysis",
             "icon": "https://static.datadoghq.com/static/favicon.ico"
           }

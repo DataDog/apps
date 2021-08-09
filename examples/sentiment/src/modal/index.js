@@ -17,9 +17,11 @@ function Modal() {
       }}
     >
       <div className="modal-wrapper">
-        <p>This modal was opened programatically from the main app controller</p>
+        <p>This modal was opened by defining a cog menu item in app-manifest.json with the key 'open-custom-modal'. </p>
 
         <p>We are mocking api calls with data coming from the Twitter Developer API, as well as faking sentiment analysis based off Microsoft's Text Analytics</p>
+
+        <p>To learn more about the programming model, and to understand how we pass context around, please visit <a href="https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md">the documentation.</a></p>
 
       </div>
     </div>
