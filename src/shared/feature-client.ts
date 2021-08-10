@@ -22,6 +22,8 @@ export class DDFeatureClient {
             app: { features }
         } = context;
 
+        console.log('xxx isEnabled features', features);
+
         return isFeatureEnabled(this.featureType, features);
     }
 

@@ -14,6 +14,7 @@ export class DDSidePanelClient extends DDFeatureClient {
      * definition pre-defined in the app manifest
      */
     async open(definition: SidePanelDefinition, args?: any) {
+        console.log('xxx open', definition, args);
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
