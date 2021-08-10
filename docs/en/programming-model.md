@@ -225,15 +225,39 @@ features: [
 ```
 
 
+**Dynamic Items**
+
+Custom widget items can also be provided dynamically at runtime by the Main Controller Iframe. When a dashboard is loaded, it will send a request to the main controller iframe asking for a set of widget items. Items can be provided by registering a handler with `client.dashboard.customWidget.onRequest`. 
+
+```js
+client.dashboard.customWidget.onRequest(() => {
+  return {
+    widgets: [
+      {
+        name: "Cheese Widget",
+        customWidgetKey: "key1",
+        source: "widget",
+        options: [
+          {
+            type: WidgetOptionItemType.STRING,
+            name: "favorite-cheese",
+            label: "Your favorite cheese",
+            enum: ["Chevre", "Gruyere", "Mozzarella"],
+ 
+          },
+        ],
+        icon: "https://upload.wikimedia.org/wikipedia/en/a/a5/Cheese.png",
+      },
+    ],
+  };
+});
+```
 
 **Updating Widget Options Dynamically:**
 
-Widget options can be updated at runtime. This is useful if you need to fill the option dropdown content dynamically based on an API call.
-
-
+Regardless of whether the widget definition is provided statically in the manifest or dynamically at runtime by the Main Controller Iframe, the widget options can be updated at runtime by the widget Iframe code at anytime.
 ![options](https://user-images.githubusercontent.com/1262407/116876143-f91ba400-abe9-11eb-83d2-c804c3f9f218.gif)
 
-Important: This code needs to run in the widget code and not in the main controller.
 
 ```js
 client.dashboard.customWidget.updateOptions([
