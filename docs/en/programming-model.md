@@ -216,7 +216,15 @@ features: [
                         ],
                         "required": true
                     }
-                ]
+                ],
+
+                // (optional) the initial size of the widget
+                // can be: "sm", "md", or "lg"
+                "default_size": "md",
+
+                // (optional) the smallest the widget can be resized to
+                // can be: "sm", "md", or "lg"
+                "minimum_size": "md"
             }
         ]
         }
