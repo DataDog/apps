@@ -262,9 +262,6 @@ export interface CustomWidgetItem {
     customWidgetKey: string;
     icon?: string;
 }
-export interface GetDashboardCustomWidgetOptionsResponse {
-    widgets: CustomWidgetItem[];
-}
 
 // Payload of event broadcast when oauth access is updated
 export interface APIAccessChangeEvent {
