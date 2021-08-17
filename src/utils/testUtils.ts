@@ -39,15 +39,8 @@ export const uniqueInt = (): number => {
 export const mockContext: Context = {
     app: {
         currentUser: {
-            id: 45678,
-            name: 'User',
-            handle: 'user@email.com',
             timeZone: 'America/New_York',
             colorTheme: ColorTheme.light
-        },
-        org: {
-            id: 12345,
-            name: 'Corporate overlord'
         },
         features: [UiAppFeatureType.DASHBOARD_COG_MENU],
         debug: true
