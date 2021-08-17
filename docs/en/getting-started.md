@@ -1,19 +1,19 @@
-# Writing your first UI app
+# Writing your first UI extension
 
-## What is an App?
+## What is an UI Extension?
 
-Apps are **anything that you can think of inside of Datadog**, this could be as simple as:
--   A widget that can visualize data that is not in Datadog’s backend
--   Cost Optimization tools inside the UI
--   Scheduling reports directly from a dashboard
--   New ways of displaying data
+UI Extensions are **anything that you can think of inside of Datadog**, this could be as simple as:
+
+- A widget that can visualize data that is not in Datadog’s backend
+- Cost Optimization tools inside the UI
+- Scheduling reports directly from a dashboard
+- New ways of displaying data
 
 We're actively working on extending the features and building blocks that are available to you.
 
-## Creating your first app
+## Creating your first UI extension
 
 Watch the **5 minute walkthrough** at https://a.cl.ly/eDuwD7m0
-
 
 Steps:
 
@@ -27,12 +27,11 @@ Tip: Try changing the name of the application / widget it will add.
 
 ![s2](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/ApuRO9ng/ef85d969-0c75-4b78-a51b-5ceaaec16c6a.png?source=viewer&v=01285d41744c1d83a80c1c4f79a47027)
 
-
 3ꓸ Open any dashboard and browse the widget tray, you will see the new widget type there. Try dragging it on your board.
 
 ![s4](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/geu4rA0v/a2642123-dec1-4bd4-a230-7fdea09ab4c4.png?source=viewer&v=010ae411a8121978f232705050d64d75)
 
-You will soon notice it’s a blank widget ! No worries ! We’ll show you how to change that
+You will soon notice it’s a blank widget! No worries! We’ll show you how to change that
 
 ![s5](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/DOu2vBjj/d7f53a25-1f4c-4c45-8820-d6c78ad75e50.png?source=viewer&v=89769497f7a1f3a83f15c21c56a234f8)
 
@@ -52,32 +51,32 @@ You should be greeted by a page looking like this
 
 As you see the message, you’ll realize there are two pages:
 
-- http://localhost:3000 A main controller that orchestrates all of the different pieces your application is made of (widgets, menu, modals..). It will come in handy as your app becomes richer in functionality.
+- http://localhost:3000 A main controller that orchestrates all of your different extensions (widgets, menu, modals..). It will come in handy as you enrich app functionality.
 
 - http://localhost:3000/widget Components for widgets, modals, or anything that needs a dedicated display
 
-✅ Tip: Check out App Platform Developer Guide for a deep dive into this architecture.
+✅ Tip: Check out Developer Platform Developer Guide for a deep dive into this architecture.
 
-Great ! Let’s get your widget running in a dashboard. We will need to point the source field of the widget configuration to http://localhost:3000/widget
+Great! Let’s get your widget running in a dashboard. We will need to point the source field of the widget configuration to http://localhost:3000/widget
 
 ```json
 "widgets" : [
     {
         // the name of the widget, as it will appear on the tray
-        "name": "Your first app", 
-        
+        "name": "Your first UI extension",
+
         // the code your widget will execute
         "source": "http://localhost:3000/widget",
-        
+
         // configuration options that autogenerate editors
         "options": [...],
-        
+
         // the icon that will appear in the widget tray
         "icon": "https://static.datadoghq.com/static/favicon.ico",
-        
+
         // the key, used to tell apart 2 widgets from the same app
         // don't change this after you created the widget
-        "custom_widget_key": "your_first_app" 
+        "custom_widget_key": "your_first_ui_extension"
     }
 ]
 ```
@@ -90,7 +89,7 @@ If everything went well, the widget should now display in a the dashboard.
 
 ✅ Tip: Try modifying the content of your code and see the widget change in the dashboard.
 
-## Using debug Mode
+## Using debug mode
 
 With debug mode, every widget will have a toolbar to make your DX better. For example, it allows you to refresh the widget you’re developing without refreshing the whole dashboard.
 
@@ -106,7 +105,7 @@ With debug mode, every widget will have a toolbar to make your DX better. For ex
 
 ![arrow pointing to debug button](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluoQPLE/6f8fa34d-3b5f-48d2-9d0a-fe0a00d2e9bd.jpg?v=53420b9f63222ec5df10be1339f2d7e1)
 
-## I want to publish my app now !
+## I want to publish my app now!
 
 ```
 yarn build
@@ -114,4 +113,4 @@ yarn build
 
 The command above will build the app.
 
-Next, you’ll need to host this app on your infrastructure so that it’s reachable from the customer clients.
+Next, you’ll need to host the app on your infrastructure so customers can view it.
