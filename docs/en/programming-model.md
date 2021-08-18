@@ -73,14 +73,10 @@ client.events.on('dashboard_cog_menu_click', (clickContext) => {
 ```
 **Context structure attributes**
 - `app`: Global data about the app and user context
-    - `name`: The name of the current user
-    - `handle`: The current user's email
-    - `timeZone`: The current user's time zone. The time zone can differ from the browser's time zone if the user has changed it in the settings.
-    - `colorTheme`: The current user's color theme. It can be either `dark` or `light`.
-    - `org`: Information about the user's organization
-        - `id`: Organization ID
-        - `name`: Organization name
-        - `features`: A list of the installed app's enabled features.
+    - `currentUser`
+      - `timeZone`: The current user's time zone. The time zone can differ from the browser's time zone if the user has changed it in the settings.
+      - `colorTheme`: The current user's color theme. It can be either `dark` or `light`.
+    - `features`: A list of the installed app's enabled features.
 - `dashboard`: Optional additional data returned when an IFrame or other feature occurs on a dashboard
      - `id`: The ID of the current dashboard
      - `shareToken`: Public dashboard URL, if any

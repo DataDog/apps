@@ -11,13 +11,11 @@ import { useEffect, useState } from "react";
 const client = init({ debug: true });
 
 function Widget() {
-  const [name, setName] = useState("Datadog user");
   const [metric, setMetric] = useState("system.cpu.idle");
   const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
   useEffect(() => {
     client.getContext().then((c) => {
-      setName(c.app.currentUser.handle);
       setMetric(c.widget?.definition.options?.metric);
     });
 
@@ -44,7 +42,7 @@ function Widget() {
 
   return (
     <section style={{ padding: "10px" }}>
-      <h2>Hello {name} 👋</h2>
+      <h2>Hello App Developer! 👋</h2>
       <p>Welcome to your first Datadog application.</p>
       <p>
         Your favorite metric is: <strong>{metric}</strong>
