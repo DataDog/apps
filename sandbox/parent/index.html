@@ -22,12 +22,6 @@
 
             frame.onload = () => {
                 client.requestChannel(frame, {
-                    name: 'User',
-                    handle: 'user@email.com',
-                    organization: {
-                        id: 'id',
-                        name: 'Corporate overlord'
-                    },
                     features: ['dashboard_cog_menu', 'app_routing']
                 });
             };

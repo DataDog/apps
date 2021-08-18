@@ -24,23 +24,11 @@ export interface HandleEventParams<T = any> {
 
 export interface AppContext {
     currentUser: {
-        // ID of current user
-        id: number;
-        // Name of current user
-        name: string;
-        // Current user's email
-        handle: string;
         // Current user's time zone. The time zone can differ from the browser's time zone
         // if user has changed it in the Datadog settings.
         timeZone: string;
         // Current user's Color Theme (dark, light)
         colorTheme: ColorTheme;
-    };
-
-    // user's org
-    org: {
-        id: number;
-        name: string;
     };
     // list of enabled features
     features: UiAppFeatureType[];
