@@ -12,6 +12,8 @@ jobs:
                   node-version: 14.14.0
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
+            # I'm hoping this will work as part of the publish process. We will need to monitor closely, and maybe run manually but that will require admin privledges to the datadog npm account.
+            - run: npm deprecate "@datadog/ui-apps-sdk" "@datadog/ui-apps-sdk has been renamed to "@datadog/ui-extensions-sdk, please rename accordingly. Future updates will only be published under the new name."
             - run: yarn
             - run: yarn publish
               env:
