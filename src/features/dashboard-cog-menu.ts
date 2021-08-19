@@ -1,7 +1,7 @@
-import { UiAppFeatureType, UiAppEventType } from '../constants';
-import { UiAppFeature } from '../types';
+import { FeatureType, EventType } from '../constants';
+import { Feature } from '../types';
 
-export const dashboardCogMenu: UiAppFeature = {
-    type: UiAppFeatureType.DASHBOARD_COG_MENU,
-    events: [UiAppEventType.DASHBOARD_COG_MENU_CLICK]
+export const dashboardCogMenu: Feature = {
+    type: FeatureType.DASHBOARD_COG_MENU,
+    events: [EventType.DASHBOARD_COG_MENU_CLICK]
 };

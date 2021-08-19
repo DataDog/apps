@@ -1,12 +1,12 @@
 import type { DDClient } from '../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import { SidePanelDefinition } from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
     constructor(client: DDClient) {
-        super(client, UiAppFeatureType.SIDE_PANELS);
+        super(client, FeatureType.SIDE_PANELS);
     }
 
     /**
@@ -18,7 +18,7 @@ export class DDSidePanelClient extends DDFeatureClient {
 
         if (validateKey(definition)) {
             return this.client.framePostClient.request(
-                UiAppRequestType.OPEN_SIDE_PANEL,
+                RequestType.OPEN_SIDE_PANEL,
                 { definition, args }
             );
         }
@@ -32,7 +32,7 @@ export class DDSidePanelClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         return this.client.framePostClient.request(
-            UiAppRequestType.CLOSE_SIDE_PANEL,
+            RequestType.CLOSE_SIDE_PANEL,
             key
         );
     }

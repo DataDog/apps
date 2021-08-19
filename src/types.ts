@@ -1,6 +1,6 @@
 import type {
-    UiAppFeatureType,
-    UiAppEventType,
+    FeatureType,
+    EventType,
     ModalSize,
     ModalActionLevel,
     MenuItemType,
@@ -18,7 +18,7 @@ export interface ClientOptions {
 export type EventHandler<T = any> = (data: T) => void;
 
 export interface HandleEventParams<T = any> {
-    eventType: UiAppEventType;
+    eventType: EventType;
     data: T;
 }
 
@@ -31,7 +31,7 @@ export interface AppContext {
         colorTheme: ColorTheme;
     };
     // list of enabled features
-    features: UiAppFeatureType[];
+    features: FeatureType[];
     // is app running in debug mode
     debug: boolean;
 }
@@ -102,11 +102,11 @@ export interface ClientContext {
     authStateOptions?: ParentAuthStateOptions;
 }
 
-export interface UiAppFeature {
+export interface Feature {
     /* Feature type */
-    type: UiAppFeatureType;
+    type: FeatureType;
     /* The events associated with this feature */
-    events: UiAppEventType[];
+    events: EventType[];
 }
 
 export interface IframeApiRequestOptions {

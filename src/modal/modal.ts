@@ -1,12 +1,12 @@
 import type { DDClient } from '../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import type { ModalDefinition } from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDModalClient extends DDFeatureClient {
     constructor(client: DDClient) {
-        super(client, UiAppFeatureType.MODALS);
+        super(client, FeatureType.MODALS);
     }
 
     /**
@@ -17,12 +17,9 @@ export class DDModalClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
-            return this.client.framePostClient.request(
-                UiAppRequestType.OPEN_MODAL,
-                {
-                    definition
-                }
-            );
+            return this.client.framePostClient.request(RequestType.OPEN_MODAL, {
+                definition
+            });
         }
     }
 
@@ -34,7 +31,7 @@ export class DDModalClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         return this.client.framePostClient.request(
-            UiAppRequestType.CLOSE_MODAL,
+            RequestType.CLOSE_MODAL,
             key
         );
     }

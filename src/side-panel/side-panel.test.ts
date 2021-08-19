@@ -1,4 +1,4 @@
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { FeatureType, RequestType } from '../constants';
 import { mockContext, MockClient } from '../utils/testUtils';
 
 import { DDSidePanelClient } from './side-panel';
@@ -17,7 +17,7 @@ describe('sidePanel.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
+                features: [FeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
@@ -31,15 +31,12 @@ describe('sidePanel.open()', () => {
 
         expect(response).toEqual(null);
 
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_SIDE_PANEL,
-            {
-                definition: {
-                    key: 'my-panel',
-                    source: 'panel.html'
-                }
+        expect(requestMock).toHaveBeenCalledWith(RequestType.OPEN_SIDE_PANEL, {
+            definition: {
+                key: 'my-panel',
+                source: 'panel.html'
             }
-        );
+        });
     });
 
     test('sends an open request with definition and context to parent', async () => {
@@ -47,7 +44,7 @@ describe('sidePanel.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
+                features: [FeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
@@ -64,16 +61,13 @@ describe('sidePanel.open()', () => {
 
         expect(response).toEqual(null);
 
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.OPEN_SIDE_PANEL,
-            {
-                definition: {
-                    key: 'my-panel',
-                    source: 'panel.html'
-                },
-                args: { foo: 'baar' }
-            }
-        );
+        expect(requestMock).toHaveBeenCalledWith(RequestType.OPEN_SIDE_PANEL, {
+            definition: {
+                key: 'my-panel',
+                source: 'panel.html'
+            },
+            args: { foo: 'baar' }
+        });
     });
 
     test('throws an error if definition is invalid', async () => {
@@ -81,7 +75,7 @@ describe('sidePanel.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
+                features: [FeatureType.SIDE_PANELS]
             }
         });
 
@@ -123,7 +117,7 @@ describe('sidePanel.close()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.SIDE_PANELS]
+                features: [FeatureType.SIDE_PANELS]
             }
         });
         const requestMock = jest
@@ -135,7 +129,7 @@ describe('sidePanel.close()', () => {
         expect(response).toEqual(null);
 
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.CLOSE_SIDE_PANEL,
+            RequestType.CLOSE_SIDE_PANEL,
             'my-panel'
         );
     });

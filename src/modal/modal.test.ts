@@ -1,4 +1,4 @@
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { FeatureType, RequestType } from '../constants';
 import { MockClient, mockContext } from '../utils/testUtils';
 
 import { DDModalClient } from './modal';
@@ -17,7 +17,7 @@ describe('modal.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [FeatureType.MODALS]
             }
         });
         const requestMock = jest
@@ -31,7 +31,7 @@ describe('modal.open()', () => {
 
         expect(response).toEqual(null);
 
-        expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.OPEN_MODAL, {
+        expect(requestMock).toHaveBeenCalledWith(RequestType.OPEN_MODAL, {
             definition: {
                 key: 'my-modal',
                 source: 'modal.html'
@@ -44,7 +44,7 @@ describe('modal.open()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [FeatureType.MODALS]
             }
         });
 
@@ -86,7 +86,7 @@ describe('modal.close()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.MODALS]
+                features: [FeatureType.MODALS]
             }
         });
         const requestMock = jest
@@ -98,7 +98,7 @@ describe('modal.close()', () => {
         expect(response).toEqual(null);
 
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.CLOSE_MODAL,
+            RequestType.CLOSE_MODAL,
             'my-modal'
         );
     });

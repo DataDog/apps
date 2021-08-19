@@ -1,11 +1,11 @@
-import { UiAppFeatureType, UiAppEventType } from '../constants';
-import { UiAppFeature } from '../types';
+import { FeatureType, EventType } from '../constants';
+import { Feature } from '../types';
 
-export const modals: UiAppFeature = {
-    type: UiAppFeatureType.MODALS,
+export const modals: Feature = {
+    type: FeatureType.MODALS,
     events: [
-        UiAppEventType.MODAL_CLOSE,
-        UiAppEventType.MODAL_CANCEL,
-        UiAppEventType.MODAL_ACTION
+        EventType.MODAL_CLOSE,
+        EventType.MODAL_CANCEL,
+        EventType.MODAL_ACTION
     ]
 };

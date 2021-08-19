@@ -1,12 +1,12 @@
 import type { DDClient } from '../client/client';
-import type { UiAppFeatureType } from '../constants';
+import type { FeatureType } from '../constants';
 import { isFeatureEnabled } from '../utils/utils';
 
 export class DDFeatureClient {
     protected readonly client: DDClient;
-    protected readonly featureType: UiAppFeatureType;
+    protected readonly featureType: FeatureType;
 
-    constructor(client: DDClient, featureType: UiAppFeatureType) {
+    constructor(client: DDClient, featureType: FeatureType) {
         this.client = client;
         this.featureType = featureType;
     }

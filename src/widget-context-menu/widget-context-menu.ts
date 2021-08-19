@@ -1,5 +1,5 @@
 import type { DDClient } from '../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../constants';
+import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
 import type {
     GetWidgetContextMenuItemsRequest,
@@ -11,7 +11,7 @@ const emptyConfig: GetWidgetContextMenuItemsResponse = { items: [] };
 
 export class DDWidgetContextMenuClient extends DDFeatureClient {
     constructor(client: DDClient) {
-        super(client, UiAppFeatureType.WIDGET_CONTEXT_MENU);
+        super(client, FeatureType.WIDGET_CONTEXT_MENU);
 
         // initialize with an empty reponse handler
         this.onRequest(() => emptyConfig);
@@ -50,7 +50,7 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
         };
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
+            RequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             wrappedHandler
         );
 

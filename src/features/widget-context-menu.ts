@@ -1,7 +1,7 @@
-import { UiAppFeatureType, UiAppEventType } from '../constants';
-import { UiAppFeature } from '../types';
+import { FeatureType, EventType } from '../constants';
+import { Feature } from '../types';
 
-export const widgetContextMenu: UiAppFeature = {
-    type: UiAppFeatureType.WIDGET_CONTEXT_MENU,
-    events: [UiAppEventType.WIDGET_CONTEXT_MENU_CLICK]
+export const widgetContextMenu: Feature = {
+    type: FeatureType.WIDGET_CONTEXT_MENU,
+    events: [EventType.WIDGET_CONTEXT_MENU_CLICK]
 };

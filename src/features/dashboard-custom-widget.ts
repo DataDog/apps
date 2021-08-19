@@ -1,12 +1,12 @@
-import { UiAppFeatureType, UiAppEventType } from '../constants';
-import { UiAppFeature } from '../types';
+import { FeatureType, EventType } from '../constants';
+import { Feature } from '../types';
 
-export const dashboardCustomWidget: UiAppFeature = {
-    type: UiAppFeatureType.DASHBOARD_CUSTOM_WIDGET,
+export const dashboardCustomWidget: Feature = {
+    type: FeatureType.DASHBOARD_CUSTOM_WIDGET,
     events: [
-        UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-        UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE,
-        UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE,
-        UiAppEventType.DASHBOARD_CURSOR_CHANGE
+        EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+        EventType.DASHBOARD_TEMPLATE_VAR_CHANGE,
+        EventType.DASHBOARD_TIMEFRAME_CHANGE,
+        EventType.DASHBOARD_CURSOR_CHANGE
     ]
 };

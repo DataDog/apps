@@ -2,7 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import { FramePostClientSettings, UiAppEventType, Host } from '../constants';
+import { FramePostClientSettings, EventType, Host } from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -80,7 +80,7 @@ export class DDClient {
         this.secrets = new DDSecretsClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
 
-        this.events.on(UiAppEventType.CONTEXT_CHANGE, newContext => {
+        this.events.on(EventType.CONTEXT_CHANGE, newContext => {
             this.context = newContext;
 
             this.syncDebugMode(this.context);
