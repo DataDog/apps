@@ -1,17 +1,25 @@
-# Writing your first UI extension
+# Writing your first App
+
+## What is an App?
+
+An app is a set of functionality extending what is offered by DataDog natively. It can include UI Extensions, OAuth API Access, and eventually Data Integrations.
 
 ## What is an UI Extension?
 
-UI Extensions are **anything that you can think of inside of Datadog**, this could be as simple as:
+UI Extensions are bits of enriched user-interface within Datadog implemented by you, the developer. They do whatever you want them to. Some ideas:
 
 - A widget that can visualize data that is not in Datadog’s backend
 - Cost Optimization tools inside the UI
 - Scheduling reports directly from a dashboard
 - New ways of displaying data
 
+An app can contain multiple UI Extensions that function together as a unit.
+
 We're actively working on extending the features and building blocks that are available to you.
 
-## Creating your first UI extension
+This walkthrough takes you through bulding a simple app with a single UI Extension. 
+
+## Creating your first app
 
 Watch the **5 minute walkthrough** at https://a.cl.ly/eDuwD7m0
 
