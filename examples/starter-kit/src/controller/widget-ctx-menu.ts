@@ -1,4 +1,4 @@
-import { MenuItemType, UiAppEventType, DDClient } from "@datadog/ui-apps-sdk";
+import { MenuItemType, EventType, DDClient } from "@datadog/ui-extensions-sdk";
 
 export const setupWidgetCtxMenu = (client: DDClient) => {
   // provide widget context menu items dynamically
@@ -25,7 +25,7 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
 
   // listen for ctx menu click events
 
-  client.events.on(UiAppEventType.WIDGET_CONTEXT_MENU_CLICK, (context) => {
+  client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, (context) => {
     if (context.menuItem.key === "sidepanel-trigger") {
       client.sidePanel.open(
         {

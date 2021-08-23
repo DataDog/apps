@@ -1,4 +1,4 @@
-import { init, UiAppEventType } from "@datadog/ui-apps-sdk";
+import { init, EventType } from "@datadog/ui-extensions-sdk";
 import "./../index.css";
 import React from "react";
 import ReactDOM from "react-dom";
@@ -20,7 +20,7 @@ function Widget() {
     });
 
     client.events.on(
-      UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+      EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
       ({ metric }) => {
         setMetric(metric);
       }

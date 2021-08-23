@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@datadog/ui-apps-sdk": "^0.15.0",
+    "@datadog/ui-extensions-sdk": "^0.18.0",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

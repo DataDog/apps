@@ -1,4 +1,4 @@
-import { init } from "@datadog/ui-apps-sdk";
+import { init } from "@datadog/ui-extensions-sdk";
 import "./../index.css";
 import React from "react";
 import ReactDOM from "react-dom";

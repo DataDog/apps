@@ -1,5 +1,19 @@
 {
-  "scopes": [
+  "schema_version": "v2",
+  "display_on_public_website": false,
+  "app_id": null,
+  "support_type": "partner",
+  "tile": {
+    "description": "A hello-world like application used as a starting point for apps",
+    "logo_media": {
+      "light": "https://static.datadoghq.com/static/favicon.ico"
+    },
+    "title": "Twitter Sentiment Analysis"
+  },
+  "author": {},
+  "pricing": [],
+  "legal_terms": {},
+  "proxy_scopes": [
     "dashboards_read",
     "dashboards_write",
     "dashboards_public_share",
@@ -9,50 +23,52 @@
     "monitors_write",
     "monitors_downtime"
   ],
-  "features": [
-    {
-      "name": "dashboard_cog_menu",
-      "options": {
-        "items": [
-          {
-            "action_type": "event",
-            "key": "open-custom-modal",
-            "label": "About Twitter Sentiment App"
+  "assets": {
+    "ui_extensions": {
+      "features": [
+        {
+          "name": "dashboard_cog_menu",
+          "options": {
+            "items": [
+              {
+                "action_type": "event",
+                "key": "open-custom-modal",
+                "label": "About Twitter Sentiment App"
+              }
+            ]
           }
-        ]
-      }
-    },
-    {
-      "name": "dashboard_custom_widget",
-      "options": {
-        "widgets": [
-          {
-            "source": "widget",
-            "custom_widget_key": "Sentiment_Analysis",
-            "name": "Twitter Sentiment Analysis",
-            "icon": "https://static.datadoghq.com/static/favicon.ico"
+        },
+        {
+          "name": "dashboard_custom_widget",
+          "options": {
+            "widgets": [
+              {
+                "source": "widget",
+                "name": "Twitter Sentiment Analysis",
+                "custom_widget_key": "Sentiment_Analysis",
+                "icon": "https://static.datadoghq.com/static/favicon.ico"
+              }
+            ]
           }
-        ]
-      }
-    },
-    {
-      "name": "modals",
-      "options": {}
-    },
-    {
-      "name": "side_panels",
-      "options": {}
-    },
-    {
-      "name": "widget_context_menu",
-      "options": {}
+        },
+        {
+          "name": "modals",
+          "options": {}
+        },
+        {
+          "name": "side_panels",
+          "options": {}
+        },
+        {
+          "name": "widget_context_menu",
+          "options": {}
+        }
+      ],
+      "secured": false,
+      "debug_mode_url": "http://localhost:3000",
+      "controller_source": "",
+      "api_version": "v1.0",
+      "main_url": "http://localhost:3000"
     }
-  ],
-  "description": "A hello-world like application used as a starting point for apps",
-  "dev_mode_url": "http://localhost:3000",
-  "name": "Twitter Sentiment Analysis",
-  "controller_source": "",
-  "icon": "https://static.datadoghq.com/static/favicon.ico",
-  "api_version": "v1.0",
-  "main_url": "http://localhost:3000"
+  }
 }
