@@ -209,7 +209,21 @@ features: [
                         ],
                         "required": true
                     }
-                ]
+                ],
+
+                // (optional) the initial size of the widget
+                // valid options:
+                // - "sm" (2 rows x 2 columns)
+                // - "md" (2 rows x 4 columns) (default)
+                // - "lg" (4 rows x 4 columns)
+                "default_size": "md",
+
+                // (optional) the smallest the widget can be resized to
+                // valid options:
+                // - "sm" (2 rows x 2 columns) (default)
+                // - "md" (2 rows x 4 columns)
+                // - "lg" (4 rows x 4 columns)
+                "minimum_size": "md"
             }
         ]
         }
