@@ -350,6 +350,10 @@ client.modal.open({
     message:
         'This modal involves no iframe. It was defined in the manifest and referenced by key.',
     size: 'md'
+}, { 
+    // optional arguments
+    flavor: "cherry",
+    drink: "coke"
 });
 ```
 

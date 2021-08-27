@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@datadog/ui-apps-sdk": "^0.15.0",
+    "@datadog/ui-apps-sdk": "git+ssh://git@github.com/DataDog/ui_apps_sdk.git#hardy.jones/add-args-to-open-modal",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",

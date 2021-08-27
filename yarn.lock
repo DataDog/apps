@@ -1231,6 +1231,12 @@
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
+"@datadog/ui-apps-sdk@git+ssh://git@github.com/DataDog/ui_apps_sdk.git#hardy.jones/add-args-to-open-modal":
+  version "0.17.0"
+  resolved "git+ssh://git@github.com/DataDog/ui_apps_sdk.git#293f69ce581f95bacb65e7ea363a6dabd1ab6cc2"
+  dependencies:
+    "@datadog/framepost" "^0.2.3"
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
