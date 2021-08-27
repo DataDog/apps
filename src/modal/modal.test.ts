@@ -39,6 +39,39 @@ describe('modal.open()', () => {
         });
     });
 
+    test('sends an open modal request with definition and args to parent', async () => {
+        client.framePostClient.init({
+            ...mockContext,
+            app: {
+                ...mockContext.app,
+                features: [FeatureType.MODALS]
+            }
+        });
+        const requestMock = jest
+            .spyOn(client.framePostClient, 'request')
+            .mockImplementation(() => null);
+
+        const response = await modalClient.open(
+            {
+                key: 'my-modal',
+                source: 'modal.html'
+            },
+            { foo: 'baar' }
+        );
+
+        expect(response).toEqual(null);
+
+        expect(requestMock).toHaveBeenCalledWith(RequestType.OPEN_MODAL, {
+            definition: {
+                key: 'my-modal',
+                source: 'modal.html'
+            },
+            args: {
+                foo: 'baar'
+            }
+        });
+    });
+
     test('throws an error if modal definition is invalid', async () => {
         client.framePostClient.init({
             ...mockContext,
