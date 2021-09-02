@@ -13,12 +13,13 @@ export class DDModalClient extends DDFeatureClient {
      * Opens a modal, given a full modal definition or the key of a modal
      * definition pre-defined in the app manifest
      */
-    async open(definition: ModalDefinition) {
+    async open(definition: ModalDefinition, args?: unknown) {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
             return this.client.framePostClient.request(RequestType.OPEN_MODAL, {
-                definition
+                definition,
+                args
             });
         }
     }
