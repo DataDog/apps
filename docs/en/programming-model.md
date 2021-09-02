@@ -1,63 +1,60 @@
-Apps programming model
-
+UI Extension Programming Model
 
 ![diagram](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/E0u4vmOj/f4dbe333-9203-4628-b3d0-0092af5f357e.png)
 [Link to image](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/E0u4vmOj/f4dbe333-9203-4628-b3d0-0092af5f357e.png)
 
-An App Platform App is defined by an **App Manifest** created and maintained on the Developer Platform. The App Manifest defines top-level metadata about an app, including its name, logo, the url of the **Main IFrame** controller. In addition, it defines the set of **Features** enabled for the app, along with each feature’s relevant configuration, and the set of **Scopes** allowed when accessing the [Datadog public API](https://docs.datadoghq.com/api/).
+A Developer Platform App is defined by an **App Manifest** created and maintained on the Developer Platform. The App Manifest defines top-level metadata about an app like its name and logo. If the developer , the app manifest must define additional metadata such as the url of the **Main IFrame** controller and the set of enabled **UI Extensions**.
 
-**Features** define what the app can do in the Datadog UI (for example, provide a Custom Widget or render custom Cog Menu Items). Each feature will require a different set of metadata. In some cases this metadata may be sufficient for Datadog to implement the customization on behalf of the app: for example, we can add a cog menu item based on a list of items provided in the **App Manifest**. In other cases the feature may require additional implementation by the developer in an **IFrame**. For example: custom widgets are rendered by an IFrame implemented and hosted by the developer. Only some light top-level config such as the url of the custom widget IFrame are configured in the App Manifest.
+Each type of UI Extension requires a different set of metadata. In some cases this metadata may be sufficient for Datadog to implement the customization on behalf of the app: for example, we can add a cog menu item based on a list of items provided in the **App Manifest**. In other cases the extension may require additional implementation by the developer in an **IFrame**. For example: custom widgets are rendered by an IFrame implemented and hosted by the developer. Only some light top-level metadata such as the url of the custom widget IFrame are configured in the App Manifest.
 
-Most nontrivial apps will involve at least one **IFrame** implementing custom logic and UI elements. Each Iframe must include a copy of the Official [JavaScript SDK](https://www.npmjs.com/package/@datadog/ui-apps-sdk). The **SDK** is responsible for all communication with the Datadog UI, including retrieving context data, listening for and dispatching events, and accessing the Datadog public API within the app’s granted **Scopes**.
+Most nontrivial UI Extension usecases will involve at least one **IFrame** implementing custom logic and UI elements. Each Iframe must include a copy of the Official [JavaScript SDK](https://www.npmjs.com/package/@datadog/ui-extensions-sdk). The **SDK** is responsible for all communication with the Datadog UI, including retrieving context data, listening for and dispatching events, and accessing the Datadog public API within the app’s granted **Scopes**.
 
-Many Apps will involve multiple **IFrames** mounted within the UI in different places. For example: Consider an app that implements a custom widget, with a custom context menu item that triggers a modal to open with arbitrary custom content. This app would involve three IFrames: A single Frame would render the custom widget content based on dashboard context provided through the **SDK**. A **Main IFrame** would be required to listen in the background for user events from the **Custom Context Menu** (for example, a click event with information about the clicked item). A third frame would render whatever content the developer chooses in the modal.
+Many Apps will involve multiple **IFrames** mounted within the UI in different places. For example: Consider an app that implements a custom widget, with a custom context menu item that triggers a modal to open with arbitrary custom content. This app would involve three IFrames: A single Frame would render the custom widget content based on dashboard context provided through the **SDK**. A **Main IFrame** would be required to listen in the background for user events from the **Custom Context Menu** (for example, a click event with information about the clicked item). A third frame would render whatever content the developer chooses in the modal. The three iframes function together as a unified `app` mounted during the runtime of a user-session.
 
 This unusual programming model requires inter-iframe communication as a first-class feature. This is handled entirely with through the **SDK**.
 
 ## App Manifest
 
-The App Manifest is the JSON configuration of an app, created and edited in the [Datadog UI](https://app.datadoghq.com/apps).
+The App Manifest is the JSON configuration of an app, created and edited in the [Developer Platform](https://app.datadoghq.com/apps).
 
-`name` : The App’s display name
+- `tile`: Object containing app information displayed on its visual tile
 
-`description` : A description of what the app does
+  - `name` : The app’s display name
+  - `description` : A description of what the app does
+  - `logoMedia.light` : An icon to display in the app's tile, specified as a URL.
 
-`icon` : An icon to display alongside the app, specified as a URL.
+- `assets`: Object containing an app's UI extension, as well as other supported Datadog assets
 
-`description` : A description of what the app does
+  - `uiExtensions`: Object containing UI extension definitions
+    - `main_url` : The URL of the extension’s Main Iframe. This Iframe will be mounted on init of the UI, and will persist for the lifetime of the app.
+    - `debug_mode_url`: The URL of the app’s Main Iframe used when [debug mode](https://a.cl.ly/NQuJdXep) is enabled, defaults to localhost. Useful to quickly switch between development and production versions of the app.
+    - `features` : A list of the app’s enabled features along with config. The config schema will be different for each feature. See below.
 
-`main_url` : The URL of the app’s Main Iframe. This Iframe will be mounted on init of the UI, and will persist for the lifetime of the app.
-
-`dev_mode_url`: The URL of the app’s Main Iframe used when [development mode](https://a.cl.ly/NQuJdXep) is enabled, defaults to localhost. Useful to quickly switch between development and production versions of the app.
-
-`features` : A list of the app’s enabled features along with config. The config schema will be different for each feature. See below.
-
-`scopes` : A list of the app’s enabled scopes. See below.
+- `proxyScopes` : A list of the app’s enabled scopes. See below.
 
 ## Main Controller IFrame
 
-All apps must include a **Main Controller IFrame** that successfully interfaces with Datadog through the SDK. The Main Controller IFrame is mounted in the background on every page and is responsible for various administrative actions executed on behalf of the entire application, including storing secrets and managing Datadog authentication credentials. **If the main controller IFrame does not successfully handshake with Datadog, your app may not function properly**.
+All apps with UI Extensions must include a **Main Controller IFrame** that successfully interfaces with Datadog through the SDK. The Main Controller IFrame is mounted in the background on every page and is responsible for various administrative actions executed on behalf of the entire application, including storing secrets and managing Datadog authentication credentials. **If the main controller IFrame does not successfully handshake with Datadog, your app may not function properly**.
 
 A minimal controller only need initialize the SDK as follows:
 
 ```javascript
 // from npm
-import { init } from '@datadog/ui-apps-sdk';
+import { init } from '@datadog/ui-extensions-sdk';
 // or from injected script:
 const { init } = DD_SDK;
 
 init();
-
-
 ```
 
 Although there are no architectural requirements for how to structure your app, you may also wish to use the main controller IFrame to register global event handlers or otherwise coordinate activity amongst the various active features.
 
 ## Context Data
 
-**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. Context data will be provided to the SDK in several different ways: 
+**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. Context data will be provided to the SDK in several different ways:
 
 - When an App IFrame mounts and successfully handshakes with the Datadog UI, it will receive a set of **context** data containing basic information about the setting in which the IFrame renders. This context Data can be accessed with client.getContext() on the SDK client:
+
 ```js
 client.getContext().then((context) => {
   ...
@@ -67,53 +64,52 @@ client.getContext().then((context) => {
 - When menu-items (cog menu items, context menu items, or others) are clicked, the SDK in all active iframes will receive a click event. In order to determine where the click event is in the app, click event handlers will receive another set of context data:
 
 ```js
-client.events.on('dashboard_cog_menu_click', (clickContext) => {
-
-})
+client.events.on('dashboard_cog_menu_click', (clickContext) => {});
 ```
+
 **Context structure attributes**
+
 - `app`: Global data about the app and user context
     - `currentUser`
       - `timeZone`: The current user's time zone. The time zone can differ from the browser's time zone if the user has changed it in the settings.
       - `colorTheme`: The current user's color theme. It can be either `dark` or `light`.
     - `features`: A list of the installed app's enabled features.
 - `dashboard`: Optional additional data returned when an IFrame or other feature occurs on a dashboard
-     - `id`: The ID of the current dashboard
-     - `shareToken`: Public dashboard URL, if any
-     - `timeframe`: 
-          -  `start`: Start time in seconds since unix epoch
-          -  `end`: End time in seconds since unix epoch
-          -  `isLive`: Whether the dashboard is ‘live’, specifying that widgets should auto-update
-     - `templateVars`: Array of dashboard template variables. Items:
-         - `name`: Variable name
-         - `value`: Variable value
-         - `prefix`: Variable prefix
-         - `default`: Variable default value
- - `widget`: Optional additional data when an IFrame or other feature occurs in a dashboard widget
-     - `id`: Widget ID, if any
-     - `definition`: Full widget definition. This includes many fields not fully documented here.
-     - `options`: Key-value index of widget options, if any
-     - `layout`: Widget layout information
+  - `id`: The ID of the current dashboard
+  - `shareToken`: Public dashboard URL, if any
+  - `timeframe`:
+    - `start`: Start time in seconds since unix epoch
+    - `end`: End time in seconds since unix epoch
+    - `isLive`: Whether the dashboard is ‘live’, specifying that widgets should auto-update
+  - `templateVars`: Array of dashboard template variables. Items:
+    - `name`: Variable name
+    - `value`: Variable value
+    - `prefix`: Variable prefix
+    - `default`: Variable default value
+- `widget`: Optional additional data when an IFrame or other feature occurs in a dashboard widget
+  - `id`: Widget ID, if any
+  - `definition`: Full widget definition. This includes many fields not fully documented here.
+  - `options`: Key-value index of widget options, if any
+  - `layout`: Widget layout information
 - `menuItem`: Optional information about a menu item when relevant:
-    - `key`: The user-provided key of the menu item
+  - `key`: The user-provided key of the menu item
 
-
-
- **Events**
+**Events**
 
 Events allow the Datadog UI to communicate with App IFrames, and for App IFrames to communicate with each-other.
 
- **Standard Events:**
+**Standard Events:**
 
 Datadog will send App IFrames events at relevant times in the lifecycle of the application. For example, custom widget iframes will receive a `dashboard_timeframe_change` event when dashboard timeframe changes. Other IFrames will receive events relevant to their use cases, in addition to any global events that may be relevant. These events can be subscribed to with `client.events.on()`:
 
 ```js
-const unsubscribe = client.events.on('dashboard_timeframe_change', newoptions => {
-
-});
+const unsubscribe = client.events.on(
+  'dashboard_timeframe_change',
+  (newoptions) => {}
+);
 ```
 
- **Custom Events:** 
+**Custom Events:**
 
 Apps can listen for and broadcast custom events to each other. An event can be sent to all active app frames with `client.events.broadcast()`:
 
@@ -124,11 +120,8 @@ client.events.broadcast('my_event', myData);
 All other frames will receive this event and data and can subscribe with client.events.onCustom():
 
 ```js
-const unsubscribe = client.events.onCustom('my_event', myData => {
-
-});
+const unsubscribe = client.events.onCustom('my_event', (myData) => {});
 ```
-
 
 ## API Access
 
@@ -145,22 +138,31 @@ client.api.get('/api/v1/query', {
   .then(data => {})
   .catch(e => {})
 ```
-Apps are only able to access API endpoints for which the app has been granted the appropriate Scope. Scope and Data Access in general is a work-in-progress. To start we provide only a single scope option, with more to be added in the near future.
+
+Apps are only able to access API endpoints for which the app has been granted the appropriate Scope. Scope and Data Access in general is a work-in-progress, and more scopes may be added in the near future.
 
 #### Available Scopes:
 
-`metrics_readonly`: Allows read-only access to metrics and query data
+- `dashboards_read`: Allows read-only access to dashboards
+- `dashboards_write`: Allows write (create, change) access to dashboards
+- `dashboards_public_share`: Grants ability to share dashboards externally
+- `ddsql_read`: Allows read-only query access across Datadog products
+- `metrics.readonly`: Allows read-only access to metrics and query data
+- `monitors_read`: Allows read-only access to monitors
+- `monitors_write`: Allows write (change, mute, delete) access to monitors
+- `monitors_downtime`: Grants ability to set monitor downtime for user's organization
 
 ### Links & Navigation
 
 Standard anchor links rendered in IFrames will navigate only the iframe window itself, not the entire Datadog app. This may be desirable as a way to switch IFrame content (for example, to change the content of a frame from a list of items to an item detail, and back). However, we expect apps to also want to navigate the main browser window. This can be achieved with `client.location.goTo()`:
+
 ```js
-client.location.goTo('/infrastructure/map')
+client.location.goTo('/infrastructure/map');
 ```
+
 In addition, apps may open new tabs with `target=”\_\_blank”` links.
 
-
-# Features
+# UI Extensions
 
 ## Dashboard Custom Widget
 
@@ -169,7 +171,6 @@ In addition, apps may open new tabs with `target=”\_\_blank”` links.
 Allows applications to extend the dashboard UI with custom widget items.
 
 #### Configuration:
-
 
 Custom widgets can be specified as widgets in the feature options as shown in the examples below.
 
@@ -231,12 +232,9 @@ features: [
 ]
 ```
 
-
-
 **Updating Widget Options Dynamically:**
 
 Widget options can be updated at runtime. This is useful if you need to fill the option dropdown content dynamically based on an API call.
-
 
 ![options](https://user-images.githubusercontent.com/1262407/116876143-f91ba400-abe9-11eb-83d2-c804c3f9f218.gif)
 
@@ -246,11 +244,11 @@ Important: This code needs to run in the widget code and not in the main control
 client.dashboard.customWidget.updateOptions([
   {
     type: WidgetOptionItemType.STRING,
-    name: "favorite-cheese",
-    label: "Your favorite cheese",
-    enum: ["Chevre", "Gruyere", "Mozzarella", "default"],
+    name: 'favorite-cheese',
+    label: 'Your favorite cheese',
+    enum: ['Chevre', 'Gruyere', 'Mozzarella', 'default'],
     // enforce a specific order to display the field in the widget editor
-     order: 1
+    order: 1,
   },
 ]);
 ```
@@ -259,7 +257,7 @@ client.dashboard.customWidget.updateOptions([
 You can provider a user-friendly labels for the dropdown list of options using the following syntax:
 
 ```js
- enum: [{"label" : "Fancy Cheese Label", "value":"just-plain-cheese"}]
+enum: [{ label: 'Fancy Cheese Label', value: 'just-plain-cheese' }];
 ```
 
 **Display order:**
@@ -268,20 +266,24 @@ Since widget options can be defined statically in the manifest or dynamically in
 
 **Events:**
 
-All IFrames implementing the Custom widgets feature will receive a set of context data relating to the current dashboard and widget, see above for more information. 
+All IFrames implementing the Custom widgets feature will receive a set of context data relating to the current dashboard and widget, see above for more information.
 
 ```js
 const { app, dashboard, widget } = await client.getContext();
 ```
 
 Additionally, Custom widget iframes can subscribe to the following events:
+
 - `dashboard_custom_widget_options_change`: triggered when the widget is edited. Event handlers will receive an object with the updated configuration options of this widget.
 - `dashboard_timeframe_change`: triggered when the timeframe of the current dashboard changes. Event handlers will receive an object with the updated timeframe values.
 - `dashboard_template_var_change`: triggered when the template variables of the current dashboard change. Event handlers will receive an object with the updated template variables values.
 - `dashboard_cursor_change`: triggered when users mouse over charts on the dashboard. Can be used to track active timestamp across charts.
 
 ```js
-const unsubscribe = client.events.on('dashboard_custom_widget_options_change', callback);
+const unsubscribe = client.events.on(
+  'dashboard_custom_widget_options_change',
+  callback
+);
 ```
 
 ## Side Panels
@@ -301,16 +303,18 @@ Side Panels are defined by a **Side Panel Definition** with the following proper
 Panels can be opened from any IFrame with `client.sidePanel.open()` . This method can be called either with a full definition, or with a string **key** referencing a side panel pre-defined in the app manifest
 
 ```js
-client.sidePanel.open({
-    key: "my-panel",
-    source: "panel.html"
-}, { 
+client.sidePanel.open(
+  {
+    key: 'my-panel',
+    source: 'panel.html',
+  },
+  {
     // optional arguments
-    flavor: "cherry",
-    drink: "coke"
-});
+    flavor: 'cherry',
+    drink: 'coke',
+  }
+);
 ```
-
 
 **Programmatically closing side panels:**
 
@@ -321,6 +325,7 @@ Side panels may be closed from the sdk with `client.sidePanel.close()`. If calle
 - `side_panel_close`: Broadcasted to all active IFrames when a side panel is closed. Event handlers will receive the full side panel definition of the recently closed side panel.
 
 ## Modals
+
 Allows applications to open modal dialogs with arbitrary content:
 
 ![modal](https://app.datadoghq.com/static/images/help/app_modals.gif)
@@ -342,18 +347,18 @@ Modals can be opened from any IFrame with `client.modal.open()`.
 
 ```js
 client.modal.open({
-    action_label: 'Yes',
-    cancel_label: 'Nevermind',
-    title: 'Please Confirm!',
-    key: 'confirmation-modal',
-    action_level: 'danger',
-    message:
-        'This modal involves no iframe. It was defined in the manifest and referenced by key.',
-    size: 'md'
+  action_label: 'Yes',
+  cancel_label: 'Nevermind',
+  title: 'Please Confirm!',
+  key: 'confirmation-modal',
+  action_level: 'danger',
+  message:
+    'This modal involves no iframe. It was defined in the manifest and referenced by key.',
+  size: 'md',
 }, { 
-    // optional arguments
-    flavor: "cherry",
-    drink: "coke"
+  // optional arguments
+  flavor: "cherry",
+  drink: "coke"
 });
 ```
 
@@ -365,6 +370,7 @@ client.modal.close('my-modal');
 ```
 
 **Events:**
+
 - `modal_close`: Broadcasted to all active IFrames when a modal is closed without executing the cancel or main action (e.g. if the user clicks outside or the modal is closed programmatically). Event handlers will receive the full modal definition of the recently closed modal.
 - `modal_cancel`: Broadcasted to all active IFrames when the user clicks the **cancel** button. Event handlers will receive the full modal definition of the recently closed modal.
 - `modal_action`: Broadcasted to all active IFrames when the user clicks the main action button (e.g. “confirm” or “cancel”). Event handlers will receive the full modal definition of the recently closed modal.
@@ -424,7 +430,7 @@ client.dashboard.cogMenu.onRequest(({ dashboard )) => {
       }]
     }
   }
-  
+
   return {
     items: []
   }
@@ -434,6 +440,7 @@ client.dashboard.cogMenu.onRequest(({ dashboard )) => {
 When a user clicks the item, an event of type `dashboard_cog_menu_context` will be broadcast to all active IFrames.
 
 #### Display order:
+
 Since items can be defined statically in the manifest or dynamically in code, you can enforce a specific display order for your items by providing an optional `order` field with a numerical value.
 
 #### Events:
@@ -466,16 +473,17 @@ client. widgetContextMenu.onRequest(({ widget )) => {
       }]
     }
   }
-  
+
   return {
     items: []
   }
 });
 ```
 
-**PLEASE NOTE**: As a best practice, please be sparing in providing context menu items to reduce bloat across the app. Ideally, only provide them when needed 
+**PLEASE NOTE**: As a best practice, please be sparing in providing context menu items to reduce bloat across the app. Ideally, only provide them when needed
 
 #### Display order:
+
 Since items can be defined statically in the manifest or dynamically in code, you can enforce a specific display order for your items by providing an optional `order` field with a numerical value.
 
 #### Events:
@@ -488,9 +496,9 @@ const unsubscribe = client.events.on('widget_context_menu_click', handler);
 
 Event handlers will receive a **context** object with information about the widget, and the menu item that was just clicked.
 
-
 ## Authentication
-When this feature is enabled, users need be authenticated before using the app.This feature allows you to integrate your existing authentication mechanism like cookie based username/password login with the App Platform. 
+
+When this feature is enabled, users need be authenticated before using the app. This feature allows you to integrate your existing authentication mechanism like cookie based username/password login with the Developer Platform.
 
 ![auth](https://app.datadoghq.com/static/images/help/app-auth.gif)
 
@@ -498,16 +506,16 @@ When this feature is enabled, users need be authenticated before using the app.T
 
 [![auth-diagram](https://app.datadoghq.com/static/images/help/app-auth-diagram.jpg)](https://app.datadoghq.com/static/images/help/app-auth-diagram.jpg)
 
-When this feature is enabled, developers need to provide an `authProvider` object programmatically  when initializing the SDK client in the main controller. Example: 
+When this feature is enabled, developers need to provide an `authProvider` object programmatically when initializing the SDK client in the main controller. Example:
 
 Example:
 
 ```js
-import { init } from "@datadog/ui-apps-sdk";
+import { init } from '@datadog/ui-extensions-sdk';
 
 const client = init({
   authProvider: {
-    url: "https://domain.com/login",
+    url: 'https://domain.com/login',
     authStateCallback: async () => {
       try {
         const { username } = await api.getCurrentUser();
@@ -523,49 +531,49 @@ const client = init({
     },
   },
 });
-
-
 ```
 
-On app load, the app platform will detect the user's auth status based on the logic you define in `authStateCallback` and only render your app if users are authenticated. When users are not authenticated, they will be able to login by clicking the `Authenticate` button. Under the hood, the SDK will open a new tab for you at the provided url. 
+On app load, the Developer Platform will detect the user's auth status based on the logic you define in `authStateCallback` and only render your app if users are authenticated. When users are not authenticated, they will be able to login by clicking the `Authenticate` button. Under the hood, the SDK will open a new tab for you at the provided url.
 
-By default, we will poll your `authStateCallback` until it either returns `true` or the process times out. This requires no additional effort on your part as a developer if you have an existing authentication flow, however it may result in a short delay between the time the user successfully logs in and when the tab closes. 
+By default, we will poll your `authStateCallback` until it either returns `true` or the process times out. This requires no additional effort on your part as a developer if you have an existing authentication flow, however it may result in a short delay between the time the user successfully logs in and when the tab closes.
 
 If you wish to improve this process, you can manually resolve the authorization flow in one of two ways. In `close` resolution, you can resolve the authorization flow by manually closing the new tab window:
 
 ```js
 // in your main controller frame
-import { init } from "@datadog/ui-apps-sdk";
+import { init } from '@datadog/ui-extensions-sdk';
 
 const client = init({
   authProvider: {
     resolution: 'close',
-    ...otherOptions
+    ...otherOptions,
   },
 });
 ```
 
 ```js
-// in your login logic, close the window 
+// in your login logic, close the window
 loginUser().then(() => {
   window.close();
 });
 ```
-Alternately, you can let us know the new authentication state with a helper method distributed in the SDK: 
+
+Alternately, you can let us know the new authentication state with a helper method distributed in the SDK:
+
 ```js
 // in your main controller frame
-import { init } from "@datadog/ui-apps-sdk";
+import { init } from '@datadog/ui-extensions-sdk';
 
 const client = init({
   authProvider: {
     resolution: 'message',
-    ...otherOptions
+    ...otherOptions,
   },
 });
 ```
 
 ```js
-import { resolveAuthFlow } from "@datadog/ui-apps-sdk";
+import { resolveAuthFlow } from "@datadog/ui-extensions-sdk";
 
 // in your login logic, call the resolve hook:
 loginUser().then(() => {
@@ -580,7 +588,7 @@ Your auth state is now available globally available in your app frames. You can 
 ```
 {
     isAuthenticated: true, // or false,
-    args: { username: "matt" } //custom auth related args you want to add to the state. Important: don's store sensitive data here
+    args: { username: "matt" } // custom auth related args you want to add to the state. Important: don't store sensitive data here
 }
 
 ```
@@ -590,7 +598,8 @@ Your auth state is now available globally available in your app frames. You can 
 The Auth Provider is defined with the following properties:
 
 - `url`: (required) The url of your existing login page. This can be an absolute url like `https://domain.com/login` or a relative path to your app like `login`.
-- 'authStateCallback':  (required) a callback function indicating whether or not the user is authenticated. It can be async for making API calls or sync for simple checks like reading a value from localStorage or a cookie. For convenience, the return value can also be a simple boolean
+- 'authStateCallback': (required) a callback function indicating whether or not the user is authenticated. It can be async for making API calls or sync for simple checks like reading a value from `localStorage` or a cookie. For convenience, the return value can also be a simple boolean
+
 ```
 authStateCallback: () => {
   return getCookieValue("auth_token");
@@ -604,12 +613,12 @@ authStateCallback: () => {
 };
 
 ```
-- `totalTimeout`: the total period in milliseconds to initiate authentication while the popup is open before it times out. Default is 120000 (2 minutes).
 
-- `requestTimeout `: the time interval in milliseconds before the `authStateCallback()` times out. Default is 20000 (20 seconds).
+- `totalTimeout`: the total period in milliseconds to initiate authentication while the popup is open before it times out. Default is `120000` (2 minutes).
 
+- `requestTimeout `: the time interval in milliseconds before the `authStateCallback()` times out. Default is `20000` (20 seconds).
 
-- `retryInterval`: the time interval in milliseconds to retry initiating authentication while the popup is open. Default is 5000 (5 seconds).
+- `retryInterval`: the time interval in milliseconds to retry initiating authentication while the popup is open. Default is `5000` (5 seconds).
 
 # Shared Formats
 
@@ -621,10 +630,10 @@ Custom menu items may be provided as part of the `dashboard_cog_menu` and `widge
 
 Items of type link can be used to navigate the user within the Datadog UI, or to an external page. They must conform to the following format:
 
-* `key`: A string unique to the item
-* `label`: Visible item text
-* `type`: "link"
-* `href`: Link path. Can be relative to route within Datadog (e.g. /logs), or absolute to link externally (e.g. https://google.com)
+- `key`: A string unique to the item
+- `label`: Visible item text
+- `type`: "link"
+- `href`: Link path. Can be relative to route within Datadog (e.g. /logs), or absolute to link externally (e.g. https://google.com)
 
 **Event items:**
 
@@ -638,6 +647,6 @@ client.events.on('<click event>', (context) => {
 
 The exact event name will depend on the feature, please refer to individual documentation. Event items must conform to the following format:
 
-* `key`: A string unique to the item
-* `label`: Visible item text
-* `type`: "event"
+- `key`: A string unique to the item
+- `label`: Visible item text
+- `type`: "event"

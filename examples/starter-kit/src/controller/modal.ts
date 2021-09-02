@@ -1,16 +1,16 @@
-import { DDClient, UiAppEventType } from "@datadog/ui-apps-sdk";
+import { DDClient, EventType } from "@datadog/ui-extensions-sdk";
 
 export const setupModal = (client: DDClient) => {
   // listen for modal events
-  client.events.on(UiAppEventType.MODAL_ACTION, () => {
+  client.events.on(EventType.MODAL_ACTION, () => {
     console.log("Confirmed!");
   });
 
-  client.events.on(UiAppEventType.MODAL_CANCEL, () => {
+  client.events.on(EventType.MODAL_CANCEL, () => {
     console.log("Denied!");
   });
 
-  client.events.on(UiAppEventType.MODAL_CLOSE, (definition) => {
+  client.events.on(EventType.MODAL_CLOSE, (definition) => {
     console.log(`User exited modal ${definition.key}`);
   });
 
