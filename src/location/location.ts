@@ -1,5 +1,5 @@
 import type { DDClient } from '../client/client';
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 
 export class DDLocationClient {
     private readonly client: DDClient;
@@ -10,7 +10,7 @@ export class DDLocationClient {
 
     async goTo(url: string) {
         return this.client.framePostClient.request<NavigateTopRequest>(
-            UiAppRequestType.NAVIGATE_TOP,
+            RequestType.NAVIGATE_TOP,
             {
                 url
             }

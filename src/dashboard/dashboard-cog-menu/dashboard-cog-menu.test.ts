@@ -1,8 +1,4 @@
-import {
-    UiAppFeatureType,
-    UiAppRequestType,
-    MenuItemType
-} from '../../constants';
+import { FeatureType, RequestType, MenuItemType } from '../../constants';
 import { MockClient, mockContext } from '../../utils/testUtils';
 
 import { DDDashboardCogMenuClient } from './dashboard-cog-menu';
@@ -21,12 +17,12 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+                features: [FeatureType.DASHBOARD_COG_MENU]
             }
         });
 
         const response = await client.framePostClient.mockRequest(
-            UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
 
@@ -38,7 +34,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+                features: [FeatureType.DASHBOARD_COG_MENU]
             }
         });
 
@@ -58,7 +54,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         cogMenuClient.onRequest(handler);
 
         const response = await client.framePostClient.mockRequest(
-            UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
 
@@ -83,7 +79,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+                features: [FeatureType.DASHBOARD_COG_MENU]
             }
         });
 
@@ -103,7 +99,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         cogMenuClient.onRequest(handler);
 
         const response = await client.framePostClient.mockRequest(
-            UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
 
@@ -121,7 +117,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
             ...mockContext,
             app: {
                 ...mockContext.app,
-                features: [UiAppFeatureType.DASHBOARD_COG_MENU]
+                features: [FeatureType.DASHBOARD_COG_MENU]
             }
         });
 
@@ -143,7 +139,7 @@ describe('dashboardContextMenu.onRequestItems()', () => {
         unsubscribe();
 
         const response = await client.framePostClient.mockRequest(
-            UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             'data'
         );
 

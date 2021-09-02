@@ -1,5 +1,5 @@
 import type { DDClient } from '../client/client';
-import { UiAppEventType, UiAppRequestType } from '../constants';
+import { EventType, RequestType } from '../constants';
 import type {
     Context,
     EventHandler,
@@ -17,29 +17,29 @@ import { isEventEnabled } from '../utils/utils';
 // This interface mapping provides types for event handlers subscribed to with `client.events.on`
 interface DDEventDataTypes {
     // General
-    [UiAppEventType.CUSTOM_EVENT]: CustomEventPayload<any>;
-    [UiAppEventType.CONTEXT_CHANGE]: Context;
-    [UiAppEventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
-    [UiAppEventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
-    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
-    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
-    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
-    [UiAppEventType.SIDE_PANEL_CLOSE]: SidePanelDefinition;
-    [UiAppEventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
-    [UiAppEventType.DASHBOARD_CURSOR_CHANGE]: number | null;
-    [UiAppEventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
-    [UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
+    [EventType.CUSTOM_EVENT]: CustomEventPayload<any>;
+    [EventType.CONTEXT_CHANGE]: Context;
+    [EventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
+    [EventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
+    [EventType.MODAL_CLOSE]: ModalDefinition;
+    [EventType.MODAL_CANCEL]: ModalDefinition;
+    [EventType.MODAL_ACTION]: ModalDefinition;
+    [EventType.SIDE_PANEL_CLOSE]: SidePanelDefinition;
+    [EventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
+    [EventType.DASHBOARD_CURSOR_CHANGE]: number | null;
+    [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
+    [EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
         [key: string]: any;
     };
 
     // Modals
-    [UiAppEventType.MODAL_CLOSE]: ModalDefinition;
-    [UiAppEventType.MODAL_CANCEL]: ModalDefinition;
-    [UiAppEventType.MODAL_ACTION]: ModalDefinition;
+    [EventType.MODAL_CLOSE]: ModalDefinition;
+    [EventType.MODAL_CANCEL]: ModalDefinition;
+    [EventType.MODAL_ACTION]: ModalDefinition;
 
     // Auth
-    [UiAppEventType.AUTH_STATE_CHANGE]: AuthState;
-    [UiAppEventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
+    [EventType.AUTH_STATE_CHANGE]: AuthState;
+    [EventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
 
 export class DDEventsClient {
@@ -97,7 +97,7 @@ export class DDEventsClient {
                 handler(payload.data);
             }
         };
-        return this.on(UiAppEventType.CUSTOM_EVENT, wrappedHandler);
+        return this.on(EventType.CUSTOM_EVENT, wrappedHandler);
     }
 
     /**
@@ -108,7 +108,7 @@ export class DDEventsClient {
         return this.client.framePostClient.request<
             CustomEventPayload<T>,
             undefined
-        >(UiAppRequestType.EVENT_BROADCAST, {
+        >(RequestType.EVENT_BROADCAST, {
             eventType,
             data
         });

@@ -1,5 +1,5 @@
 import type { DDClient } from '../../client/client';
-import { UiAppFeatureType, UiAppRequestType } from '../../constants';
+import { FeatureType, RequestType } from '../../constants';
 import { DDFeatureClient } from '../../shared/feature-client';
 import type {
     GetDashboardCogMenuItemsRequest,
@@ -11,7 +11,7 @@ const emptyConfig: GetDashboardCogMenuItemsResponse = { items: [] };
 
 export class DDDashboardCogMenuClient extends DDFeatureClient {
     constructor(client: DDClient) {
-        super(client, UiAppFeatureType.DASHBOARD_COG_MENU);
+        super(client, FeatureType.DASHBOARD_COG_MENU);
 
         // initialize with an empty reponse handler
         this.onRequest(() => emptyConfig);
@@ -50,7 +50,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
         };
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             wrappedHandler
         );
 

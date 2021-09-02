@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import type { DDClient } from '../client/client';
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 
 const getLocalStorageKeys = () => {
     // we cannot use Obbjey.keys because it doesn't work with the mocked localStorage Object.keys(window.localStorage)
@@ -19,27 +19,27 @@ export class DDSecretsClient {
 
     private registerRequestHandlers() {
         this.client.framePostClient.onRequest(
-            UiAppRequestType.STORE_SECRET,
+            RequestType.STORE_SECRET,
             this.handleStoreSecretRequest.bind(this)
         );
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.LOAD_SECRET,
+            RequestType.LOAD_SECRET,
             this.handleLoadSecretRequest.bind(this)
         );
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.LOAD_ALL_SECRETS,
+            RequestType.LOAD_ALL_SECRETS,
             this.handleLoadAllSecretsRequest.bind(this)
         );
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.REMOVE_ALL_SECRETS,
+            RequestType.REMOVE_ALL_SECRETS,
             this.handleRemoveAllSecretsRequest.bind(this)
         );
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.REMOVE_SECRET,
+            RequestType.REMOVE_SECRET,
             this.handleRemoveSecretRequest.bind(this)
         );
     }
@@ -106,25 +106,19 @@ export class DDSecretsClient {
 
     // returns a promises that resolves with the decrypted secret for a given key
     async get(key: string) {
-        return this.client.framePostClient.request(
-            UiAppRequestType.GET_SECRET,
-            key
-        );
+        return this.client.framePostClient.request(RequestType.GET_SECRET, key);
     }
 
     async set(key: string, data: string) {
-        return this.client.framePostClient.request(
-            UiAppRequestType.SET_SECRET,
-            {
-                key,
-                data
-            }
-        );
+        return this.client.framePostClient.request(RequestType.SET_SECRET, {
+            key,
+            data
+        });
     }
 
     async remove(key: string) {
         return this.client.framePostClient.request(
-            UiAppRequestType.REMOVE_SECRET_PUBLIC,
+            RequestType.REMOVE_SECRET_PUBLIC,
             key
         );
     }

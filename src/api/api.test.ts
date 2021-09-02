@@ -1,4 +1,4 @@
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 import { MockClient } from '../utils/testUtils';
 
 import { DDAPIClient } from './api';
@@ -24,7 +24,7 @@ describe('api', () => {
         });
 
         expect(client.framePostClient.request).toBeCalledWith(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 method: 'GET',
                 resource: '/test/endpoint',
@@ -41,7 +41,7 @@ describe('api', () => {
         apiClient.post('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 method: 'POST',
                 resource: '/test/endpoint',
@@ -56,7 +56,7 @@ describe('api', () => {
         apiClient.put('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 method: 'PUT',
                 resource: '/test/endpoint',
@@ -71,7 +71,7 @@ describe('api', () => {
         apiClient.patch('/test/endpoint', 'data');
 
         expect(client.framePostClient.request).toBeCalledWith(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 method: 'PATCH',
                 resource: '/test/endpoint',
@@ -86,7 +86,7 @@ describe('api', () => {
         apiClient.delete('/test/endpoint');
 
         expect(client.framePostClient.request).toBeCalledWith(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 method: 'DELETE',
                 resource: '/test/endpoint',

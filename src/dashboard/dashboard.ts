@@ -1,6 +1,6 @@
 // Actions are UiAppRequestType requests that are sent from Datadog to the parent dashboard
 import type { DDClient } from '../client/client';
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 import type { Timeframe } from '../types';
 
 import { DDDashboardCogMenuClient } from './dashboard-cog-menu/dashboard-cog-menu';
@@ -19,7 +19,7 @@ export class DDDashboardClient {
 
     async setCursor({ timestamp }: SetDashboardCursorRequest) {
         return this.client.framePostClient.request<SetDashboardCursorRequest>(
-            UiAppRequestType.SET_DASHBOARD_CURSOR,
+            RequestType.SET_DASHBOARD_CURSOR,
             {
                 timestamp
             }
@@ -29,7 +29,7 @@ export class DDDashboardClient {
     async setTimeframe({ timeframe }: SetDashboardTimeframeRequest) {
         return this.client.framePostClient.request<
             SetDashboardTimeframeRequest
-        >(UiAppRequestType.SET_DASHBOARD_TIMEFRAME, {
+        >(RequestType.SET_DASHBOARD_TIMEFRAME, {
             timeframe
         });
     }

@@ -3,7 +3,7 @@ export enum Host {
     STAGE = 'https://dd.datad0g.com/'
 }
 
-export enum UiAppFeatureType {
+export enum FeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
     MODALS = 'modals',
@@ -11,7 +11,7 @@ export enum UiAppFeatureType {
     WIDGET_CONTEXT_MENU = 'widget_context_menu'
 }
 
-export enum UiAppEventType {
+export enum EventType {
     // General
     CUSTOM_EVENT = 'custom_event',
     CONTEXT_CHANGE = 'context_change',
@@ -51,7 +51,7 @@ export const FramePostClientSettings = Object.freeze({
 // "Requests" are distinct from events in that the sdk client expects a response
 // from the frameManager, or vice-versa. This is useful when the child frames
 // ask the parent frames to perform an operation.
-export enum UiAppRequestType {
+export enum RequestType {
     // API
     API_REQUEST = 'api_request',
 
@@ -96,11 +96,11 @@ export enum UiAppRequestType {
 }
 
 // These event types are always allowed, regardless of what features have been enabled
-export const enabledEvents = new Set<UiAppEventType>([
-    UiAppEventType.CUSTOM_EVENT,
-    UiAppEventType.CONTEXT_CHANGE,
-    UiAppEventType.AUTH_STATE_CHANGE,
-    UiAppEventType.API_ACCESS_CHANGE
+export const enabledEvents = new Set<EventType>([
+    EventType.CUSTOM_EVENT,
+    EventType.CONTEXT_CHANGE,
+    EventType.AUTH_STATE_CHANGE,
+    EventType.API_ACCESS_CHANGE
 ]);
 
 export enum ModalSize {

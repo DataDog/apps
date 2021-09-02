@@ -1,5 +1,5 @@
 import type { DDClient } from '../client/client';
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 import type { ApiRequest, ApiRequestOptions } from '../types';
 
 export class DDAPIClient {
@@ -19,7 +19,7 @@ export class DDAPIClient {
         }: ApiRequestOptions<Q>
     ): Promise<R> {
         return this.client.framePostClient.request<ApiRequest<Q>, R>(
-            UiAppRequestType.API_REQUEST,
+            RequestType.API_REQUEST,
             {
                 resource,
                 method,
@@ -94,7 +94,7 @@ export class DDAPIClient {
 
     async clearCredentials() {
         return this.client.framePostClient.request(
-            UiAppRequestType.CLEAR_OAUTH_CREDENTIALS
+            RequestType.CLEAR_OAUTH_CREDENTIALS
         );
     }
 }

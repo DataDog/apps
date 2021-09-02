@@ -1,5 +1,5 @@
 import type { DDClient } from '../client/client';
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 import { AuthState, AuthStateOptions } from '../types';
 
 const defaultAuthState: Required<AuthState> = {
@@ -19,7 +19,7 @@ export class DDAuthClient {
         }
 
         this.client.framePostClient.onRequest(
-            UiAppRequestType.CHECK_AUTH_STATE,
+            RequestType.CHECK_AUTH_STATE,
             this.checkAuthState.bind(this)
         );
     }
@@ -38,18 +38,16 @@ export class DDAuthClient {
 
     async getAuthState(): Promise<AuthState> {
         await this.client.getContext();
-        return this.client.framePostClient.request(
-            UiAppRequestType.GET_AUTH_STATE,
-            { forceUpdate: false }
-        );
+        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+            forceUpdate: false
+        });
     }
 
     async updateAuthState() {
         await this.client.getContext();
-        return this.client.framePostClient.request(
-            UiAppRequestType.GET_AUTH_STATE,
-            { forceUpdate: true }
-        );
+        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+            forceUpdate: true
+        });
     }
 }
 

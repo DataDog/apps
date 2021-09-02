@@ -1,4 +1,4 @@
-import { UiAppEventType, UiAppRequestType } from '../constants';
+import { EventType, RequestType } from '../constants';
 import { MockClient, mockContext, flushPromises } from '../utils/testUtils';
 
 import { DDEventsClient } from './events';
@@ -16,13 +16,13 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
-        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback2);
+        eventsClient.on(EventType.DASHBOARD_COG_MENU_CLICK, callback1);
+        eventsClient.on(EventType.DASHBOARD_COG_MENU_CLICK, callback2);
 
         mockClient.framePostClient.init();
 
         mockClient.framePostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -46,9 +46,9 @@ describe('events.on()', () => {
         const callback1 = jest.fn();
         const callback2 = jest.fn();
 
-        eventsClient.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, callback1);
+        eventsClient.on(EventType.DASHBOARD_COG_MENU_CLICK, callback1);
         const unsubscribe = eventsClient.on(
-            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            EventType.DASHBOARD_COG_MENU_CLICK,
             callback2
         );
 
@@ -57,7 +57,7 @@ describe('events.on()', () => {
         mockClient.framePostClient.init();
 
         mockClient.framePostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -77,7 +77,7 @@ describe('events.on()', () => {
             .mockImplementation(() => {});
 
         eventsClient.on(
-            UiAppEventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
+            EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
             () => {}
         );
 
@@ -90,7 +90,7 @@ describe('events.on()', () => {
         });
 
         mockClient.framePostClient.mockEvent(
-            UiAppEventType.DASHBOARD_COG_MENU_CLICK,
+            EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
                 shareToken: 'https://www.google.com'
@@ -123,13 +123,10 @@ describe('events.broadcast()', () => {
             frameUrls: ['https://domain.com/path/to/frame.html']
         });
 
-        expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.EVENT_BROADCAST,
-            {
-                eventType: 'my_event',
-                data: 'data'
-            }
-        );
+        expect(requestMock).toHaveBeenCalledWith(RequestType.EVENT_BROADCAST, {
+            eventType: 'my_event',
+            data: 'data'
+        });
     });
 });
 
@@ -143,7 +140,7 @@ describe('events.onCustom()', () => {
 
         mockClient.framePostClient.init();
 
-        mockClient.framePostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+        mockClient.framePostClient.mockEvent(EventType.CUSTOM_EVENT, {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',
@@ -173,7 +170,7 @@ describe('events.onCustom()', () => {
 
         mockClient.framePostClient.init();
 
-        mockClient.framePostClient.mockEvent(UiAppEventType.CUSTOM_EVENT, {
+        mockClient.framePostClient.mockEvent(EventType.CUSTOM_EVENT, {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',

@@ -1,6 +1,6 @@
 import { init } from '..';
 
-import { UiAppEventType } from '../constants';
+import { EventType } from '../constants';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
 
 import { DDClient } from './client';
@@ -43,7 +43,7 @@ describe('client.getContext()', () => {
 
         mockClient.init();
 
-        mockClient.mockEvent(UiAppEventType.CONTEXT_CHANGE, {
+        mockClient.mockEvent(EventType.CONTEXT_CHANGE, {
             data: 'new context'
         });
 

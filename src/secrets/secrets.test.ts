@@ -1,4 +1,4 @@
-import { UiAppRequestType } from '../constants';
+import { RequestType } from '../constants';
 import { mockContext, MockLocalStorage, MockClient } from '../utils/testUtils';
 
 import { DDSecretsClient } from './secrets';
@@ -23,7 +23,7 @@ describe('client.get', () => {
         const response = await secretsClient.get('my-secret-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.GET_SECRET,
+            RequestType.GET_SECRET,
             'my-secret-key'
         );
     });
@@ -39,7 +39,7 @@ describe('client.set', () => {
 
         const response = await secretsClient.set('my-key', 'my-secret');
         expect(response).toEqual(null);
-        expect(requestMock).toHaveBeenCalledWith(UiAppRequestType.SET_SECRET, {
+        expect(requestMock).toHaveBeenCalledWith(RequestType.SET_SECRET, {
             key: 'my-key',
             data: 'my-secret'
         });
@@ -57,7 +57,7 @@ describe('client.remove', () => {
         const response = await secretsClient.remove('my-key');
         expect(response).toEqual(null);
         expect(requestMock).toHaveBeenCalledWith(
-            UiAppRequestType.REMOVE_SECRET_PUBLIC,
+            RequestType.REMOVE_SECRET_PUBLIC,
             'my-key'
         );
     });
@@ -86,7 +86,7 @@ describe('secrets request handlers', () => {
         client.framePostClient.init();
 
         const result = client.framePostClient.mockRequest(
-            UiAppRequestType.STORE_SECRET,
+            RequestType.STORE_SECRET,
             {
                 key,
                 secret
@@ -102,7 +102,7 @@ describe('secrets request handlers', () => {
         mockStorage.setItem(key, secret);
 
         const result = client.framePostClient.mockRequest(
-            UiAppRequestType.LOAD_SECRET,
+            RequestType.LOAD_SECRET,
             {
                 key
             }
@@ -120,7 +120,7 @@ describe('secrets request handlers', () => {
         mockStorage.setItem('another_key', 'secret_3');
 
         const result = client.framePostClient.mockRequest(
-            UiAppRequestType.LOAD_ALL_SECRETS,
+            RequestType.LOAD_ALL_SECRETS,
             {
                 prefix
             }
@@ -141,7 +141,7 @@ describe('secrets request handlers', () => {
         mockStorage.setItem(key, secret);
 
         const result = client.framePostClient.mockRequest(
-            UiAppRequestType.REMOVE_SECRET,
+            RequestType.REMOVE_SECRET,
             {
                 key
             }
@@ -160,7 +160,7 @@ describe('secrets request handlers', () => {
         mockStorage.setItem('another_key', 'secret_3');
 
         const result = client.framePostClient.mockRequest(
-            UiAppRequestType.REMOVE_ALL_SECRETS,
+            RequestType.REMOVE_ALL_SECRETS,
             {
                 prefix
             }

@@ -9,7 +9,7 @@ module.exports = (env, options) => {
         target: ['web', 'es5'],
         entry: './src/index.ts',
         output: {
-            filename: 'ui-apps-sdk.min.js',
+            filename: 'ui-extensions-sdk.min.js',
             path: path.resolve(__dirname, 'dist'),
             library: 'DD_SDK',
             libraryTarget: 'umd'

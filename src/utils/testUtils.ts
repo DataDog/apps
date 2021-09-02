@@ -1,4 +1,4 @@
-import { ColorTheme, UiAppFeatureType } from '../constants';
+import { ColorTheme, FeatureType } from '../constants';
 import { Context } from '../types';
 
 import { Logger } from './logger';
@@ -42,7 +42,7 @@ export const mockContext: Context = {
             timeZone: 'America/New_York',
             colorTheme: ColorTheme.light
         },
-        features: [UiAppFeatureType.DASHBOARD_COG_MENU],
+        features: [FeatureType.DASHBOARD_COG_MENU],
         debug: true
     }
 };
