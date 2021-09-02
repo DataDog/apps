@@ -109,12 +109,6 @@ export interface Feature {
     events: EventType[];
 }
 
-export interface IframeApiRequestOptions {
-    params?: {
-        [key: string]: any;
-    };
-}
-
 export type ApiRequestMethod = 'GET' | 'PUT' | 'POST' | 'PATCH' | 'DELETE';
 export type ApiRequestContentType = 'json' | 'urlencoded' | 'formdata';
 
