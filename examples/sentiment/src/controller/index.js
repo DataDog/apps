@@ -1,4 +1,4 @@
-import { init } from "@datadog/ui-apps-sdk";
+import { init } from "@datadog/ui-extensions-sdk";
 import { setupModal } from "./modal";
 import { setupDashboardCogMenu } from "./dashboard-cog-menu";
 

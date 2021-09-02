@@ -1,8 +1,8 @@
 import {
-  UiAppEventType,
+  EventType,
   ModalSize,
   MenuItemType
-} from "@datadog/ui-apps-sdk";
+} from "@datadog/ui-extensions-sdk";
 
 export const setupDashboardCogMenu = (client) => {
   // provide cog menu items dynamically if needed
@@ -21,7 +21,7 @@ export const setupDashboardCogMenu = (client) => {
   });
 
   // listen for cog menu click events
-  client.events.on(UiAppEventType.DASHBOARD_COG_MENU_CLICK, (context) => {
+  client.events.on(EventType.DASHBOARD_COG_MENU_CLICK, (context) => {
 
     // open an iframe modal defined inline here in controller
     if (context.menuItem.key === "open-custom-modal") {
