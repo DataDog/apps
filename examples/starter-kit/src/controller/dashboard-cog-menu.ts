@@ -35,11 +35,16 @@ export const setupDashboardCogMenu = (client: DDClient) => {
 
     // open an iframe modal defined inline here in controller
     if (context.menuItem.key === "open-custom-modal") {
-      client.modal.open({
-        key: "custom-modal",
-        size: ModalSize.LARGE,
-        source: "modal"
-      });
+      client.modal.open(
+        {
+          key: "custom-modal",
+          size: ModalSize.LARGE,
+          source: "modal"
+        },
+        {
+          message: "Hi! I was sent here from the cog menu 👋",
+        }
+      );
     }
 
     // open an iframe side panel defined inline here in controller
