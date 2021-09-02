@@ -1231,6 +1231,13 @@
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
+"@datadog/ui-extensions-sdk@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.19.0.tgz#80dba5cfebfe8f3a91b008d47934eed41feb5a78"
+  integrity sha512-7zPiSxghSWriVkrvCCXywFvFdYRhYAD8PVspF0iWyB+cFgoV+vTK7nLtZewgCDHut3xdvuVFqBBA9WvHCSMh5Q==
+  dependencies:
+    "@datadog/framepost" "^0.2.3"
+
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
