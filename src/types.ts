@@ -53,8 +53,8 @@ export interface Timeframe {
 export interface DashboardContext {
     // dashboard id
     id: string;
-    // public dashboard share token
-    shareToken: string;
+    // public dashboard share URL
+    shareURL: string;
     timeframe: Timeframe;
     templateVars: TemplateVariableValue[];
 }

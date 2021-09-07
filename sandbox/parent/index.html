@@ -28,7 +28,7 @@
 
             client.send('dashboard_cog_menu_context', {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             });
 
             client.on('open_url', ({ url }) => window.open(url, '_blank'));
