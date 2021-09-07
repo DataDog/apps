@@ -66,7 +66,7 @@ export interface DashboardWidgetContext {
     definition:
         | {
               options?: {
-                  [key: string]: any;
+                  [key: string]: string | boolean;
               };
               custom_widget_key: string;
           }
