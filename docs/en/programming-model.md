@@ -76,7 +76,7 @@ client.events.on('dashboard_cog_menu_click', (clickContext) => {});
     - `features`: A list of the installed app's enabled features.
 - `dashboard`: Optional additional data returned when an IFrame or other feature occurs on a dashboard
   - `id`: The ID of the current dashboard
-  - `shareToken`: Public dashboard URL, if any
+  - `shareURL`: Public dashboard URL, if any
   - `timeframe`:
     - `start`: Start time in seconds since unix epoch
     - `end`: End time in seconds since unix epoch
@@ -419,7 +419,7 @@ Cog menu items can also be provided dynamically at runtime by the Main Controlle
 ```javascript
 
 client.dashboard.cogMenu.onRequest(({ dashboard )) => {
-  if (dashboard.shareToken) {
+  if (dashboard.shareURL) {
   	return {
       items: [{
         actionType: 'event',
