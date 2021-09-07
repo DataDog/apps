@@ -25,7 +25,7 @@ describe('events.on()', () => {
             EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             }
         );
 
@@ -33,12 +33,12 @@ describe('events.on()', () => {
 
         expect(callback1).toHaveBeenCalledWith({
             id: 'dashboardid',
-            shareToken: 'https://www.google.com'
+            shareURL: 'https://www.google.com'
         });
 
         expect(callback2).toHaveBeenCalledWith({
             id: 'dashboardid',
-            shareToken: 'https://www.google.com'
+            shareURL: 'https://www.google.com'
         });
     });
 
@@ -60,7 +60,7 @@ describe('events.on()', () => {
             EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             }
         );
 
@@ -93,7 +93,7 @@ describe('events.on()', () => {
             EventType.DASHBOARD_COG_MENU_CLICK,
             {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             }
         );
 
@@ -144,7 +144,7 @@ describe('events.onCustom()', () => {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             }
         });
 
@@ -152,12 +152,12 @@ describe('events.onCustom()', () => {
 
         expect(callback1).toHaveBeenCalledWith({
             id: 'dashboardid',
-            shareToken: 'https://www.google.com'
+            shareURL: 'https://www.google.com'
         });
 
         expect(callback2).toHaveBeenCalledWith({
             id: 'dashboardid',
-            shareToken: 'https://www.google.com'
+            shareURL: 'https://www.google.com'
         });
     });
 
@@ -174,7 +174,7 @@ describe('events.onCustom()', () => {
             eventType: 'my_event',
             data: {
                 id: 'dashboardid',
-                shareToken: 'https://www.google.com'
+                shareURL: 'https://www.google.com'
             }
         });
 
@@ -182,7 +182,7 @@ describe('events.onCustom()', () => {
 
         expect(callback1).toHaveBeenCalledWith({
             id: 'dashboardid',
-            shareToken: 'https://www.google.com'
+            shareURL: 'https://www.google.com'
         });
 
         expect(callback2).not.toHaveBeenCalled();
