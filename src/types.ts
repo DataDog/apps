@@ -227,15 +227,26 @@ interface WidgetOptionEnum {
     label: string;
     value: string;
 }
-export interface WidgetOptionItem extends OrderedItem {
+
+export interface WidgetOptionItemBase extends OrderedItem {
     label: string;
     name: string;
-    type: WidgetOptionItemType;
-    default?: any;
-    enum?: (string | WidgetOptionEnum)[];
     required?: boolean;
     loading?: boolean;
 }
+
+export interface WidgetOptionItemBoolean extends WidgetOptionItemBase {
+    type: WidgetOptionItemType.BOOLEAN;
+    default?: boolean;
+}
+
+export interface WidgetOptionItemString extends WidgetOptionItemBase {
+    type: WidgetOptionItemType.STRING;
+    default?: string;
+    enum?: (string | WidgetOptionEnum)[];
+}
+
+export type WidgetOptionItem = WidgetOptionItemBoolean | WidgetOptionItemString;
 
 export interface CustomWidgetItem {
     name: string;
