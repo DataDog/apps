@@ -15,7 +15,7 @@ import type {
 import { isEventEnabled } from '../utils/utils';
 
 // This interface mapping provides types for event handlers subscribed to with `client.events.on`
-interface DDEventDataTypes {
+interface DDEventDataTypes<AuthStateArgs> {
     // General
     [EventType.CUSTOM_EVENT]: CustomEventPayload<any>;
     [EventType.CONTEXT_CHANGE]: Context;
@@ -38,14 +38,14 @@ interface DDEventDataTypes {
     [EventType.MODAL_ACTION]: ModalDefinition;
 
     // Auth
-    [EventType.AUTH_STATE_CHANGE]: AuthState;
+    [EventType.AUTH_STATE_CHANGE]: AuthState<AuthStateArgs>;
     [EventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
 
-export class DDEventsClient {
-    private readonly client: DDClient;
+export class DDEventsClient<AuthStateArgs = unknown> {
+    private readonly client: DDClient<AuthStateArgs>;
 
-    constructor(client: DDClient) {
+    constructor(client: DDClient<AuthStateArgs>) {
         this.client = client;
     }
 
@@ -54,9 +54,9 @@ export class DDEventsClient {
      * method. This method can be called before handshake is successful, but handlers will not execute until
      * after. Will print an error if the installed app does not have the required features to handle the event type.
      */
-    on<K extends keyof DDEventDataTypes>(
+    on<K extends keyof DDEventDataTypes<AuthStateArgs>>(
         eventType: K,
-        handler: EventHandler<DDEventDataTypes[K]>
+        handler: EventHandler<DDEventDataTypes<AuthStateArgs>[K]>
     ): () => void {
         // first, immediately subscribe
         const unsubscribe = this.client.framePostClient.on(eventType, handler);

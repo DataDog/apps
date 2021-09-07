@@ -25,7 +25,7 @@ const DEFAULT_OPTIONS = {
     debug: false
 };
 
-export class DDClient {
+export class DDClient<AuthStateArgs = unknown> {
     private readonly host: string;
     private context?: Context | null;
     readonly framePostClient: ChildClient<Context>;
@@ -33,15 +33,15 @@ export class DDClient {
     api: DDAPIClient;
     dashboard: DDDashboardClient;
     debug: boolean;
-    events: DDEventsClient;
+    events: DDEventsClient<AuthStateArgs>;
     location: DDLocationClient;
     modal: DDModalClient;
     sidePanel: DDSidePanelClient;
     secrets: DDSecretsClient;
     widgetContextMenu: DDWidgetContextMenuClient;
-    auth: DDAuthClient;
+    auth: DDAuthClient<AuthStateArgs>;
 
-    constructor(options: ClientOptions = {}) {
+    constructor(options: ClientOptions<AuthStateArgs> = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
