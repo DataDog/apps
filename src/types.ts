@@ -89,7 +89,7 @@ export interface FeatureContext {
     menuItem?: MenuItemContext;
     widgetInteraction?: WidgetInteractionContext;
     // Optional arguements passed to different feature components like modal, side panel, etc
-    args?: any;
+    args?: unknown;
 }
 
 // A full context object including above feature context and additional global app context
