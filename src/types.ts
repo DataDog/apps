@@ -15,9 +15,9 @@ export interface ClientOptions {
     authProvider?: AuthStateOptions;
 }
 
-export type EventHandler<T = any> = (data: T) => void;
+export type EventHandler<T = unknown> = (data: T) => void;
 
-export interface HandleEventParams<T = any> {
+export interface HandleEventParams<T = unknown> {
     eventType: EventType;
     data: T;
 }
