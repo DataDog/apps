@@ -1231,10 +1231,9 @@
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
-"@datadog/ui-extensions-sdk@^0.19.0":
-  version "0.19.0"
-  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.19.0.tgz#80dba5cfebfe8f3a91b008d47934eed41feb5a78"
-  integrity sha512-7zPiSxghSWriVkrvCCXywFvFdYRhYAD8PVspF0iWyB+cFgoV+vTK7nLtZewgCDHut3xdvuVFqBBA9WvHCSMh5Q==
+"@datadog/ui-extensions-sdk@git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#hardy.jones/remove-anys-from-custom-widgets":
+  version "0.20.0"
+  resolved "git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#bd7eb368dec868470f4e921ea2d317314d1fbb9c"
   dependencies:
     "@datadog/framepost" "^0.2.3"
 

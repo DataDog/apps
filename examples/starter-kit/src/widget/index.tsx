@@ -22,6 +22,9 @@ function Widget() {
     client.events.on(
       EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
       ({ metric }) => {
+        if (typeof metric !== "string") {
+          return;
+        }
         setMetric(metric);
       }
     );
