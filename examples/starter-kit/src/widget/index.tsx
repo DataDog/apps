@@ -8,7 +8,7 @@ import "typeface-roboto";
 import "milligram";
 import { useEffect, useState } from "react";
 
-const client = init({ debug: true });
+const client = init();
 
 function Widget() {
   const [metric, setMetric] = useState("system.cpu.idle");

@@ -8,7 +8,7 @@ import "milligram";
 
 import Sentiment from './Sentiment';
 
-const client = init({ debug: true });
+const client = init();
 
 function SidePanel() {
   const [args, setArgs] = useState();
