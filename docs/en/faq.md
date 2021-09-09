@@ -26,4 +26,4 @@ You can authenticate your app users by integrating your existing login mechanism
 
 ## What browsers do you support?
 
-Our intention is to support all major browsers, however we have encountered some errors in both Safari and Firefox. We are actively investigating these issues, but in the mean time we recommend using Google Chrome when developing and using apps with UI Extensions.
+Our intention is to support all major browsers, however we have encountered some errors in both Safari and Firefox. We are actively investigating these issues, but in the meantime we recommend using Google Chrome when developing and using apps with UI Extensions.
