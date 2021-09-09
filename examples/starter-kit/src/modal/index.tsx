@@ -4,7 +4,7 @@ import "./../index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 
-const client = init({ debug: true });
+const client = init();
 
 function Modal() {
   const [clickCount, setClickCount] = useState(0);

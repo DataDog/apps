@@ -4,7 +4,7 @@ import { setupWidgetCtxMenu } from "./widget-ctx-menu";
 import { setupDashboardCogMenu } from "./dashboard-cog-menu";
 
 export default function setup() {
-  const client = init({ debug: true });
+  const client = init();
   setupModal(client);
   setupWidgetCtxMenu(client);
   setupDashboardCogMenu(client);

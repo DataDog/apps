@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import tweets from '../tweets.js';
 
 
-const client = init({ debug: true });
+const client = init();
 
 function Widget() {
   const [getTweets, setTweets] = useState([]);
