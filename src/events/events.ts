@@ -29,7 +29,7 @@ interface DDEventDataTypes {
     [EventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
     [EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
-        [key: string]: any;
+        [key: string]: string | boolean;
     };
 
     // Modals
