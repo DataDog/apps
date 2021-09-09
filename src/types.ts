@@ -15,9 +15,9 @@ export interface ClientOptions {
     authProvider?: AuthStateOptions;
 }
 
-export type EventHandler<T = any> = (data: T) => void;
+export type EventHandler<T = unknown> = (data: T) => void;
 
-export interface HandleEventParams<T = any> {
+export interface HandleEventParams<T = unknown> {
     eventType: EventType;
     data: T;
 }
@@ -89,7 +89,7 @@ export interface FeatureContext {
     menuItem?: MenuItemContext;
     widgetInteraction?: WidgetInteractionContext;
     // Optional arguements passed to different feature components like modal, side panel, etc
-    args?: any;
+    args?: unknown;
 }
 
 // A full context object including above feature context and additional global app context
