@@ -2,18 +2,21 @@ import type { DDClient } from '../client/client';
 import { RequestType } from '../constants';
 import { AuthState, AuthStateOptions } from '../types';
 
-const defaultAuthState: Required<AuthState> = {
+const defaultAuthState: Required<AuthState<unknown>> = {
     isAuthenticated: false,
     args: {}
 };
-export class DDAuthClient {
+export class DDAuthClient<AuthStateArgs = unknown> {
     private readonly client: DDClient;
-    private authState: AuthState;
-    readonly options?: AuthStateOptions;
+    private authState: AuthState<AuthStateArgs>;
+    readonly options?: AuthStateOptions<AuthStateArgs>;
 
-    constructor(client: DDClient, options?: AuthStateOptions) {
+    constructor(
+        client: DDClient<AuthStateArgs>,
+        options?: AuthStateOptions<AuthStateArgs>
+    ) {
         this.client = client;
-        this.authState = defaultAuthState;
+        this.authState = defaultAuthState as AuthState<AuthStateArgs>;
         if (options) {
             this.options = options;
         }
@@ -24,7 +27,7 @@ export class DDAuthClient {
         );
     }
 
-    private async checkAuthState(): Promise<AuthState | null> {
+    private async checkAuthState(): Promise<AuthState<AuthStateArgs> | null> {
         if (!this.options) {
             this.client.logger.error('Auth Provider is not set');
             return null;
@@ -36,7 +39,7 @@ export class DDAuthClient {
         return rawState;
     }
 
-    async getAuthState(): Promise<AuthState> {
+    async getAuthState(): Promise<AuthState<AuthStateArgs>> {
         await this.client.getContext();
         return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
             forceUpdate: false
@@ -51,7 +54,9 @@ export class DDAuthClient {
     }
 }
 
-export const resolveAuthFlow = (state: AuthState) => {
+export const resolveAuthFlow = <AuthStateArgs>(
+    state: AuthState<AuthStateArgs>
+) => {
     if (window.opener) {
         window.opener.postMessage(state, '*');
     }

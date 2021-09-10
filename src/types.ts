@@ -9,10 +9,10 @@ import type {
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
-export interface ClientOptions {
+export interface ClientOptions<AuthStateArgs = unknown> {
     debug?: boolean;
     host?: string;
-    authProvider?: AuthStateOptions;
+    authProvider?: AuthStateOptions<AuthStateArgs>;
 }
 
 export type EventHandler<T = unknown> = (data: T) => void;
@@ -191,8 +191,8 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 export interface GetDashboardCogMenuItemsResponse
     extends MenuItemRequestResponse {}
 
-export interface AuthState {
-    args?: any;
+export interface AuthState<Args = unknown> {
+    args?: Args;
     isAuthenticated: boolean;
 }
 
@@ -219,8 +219,13 @@ export type ParentAuthStateOptions = {
     | AuthStateOptionsCloseResolution
 );
 
-export type AuthStateOptions = ParentAuthStateOptions & {
-    authStateCallback: () => Promise<AuthState | boolean> | AuthState | boolean;
+export type AuthStateOptions<
+    AuthStateArgs = unknown
+> = ParentAuthStateOptions & {
+    authStateCallback: () =>
+        | Promise<AuthState<AuthStateArgs> | boolean>
+        | AuthState<AuthStateArgs>
+        | boolean;
 };
 
 interface WidgetOptionEnum {

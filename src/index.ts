@@ -9,10 +9,10 @@ let client: DDClient;
  * Initializes a client, or returns an existing one if already initialized. User can provide an optional
  * callback to b de executed with app context data when it is sent from the parent.
  */
-export const init = (
-    options?: ClientOptions,
+export const init = <AuthStateArgs = unknown>(
+    options?: ClientOptions<AuthStateArgs>,
     callback?: (context: Context) => void
-): DDClient => {
+): DDClient<AuthStateArgs> => {
     if (!client) {
         client = new DDClient(options);
     }
@@ -21,7 +21,7 @@ export const init = (
         client.getContext().then(callback);
     }
 
-    return client;
+    return client as DDClient<AuthStateArgs>;
 };
 
 export * from './types';
