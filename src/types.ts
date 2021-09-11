@@ -63,14 +63,7 @@ export interface DashboardContext {
 // We should port full typing here eventually
 export interface DashboardWidgetContext {
     id?: number;
-    definition:
-        | {
-              options?: {
-                  [key: string]: string | boolean;
-              };
-              custom_widget_key: string;
-          }
-        | any;
+    definition: CustomWidgetDefinition | any;
     layout?: any;
 }
 
@@ -252,6 +245,13 @@ export interface WidgetOptionItemString extends WidgetOptionItemBase {
 }
 
 export type WidgetOptionItem = WidgetOptionItemBoolean | WidgetOptionItemString;
+
+export interface CustomWidgetDefinition {
+    options?: {
+        [key: string]: string | boolean;
+    };
+    custom_widget_key: string;
+}
 
 export interface CustomWidgetItem {
     name: string;
