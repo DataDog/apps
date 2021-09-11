@@ -2,6 +2,7 @@ import type { DDClient } from '../client/client';
 import { EventType, RequestType } from '../constants';
 import type {
     Context,
+    CustomWidgetCogMenuClickData,
     EventHandler,
     Timeframe,
     TemplateVariableValue,
@@ -28,6 +29,7 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
     [EventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
+    [EventType.DASHBOARD_CUSTOM_WIDGET_COG_MENU_CLICK]: CustomWidgetCogMenuClickData;
     [EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
         [key: string]: string | boolean;
     };

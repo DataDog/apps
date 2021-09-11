@@ -246,6 +246,13 @@ export interface WidgetOptionItemString extends WidgetOptionItemBase {
 
 export type WidgetOptionItem = WidgetOptionItemBoolean | WidgetOptionItemString;
 
+export interface CustomWidgetCogMenuClickData
+    extends RequireKeys<FeatureContext, 'widget' | 'menuItem'> {
+    widget: Omit<DashboardWidgetContext, 'definition'> & {
+        definition: CustomWidgetDefinition;
+    };
+}
+
 export interface CustomWidgetDefinition {
     options?: {
         [key: string]: string | boolean;
