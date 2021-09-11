@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@datadog/ui-extensions-sdk": "^0.21.0",
+    "@datadog/ui-extensions-sdk": "git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#hardy.jones/add-custom-widget-cog-menu-items",
     "@types/node": "^14.14.14",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
