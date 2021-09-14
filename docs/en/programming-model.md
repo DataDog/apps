@@ -226,8 +226,8 @@ features: [
                 // - "lg" (4 rows x 4 columns)
                 "minimum_size": "md",
 
-                // (optional) A list of cog menu items
-                "cog_menu_items": [
+                // (optional) A list of settings menu items
+                "settings_menu_items": [
                   {
                     "action_type": "link",
                     "href": "/logs",

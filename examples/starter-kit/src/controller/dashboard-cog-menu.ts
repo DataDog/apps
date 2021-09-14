@@ -21,7 +21,7 @@ export const setupDashboardCogMenu = (client: DDClient) => {
   });
 
   client.events.on(
-    EventType.DASHBOARD_CUSTOM_WIDGET_COG_MENU_CLICK,
+    EventType.WIDGET_SETTINGS_MENU_CLICK,
     (context) => {
       if (context.menuItem.key === "open-confirmation") {
         client.modal.open({
@@ -43,7 +43,7 @@ export const setupDashboardCogMenu = (client: DDClient) => {
             source: "modal",
           },
           {
-            message: "Hi! I was sent here from the custom widget cog menu 👋",
+            message: "Hi! I was sent here from the custom widget settings menu 👋",
             options: context.widget.definition.options,
           }
         );
@@ -59,7 +59,7 @@ export const setupDashboardCogMenu = (client: DDClient) => {
             title: "Custom Sidepanel",
           },
           {
-            message: "Hi! I was sent here from the custom widget cog menu 👋",
+            message: "Hi! I was sent here from the custom widget settings menu 👋",
             options: context.widget.definition.options,
           }
         );

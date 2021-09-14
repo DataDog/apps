@@ -1233,7 +1233,7 @@
 
 "@datadog/ui-extensions-sdk@git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#hardy.jones/add-custom-widget-cog-menu-items":
   version "0.21.0"
-  resolved "git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#4d65a42203d32f361841f173d073838f13ddb410"
+  resolved "git+ssh://git@github.com/DataDog/ui-extensions-sdk.git#0a9df23639f7b2b879917c96a8f018d1927a2789"
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
