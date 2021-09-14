@@ -223,9 +223,9 @@ Buttons states:
 
 Image | State | Description
 :------------- | :------------- | :-------------
-Placeholder | Enabled | An enabled button should look interactable.
-Placeholder | Disabled | A disabled button should be greyed out. 
-Placeholder | Hover | A button should have a more emphasized color or drop shadow to provide feedback to the user.
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/jku46Bg5/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/jku46Bg5/e96ab08d-4ee6-4061-9d43-19e1d2d709d7.png?source=thumbnail&v=a8df02f7b3d3625e8e6a549a1f953592) | Enabled | An enabled button should look interactable.
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/E0ujmB2m/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/E0ujmB2m/468aead2-6391-46a0-99e9-f5e7006373b7.png?source=thumbnail&v=cd703373deb5aceb6e7061d082da851d) | Disabled | A disabled button should be greyed out. 
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/RBuLz2vx/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/RBuLz2vx/8c3a6482-0bdd-48e5-a358-b4e7bbe1c067.png?source=thumbnail&v=5954176e542a105577ddc6a84c9c01f5)| Hover | A button should have a more emphasized color or drop shadow to provide feedback to the user.
  
 ### Checkboxes*
 Checkboxes allow users to select one or more items from a set. Checkboxes can turn an option on or off. 
@@ -255,11 +255,11 @@ A field should have a treatment for the following states:
 
 Image | State | Description
 :------------- | :------------- | :-------------
-Placeholder | Enabled | Not selected and active. 
-Placeholder | Disabled | Read-only
-Placeholder | Hover | A cursor is positioned over the field.
-Placeholder | Selected | A user has clicked the field.
-Placeholder | Error | A field’s text isn’t accepted and messaging is displayed below the field that communicates how to fix the error. 
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/9ZuQLO5L/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/9ZuQLO5L/da523270-74f1-4f89-9645-ebf8d4a4bb6e.png?source=thumbnail&v=00134f80813a58445dd00662912131cb) | Enabled | Not selected and active. 
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/Wnu0p9L2/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/Wnu0p9L2/330f9889-e726-4cda-8a8d-5f44b8f1f5a6.png?source=thumbnail&v=0f0287b4ab40be3d3cdc1cba4fc95383) | Disabled | Read-only
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/X6ulnLg5/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/X6ulnLg5/584f1cc6-5d9b-46e9-97a0-2302b841e648.png?source=thumbnail&v=830b4d9f3dd249f040772da3504f7a81) | Hover | A cursor is positioned over the field.
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/xQu6NmGB/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/xQu6NmGB/2d8e185d-9626-438e-9b29-9a830e386f77.png?source=thumbnail&v=98b20a08d57630e2926f229995d61648) | Selected | A user has clicked the field.
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/qGuJY89K/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/qGuJY89K/efd9c81d-ec0d-48f1-ac22-a85a28dd9b88.png?source=thumbnail&v=551bb89f3b04520890d7377b37d31c28) | Error | A field’s text isn’t accepted and messaging is displayed below the field that communicates how to fix the error. 
 
 Labels (optional):
 * A label is a static text field that describes an onscreen interface element or provides a short message. 
@@ -327,7 +327,7 @@ Toggles switch the state of a single item on or off.
 * Use toggles to immediately activate or deactivate something. 
 * Toggles should be easily identifiable. It should be visible at a glance if a toggle has been selected, and it should be more visually prominent than unselected items.
 
-### Toast*
+### Toasts*
 Toasts display brief, temporary notifications (usually a success or error feedback). They are meant to be noticed without disrupting a user's experience or requiring an action to be taken.
 
 * Toasts should communicate to the user whether an action was successful or not. Do not use toasts for other purposes.  
