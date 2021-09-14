@@ -1,37 +1,136 @@
 # UI-Extension Design Guidelines # 
 
 ## Table of Contents
+* [UI-Extension Best Practices](#ui_extension)
 * [Visual Design](#visual_design) 
 * [User Interaction & Communication](#user_interaction)
 * [Components](#components)
-* [UI-Extension Best Practices](#ui_extension)
      
 
 ## Key
 * Required*
 * Suggested
 
+## UI-Extension Best Practices <a name="ui_extension"></a>
+
+### Key Takeways
+* **Ensure that your apps are high quality.** There shouldn't be any bugs or loading issues. 
+* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product. e.g. A dashboard widget should mesh well with established Datadog widget paradigms.
+* **Reduce the complexity of the feature to the most important elements whenever possible.**    
+
+
+### Dashboard Cog Menu Items
+Cog menus items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
+
+#### When to Use a Context Menu Item*
+Use a cog menu item when you’d like to drive the user to another ui-extension or external webpage and the action is more top-level. 
+
+#### Best Practices*
+* Cog menu names should be clear and actionable. 
+* Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
+
+
+### Dashboard Context Menu Items
+Context menus help extend widget data visualizations by surfacing up custom progressively disclosed links to drive users to other content. They can be used in conjunction with other ui-extensions. e.g. a user clicks on a context menu item which opens up a side panel.
+
+#### When to Use a Context Menu Item*
+Use a context menu item when you’d like to drive the user to another ui-extension or external webpage to learn more about a datapoint.
+
+#### Best Practices*
+* Context menu names should be clear and actionable. 
+* Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
+* Try to reduce the number of context menu items per app so that the context menu isn’t overloaded with rows. 
+
+
+### Dashboard Modals
+Modals are overlays that appear atop the entire page and prevent interaction elsewhere until some kind of action is taken. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a modal.
+
+#### When to Use a Modal*
+* Use a modal when you’d like to focus the user on resolving a specific task with clear confirm/cancel actions. 
+* Use a modal if the background content (the dashboard) isn’t relevant or intended to be interactable. 
+
+#### Scenarios*
+* **Completing a task:** Use a modal when you’d like to focus the user on a specific task that is coupled with  confirm/cancel actions. 
+* **Confirming an action or alert** Use a modal when you’d like a user to confirm an action they just took or a consequence of an action. It may be paired with a warning or critical information related to that action. Confirmation isn't necessary when the consequences of an action are reversible or negligible. e.g. If a check mark shows an image has been selected, further confirmation is unnecessary.
+* **Communicating an error** If an action a user took led to an error, modals can be used to surface up details about the error and give the user a chance to resolve it.  
+* **Displaying lengthier help information** If the help information is relatively short, display it in a tooltip on hover instead.
+
+#### Best Practices*
+* Modals should be responsive with no horizontal scrolling and the most important information above the fold.
+* Modals can have vertical scrolling.
+* Modals can have multiple views but the user must confirm each view as part of a linear flow with a clear back button.
+* Don’t display a modal within a modal. 
+* Clicks that trigger other side panels, modals, or external pages to open should always be paired with a clear call to action. 
+* Use a clear signifier if a link pushes a user to an external page.
+* Use the bottom footer of the modal to communicate actions the user can take on the task. 
+* Have clear delineations between steps in the flow.
+* Communicate to the user fields that are required vs optional.
+* Display a toast once the task is completed. 
+
+----------
+
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/lluo8rk6/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluo8rk6/84a67aae-1ada-4ea1-b0c8-5838d58b2873.png?source=thumbnail&v=6099c90ca22de85b039ccc6b74703b52)
+### Dashboard Side Panels
+Side panels display contextual information in a panel that slides out from the right edge of the viewport. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a side panel.
+
+#### When to Use a Side Panel* 
+* Use a side panel when you’d like to help the user gain additional context into something or for querying (not for linear flows/tasks that are resolved with a confirmation button).
+* Use a side panel when the background content is relevant or intended to be interactable. 
+
+#### Best Practices*
+* Side panels should be responsive with no horizontal scrolling and the most important information above the fold.
+* Side panels can have vertical scrolling.
+* Side panels can have multiple views. Use tabs anchored to the bottom of the header. 
+* Don’t display a modal within a side panel. If needed, use the modal ui-extension which should take over the entire page.
+* Clicks that trigger other side panels, modals, or external pages to open should always be paired with a clear call to action. 
+* Use a clear signifier if a link pushes a user to an external page.
+* Allow the user to use the esc keyboard shortcut to close the side panel. 
+
+----------
+
+ ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/2NulWGwq/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/2NulWGwq/2525ee49-995c-49c6-b6e3-e69a6b42bca7.png?source=thumbnail&v=6df82aab9731ba0d95369054054aeb22)
+ 1. Widget Tray Token, 2. Widget
+ 
+### Dashboard Widgets
+Widgets are Dashboard tile components filled with graphs or other information. The user can create a widget instance by dragging the widget tray card onto the board, selecting the editing options, and confirming. Widgets can be resized and resorted manually by the user.
+
+#### Widget Tray Token
+* Keep the widget tray name short and to the point so it doesn't wrap to two lines. 
+* Name the app something that’s relevant to the core value proposition of the feature. e.g. Datadog Action Items. 
+
+#### Widget Editing Options*
+* Have defaults for all selections. 
+
+#### Scenarios*
+* **Visualizing data** Review our data visualization section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
+* **Displaying action items** Use a table to improve the users ability to quickly find and resolve action  items. Review our table section within ucomponents to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
+* **Complex Scenarios** Don’t display multiple tiles/cards within a widget. Instead, make each tile/card it’s own widget. Try to limit the number of widgets to something reasonable like 2-3. 
+
+#### General Best Practices*
+* **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
+* **Avoid displaying overlays like modals, popovers, and toasts in the widget with the exception of tooltips or simple select menus.** If you need to confirm an action, use an inline confirmation rather than a toast.
+* **If a task requires more than a click of a button to resolve, push the user to a ui-extension modal or sidebar to resolve the task.**
+* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** By default, UI-extension widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a minimum 1/6th the board. The extension must resize to fit these varying horizontal widths.
+* **Clicks that trigger actions within the tile should give the user proper feedback.** Display a time series tooltip when a user clicks into a graph.  
+
 
 ## Visual Design <a name="visual_design"></a>
 
 ### Typography* 
-* **Emphasize important information.** Use font weight, size, and color to highlight the most important information.
+* Only emphasize the most important information. Too much competing information can make it difficult to scan the page. 
 * **Minimize the number of typefaces you use.** Mixing too many distinct typefaces can make your app seem fragmented and sloppy.
-* **Use headlines for short and important text.** Subtitles are smaller than headlines.
-* **Use subtitles for medium-emphasis text that’s shorter in length.**
-* **Use body copy for long-form writing.**
-* **Keep button text readable and short.** Don’t use expressive fonts as button text, including display, handwritten, and script styles. Copy should be specific but to the point.
-* **Don’t use serif fonts.** Only use sans-serif.
+* Keep button text readable and short. Don’t use expressive fonts as button text, including display, handwritten, and script styles. Copy should be specific but to the point.
+* Don’t use serif fonts. Only use sans-serif.
 
 ### Logos*
 * **Widget logos should be high quality.** Logos should be svgs with a dimension of 128px x 128px.
 * **Add a darkmode and lightmode logo via the repository.** The darkmode logo should be white and the lightmode logo should be in color. View other dark mode guidelines here.  
 
 ### Color*
-* **Color should be hierarchical.** Color indicates which elements are interactive, how they relate to other elements, and their level of prominence. Important elements should stand out the most.
-* **Use color sparingly for communication.** In general, color should be used thoughtfully, like when you need to call attention to important information. For example, a red triangle that warns people of a critical problem becomes less effective when you use red elsewhere in an app for noncritical reasons.
+* Color should be hierarchical. Important elements should stand out the most.
+* **Use color sparingly for communication.** For example, a red triangle that warns people of a critical problem becomes less effective when you use red elsewhere in an app for noncritical reasons.
 * **Don’t use colors that make it difficult for people to perceive the content.** For example, color blind people might not be able to distinguish some color combinations, and insufficient contrast can cause icons and text to blend with the background and make content hard to read.
-* **Use text size to help determine color contrast.** In general, smaller or lighter-weight text needs to have greater color contrast to be legible.
+* Use text size to help determine color contrast. In general, smaller or lighter-weight text needs to have greater color contrast to be legible.
 * **Define one color for the following:**
 
     Primary color  | Secondary color | Disabled color | Error color | Primary text color | Secondary text color
@@ -42,10 +141,9 @@
 ### Dark Mode
 A significant percentage of our user base uses dark mode. We recommend making a dark mode version of your app to ensure these users have a high-quality experience. You can define the color theme in the GitHub repository with the attribute `colorTheme` (`dark` or `light`).
 
-* **Avoid pure black.** Dark gray surfaces reduce eye strain — light text on a dark gray surface has less contrast than light text on a black surface. 
 * **Make colors lighter and desaturated.** Saturated colors can visually vibrate against dark surfaces, making them harder to read. Use lighter tones (colors in the 200–50 range) because they have better readability on darker surfaces.
-* **Test your design in both light and dark appearances.** See how your interface looks in both appearances, and adjust your designs as needed to accommodate each one. Decisions that work well in one appearance might not work in the other. 
-* **Soften the color of white backgrounds.** If you must use a white background for your content in Dark Mode, choose a slightly darker white that prevents the background from glowing against the surrounding dark content.
+* Avoid pure black. Dark gray surfaces reduce eye strain — light text on a dark gray surface has less contrast than light text on a black surface. 
+* Test your design in both light and dark appearances. See how your interface looks in both appearances, and adjust your designs as needed to accommodate each one. Decisions that work well in one appearance might not work in the other. 
 
 ### Accessibility
 We recommend that your app makes as best an effort as possible to comply with  WCAG 2.1 AA standards. View the latest published standards regarding [perceivability](https://www.w3.org/WAI/WCAG21/quickref/#principle1/ "perceivability"), [operability](https://www.w3.org/WAI/WCAG21/quickref/#principle2/ "operability"), and [understandability](https://www.w3.org/WAI/WCAG21/quickref/#principle3/ "understandability"). 
@@ -82,21 +180,20 @@ MMM DD YYYY  | Dec 13, 8:36:00 am
 MMM DD YYYY HH:mm | Dec 13 1989 08:36
 
 ### Data Entry*
-* **Simplify navigation of value lists.** In controls like tables and dropdowns, make it easy to locate a specific value. Consider sorting values alphabetically or in another logical manner that facilitates speedy scanning and selection.
-* **Use an introductory label or placeholder text to help communicate purpose.** A label helps users understand what type of information they should enter. A text field can also contain placeholder text—such as Email or Password—when there’s no other text in the field. A label is often unnecessary when placeholder text is present. Generally, labels should use title-style capitalization while placeholder text should use sentence-style capitalization.
+* **Use an introductory label or placeholder text to communicate purpose.** A label helps users understand what type of information they should enter. A text field can also contain placeholder text—such as Email or Password—when there’s no other text in the field. A label is often unnecessary when placeholder text is present. Generally, labels should use title-style capitalization while placeholder text should use sentence-style capitalization.
 * **Consider using an expansion tooltip to show the full version of clipped or truncated text.** An expansion tooltip behaves like a help tag and appears when the user places the cursor over the field.
-* **Use a number formatter to aid with numeric data entry.** A number formatter automatically configures the text field to accept only numeric values. It can also be set to display the value in a specific way, such as with a certain number of decimal places, as a percentage, or as currency.
-* **Enable advancement only after collecting required values.** Before enabling a Next or Continue button, make sure all required fields have values. The enabled button provides a visual cue that it’s OK to proceed.
+* Use a number formatter to aid with numeric data entry if needed. 
+* Enable advancement only after collecting required values. Before enabling a Next or Continue button, make sure all required fields have values. The enabled button provides a visual cue that it’s OK to proceed.
     
 ### Data Visualization*
 Data visualization portrays information graphically which makes it easy to compare and make decisions surrounding data. The type of chart you use should depend on what you’d like users to do with the data.
 
 * **The presentation of the data should be accurate.** Make sure the way the data is presented isn’t distorted. 
 * **Progressively disclose additional details.** The user should be able to hover over a datapoint and receive additional context via a tooltip. e.g. a description/value.
-* **Surface up legends.** Place legends below charts so users can understand the graph.
-* **Incorporate zooming and panning if needed.** Zooming changes whether the UI is shown from either nearer or farther away.  Zoom occurs through clicking and dragging, or scrolling. Panning allows the user to explore the UI that expands beyond the screen. Panning and zooming are often paired together.
-* **Don’t bold too many typographical elements.** Bolding too many typographical elements makes it difficult for users to scan text. 
+* * **Don’t bold too many typographical elements.** Bolding too many typographical elements makes it difficult for users to scan text. 
 * **Don’t solely rely on icons to convey important information.** Icons alone might not be intuitive enough for users to understand the meaning. 
+* Surface up legends. Place legends below charts so users can understand the graph.
+* Incorporate zooming and panning if needed. Zooming changes whether the UI is shown from either nearer or farther away.  Zoom occurs through clicking and dragging, or scrolling. Panning allows the user to explore the UI that expands beyond the screen. Panning and zooming are often paired together.
 
 
 If users need to see **changes over time** use:
@@ -344,95 +441,3 @@ Tooltips display progressively disclosed informative text when users hover over 
 * Tooltips are contextual. Tooltips are always paired near the element with which they are associated.
 * Tooltip text should be concise. Tooltips should only include short, descriptive text. For longer-form  progressively disclosed information, display a modal. 
 * Tooltips can be multi-row. In the case of data visualization, each element should be stacked on top of each other with the value clearly indicated above associated tags or other content. 
-
-## UI-Extension Best Practices <a name="ui_extension"></a>
-
-### Dashboard Cog Menu Items
-Cog menus items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
-
-#### When to Use a Context Menu Item*
-Use a cog menu item when you’d like to drive the user to another ui-extension or external webpage and the action is more top-level. 
-
-#### Best Practices*
-* Cog menu names should be clear and actionable. 
-* Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
-
-
-### Dashboard Context Menu Items
-Context menus help extend widget data visualizations by surfacing up custom progressively disclosed links to drive users to other content. They can be used in conjunction with other ui-extensions. e.g. a user clicks on a context menu item which opens up a side panel.
-
-#### When to Use a Context Menu Item*
-Use a context menu item when you’d like to drive the user to another ui-extension or external webpage to learn more about a datapoint.
-
-#### Best Practices*
-* Context menu names should be clear and actionable. 
-* Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
-* Try to reduce the number of context menu items per app so that the context menu isn’t overloaded with rows. 
-
-
-### Dashboard Modals
-Modals are overlays that appear atop the entire page and prevent interaction elsewhere until some kind of action is taken. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a modal.
-
-#### When to Use a Modal*
-* Use a modal when you’d like to focus the user on resolving a specific task with clear confirm/cancel actions. 
-* Use a modal if the background content (the dashboard) isn’t relevant or intended to be interactable. 
-
-#### Scenarios*
-* **Completing a task:** Use a modal when you’d like to focus the user on a specific task that is coupled with  confirm/cancel actions. 
-* **Confirming an action or alert** Use a modal when you’d like a user to confirm an action they just took or a consequence of an action. It may be paired with a warning or critical information related to that action. Confirmation isn't necessary when the consequences of an action are reversible or negligible. e.g. If a check mark shows an image has been selected, further confirmation is unnecessary.
-* **Communicating an error** If an action a user took led to an error, modals can be used to surface up details about the error and give the user a chance to resolve it.  
-* **Displaying lengthier help information** If the help information is relatively short, display it in a tooltip on hover instead.
-
-#### Best Practices*
-* Modals should be responsive with no horizontal scrolling and the most important information above the fold.
-* Modals can have vertical scrolling.
-* Modals can have multiple views but the user must confirm each view as part of a linear flow with a clear back button.
-* Don’t display a modal within a modal. 
-* Clicks that trigger other side panels, modals, or external pages to open should always be paired with a clear call to action. 
-* Use a clear signifier if a link pushes a user to an external page.
-* Use the bottom footer of the modal to communicate actions the user can take on the task. 
-* Have clear delineations between steps in the flow.
-* Communicate to the user fields that are required vs optional.
-* Display a toast once the task is completed. 
-
-### Dashboard Side Panels
-Side panels display contextual information in a panel that slides out from the right edge of the viewport. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a side panel.
-
-#### When to Use a Side Panel* 
-* Use a side panel when you’d like to help the user gain additional context into something or for querying (not for linear flows/tasks that are resolved with a confirmation button).
-* Use a side panel when the background content is relevant or intended to be interactable. 
-
-#### Best Practices*
-* Side panels should be responsive with no horizontal scrolling and the most important information above the fold.
-* Side panels can have vertical scrolling.
-* Side panels can have multiple views. Use tabs anchored to the bottom of the header. 
-* Don’t display a modal within a side panel. If needed, use the modal ui-extension which should take over the entire page.
-* Clicks that trigger other side panels, modals, or external pages to open should always be paired with a clear call to action. 
-* Use a clear signifier if a link pushes a user to an external page.
-* Allow the user to use the esc keyboard shortcut to close the side panel. 
-
-### Dashboard Widgets
-Widgets are Dashboard tile components filled with graphs or other information. The user can create a widget instance by dragging the widget tray card onto the board, selecting the editing options, and confirming. Widgets can be resized and resorted manually by the user.
-
-#### Widget Tray Token*
-To get a widget instance onto a dashboard, the user has to drag the widget tray token onto the board. If your app has many widgets, each widget will appear in the tray as a separate token. A widget tray token consists of a name and the logo (light or dark). 
-
-* Keep the widget tray name short and to the point so it doesn't wrap to two lines. 
-* Name the app something that’s relevant to the core value proposition of the feature. e.g. Datadog Action Items. 
-
-#### Widget Editing Options*
-Editing options control facets of a widget instance such as the widget name or the environment. When the user drags a widget tray token onto the board, the user is prompted to confirm the editing options. The user can update the editing options by clicking on the edit pencil in a given widget instance. 
-
-* Have defaults for all selections. 
-
-#### Scenarios*
-* **Visualizing data** Review our data visualization section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
-* **Displaying action items** Use a table to improve the users ability to quickly find and resolve action  items. Review our table section within ucomponents to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
-* **Complex Scenarios** Don’t display multiple tiles/cards within a widget. Instead, make each tile/card it’s own widget. Try to limit the number of widgets to something reasonable like 2-3. 
-
-#### General Best Practices*
-* **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
-* **Avoid displaying overlays like modals, popovers, and toasts in the widget with the exception of tooltips or simple select menus.** If you need to confirm an action, use an inline confirmation rather than a toast.
-* **If a task requires more than a click of a button to resolve, push the user to a ui-extension modal or sidebar to resolve the task.**
-* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** By default, UI-extension widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a minimum 1/6th the board. The extension must resize to fit these varying horizontal widths.
-* **Clicks that trigger actions within the tile should give the user proper feedback.** Display a time series tooltip when a user clicks into a graph.  
