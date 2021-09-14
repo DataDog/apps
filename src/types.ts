@@ -246,7 +246,7 @@ export interface WidgetOptionItemString extends WidgetOptionItemBase {
 
 export type WidgetOptionItem = WidgetOptionItemBoolean | WidgetOptionItemString;
 
-export interface CustomWidgetCogMenuClickData
+export interface WidgetSettingsMenuClickData
     extends RequireKeys<FeatureContext, 'widget' | 'menuItem'> {
     widget: Omit<DashboardWidgetContext, 'definition'> & {
         definition: CustomWidgetDefinition;

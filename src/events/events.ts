@@ -2,12 +2,12 @@ import type { DDClient } from '../client/client';
 import { EventType, RequestType } from '../constants';
 import type {
     Context,
-    CustomWidgetCogMenuClickData,
     EventHandler,
     Timeframe,
     TemplateVariableValue,
     ModalDefinition,
     WidgetContextMenuClickData,
+    WidgetSettingsMenuClickData,
     DashboardCogMenuClickData,
     SidePanelDefinition,
     AuthState,
@@ -22,6 +22,7 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.CONTEXT_CHANGE]: Context;
     [EventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
     [EventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
+    [EventType.WIDGET_SETTINGS_MENU_CLICK]: WidgetSettingsMenuClickData;
     [EventType.MODAL_CLOSE]: ModalDefinition;
     [EventType.MODAL_CANCEL]: ModalDefinition;
     [EventType.MODAL_ACTION]: ModalDefinition;
@@ -29,7 +30,6 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
     [EventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];
-    [EventType.DASHBOARD_CUSTOM_WIDGET_COG_MENU_CLICK]: CustomWidgetCogMenuClickData;
     [EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE]: {
         [key: string]: string | boolean;
     };

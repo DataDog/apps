@@ -21,7 +21,6 @@ export enum EventType {
     DASHBOARD_TIMEFRAME_CHANGE = 'dashboard_timeframe_change',
     DASHBOARD_CURSOR_CHANGE = 'dashboard_cursor_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
-    DASHBOARD_CUSTOM_WIDGET_COG_MENU_CLICK = 'dashboard_custom_widget_cog_menu_click',
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
 
@@ -35,6 +34,7 @@ export enum EventType {
 
     // Widgets
     WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click',
+    WIDGET_SETTINGS_MENU_CLICK = 'widget_settings_menu_click',
 
     // Auth
     AUTH_STATE_CHANGE = 'auth_state_change',
