@@ -1,7 +1,7 @@
 # UI-Extension Design Guidelines # 
 
 ## Table of Contents
-* [UI-Extension Best Practices](#ui_extension)
+* [UI-Extensions](#ui_extension)
 * [Visual Design](#visual_design) 
 * [User Interaction & Communication](#user_interaction)
 * [Components](#components)
@@ -11,51 +11,55 @@
 * Required*
 * Suggested
 
-## UI-Extension Best Practices <a name="ui_extension"></a>
+## UI-Extensions* <a name="ui_extension"></a>
 
 ### Key Takeways
 * **Ensure that your apps are high quality.** There shouldn't be any bugs or loading issues. 
-* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product. e.g. A dashboard widget should mesh well with established Datadog widget paradigms.
-* **Reduce the complexity of the feature to the most important elements whenever possible.**    
+* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product space. e.g. A dashboard widget should mesh well with established Datadog dashboard paradigms.
+* **Reduce the complexity of the feature to the most important elements whenever possible.**
+* **Don't recreate your entire dashboard within a Datadog dashboard.**  The value is in seeing your apps content and Datadog content in a tightly integrated way.
 
+-----
 
 ### Dashboard Cog Menu Items
 Cog menus items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
 
-#### When to Use a Context Menu Item*
+#### When to Use a Context Menu Item
 Use a cog menu item when you’d like to drive the user to another ui-extension or external webpage and the action is more top-level. 
 
-#### Best Practices*
+#### Best Practices
 * Cog menu names should be clear and actionable. 
 * Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
 
+-----
 
 ### Dashboard Context Menu Items
 Context menus help extend widget data visualizations by surfacing up custom progressively disclosed links to drive users to other content. They can be used in conjunction with other ui-extensions. e.g. a user clicks on a context menu item which opens up a side panel.
 
-#### When to Use a Context Menu Item*
+#### When to Use a Context Menu Item
 Use a context menu item when you’d like to drive the user to another ui-extension or external webpage to learn more about a datapoint.
 
-#### Best Practices*
+#### Best Practices
 * Context menu names should be clear and actionable. 
 * Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
 * Try to reduce the number of context menu items per app so that the context menu isn’t overloaded with rows. 
 
+-----
 
 ### Dashboard Modals
 Modals are overlays that appear atop the entire page and prevent interaction elsewhere until some kind of action is taken. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a modal.
 
-#### When to Use a Modal*
+#### When to Use a Modal
 * Use a modal when you’d like to focus the user on resolving a specific task with clear confirm/cancel actions. 
 * Use a modal if the background content (the dashboard) isn’t relevant or intended to be interactable. 
 
-#### Scenarios*
+#### Scenarios
 * **Completing a task:** Use a modal when you’d like to focus the user on a specific task that is coupled with  confirm/cancel actions. 
 * **Confirming an action or alert** Use a modal when you’d like a user to confirm an action they just took or a consequence of an action. It may be paired with a warning or critical information related to that action. Confirmation isn't necessary when the consequences of an action are reversible or negligible. e.g. If a check mark shows an image has been selected, further confirmation is unnecessary.
 * **Communicating an error** If an action a user took led to an error, modals can be used to surface up details about the error and give the user a chance to resolve it.  
 * **Displaying lengthier help information** If the help information is relatively short, display it in a tooltip on hover instead.
 
-#### Best Practices*
+#### Best Practices
 * Modals should be responsive with no horizontal scrolling and the most important information above the fold.
 * Modals can have vertical scrolling.
 * Modals can have multiple views but the user must confirm each view as part of a linear flow with a clear back button.
@@ -73,11 +77,11 @@ Modals are overlays that appear atop the entire page and prevent interaction els
 ### Dashboard Side Panels
 Side panels display contextual information in a panel that slides out from the right edge of the viewport. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a side panel.
 
-#### When to Use a Side Panel* 
+#### When to Use a Side Panel 
 * Use a side panel when you’d like to help the user gain additional context into something or for querying (not for linear flows/tasks that are resolved with a confirmation button).
 * Use a side panel when the background content is relevant or intended to be interactable. 
 
-#### Best Practices*
+#### Best Practices
 * Side panels should be responsive with no horizontal scrolling and the most important information above the fold.
 * Side panels can have vertical scrolling.
 * Side panels can have multiple views. Use tabs anchored to the bottom of the header. 
@@ -98,15 +102,15 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 * Keep the widget tray name short and to the point so it doesn't wrap to two lines. 
 * Name the app something that’s relevant to the core value proposition of the feature. e.g. Datadog Action Items. 
 
-#### Widget Editing Options*
+#### Widget Editing Options
 * Have defaults for all selections. 
 
-#### Scenarios*
+#### Scenarios
 * **Visualizing data** Review our data visualization section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
 * **Displaying action items** Use a table to improve the users ability to quickly find and resolve action  items. Review our table section within ucomponents to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
 * **Complex Scenarios** Don’t display multiple tiles/cards within a widget. Instead, make each tile/card it’s own widget. Try to limit the number of widgets to something reasonable like 2-3. 
 
-#### General Best Practices*
+#### General Best Practices
 * **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
 * **Avoid displaying overlays like modals, popovers, and toasts in the widget with the exception of tooltips or simple select menus.** If you need to confirm an action, use an inline confirmation rather than a toast.
 * **If a task requires more than a click of a button to resolve, push the user to a ui-extension modal or sidebar to resolve the task.**
