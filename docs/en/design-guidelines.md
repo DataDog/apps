@@ -2,6 +2,11 @@
 
 ## Table of Contents
 * [UI-Extensions](#ui_extension)
+  *    [Dashboard Cog Menus](#cogmenus)
+  *    [Dashboard Context Menus](#contextmenus)
+  *    [Dashboard Modals](#modals)
+  *    [Dashboard Side Panels](#sidepanels)
+  *    [Dashboard Widgets](#widgets)
 * [Visual Design](#visual_design) 
 * [User Interaction & Communication](#user_interaction)
 * [Components](#components)
@@ -14,14 +19,15 @@
 ## UI-Extensions* <a name="ui_extension"></a>
 
 ### Key Takeways
-* **Ensure that your apps are high quality.** There shouldn't be any bugs or loading issues. 
-* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product space. e.g. A dashboard widget should mesh well with established Datadog dashboard paradigms.
+* **Make sure your apps are high quality.** There shouldn't be any bugs or loading issues. 
+* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product space. e.g. Established Datadog dashboard paradigms.
 * **Reduce the complexity of the feature to the most important elements whenever possible.**
-* **Don't recreate your entire dashboard within a Datadog dashboard.**  The value is in seeing your apps content and Datadog content in a tightly integrated way.
+* **Don't recreate your entire dashboard within a Datadog dashboard.**  The value of ui-extensions from a user perspective is in seeing your apps content and Datadog content tightly integrated.
 
 -----
 
-### Dashboard Cog Menu Items
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/Z4uj28rb/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/Z4uj28rb/f87fef76-90f9-497c-91aa-f55c03fbf0c6.png?source=thumbnail&v=38ff30f0310c2952f47ad6bb7f2db2f4)
+### Dashboard Cog Menu Items <a name="cogmenus"></a>
 Cog menus items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
 
 #### When to Use a Context Menu Item
@@ -33,20 +39,21 @@ Use a cog menu item when you’d like to drive the user to another ui-extension 
 
 -----
 
-### Dashboard Context Menu Items
-Context menus help extend widget data visualizations by surfacing up custom progressively disclosed links to drive users to other content. They can be used in conjunction with other ui-extensions. e.g. a user clicks on a context menu item which opens up a side panel.
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/eDuReJgz/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/eDuReJgz/985f00e6-7b97-4066-9410-a1880f8bb4d1.png?source=thumbnail&v=bbbdadfc8b16aeecdc195f23333f4035)
+### Dashboard Context Menu Items <a name="contextmenus"></a>
+Context menus extend widget functionality by surfacing up custom progressively disclosed links to drive users to other content. They can be used in conjunction with other ui-extensions. e.g. a user clicks on a context menu item which opens up a side panel.
 
 #### When to Use a Context Menu Item
-Use a context menu item when you’d like to drive the user to another ui-extension or external webpage to learn more about a datapoint.
+Use a context menu item when you’d like to drive the user to another ui-extension or external webpage to learn more about a datapoint. e.g. To push the user to your own app. 
 
 #### Best Practices
 * Context menu names should be clear and actionable. 
 * Keep context menu names short and to the point so that the content doesn’t overflow onto a second line. 
-* Try to reduce the number of context menu items per app so that the context menu isn’t overloaded with rows. 
+* Minimize the number of context menu items per app so that the context menu isn’t overloaded with rows. 
 
 -----
-
-### Dashboard Modals
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/yAuyBm0z/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/yAuyBm0z/3f7d73d7-07bc-458e-b275-5570b6971b44.png?source=thumbnail&v=d6826060511602af894f7d794b9f7baf)
+### Dashboard Modals <a name="modals"></a>
 Modals are overlays that appear atop the entire page and prevent interaction elsewhere until some kind of action is taken. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a modal.
 
 #### When to Use a Modal
@@ -55,7 +62,7 @@ Modals are overlays that appear atop the entire page and prevent interaction els
 
 #### Scenarios
 * **Completing a task:** Use a modal when you’d like to focus the user on a specific task that is coupled with  confirm/cancel actions. 
-* **Confirming an action or alert** Use a modal when you’d like a user to confirm an action they just took or a consequence of an action. It may be paired with a warning or critical information related to that action. Confirmation isn't necessary when the consequences of an action are reversible or negligible. e.g. If a check mark shows an image has been selected, further confirmation is unnecessary.
+* **Confirming an action or alert** Use a modal when you’d like the user to confirm an action they just took or a consequence of an action. It may be paired with a warning or critical information related to that action. Confirmation isn't necessary when the consequences of an action are reversible or negligible. e.g. If a check mark shows an image has been selected, further confirmation is unnecessary.
 * **Communicating an error** If an action a user took led to an error, modals can be used to surface up details about the error and give the user a chance to resolve it.  
 * **Displaying lengthier help information** If the help information is relatively short, display it in a tooltip on hover instead.
 
@@ -63,9 +70,9 @@ Modals are overlays that appear atop the entire page and prevent interaction els
 * Modals should be responsive with no horizontal scrolling and the most important information above the fold.
 * Modals can have vertical scrolling.
 * Modals can have multiple views but the user must confirm each view as part of a linear flow with a clear back button.
-* Don’t display a modal within a modal. 
+* Don’t display a modal within a modal or atop another modal. 
 * Clicks that trigger other side panels, modals, or external pages to open should always be paired with a clear call to action. 
-* Use a clear signifier if a link pushes a user to an external page.
+* Use a clear signifier if a link pushes a user to an external page. e.g. An external link icon.
 * Use the bottom footer of the modal to communicate actions the user can take on the task. 
 * Have clear delineations between steps in the flow.
 * Communicate to the user fields that are required vs optional.
@@ -73,8 +80,8 @@ Modals are overlays that appear atop the entire page and prevent interaction els
 
 ----------
 
-![picture alt](https://d6pdqlw297isz.cloudfront.net/i/lluo8rk6/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluo8rk6/84a67aae-1ada-4ea1-b0c8-5838d58b2873.png?source=thumbnail&v=6099c90ca22de85b039ccc6b74703b52)
-### Dashboard Side Panels
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/GGupdw4R/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/GGupdw4R/46570294-b321-4c06-81ca-1fab489eab7e.png?source=thumbnail&v=4d22d319bc6cf1d9348e3c170c2b461e)
+### Dashboard Side Panels <a name="sidepanels"></a>
 Side panels display contextual information in a panel that slides out from the right edge of the viewport. They are used in conjunction with other ui-extensions. e.g. a user clicks on a link in a widget which opens a side panel.
 
 #### When to Use a Side Panel 
@@ -92,10 +99,10 @@ Side panels display contextual information in a panel that slides out from the r
 
 ----------
 
- ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/2NulWGwq/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/2NulWGwq/2525ee49-995c-49c6-b6e3-e69a6b42bca7.png?source=thumbnail&v=6df82aab9731ba0d95369054054aeb22)
- 1. Widget Tray Token, 2. Widget
+![picture alt](https://d6pdqlw297isz.cloudfront.net/i/12uvbZA6/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/12uvbZA6/638f6f36-8134-4118-96e5-a3b50b90d445.png?source=thumbnail&v=be265b40227e4429f9ea53013971bd27)
+1.Widget Tray Token, 2.Widget
  
-### Dashboard Widgets
+### Dashboard Widgets <a name="widgets"></a>
 Widgets are Dashboard tile components filled with graphs or other information. The user can create a widget instance by dragging the widget tray card onto the board, selecting the editing options, and confirming. Widgets can be resized and resorted manually by the user.
 
 #### Widget Tray Token
@@ -105,10 +112,10 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 #### Widget Editing Options
 * Have defaults for all selections. 
 
-#### Scenarios
-* **Visualizing data** Review our data visualization section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
-* **Displaying action items** Use a table to improve the users ability to quickly find and resolve action  items. Review our table section within ucomponents to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
-* **Complex Scenarios** Don’t display multiple tiles/cards within a widget. Instead, make each tile/card it’s own widget. Try to limit the number of widgets to something reasonable like 2-3. 
+#### Widget Scenarios
+* **Visualizing data** [Review our data visualization](#dataviz) section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
+* **Displaying action items** Use a table to improve the users ability to quickly find and resolve action items. [Review our table section](#table) within components to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
+* **Complex Scenarios** Don’t display multiple tiles/cards within a widget. Instead, make each tile/card it’s own widget. Try to limit the number of widgets to something reasonable like 2-3 per app. 
 
 #### General Best Practices
 * **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
@@ -139,7 +146,7 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 
     Primary color  | Secondary color | Disabled color | Error color | Primary text color | Secondary text color
     :-------------  | :--------------- | :------------- | :------------ | :------------------ | :--------------------
-    Used for call to actions and links. | A secondary color provides more ways to accent and distinguish your product. | Used for elements that are normally interactive but are read-only. | Indicates errors in components, such as invalid text in a text field. | Used for headlines and important text.| Used for body copy and less emphasized text.
+    Used for call to actions and links. | A secondary color provides more ways to accent and distinguish your product. | Used for elements that are normally interactive but are read-only. | Indicates errors in components, such as invalid text in a field. | Used for headlines and important text.| Used for body copy and less emphasized text.
     ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/bLuqZyPx/bd1534e0-f27f-4783-beaa-c719ba32915f.png?source=viewer&v=c353508c59999883c0e1ef854442f0a9") | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/nOuvLQyr/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/nOuvLQyr/4957dc4f-4028-4820-a0b4-69f624e49d94.png?source=thumbnail&v=8454ee091177513fd75a5df417df0976) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/lluoX8py/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluoX8py/4f744374-c044-4f8c-9144-faecb14f093f.png?source=thumbnail&v=cccd0460b2c930865d0b9ee3e3f9daaf) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/RBuLJzp4/13506278-6dc4-4f56-95ec-aa3e32829505.png?source=viewer&v=1008e16b7ba73557a6418e839477192a) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/8Lu5Y6z1/23c02f73-0b50-46ad-b141-86c45a045907.png?source=viewer&v=98ac4c333987ccedd932fbf0a0534c0b) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/z8urbd2y/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/z8urbd2y/3386a7cf-5696-4760-a48b-1fb189103897.png?source=thumbnail&v=91c0f3d0a2aef395bff6d9d6d3da6ba0)
 
 ### Dark Mode
@@ -150,7 +157,7 @@ A significant percentage of our user base uses dark mode. We recommend making a 
 * Test your design in both light and dark appearances. See how your interface looks in both appearances, and adjust your designs as needed to accommodate each one. Decisions that work well in one appearance might not work in the other. 
 
 ### Accessibility
-We recommend that your app makes as best an effort as possible to comply with  WCAG 2.1 AA standards. View the latest published standards regarding [perceivability](https://www.w3.org/WAI/WCAG21/quickref/#principle1/ "perceivability"), [operability](https://www.w3.org/WAI/WCAG21/quickref/#principle2/ "operability"), and [understandability](https://www.w3.org/WAI/WCAG21/quickref/#principle3/ "understandability"). 
+We recommend your app makes as best an effort as possible to comply with  WCAG 2.1 AA standards. View the latest published standards regarding [perceivability](https://www.w3.org/WAI/WCAG21/quickref/#principle1/ "perceivability"), [operability](https://www.w3.org/WAI/WCAG21/quickref/#principle2/ "operability"), and [understandability](https://www.w3.org/WAI/WCAG21/quickref/#principle3/ "understandability"). 
 
 We recommend you use the tool [Lighthouse](https://developers.google.com/web/tools/lighthouse#devtools/ "Lighthouse") to check the performance of your app. 
 
@@ -186,15 +193,16 @@ MMM DD YYYY HH:mm | Dec 13 1989 08:36
 ### Data Entry*
 * **Use an introductory label or placeholder text to communicate purpose.** A label helps users understand what type of information they should enter. A text field can also contain placeholder text—such as Email or Password—when there’s no other text in the field. A label is often unnecessary when placeholder text is present. Generally, labels should use title-style capitalization while placeholder text should use sentence-style capitalization.
 * **Consider using an expansion tooltip to show the full version of clipped or truncated text.** An expansion tooltip behaves like a help tag and appears when the user places the cursor over the field.
-* Use a number formatter to aid with numeric data entry if needed. 
+* Use a number formatter to aid the user with numeric data entry if needed. 
 * Enable advancement only after collecting required values. Before enabling a Next or Continue button, make sure all required fields have values. The enabled button provides a visual cue that it’s OK to proceed.
     
-### Data Visualization*
-Data visualization portrays information graphically which makes it easy to compare and make decisions surrounding data. The type of chart you use should depend on what you’d like users to do with the data.
+### Data Visualization* <a name="dataviz"></a>
+Data visualization portrays information graphically which makes it easy to compare and make decisions surrounding data. The type of chart you use depends on what you want users to do with the data.
 
 * **The presentation of the data should be accurate.** Make sure the way the data is presented isn’t distorted. 
 * **Progressively disclose additional details.** The user should be able to hover over a datapoint and receive additional context via a tooltip. e.g. a description/value.
-* * **Don’t bold too many typographical elements.** Bolding too many typographical elements makes it difficult for users to scan text. 
+* **Don’t bold too many typographical elements.** Bolding too many typographical elements makes it difficult for users to scan text. 
+* **If your graph has multiple elements and the user is hovering over one, grey out the elements to help the user focus on the right one.** e.g A stacked bar chart.
 * **Don’t solely rely on icons to convey important information.** Icons alone might not be intuitive enough for users to understand the meaning. 
 * Surface up legends. Place legends below charts so users can understand the graph.
 * Incorporate zooming and panning if needed. Zooming changes whether the UI is shown from either nearer or farther away.  Zoom occurs through clicking and dragging, or scrolling. Panning allows the user to explore the UI that expands beyond the screen. Panning and zooming are often paired together.
@@ -390,7 +398,7 @@ Radio buttons allow users to select one option from a set.
 * Use radio buttons over dropdowns if you’d like to expose all available options to the user. 
 * Radio buttons should be easily identifiable. It should be visible at a glance if a radio button has been selected, and selected items should be more visually prominent than unselected items.
 
-### Tables*
+### Tables* <a name="table"></a>
 Tables display sets of data across rows and columns. They organize information in a way that’s easy to scan so that users can look for patterns and develop insights from data. We recommend using the open source table library [datatables](https://datatables.net/).
 
 * **Data tables should be well organized.** Information should be organized in a meaningful way, such as hierarchy or alphabetization. Less important information should be de-emphasized.
@@ -426,7 +434,7 @@ Toggles switch the state of a single item on or off.
 * Use toggles over checkboxes if only one item can be selected.
 * Use toggles over radio buttons if there are only two options the user could select from. e.g. on vs off.
 * Use toggles to immediately activate or deactivate something. 
-* Toggles should be easily identifiable. It should be visible at a glance if a toggle has been selected, and it should be more visually prominent than unselected items.
+* Toggles should be easily identifiable. It should be visible at glance if a toggle has been selected, and it should be more visually prominent than unselected items.
 
 ### Toasts*
 Toasts display brief, temporary notifications (usually a success or error feedback). They are meant to be noticed without disrupting a user's experience or requiring an action to be taken.
