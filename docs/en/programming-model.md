@@ -455,6 +455,9 @@ Event handlers will receive a **context** object with information about the acti
 
 ## Widget Context Menu
 
+![context-menu](https://user-images.githubusercontent.com/1262407/133463979-bbd2e3f4-8beb-4808-820f-e3f474c9aac2.png)
+
+
 Allows applications to extend widget visualizations with custom context menu items. At present, custom context menu items are only supported on dashboards.
 
 **Configuration:**
