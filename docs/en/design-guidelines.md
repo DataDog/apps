@@ -100,6 +100,7 @@ Side panels display contextual information in a panel that slides out from the r
 ----------
 
 ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/12uvbZA6/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/12uvbZA6/638f6f36-8134-4118-96e5-a3b50b90d445.png?source=thumbnail&v=be265b40227e4429f9ea53013971bd27)
+
 1.Widget Tray Token, 2.Widget
  
 ### Dashboard Widgets <a name="widgets"></a>
