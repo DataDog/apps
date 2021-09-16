@@ -1,5 +1,9 @@
 # Frequently Asked Questions
 
+## How do I provide logos for my App?
+
+You can provide a temporary logo as a url while your app is under development in the Developer Platform. When you are ready to publish, we will work with you to create permanent and high-quality versions of your logo, including a dark mode variant.
+
 ## What programming language/framework should I use for developing my app?
 
 You can use any web stack to build apps. The only requirement is to include our [SDK](https://github.com/DataDog/ui-extensions-sdk), which is a vanilla Javascript library with optional typescript definitions if needed.
