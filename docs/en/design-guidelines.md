@@ -136,7 +136,7 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 
 ### Logos*
 * **Widget logos should be high quality.** Logos should be svgs with a dimension of 128px x 128px.
-* **Add a darkmode and lightmode logo via the repository.** The darkmode logo should be white and the lightmode logo should be in color. View other dark mode guidelines here.  
+* **Add a darkmode and lightmode logo via the repository.** The darkmode logo should be white and the lightmode logo should be in color. View other dark mode guidelines [here](#darkmode).  
 
 ### Color*
 * Color should be hierarchical. Important elements should stand out the most.
@@ -150,7 +150,7 @@ Widgets are Dashboard tile components filled with graphs or other information. T
     Used for call to actions and links. | A secondary color provides more ways to accent and distinguish your product. | Used for elements that are normally interactive but are read-only. | Indicates errors in components, such as invalid text in a field. | Used for headlines and important text.| Used for body copy and less emphasized text.
     ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/bLuqZyPx/bd1534e0-f27f-4783-beaa-c719ba32915f.png?source=viewer&v=c353508c59999883c0e1ef854442f0a9") | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/nOuvLQyr/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/nOuvLQyr/4957dc4f-4028-4820-a0b4-69f624e49d94.png?source=thumbnail&v=8454ee091177513fd75a5df417df0976) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/lluoX8py/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluoX8py/4f744374-c044-4f8c-9144-faecb14f093f.png?source=thumbnail&v=cccd0460b2c930865d0b9ee3e3f9daaf) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/RBuLJzp4/13506278-6dc4-4f56-95ec-aa3e32829505.png?source=viewer&v=1008e16b7ba73557a6418e839477192a) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/8Lu5Y6z1/23c02f73-0b50-46ad-b141-86c45a045907.png?source=viewer&v=98ac4c333987ccedd932fbf0a0534c0b) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/z8urbd2y/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/z8urbd2y/3386a7cf-5696-4760-a48b-1fb189103897.png?source=thumbnail&v=91c0f3d0a2aef395bff6d9d6d3da6ba0)
 
-### Dark Mode
+### Dark Mode <a name="darkmode"></a>
 A significant percentage of our user base uses dark mode. We recommend making a dark mode version of your app to ensure these users have a high-quality experience. You can define the color theme in the GitHub repository with the attribute `colorTheme` (`dark` or `light`).
 
 * **Make colors lighter and desaturated.** Saturated colors can visually vibrate against dark surfaces, making them harder to read. Use lighter tones (colors in the 200–50 range) because they have better readability on darker surfaces.
