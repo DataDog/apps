@@ -67,18 +67,16 @@ export class DDEventsClient<AuthStateArgs = unknown> {
         this.client
             .getContext()
             .then(context => {
-                if (context) {
-                    const canHandleEvent = isEventEnabled(
-                        eventType,
-                        context.app.features
-                    );
+                const canHandleEvent = isEventEnabled(
+                    eventType,
+                    context.app.features
+                );
 
-                    if (!canHandleEvent) {
-                        unsubscribe();
-                        this.client.logger.error(
-                            `Your app does not have the required features enabled to respond to events of type ${eventType}.`
-                        );
-                    }
+                if (!canHandleEvent) {
+                    unsubscribe();
+                    this.client.logger.error(
+                        `Your app does not have the required features enabled to respond to events of type ${eventType}.`
+                    );
                 }
             })
             .catch(() => {});
