@@ -14,10 +14,6 @@ export class DDFeatureClient {
     private async isEnabled(): Promise<boolean> {
         const context = await this.client.getContext();
 
-        if (!context) {
-            return false;
-        }
-
         const {
             app: { features }
         } = context;
