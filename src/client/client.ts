@@ -13,6 +13,7 @@ import type {
     Context,
     ClientContext,
     ClientOptions,
+    IFrameDimensions,
     ParentAuthStateOptions
 } from '../types';
 import { Logger } from '../utils/logger';
@@ -88,6 +89,20 @@ export class DDClient<AuthStateArgs = unknown> {
 
         this.getContext().then(context => {
             this.syncDebugMode(context);
+        });
+
+        this.registerEventListeners();
+    }
+
+    private registerEventListeners() {
+        // Since computing the size of an iframe is hard to do correctly,
+        // we listen to `'resize'` events so we can send the actual values over.
+        window.addEventListener('resize', () => {
+            const dimensions: IFrameDimensions = {
+                height: document.documentElement.scrollHeight,
+                width: document.documentElement.scrollWidth
+            };
+            this.framePostClient.send(EventType.RESIZE_IFRAME, dimensions);
         });
     }
 
