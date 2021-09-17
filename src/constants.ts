@@ -15,6 +15,7 @@ export enum EventType {
     // General
     CUSTOM_EVENT = 'custom_event',
     CONTEXT_CHANGE = 'context_change',
+    RESIZE_IFRAME = 'resize_iframe',
 
     // Dashboards
     DASHBOARD_COG_MENU_CLICK = 'dashboard_cog_menu_click',

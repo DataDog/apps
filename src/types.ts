@@ -269,3 +269,8 @@ export interface APIAccessChangeEvent {
 export interface OrderedItem {
     order?: number;
 }
+
+export interface IFrameDimensions {
+    height: number;
+    width: number;
+}

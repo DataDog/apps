@@ -3,6 +3,7 @@ import { EventType, RequestType } from '../constants';
 import type {
     Context,
     EventHandler,
+    IFrameDimensions,
     Timeframe,
     TemplateVariableValue,
     ModalDefinition,
@@ -19,6 +20,7 @@ interface DDEventDataTypes<AuthStateArgs> {
     // General
     [EventType.CUSTOM_EVENT]: CustomEventPayload<any>;
     [EventType.CONTEXT_CHANGE]: Context;
+    [EventType.RESIZE_IFRAME]: IFrameDimensions;
     [EventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
     [EventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
     [EventType.MODAL_CLOSE]: ModalDefinition;
