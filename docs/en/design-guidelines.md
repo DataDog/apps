@@ -2,8 +2,8 @@
 
 ## Table of Contents
 * [UI-Extensions](#ui_extension)
-  *    [Dashboard Cog Menus](#cogmenus)
-  *    [Dashboard Context Menus](#contextmenus)
+  *    [Dashboard Cog Menu Items](#cogmenus)
+  *    [Dashboard Context Menu Items](#contextmenus)
   *    [Dashboard Modals](#modals)
   *    [Dashboard Side Panels](#sidepanels)
   *    [Dashboard Widgets](#widgets)
@@ -113,6 +113,18 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 #### Widget Editing Options
 * Have defaults for all selections. 
 
+#### Widget Sizes
+* **We recommend that widgets have usable default and minimum sizes defined.**
+* By default, widgets will appear as 2 rows tall x 4 columns wide (size medium) when added to a Dashboard.
+* By default, widgets can be resized to 2 rows tall x 2 columns wide (size small).
+* If your app requires more content to be in view, use the larger size. If it requires less, use the smaller size.
+
+Size Name | Description
+:------------- | :------------- 
+Small (sm) |  2 rows x 2 columns
+Medium (md)  |  2 rows x 4 columns
+Large (lg)  |  4 rows x 4 columns
+
 #### Widget Scenarios
 * **Visualizing data** [Review our data visualization](#dataviz) section within user interaction & communication to learn more about our recommendations. Widgets with data visualization should scale vertically and avoid scrolling.   
 * **Displaying action items** Use a table to improve the users ability to quickly find and resolve action items. [Review our table section](#table) within components to learn more about our recommendations. Widgets with tables shouldn’t scale vertically and should scroll.   
@@ -122,21 +134,16 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 * **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
 * **Avoid displaying overlays like modals, popovers, and toasts in the widget with the exception of tooltips or simple select menus.** If you need to confirm an action, use an inline confirmation rather than a toast.
 * **If a task requires more than a click of a button to resolve, push the user to a ui-extension modal or sidebar to resolve the task.**
-* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** By default, UI-extension widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a minimum 1/6th the board. The extension must resize to fit these varying horizontal widths.
+* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** Out of the box Datadog Dashboard widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a minimum 1/6th the board. The extension must resize to fit these varying horizontal widths.
 * **Clicks that trigger actions within the tile should give the user proper feedback.** Display a time series tooltip when a user clicks into a graph.  
 
 
 ## Visual Design <a name="visual_design"></a>
 
-### Typography* 
-* Only emphasize the most important information. Too much competing information can make it difficult to scan the page. 
-* **Minimize the number of typefaces you use.** Mixing too many distinct typefaces can make your app seem fragmented and sloppy.
-* Keep button text readable and short. Don’t use expressive fonts as button text, including display, handwritten, and script styles. Copy should be specific but to the point.
-* Don’t use serif fonts. Only use sans-serif.
+### Accessibility
+We recommend your app makes as best an effort as possible to comply with  WCAG 2.1 AA standards. View the latest published standards regarding [perceivability](https://www.w3.org/WAI/WCAG21/quickref/#principle1/ "perceivability"), [operability](https://www.w3.org/WAI/WCAG21/quickref/#principle2/ "operability"), and [understandability](https://www.w3.org/WAI/WCAG21/quickref/#principle3/ "understandability"). 
 
-### Logos*
-* **Widget logos should be high quality.** Logos should be svgs with a dimension of 128px x 128px.
-* **Add a darkmode and lightmode logo via the repository.** The darkmode logo should be white and the lightmode logo should be in color. View other dark mode guidelines [here](#darkmode).  
+We recommend you use the tool [Lighthouse](https://developers.google.com/web/tools/lighthouse#devtools/ "Lighthouse") to check the performance of your app.
 
 ### Color*
 * Color should be hierarchical. Important elements should stand out the most.
@@ -150,46 +157,34 @@ Widgets are Dashboard tile components filled with graphs or other information. T
     Used for call to actions and links. | A secondary color provides more ways to accent and distinguish your product. | Used for elements that are normally interactive but are read-only. | Indicates errors in components, such as invalid text in a field. | Used for headlines and important text.| Used for body copy and less emphasized text.
     ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/bLuqZyPx/bd1534e0-f27f-4783-beaa-c719ba32915f.png?source=viewer&v=c353508c59999883c0e1ef854442f0a9") | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/nOuvLQyr/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/nOuvLQyr/4957dc4f-4028-4820-a0b4-69f624e49d94.png?source=thumbnail&v=8454ee091177513fd75a5df417df0976) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/lluoX8py/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluoX8py/4f744374-c044-4f8c-9144-faecb14f093f.png?source=thumbnail&v=cccd0460b2c930865d0b9ee3e3f9daaf) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/RBuLJzp4/13506278-6dc4-4f56-95ec-aa3e32829505.png?source=viewer&v=1008e16b7ba73557a6418e839477192a) | ![picture alt](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/8Lu5Y6z1/23c02f73-0b50-46ad-b141-86c45a045907.png?source=viewer&v=98ac4c333987ccedd932fbf0a0534c0b) | ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/z8urbd2y/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/z8urbd2y/3386a7cf-5696-4760-a48b-1fb189103897.png?source=thumbnail&v=91c0f3d0a2aef395bff6d9d6d3da6ba0)
 
-### Dark Mode <a name="darkmode"></a>
-A significant percentage of our user base uses dark mode. We recommend making a dark mode version of your app to ensure these users have a high-quality experience. You can define the color theme in the GitHub repository with the attribute `colorTheme` (`dark` or `light`).
-
 * **Make colors lighter and desaturated.** Saturated colors can visually vibrate against dark surfaces, making them harder to read. Use lighter tones (colors in the 200–50 range) because they have better readability on darker surfaces.
 * Avoid pure black. Dark gray surfaces reduce eye strain — light text on a dark gray surface has less contrast than light text on a black surface. 
-* Test your design in both light and dark appearances. See how your interface looks in both appearances, and adjust your designs as needed to accommodate each one. Decisions that work well in one appearance might not work in the other. 
+* Test your design in both light and dark appearances. See how your interface looks in both appearances, and adjust your designs as needed to accommodate each one. Decisions that work well in one appearance might not work in the other.
 
-### Accessibility
-We recommend your app makes as best an effort as possible to comply with  WCAG 2.1 AA standards. View the latest published standards regarding [perceivability](https://www.w3.org/WAI/WCAG21/quickref/#principle1/ "perceivability"), [operability](https://www.w3.org/WAI/WCAG21/quickref/#principle2/ "operability"), and [understandability](https://www.w3.org/WAI/WCAG21/quickref/#principle3/ "understandability"). 
+### Logos*
+* **Widget logos should be high quality.** Logos should be svgs with a dimension of 128px x 128px.
 
-We recommend you use the tool [Lighthouse](https://developers.google.com/web/tools/lighthouse#devtools/ "Lighthouse") to check the performance of your app. 
+### System Icons
+System icons represent common actions such as copying text or closing a modal. By compressing meaning into a symbolic language, they can be used to cross cultural barriers and save screen space.
+
+* **For common actions, use universal iconography.** Icons used to represent common actions shouldn’t deviate from convention because users have strong visual associations with them. Deviating from convention only causes confusion.
+* **System icons shouldn’t be smaller than 16px or larger than 32px.** We recommend keeping system icons around 16px whenever possible to match our system conventions.
+* **System icons should be simple enough to be readable at small sizes.** 
+* Use text instead of an icon if the meaning isn’t clear or if making it clear requires a complex shape. 
+* Use scalable vector graphics (svgs). SVG resources are ideal for icons, because they always look sharp at any size or resolution.
+
+### Typography* 
+* Only emphasize the most important information. Too much competing information can make it difficult to scan the page. 
+* **Minimize the number of typefaces you use.** Mixing too many distinct typefaces can make your app seem fragmented and sloppy.
+* Keep button text readable and short. Don’t use expressive fonts as button text, including display, handwritten, and script styles. Copy should be specific but to the point.
+* Don’t use serif fonts. Only use sans-serif.
+
 
 ## User Interaction & Communication <a name="user_interaction"></a>
 
 ### Authentication & Authorization*
 Datadog handles authentication and authorization and we require that you use our authentication hooks. 
 
-### Formatted Time
-We recommend you use Datadog time conventions although this isn't a requirement at this time. Datadog uses [date-fns](https://date-fns.org "date-fns") for time conventions. It’s important to note that time zones are a Datadog user setting that can override your default settings. 
-
-Our time conventions for when **date/time stand alone** (not in a table):
-
-Format | Output
-:------------- | :-------------
-h:mm a  | 8:36 am
-MMM D, h:mm a  | Dec 13, 8:36 am
-MMM D, h:mm:ss a  | Dec 13, 8:36:00 am
-ddd, MMM D, h:mm:ss a  | Wed, Dec 13, 8:36:00 am
-MMM D, YYYY, h:mm a  | Dec 13, 1989, 8:36 am
-ddd, MMM D, YYYY, h:mm:ss a  | Wed, Dec 13, 1989, 8:36:00 am
-MMM DD, YYYY [at] HH:mm:ss.SSS | Dec 13, 1989 at 08:36:00.000
-
-Our **table** time conventions:
-
-Format | Output
-:------------- | :-------------
-MMM DD HH:mm:ss  | Dec 13 08:36:00
-MMM DD HH:mm:ss.SSS  | Dec 13 08:36:00.000
-MMM DD YYYY  | Dec 13, 8:36:00 am
-MMM DD YYYY HH:mm | Dec 13 1989 08:36
 
 ### Data Entry*
 * **Use an introductory label or placeholder text to communicate purpose.** A label helps users understand what type of information they should enter. A text field can also contain placeholder text—such as Email or Password—when there’s no other text in the field. A label is often unnecessary when placeholder text is present. Generally, labels should use title-style capitalization while placeholder text should use sentence-style capitalization.
@@ -291,7 +286,31 @@ The most basic empty state consists of a non-interactive image or icon, short de
 Image | Text | Button (optional)
 :------------- | :------------- | :-------------
 Is neutral or humorous in tone. | Is helpful. | Is  actionable. e.g. “Clear search.”
-Is related to the content. | Conveys the purpose of the context
+Is related to the content. | Conveys the purpose of the context.
+
+### Formatted Time
+We recommend you use Datadog time conventions although this isn't a requirement at this time. Datadog uses [date-fns](https://date-fns.org "date-fns") for time conventions. It’s important to note that time zones are a Datadog user setting that can override your default settings. 
+
+Our time conventions for when **date/time stand alone** (not in a table):
+
+Format | Output
+:------------- | :-------------
+h:mm a  | 8:36 am
+MMM D, h:mm a  | Dec 13, 8:36 am
+MMM D, h:mm:ss a  | Dec 13, 8:36:00 am
+ddd, MMM D, h:mm:ss a  | Wed, Dec 13, 8:36:00 am
+MMM D, YYYY, h:mm a  | Dec 13, 1989, 8:36 am
+ddd, MMM D, YYYY, h:mm:ss a  | Wed, Dec 13, 1989, 8:36:00 am
+MMM DD, YYYY [at] HH:mm:ss.SSS | Dec 13, 1989 at 08:36:00.000
+
+Our **table** time conventions:
+
+Format | Output
+:------------- | :-------------
+MMM DD HH:mm:ss  | Dec 13 08:36:00
+MMM DD HH:mm:ss.SSS  | Dec 13 08:36:00.000
+MMM DD YYYY  | Dec 13, 8:36:00 am
+MMM DD YYYY HH:mm | Dec 13 1989 08:36
 
 ### Help
 Sometimes a feature needs clarification for a user to understand how it works. 
