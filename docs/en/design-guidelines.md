@@ -20,7 +20,7 @@
 
 ### Key Takeways
 * **Make sure your apps are high quality.** There shouldn't be any bugs or loading issues. 
-* **Consider the environment that your designing for.** The ui-extension should mesh well with the page and follow general patterns within the product space. e.g. Established Datadog dashboard paradigms.
+* **Consider the environment that you are designing for.** The ui-extension should mesh well with the page and follow general patterns within the product space. e.g. Established Datadog dashboard paradigms.
 * **Reduce the complexity of the feature to the most important elements whenever possible.**
 * **Don't recreate your entire dashboard within a Datadog dashboard.**  The value of ui-extensions from a user perspective is in seeing your apps content and Datadog content tightly integrated.
 
@@ -28,7 +28,7 @@
 
 ![picture alt](https://d6pdqlw297isz.cloudfront.net/i/Z4uj28rb/0x400/p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/Z4uj28rb/f87fef76-90f9-497c-91aa-f55c03fbf0c6.png?source=thumbnail&v=38ff30f0310c2952f47ad6bb7f2db2f4)
 ### Dashboard Cog Menu Items <a name="cogmenus"></a>
-Cog menus items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
+Cog menu items surface up custom progressively disclosed links within the Dashboard’s settings menu that drive users to other ui-extensions or external sites. e.g. a user clicks on a cog menu item which opens up an external web page.
 
 #### When to Use a Context Menu Item
 Use a cog menu item when you’d like to drive the user to another ui-extension or external webpage and the action is more top-level. 
@@ -122,7 +122,7 @@ Widgets are Dashboard tile components filled with graphs or other information. T
 * **Keep the experience within the widget tile as simple as possible.** Don’t display multiple views or complex progressively disclosed components within the tile. 
 * **Avoid displaying overlays like modals, popovers, and toasts in the widget with the exception of tooltips or simple select menus.** If you need to confirm an action, use an inline confirmation rather than a toast.
 * **If a task requires more than a click of a button to resolve, push the user to a ui-extension modal or sidebar to resolve the task.**
-* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** By default, UI-extension widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a minimum 1/6th the board. The extension must resize to fit these varying horizontal widths.
+* **Widgets should be responsive with no horizontal scrolling and the most important information above the fold.** By default, UI-extension widgets have a ratio of 2x1 and will take up a third of the board. The widget can be resized to take up the full width of the board or at a 1/6th the board. The extension must resize to fit these varying horizontal widths.
 * **Clicks that trigger actions within the tile should give the user proper feedback.** Display a time series tooltip when a user clicks into a graph.  
 
 
