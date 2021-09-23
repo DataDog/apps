@@ -98,10 +98,20 @@ export class DDClient<AuthStateArgs = unknown> {
         // Since computing the size of an iframe is hard to do correctly,
         // we listen to `'resize'` events so we can send the actual values over.
         window.addEventListener('resize', () => {
+            const style = window.getComputedStyle(document.documentElement);
+            const parsedHeight = parseFloat(style.getPropertyValue('height'));
+            const parsedWidth = parseFloat(style.getPropertyValue('width'));
+            const height = Number.isNaN(parsedHeight)
+                ? document.documentElement.scrollHeight
+                : parsedHeight;
+            const width = Number.isNaN(parsedWidth)
+                ? document.documentElement.scrollWidth
+                : parsedWidth;
             const dimensions: IFrameDimensions = {
-                height: document.documentElement.scrollHeight,
-                width: document.documentElement.scrollWidth
+                height,
+                width
             };
+
             this.framePostClient.send(EventType.RESIZE_IFRAME, dimensions);
         });
     }
