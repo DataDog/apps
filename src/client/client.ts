@@ -98,22 +98,32 @@ export class DDClient<AuthStateArgs = unknown> {
         // Since computing the size of an iframe is hard to do correctly,
         // we listen to `'resize'` events so we can send the actual values over.
         window.addEventListener('resize', () => {
-            const style = window.getComputedStyle(document.documentElement);
-            const parsedHeight = parseFloat(style.getPropertyValue('height'));
-            const parsedWidth = parseFloat(style.getPropertyValue('width'));
-            const height = Number.isNaN(parsedHeight)
-                ? document.documentElement.scrollHeight
-                : parsedHeight;
-            const width = Number.isNaN(parsedWidth)
-                ? document.documentElement.scrollWidth
-                : parsedWidth;
-            const dimensions: IFrameDimensions = {
-                height,
-                width
-            };
-
-            this.framePostClient.send(EventType.RESIZE_IFRAME, dimensions);
+            this.resize();
         });
+    }
+
+    /**
+     * Notify the parent that the iframe should be resized.
+     *
+     * There's no guarantee that the parent will adjust the iframe's dimensions.
+     * The parent will also sanitize the dimensions attempting to keep the iframe within the viewport.
+     */
+    resize() {
+        const style = window.getComputedStyle(document.documentElement);
+        const parsedHeight = parseFloat(style.getPropertyValue('height'));
+        const parsedWidth = parseFloat(style.getPropertyValue('width'));
+        const height = Number.isNaN(parsedHeight)
+            ? document.documentElement.scrollHeight
+            : parsedHeight;
+        const width = Number.isNaN(parsedWidth)
+            ? document.documentElement.scrollWidth
+            : parsedWidth;
+        const dimensions: IFrameDimensions = {
+            height,
+            width
+        };
+
+        this.framePostClient.send(EventType.RESIZE_IFRAME, dimensions);
     }
 
     /**
