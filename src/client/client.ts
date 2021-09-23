@@ -105,10 +105,12 @@ export class DDClient<AuthStateArgs = unknown> {
     /**
      * Notify the parent that the iframe should be resized.
      *
+     * Will default any dimensions not given to the iframe's actual dimensions.
+     *
      * There's no guarantee that the parent will adjust the iframe's dimensions.
      * The parent will also sanitize the dimensions attempting to keep the iframe within the viewport.
      */
-    resize() {
+    resize(dimensions?: Partial<IFrameDimensions>) {
         const style = window.getComputedStyle(document.documentElement);
         const parsedHeight = parseFloat(style.getPropertyValue('height'));
         const parsedWidth = parseFloat(style.getPropertyValue('width'));
@@ -118,12 +120,12 @@ export class DDClient<AuthStateArgs = unknown> {
         const width = Number.isNaN(parsedWidth)
             ? document.documentElement.scrollWidth
             : parsedWidth;
-        const dimensions: IFrameDimensions = {
-            height,
-            width
+        const computedDimensions: IFrameDimensions = {
+            height: dimensions?.height ?? height,
+            width: dimensions?.width ?? width
         };
 
-        this.framePostClient.send(EventType.RESIZE_IFRAME, dimensions);
+        this.framePostClient.send(EventType.RESIZE_IFRAME, computedDimensions);
     }
 
     /**
