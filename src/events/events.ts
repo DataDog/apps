@@ -7,6 +7,7 @@ import type {
     TemplateVariableValue,
     ModalDefinition,
     WidgetContextMenuClickData,
+    WidgetSettingsMenuClickData,
     DashboardCogMenuClickData,
     SidePanelDefinition,
     AuthState,
@@ -21,6 +22,7 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.CONTEXT_CHANGE]: Context;
     [EventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
     [EventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
+    [EventType.WIDGET_SETTINGS_MENU_CLICK]: WidgetSettingsMenuClickData;
     [EventType.MODAL_CLOSE]: ModalDefinition;
     [EventType.MODAL_CANCEL]: ModalDefinition;
     [EventType.MODAL_ACTION]: ModalDefinition;

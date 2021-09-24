@@ -34,6 +34,7 @@ export enum EventType {
 
     // Widgets
     WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click',
+    WIDGET_SETTINGS_MENU_CLICK = 'widget_settings_menu_click',
 
     // Auth
     AUTH_STATE_CHANGE = 'auth_state_change',
