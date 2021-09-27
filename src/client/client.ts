@@ -95,11 +95,18 @@ export class DDClient<AuthStateArgs = unknown> {
     }
 
     private registerEventListeners() {
+        const handler = () => {
+            this.resize();
+
+            // We only want to handle resizing once.
+            // If we keep this `'resize'` handler,
+            // we can get into a loop of infinitely resizing the iframe.
+            window.removeEventListener('resize', handler);
+        };
+
         // Since computing the size of an iframe is hard to do correctly,
         // we listen to `'resize'` events so we can send the actual values over.
-        window.addEventListener('resize', () => {
-            this.resize();
-        });
+        window.addEventListener('resize', handler);
     }
 
     /**
