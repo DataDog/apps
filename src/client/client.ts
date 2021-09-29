@@ -13,6 +13,7 @@ import type {
     Context,
     ClientContext,
     ClientOptions,
+    IFrameDimensions,
     ParentAuthStateOptions
 } from '../types';
 import { Logger } from '../utils/logger';
@@ -89,6 +90,49 @@ export class DDClient<AuthStateArgs = unknown> {
         this.getContext().then(context => {
             this.syncDebugMode(context);
         });
+
+        this.registerEventListeners();
+    }
+
+    private registerEventListeners() {
+        const handler = () => {
+            this.resize();
+
+            // We only want to handle resizing once.
+            // If we keep this `'resize'` handler,
+            // we can get into a loop of infinitely resizing the iframe.
+            window.removeEventListener('resize', handler);
+        };
+
+        // Since computing the size of an iframe is hard to do correctly,
+        // we listen to `'resize'` events so we can send the actual values over.
+        window.addEventListener('resize', handler);
+    }
+
+    /**
+     * Notify the parent that the iframe should be resized.
+     *
+     * Will default any dimensions not given to the iframe's actual dimensions.
+     *
+     * There's no guarantee that the parent will adjust the iframe's dimensions.
+     * The parent will also sanitize the dimensions attempting to keep the iframe within the viewport.
+     */
+    resize(dimensions?: Partial<IFrameDimensions>) {
+        const style = window.getComputedStyle(document.documentElement);
+        const parsedHeight = parseFloat(style.getPropertyValue('height'));
+        const parsedWidth = parseFloat(style.getPropertyValue('width'));
+        const height = Number.isNaN(parsedHeight)
+            ? document.documentElement.scrollHeight
+            : parsedHeight;
+        const width = Number.isNaN(parsedWidth)
+            ? document.documentElement.scrollWidth
+            : parsedWidth;
+        const computedDimensions: IFrameDimensions = {
+            height: dimensions?.height ?? height,
+            width: dimensions?.width ?? width
+        };
+
+        this.framePostClient.send(EventType.RESIZE_IFRAME, computedDimensions);
     }
 
     /**
