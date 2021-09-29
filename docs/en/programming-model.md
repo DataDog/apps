@@ -353,7 +353,7 @@ Modals are defined by a **Modal Definition** with the following properties:
 - `title` (optional) A title to render above modal content. Defaults to the app name.
 - `message` (optional) A string message to render as main modal content. This is particularly useful for rendering quick confirmation or alert modals not needing custom content.
 - `source` (optional) The relative path to an IFrame to render as the primary modal content.
-- `size` (optional, `lg`, `md`, or `sm`): The width of the modal
+- `size` (optional, `lg`, `md`, or `sm`): The width of the modal. The initial height of the modal is automatically adjusted to fit the content up to a maximum of 80% of the viewport height.
 - `action_label` (optional) If provided, a main action button (e.g. “confirm” or “cancel”) will render under the main modal content.
 - `action_level` (optional, `primary`, `success`, `danger`, or `warning`): The type of action button to render
 - `cancel_label`: (optional) If provided, a cancel button will render below main modal content.
@@ -376,6 +376,16 @@ client.modal.open({
   drink: "coke"
 });
 ```
+
+**Resizing modals:**
+
+Modals can be resized from the sdk with `client.resize()`.
+This can be useful if the content of the modal changes dynamically.
+
+It is important to note that only the height can be changed with `client.resize()`.
+The width can be set with the `size` option in the **Modal Definition**.
+
+See [Resizing IFrames](#resizing-iframes) for more information.
 
 **Programmatically closing modals:**
 Modals may be closed from the sdk with `client.modal.close()`. If called with no argument, any currently active modal associated with this app will close. If an argument is provided, it will close only a modal with the matching key:
@@ -668,3 +678,24 @@ The exact event name will depend on the feature, please refer to individual docu
 - `key`: A string unique to the item
 - `label`: Visible item text
 - `type`: "event"
+
+# Resizing IFrames
+
+If your IFrame shows content dynamically, you can resize it with `client.resize()`.
+This will cause the IFrame to attempt to resize to fit the content.
+This is a suggestion, and may not be honored for all IFrames or sizes of content.
+For example, if a modal has 1000px of content and the viewport is only 600px, the IFrame will be resized to dimensions within the viewport.
+
+If you know the dimensions you'd like to resize to, they can be passed explicitly:
+
+```
+client.resize({
+  // optional height in pixels
+  height: 400,
+  // optional width in pixels
+  width: 600,
+});
+```
+
+All fields are optional, and will be defaulted to the actual content dimensions.
+For example, if a modal is 1000px wide, and you only pass the height, the width will be computed to be 1000px.

@@ -1231,10 +1231,10 @@
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
-"@datadog/ui-extensions-sdk@^0.22.0":
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.22.0.tgz#183c21ccafc25c5228614d58694963551496e0ef"
-  integrity sha512-TpTBtsrEh78EEDwTOUsF/4hPEVoKj5rnQCHmyLJ898+Lh3seQ6a/6uwOV19P3JjpLmE1TlQgcxJUf/xSm8Jyyw==
+"@datadog/ui-extensions-sdk@^0.23.0":
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.23.0.tgz#0c2b77ac9a8f7054c7f06fffaa3179966a519b89"
+  integrity sha512-HfAx+qH2/3DKsERaqGGd2FoEMwKYB32LQnNUcMqYYBwk2O+4erJcnVAnZZwS6HE+P9ucRBb2VgJGLLFWwEZ4Cg==
   dependencies:
     "@datadog/framepost" "^0.2.3"
 
