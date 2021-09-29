@@ -224,7 +224,22 @@ features: [
                 // - "sm" (2 rows x 2 columns) (default)
                 // - "md" (2 rows x 4 columns)
                 // - "lg" (4 rows x 4 columns)
-                "minimum_size": "md"
+                "minimum_size": "md",
+
+                // (optional) A list of settings menu items
+                "settings_menu_items": [
+                  {
+                    "action_type": "link",
+                    "href": "/logs",
+                    "key": "internal-link",
+                    "label": "Internal link item"
+                  },
+                  {
+                    "action_type": "event",
+                    "key": "link-item",
+                    "label": "Broadcast an event"
+                  }
+                ]
             }
         ]
         }
