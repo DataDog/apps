@@ -247,6 +247,13 @@ features: [
 ]
 ```
 
+[**Widget Settings Menu:**](#widget-settings-menu)
+
+A custom widget can be configured to have settings menu using the `settings_menu_items` configuration as shown in the manifest example above.
+
+
+![image](https://user-images.githubusercontent.com/1262407/135469392-4ffd8a5b-89a1-4988-b1ae-eb44d15bb2ca.png)
+
 **Updating Widget Options Dynamically:**
 
 Widget options can be updated at runtime. This is useful if you need to fill the option dropdown content dynamically based on an API call.
@@ -267,6 +274,7 @@ client.dashboard.customWidget.updateOptions([
   },
 ]);
 ```
+
 
 **User-friendly Dropdown List Labels:**
 You can provider a user-friendly labels for the dropdown list of options using the following syntax:
