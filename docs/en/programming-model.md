@@ -247,7 +247,7 @@ features: [
 ]
 ```
 
-[**Widget Settings Menu:**](#widget-settings-menu)
+### Widget Settings Menu
 
 A custom widget can be configured to have settings menu using the `settings_menu_items` configuration as shown in the manifest example above.
 
