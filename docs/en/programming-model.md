@@ -361,7 +361,7 @@ Modals are defined by a **Modal Definition** with the following properties:
 - `title` (optional) A title to render above modal content. Defaults to the app name.
 - `message` (optional) A string message to render as main modal content. This is particularly useful for rendering quick confirmation or alert modals not needing custom content.
 - `source` (optional) The relative path to an IFrame to render as the primary modal content.
-- `size` (optional, `lg`, `md`, or `sm`): The width of the modal. The initial height of the modal is automatically adjusted to fit the content up to a maximum of 80% of the viewport height.
+- `size` (optional, `lg`, `md`, or `sm`): The width of the modal. The initial height of the modal is automatically adjusted to fit the content. The height will be a minimum of 500px and a maximum of 80% of the viewport height.
 - `action_label` (optional) If provided, a main action button (e.g. “confirm” or “cancel”) will render under the main modal content.
 - `action_level` (optional, `primary`, `success`, `danger`, or `warning`): The type of action button to render
 - `cancel_label`: (optional) If provided, a cancel button will render below main modal content.
@@ -391,6 +391,7 @@ Modals can be resized from the sdk with `client.resize()`.
 This can be useful if the content of the modal changes dynamically.
 
 It is important to note that only the height can be changed with `client.resize()`.
+If the height is explicitly set, the minimum height is 500px and the maximum height is 80% of the viewport height.
 The width can be set with the `size` option in the **Modal Definition**.
 
 See [Resizing IFrames](#resizing-iframes) for more information.
