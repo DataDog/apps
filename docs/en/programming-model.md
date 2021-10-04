@@ -30,8 +30,6 @@ The App Manifest is the JSON configuration of an app, created and edited in the 
     - `debug_mode_url`: The URL of the app’s Main Iframe used when [debug mode](https://a.cl.ly/NQuJdXep) is enabled, defaults to localhost. Useful to quickly switch between development and production versions of the app.
     - `features` : A list of the app’s enabled features along with config. The config schema will be different for each feature. See below.
 
-- `proxyScopes` : A list of the app’s enabled scopes. See below.
-
 ## Main Controller IFrame
 
 All apps with UI Extensions must include a **Main Controller IFrame** that successfully interfaces with Datadog through the SDK. The Main Controller IFrame is mounted in the background on every page and is responsible for various administrative actions executed on behalf of the entire application, including storing secrets and managing Datadog authentication credentials. **If the main controller IFrame does not successfully handshake with Datadog, your app may not function properly**.
@@ -123,9 +121,18 @@ All other frames will receive this event and data and can subscribe with client.
 const unsubscribe = client.events.onCustom('my_event', (myData) => {});
 ```
 
-## API Access
+## OAuth API Access
 
-Many apps may need to access data from the [Datadog public API](https://docs.datadoghq.com/api/) in order to implement custom functionality. An API client is provided at `client.api` for this purpose:
+Apps may request access to user data from the [Datadog public API](https://docs.datadoghq.com/api/) with OAuth2. To enable, go to the 'OAuth and Permissions' tab on the app edit page, then create an OAuth client and select the necessary scopes.
+
+Upon first use users will be prompted to authorize your app with access to the requested set of scopes. **Please request access only to the scopes that your app absolutely needs to function**. If you change the configuration of your App's OAuth client, or if the user's requires refreshing for another reason such as consent expiration, they will be asked to re-consent.
+
+When changing scopes, we recommend that you also revoke all active access tokens associated with your app. This will ensure that all active users of your app are force to re-authorize under the revised scopes. 
+
+### Accessing the API through the SDK
+
+Once your app has been configured with appropriate oauth access, you may access any public API endpoint for which your app has been granted access with the handlers at `client.api`. For example, here's a sample `GET` call to the metrics query endpoint:
+
 
 ```js
 client.api.get('/api/v1/query', {
@@ -138,19 +145,6 @@ client.api.get('/api/v1/query', {
   .then(data => {})
   .catch(e => {})
 ```
-
-Apps are only able to access API endpoints for which the app has been granted the appropriate Scope. Scope and Data Access in general is a work-in-progress, and more scopes may be added in the near future.
-
-#### Available Scopes:
-
-- `dashboards_read`: Allows read-only access to dashboards
-- `dashboards_write`: Allows write (create, change) access to dashboards
-- `dashboards_public_share`: Grants ability to share dashboards externally
-- `ddsql_read`: Allows read-only query access across Datadog products
-- `metrics.readonly`: Allows read-only access to metrics and query data
-- `monitors_read`: Allows read-only access to monitors
-- `monitors_write`: Allows write (change, mute, delete) access to monitors
-- `monitors_downtime`: Grants ability to set monitor downtime for user's organization
 
 ### Links & Navigation
 
