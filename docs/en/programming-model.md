@@ -61,6 +61,14 @@ client.getContext().then((context) => {
 })
 ```
 
+- When the context sent to an IFrame changes, each frame will receive new context from the `context_change` event:
+
+```
+client.events.on('context_change', (newContext) => {
+ //
+});
+```
+
 - When menu-items (cog menu items, context menu items, or others) are clicked, the SDK in all active iframes will receive a click event. In order to determine where the click event is in the app, click event handlers will receive another set of context data:
 
 ```js
