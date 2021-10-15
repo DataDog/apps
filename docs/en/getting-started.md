@@ -2,123 +2,104 @@
 
 ## What is an App?
 
-An app is a set of functionality extending what is offered by DataDog natively. It can include UI Extensions, OAuth API Access, and eventually Data Integrations.
+Datadog Apps enable developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you execute in a third-party platform, you could write an app to extend this functionality within Datadog.
 
-## What is an UI Extension?
+## Setup
 
-UI Extensions are bits of enriched user-interface within Datadog implemented by you, the developer. They do whatever you want them to. Some ideas:
+### Create an app
 
-- A widget that can visualize data that is not in Datadog’s backend
-- Cost Optimization tools inside the UI
-- Scheduling reports directly from a dashboard
-- New ways of displaying data
+1. Clone the Datadog Apps starter kit.
 
-An app can contain multiple UI Extensions that function together as a unit.
+$ `git clone git@github.com:DataDog/starter-kit.git` 
 
-We're actively working on extending the features and building blocks that are available to you.
+2. Navigate to the folder you have cloned. 
 
-This walkthrough takes you through bulding a simple app with a single UI Extension. 
+$ `cd starter-kit`
 
-## Creating your first app
 
-Watch the **5 minute walkthrough** at https://a.cl.ly/eDuwD7m0
+3. Set up your development environment.
 
-Steps:
+$ `yarn install`
 
-1ꓸ Open https://app.datadoghq.com/apps, and click on “New App”
 
-![s1](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/kpu7mnQ5/691d1b66-1622-419d-a561-dbda1054e732.png?source=viewer&v=0e8849313e0baaf4e4068003cca5e872)
+$ `yarn start`
 
-2ꓸ Under the "features > UI Extensions" section, toggle "Dashboard custom widget".
+This starts your local development server on http://localhost:3000/.
 
-Tip: Try changing the name of the application / widget it will add.
+<img width="448" alt="Application has loaded" src="https://user-images.githubusercontent.com/228230/137548156-3c41407d-ee2f-423d-8a6e-8533115d462b.png">
 
-![s2](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/ApuRO9ng/ef85d969-0c75-4b78-a51b-5ceaaec16c6a.png?source=viewer&v=01285d41744c1d83a80c1c4f79a47027)
+If you see this message, your application is running.
 
-3ꓸ Open any dashboard and browse the widget tray, you will see the new widget type there. Try dragging it on your board.
+Note that there are two pages:
+`http://localhost:3000`: A main controller that orchestrates all of your different extensions (such as widgets, menus, or  modals). It will come in handy as you enrich app functionality.
 
-![s4](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/geu4rA0v/a2642123-dec1-4bd4-a230-7fdea09ab4c4.png?source=viewer&v=010ae411a8121978f232705050d64d75)
+`http://localhost:3000/widget`: Components for widgets, modals, or anything that needs a dedicated display.
 
-You will soon notice it’s a blank widget! No worries! We’ll show you how to change that
+See the [Developer Platform Developer Guide](programming-model.md) for details about this architecture.
 
-![s5](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/DOu2vBjj/d7f53a25-1f4c-4c45-8820-d6c78ad75e50.png?source=viewer&v=89769497f7a1f3a83f15c21c56a234f8)
+4. Go to your [Developer Platform](https://app.datadoghq.com/apps) within Datadog and click on **+ New App** in the upper right.
 
-## Let’s make that widget your own - Widget Customization
+<img width="304" alt="New App" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
 
-First, let's get our dev environment set up.
+5. Enter a name for your application. Choose a distinct name so that you can differentiate it from any other apps you may be creating.
 
-```
-cd examples/starter-kit
-yarn install
-yarn start
-```
+6. You are then presented with the dashboard for your new application. You can further change your app name here, give your app a more detailed description, or change its icon.
 
-You should be greeted by a page looking like this
+<img width="1276" alt="App Settings Dashboard" src="https://user-images.githubusercontent.com/228230/137548724-0487c169-9b65-4b31-bfa6-f8da3bbd2785.png">
 
-![s6](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/X6u9DlY0/e5fc94d8-1772-40eb-a793-0e6e80850617.png?source=viewer&v=473644c06de6bf687d228366746c9042)
 
-As you see the message, you’ll realize there are two pages:
+### Add your app to a dashboard
 
-- http://localhost:3000 A main controller that orchestrates all of your different extensions (widgets, menu, modals..). It will come in handy as you enrich app functionality.
+1. Before you can add your app to a dashboard, you must enable it by clicking on **UI Extensions** on the left side.
 
-- http://localhost:3000/widget Components for widgets, modals, or anything that needs a dedicated display
+<img width="819" alt="Enable UI Extensions" src="https://user-images.githubusercontent.com/228230/137548823-0ad7f1ae-512f-44a4-93ca-c2aa3c47b992.png">
 
-✅ Tip: Check out Developer Platform Developer Guide for a deep dive into this architecture.
+Once this view loads, click on the **Enable UI Extensions** button. 
 
-Great! Let’s get your widget running in a dashboard. We will need to point the source field of the widget configuration to http://localhost:3000/widget
+2. You are then presented with more options for your app.
 
-```json
-"widgets" : [
-    {
-        // the name of the widget, as it will appear on the tray
-        "name": "Your first UI extension",
+Make sure you change the root URL and debug mode root URL to match the localhost version of the widget that you have running. The main controller path is `/widget`. These URL values will change as you build your application and begin to host it on your own infrastructure.
 
-        // the code your widget will execute
-        "source": "http://localhost:3000/widget",
+3. Turn the toggle next to ‘Dashboard Custom Widget’ on. This generates JSON on the right hand side. 
 
-        // configuration options that autogenerate editors
-        "options": [...],
+<img width="1272" alt="Dashboard Custom Widget" src="https://user-images.githubusercontent.com/228230/137549275-f901e4c1-16ad-4c82-95f3-9ba7f346c9ba.png">
 
-        // the icon that will appear in the widget tray
-        "icon": "https://static.datadoghq.com/static/favicon.ico",
 
-        // the key, used to tell apart 2 widgets from the same app
-        // don't change this after you created the widget
-        "custom_widget_key": "your_first_ui_extension"
-    }
-]
-```
+Note that this JSON contains a value called `Your first widget`. This is the name of your widget as it appears in the menu to add to your Dashboards.
 
-✅ Tip: Try modifying the contents. It’s your own widget now! Give it a nice name.
+4. Navigate to your dashboard and add a widget.
 
-If everything went well, the widget should now display in a the dashboard.
+<img width="589" alt="Dashboard add widget" src="https://user-images.githubusercontent.com/228230/137550297-3f98c5e0-0826-4109-b6e4-bf6dd1209aa2.png">
 
-![s8](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/Qwu9G5e8/c96824e4-66cb-4644-adba-34e27c297cb2.png?source=viewer&v=514b36d5db8baf5dc6d8d3675b441d4d)
 
-✅ Tip: Try modifying the content of your code and see the widget change in the dashboard.
+5. The **Custom Widgets** section is at the bottom of the sidebar. Find your widget in the list and add it to your dashboard. 
 
-## Using debug mode
+<img width="1279" alt="Custom Widfget" src="https://user-images.githubusercontent.com/228230/137550380-7b9b222d-c848-4d17-9060-cd0345780a11.png">
 
-With debug mode, every widget will have a toolbar to make your DX better. For example, it allows you to refresh the widget you’re developing without refreshing the whole dashboard.
+6. A preview of your new widget appears, along with some options. Scroll down in the modal and click *Done* to add it to your dashboard.
 
-![dev_mode2](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/jkuen4y2/6c92f76c-5540-47fe-9c84-74a3676f5c1e.png?source=viewer&v=97ec2c27cb0b98c69ce09d5a3a5d7a6c)
+<img width="1426" alt="New Application" src="https://user-images.githubusercontent.com/228230/137550741-669f69c6-4a9b-4253-afc4-be3257a1084e.png">
 
-## Enabling debug mode
+<img width="1127" alt="New Application 2" src="https://user-images.githubusercontent.com/228230/137550757-96bce01d-2ec4-4c0f-b045-e18b756e52df.png">
 
-1. Open https://app.datadoghq.com/apps, and click on "Manage Apps"
 
-![arrow pointing to the manage apps button](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/E0uj6wxE/dcbd8453-dac8-4ef2-9fb6-75ba1b17d698.jpg?source=viewer&v=b3760a3b7434e26cb69562f11dc78598)
 
-2. Enable debug mode for any apps you'd like
+To build your application, run `yarn build` in your termal. Then move your static generated site to the hosting of your choice and update the URLs in the app settings.
 
-![arrow pointing to debug button](https://p-qkfgo2.t2.n0.cdn.getcloudapp.com/items/lluoQPLE/6f8fa34d-3b5f-48d2-9d0a-fe0a00d2e9bd.jpg?v=53420b9f63222ec5df10be1339f2d7e1)
+### OAuth API Access
 
-## I want to publish my app now!
+When this feature is enabled, users need to be authenticated before using the app. This feature allows you to integrate your existing authentication mechanism (for example, cookie-based username/password login) with the Developer Platform.
 
-```
-yarn build
-```
+### Sample Applications
 
-The command above will build the app.
+[Starter kit](https://github.com/DataDog/starter-kit/)
 
-Next, you’ll need to host the app on your infrastructure so customers can view it.
+[Sentiment analysis](../../examples/sentiment)
+
+### Further Reading
+
+Design Guidelines: https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md 
+
+Programming Model: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md 
+
+
