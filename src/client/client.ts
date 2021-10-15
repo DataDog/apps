@@ -7,7 +7,6 @@ import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
-import { DDSecretsClient } from '../secrets/secrets';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type {
     Context,
@@ -38,7 +37,6 @@ export class DDClient<AuthStateArgs = unknown> {
     location: DDLocationClient;
     modal: DDModalClient;
     sidePanel: DDSidePanelClient;
-    secrets: DDSecretsClient;
     widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
 
@@ -78,7 +76,6 @@ export class DDClient<AuthStateArgs = unknown> {
         this.location = new DDLocationClient(this);
         this.modal = new DDModalClient(this);
         this.sidePanel = new DDSidePanelClient(this);
-        this.secrets = new DDSecretsClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
 
         this.events.on(EventType.CONTEXT_CHANGE, newContext => {

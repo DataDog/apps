@@ -23,7 +23,6 @@ export enum EventType {
     DASHBOARD_CURSOR_CHANGE = 'dashboard_cursor_change',
     DASHBOARD_TEMPLATE_VAR_CHANGE = 'dashboard_template_var_change',
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE = 'dashboard_custom_widget_options_change',
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
 
     // Modals
     MODAL_CLOSE = 'modal_close',
@@ -71,16 +70,6 @@ export enum RequestType {
     OPEN_SIDE_PANEL = 'open_side_panel',
     CLOSE_SIDE_PANEL = 'close_side_panel',
 
-    // Secrets
-    STORE_SECRET = 'store_secret',
-    REMOVE_SECRET = 'remove_secret',
-    LOAD_ALL_SECRETS = 'load_all_secrets',
-    REMOVE_ALL_SECRETS = 'remove_all_secrets',
-    LOAD_SECRET = 'load_secret',
-    GET_SECRET = 'get_secret',
-    SET_SECRET = 'set_secret',
-    REMOVE_SECRET_PUBLIC = 'remove_secret_public',
-
     // Context Menu
     GET_WIDGET_CONTEXT_MENU_ITEMS = 'get_widget_context_menu_items',
 
@@ -94,7 +83,10 @@ export enum RequestType {
 
     // Notify parent
     SET_DASHBOARD_TIMEFRAME = 'set_dashboard_timeframe',
-    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor'
+    SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
+
+    // Widgets
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
