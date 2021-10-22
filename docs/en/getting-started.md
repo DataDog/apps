@@ -26,7 +26,7 @@ $ `yarn start`
 
 This starts your local development server on http://localhost:3000/.
 
-<img width="448" alt="Application has loaded" src="https://user-images.githubusercontent.com/228230/137548156-3c41407d-ee2f-423d-8a6e-8533115d462b.png">
+<img style="max-width:80%" alt="Application has loaded" src="https://user-images.githubusercontent.com/228230/137548156-3c41407d-ee2f-423d-8a6e-8533115d462b.png">
 
 If you see this message, your application is running.
 
@@ -39,20 +39,20 @@ See the [Developer Platform Developer Guide](programming-model.md) for details a
 
 4. Go to your [Developer Platform](https://app.datadoghq.com/apps) within Datadog and click on **+ New App** in the upper right.
 
-<img width="304" alt="New App" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
+<img style="max-width:80%" alt="New App" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
 
 5. Enter a name for your application. Choose a distinct name so that you can differentiate it from any other apps you may be creating.
 
 6. You are then presented with the dashboard for your new application. You can further change your app name here, give your app a more detailed description, or change its icon.
 
-<img width="1276" alt="App Settings Dashboard" src="https://user-images.githubusercontent.com/228230/137548724-0487c169-9b65-4b31-bfa6-f8da3bbd2785.png">
+<img style="max-width:80%" alt="App Settings Dashboard" src="https://user-images.githubusercontent.com/228230/137548724-0487c169-9b65-4b31-bfa6-f8da3bbd2785.png">
 
 
 ### Add your app to a dashboard
 
 1. Before you can add your app to a dashboard, you must enable it by clicking on **UI Extensions** on the left side.
 
-<img width="819" alt="Enable UI Extensions" src="https://user-images.githubusercontent.com/228230/137548823-0ad7f1ae-512f-44a4-93ca-c2aa3c47b992.png">
+<img style="max-width:80%" alt="Enable UI Extensions" src="https://user-images.githubusercontent.com/228230/137548823-0ad7f1ae-512f-44a4-93ca-c2aa3c47b992.png">
 
 Once this view loads, click on the **Enable UI Extensions** button. 
 
@@ -62,25 +62,25 @@ Make sure you change the root URL and debug mode root URL to match the localhost
 
 3. Turn the toggle next to ‘Dashboard Custom Widget’ on. This generates JSON on the right hand side. 
 
-<img width="1272" alt="Dashboard Custom Widget" src="https://user-images.githubusercontent.com/228230/137549275-f901e4c1-16ad-4c82-95f3-9ba7f346c9ba.png">
+<img style="max-width:80%" alt="Dashboard Custom Widget" src="https://user-images.githubusercontent.com/228230/137549275-f901e4c1-16ad-4c82-95f3-9ba7f346c9ba.png">
 
 
 Note that this JSON contains a value called `Your first widget`. This is the name of your widget as it appears in the menu to add to your Dashboards.
 
 4. Navigate to your dashboard and add a widget.
 
-<img width="589" alt="Dashboard add widget" src="https://user-images.githubusercontent.com/228230/137550297-3f98c5e0-0826-4109-b6e4-bf6dd1209aa2.png">
+<img style="max-width:80%" alt="Dashboard add widget" src="https://user-images.githubusercontent.com/228230/137550297-3f98c5e0-0826-4109-b6e4-bf6dd1209aa2.png">
 
 
 5. The **Custom Widgets** section is at the bottom of the sidebar. Find your widget in the list and add it to your dashboard. 
 
-<img width="1279" alt="Custom Widfget" src="https://user-images.githubusercontent.com/228230/137550380-7b9b222d-c848-4d17-9060-cd0345780a11.png">
+<img style="max-width:80%" alt="Custom Widfget" src="https://user-images.githubusercontent.com/228230/137550380-7b9b222d-c848-4d17-9060-cd0345780a11.png">
 
 6. A preview of your new widget appears, along with some options. Scroll down in the modal and click *Done* to add it to your dashboard.
 
-<img width="1426" alt="New Application" src="https://user-images.githubusercontent.com/228230/137550741-669f69c6-4a9b-4253-afc4-be3257a1084e.png">
+<img style="max-width:80%" alt="New Application" src="https://user-images.githubusercontent.com/228230/137550741-669f69c6-4a9b-4253-afc4-be3257a1084e.png">
 
-<img width="1127" alt="New Application 2" src="https://user-images.githubusercontent.com/228230/137550757-96bce01d-2ec4-4c0f-b045-e18b756e52df.png">
+<img style="max-width:80%" alt="New Application 2" src="https://user-images.githubusercontent.com/228230/137550757-96bce01d-2ec4-4c0f-b045-e18b756e52df.png">
 
 
 
