@@ -10,9 +10,8 @@ further_reading:
     text: "Programming Model"
 ---
 
-<div class="alert alert-warning">
-Datadog Apps is currently in beta. <a href="https://dtdg.co/3E5iHd8">Use this form</a> to request access.
-</div>
+## Join the Beta! 
+Datadog Apps is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your App for you, your organization, or for publishing to the entire Datadog community alongside our other great Datadog Apps!
 
 ## What is an App?
 
@@ -118,3 +117,4 @@ When this feature is enabled, users need to be authenticated before using the ap
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
 [4]: https://app.datadoghq.com/apps
+[5]: https://dtdg.co/3E5iHd8
