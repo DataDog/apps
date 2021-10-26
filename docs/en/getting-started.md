@@ -49,9 +49,9 @@ Note that there are two pages:
 
 `http://localhost:3000/widget`: Components for widgets, modals, or anything that needs a dedicated display.
 
-See the [Developer Platform Developer Guide](programming-model.md) for details about this architecture.
+See the [Developer Platform Developer Guide][3] for details about this architecture.
 
-4. Go to your [Developer Platform](https://app.datadoghq.com/apps) within Datadog and click on **+ New App** in the upper right.
+4. Go to your [Developer Platform][4] within Datadog and click on **+ New App** in the upper right.
 
 <img style="max-width:80%" alt="New App" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
 
@@ -116,3 +116,5 @@ When this feature is enabled, users need to be authenticated before using the ap
 
 [1]: https://github.com/DataDog/starter-kit/
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
+[3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
+[4]: https://app.datadoghq.com/apps
