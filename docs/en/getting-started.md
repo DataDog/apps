@@ -1,3 +1,15 @@
+---
+title: Datadog Apps
+kind: documentation
+further_reading:
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md"
+    tag: "Github"
+    text: "Design Guidelines"
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md "
+    tag: "Github"
+    text: "Programming Model"
+---
+
 # Writing your first App
 
 ## What is an App?
@@ -96,10 +108,6 @@ When this feature is enabled, users need to be authenticated before using the ap
 
 [Sentiment analysis](../../examples/sentiment)
 
-### Further Reading
+## Further reading
 
-Design Guidelines: https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md 
-
-Programming Model: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md 
-
-
+{{< partial name="whats-next/whats-next.html" >}}
