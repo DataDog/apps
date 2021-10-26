@@ -5,7 +5,7 @@ further_reading:
   - link: "https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md"
     tag: "Github"
     text: "Design Guidelines"
-  - link: "https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md "
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md"
     tag: "Github"
     text: "Programming Model"
 ---
@@ -106,10 +106,13 @@ When this feature is enabled, users need to be authenticated before using the ap
 
 ### Sample Applications
 
-[Starter kit](https://github.com/DataDog/starter-kit/)
+[Starter kit][1]
 
-[Sentiment analysis](../../examples/sentiment)
+[Sentiment analysis][2]
 
 ## Further reading
 
 {{< partial name="whats-next/whats-next.html" >}}
+
+[1]: https://github.com/DataDog/starter-kit/
+[2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
