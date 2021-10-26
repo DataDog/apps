@@ -1,4 +1,18 @@
-# Writing your first App
+---
+title: Datadog Apps
+kind: documentation
+further_reading:
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md"
+    tag: "Github"
+    text: "Design Guidelines"
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md"
+    tag: "Github"
+    text: "Programming Model"
+---
+
+<div class="alert alert-warning">
+Datadog Apps is currently in beta. <a href="https://dtdg.co/3E5iHd8">Use this form</a> to request access.
+</div>
 
 ## What is an App?
 
@@ -92,14 +106,13 @@ When this feature is enabled, users need to be authenticated before using the ap
 
 ### Sample Applications
 
-[Starter kit](https://github.com/DataDog/starter-kit/)
+[Starter kit][1]
 
-[Sentiment analysis](../../examples/sentiment)
+[Sentiment analysis][2]
 
-### Further Reading
+## Further reading
 
-Design Guidelines: https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md 
+{{< partial name="whats-next/whats-next.html" >}}
 
-Programming Model: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md 
-
-
+[1]: https://github.com/DataDog/starter-kit/
+[2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
