@@ -10,7 +10,9 @@ further_reading:
     text: "Programming Model"
 ---
 
-# Writing your first App
+<div class="alert alert-warning">
+Datadog Apps is currently in beta. <a href="https://dtdg.co/3E5iHd8">Use this form</a> to request access.
+</div>
 
 ## What is an App?
 
