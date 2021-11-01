@@ -7,7 +7,7 @@ Datadog Apps allow third party developers to extend the native functionality off
 * [Getting Started](docs/en/getting-started.md)
 * [Programming Model](docs/en/programming-model.md)
 * [Frequently Asked Questions](docs/en/faq.md)
-* [Design Guidelines](docs/en/design-guidelines.md)
+* [UI-Extension Design Guidelines](docs/en/ui-extension-design-guidelines.md)
 * [Datadog API Reference](https://docs.datadoghq.com/api/latest/)
 
 ## Examples

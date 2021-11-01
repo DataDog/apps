@@ -2,7 +2,7 @@
 title: Datadog Apps
 kind: documentation
 further_reading:
-  - link: "https://github.com/DataDog/apps/blob/master/docs/en/design-guidelines.md"
+  - link: "https://github.com/DataDog/apps/blob/master/docs/en/ui-extension-design-guidelines.md"
     tag: "Github"
     text: "Design Guidelines"
   - link: "https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md"
