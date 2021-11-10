@@ -127,7 +127,7 @@ Apps may request access to user data from the [Datadog public API](https://docs.
 
 Upon first use users will be prompted to authorize your app with access to the requested set of scopes. **Please request access only to the scopes that your app absolutely needs to function**. If you change the configuration of your App's OAuth client, or if the user's requires refreshing for another reason such as consent expiration, they will be asked to re-consent.
 
-When changing scopes, we recommend that you also revoke all active access tokens associated with your app. This will ensure that all active users of your app are force to re-authorize under the revised scopes. 
+When changing scopes, we recommend that you also revoke all active access tokens associated with your app. This will ensure that all active users of your app are forced to re-authorize under the revised scopes. 
 
 ### Accessing the API through the SDK
 
