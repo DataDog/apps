@@ -200,6 +200,7 @@ features: [
                 // configuration options that autogenerate editors
                 "options":[
                     {
+                        // "string" renders a text input. "boolean" renders a checkbox
                         "type":"string",
                         "name":"metric",
                         "label":"Your favorite metric",
