@@ -73,7 +73,8 @@ Once this view loads, click on the **Enable UI Extensions** button.
 
 Make sure you change the root URL and debug mode root URL to match the localhost version of the widget that you have running. The main controller path is `/widget`. These URL values will change as you build your application and begin to host it on your own infrastructure.
 
-3. Turn the toggle next to ‘Dashboard Custom Widget’ on. This generates JSON on the right hand side. 
+3. Turn the toggle 
+to ‘Dashboard Custom Widget’ on. This generates JSON on the right hand side. 
 
 <img style="max-width:80%" alt="Dashboard Custom Widget" src="https://user-images.githubusercontent.com/228230/137549275-f901e4c1-16ad-4c82-95f3-9ba7f346c9ba.png">
 
@@ -109,9 +110,6 @@ When this feature is enabled, users need to be authenticated before using the ap
 
 [Sentiment analysis][2]
 
-## Further reading
-
-{{< partial name="whats-next/whats-next.html" >}}
 
 [1]: https://github.com/DataDog/starter-kit/
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
