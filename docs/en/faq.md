@@ -18,7 +18,7 @@ Most of the app features will be rendered in Datadog by an IFrame. More details 
 
 ## Do you offer a styled components library so we can adhere to Datadog’s design and build native looking features?
 
-Not at the moment, but we have a list of [design guidelines](./ui-extension-design-guidelines.md).
+Not at the moment, but we have a list of [design guidelines](./ui-extensions-design-guidelines.md).
 
 ## Can my app access data in Datadog?
 
