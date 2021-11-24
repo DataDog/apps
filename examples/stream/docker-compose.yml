@@ -4,6 +4,8 @@ services:
     build: server
     stdin_open: true
     tty: true
+    env_file:
+      - ./.env
     ports:
       - "3001:3001"
     volumes:
@@ -24,12 +26,4 @@ services:
       - "3002:3002"
     volumes:
       - ./admin:/admin
-  setup:
-    build: setup
-    stdin_open: true
-    tty: true
-    env_file:
-      - ./.env
-    volumes:
-      - ./setup:/setup
 

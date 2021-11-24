@@ -144,7 +144,7 @@ async function init() {
     // SETUP ROUTINES
     const configuration = v1.createConfiguration();
 
-    //startMetricSubmission(configuration);
+    startMetricSubmission(configuration);
     // START LISTENING
     app.listen(port, () => {
         console.log(
