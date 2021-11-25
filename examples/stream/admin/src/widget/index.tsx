@@ -12,9 +12,7 @@ import React from 'react';
 
 export default function Widget() {
     let rateLimitControls = null;
-    // <<<WORKSHOP STEP 6>>>: Please un-comment the code below
-    // cmd+k+u on Mac and ctrl+k+u on Windows to uncomment multiple lines
-    //
+    // WORKSHOP STEP 6
     const setRateLimit = (value: number) => {
         post("limits", {
             value,
@@ -61,7 +59,7 @@ export default function Widget() {
     );
 
     let blockUserContent = null;
-    // <<<WORKSHOP STEP 7>>>: Please un-comment the code below
+    // WORKSHOP STEP 7
 
     const onBlockUser = (args: any) => {
         client.modal.open({

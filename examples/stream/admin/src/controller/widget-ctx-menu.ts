@@ -2,48 +2,48 @@
 import { MenuItemType, EventType, DDClient } from "@datadog/ui-extensions-sdk";
 
 export const setupWidgetCtxMenu = (client: DDClient) => {
-  // <<<WORKSHOP STEP 8>>>: Please un-comment the code below
-//   //
-//   // provide widget context menu items if there is relevant data
-  // client.widgetContextMenu.onRequest(({ widgetInteraction }) => {
-  //   const handle = extractHandle(widgetInteraction.groupTags);
-  //   if(!handle){
-  //     return {items: []}
-  //   }
+  // STEP 8
 
-  //   return {
-  //     items: [
-  //       {
-  //         actionType: MenuItemType.EVENT,
-  //         // this key is used below to determine which action to take upon click
-  //         key: "userinfo-trigger",
-  //         label: `Show history for ${handle}`,
-  //       },
-  //     ],
-  //   };
-  // });
+  // provide widget context menu items if there is relevant data
+  client.widgetContextMenu.onRequest(({ widgetInteraction }) => {
+    const handle = extractHandle(widgetInteraction.groupTags);
+    if(!handle){
+      return {items: []}
+    }
 
-  //  // respond to click events from relevant context menu items. On click events, open a sidepanel with a user detail view
+    return {
+      items: [
+        {
+          actionType: MenuItemType.EVENT,
+          // this key is used below to determine which action to take upon click
+          key: "userinfo-trigger",
+          label: `Show history for ${handle}`,
+        },
+      ],
+    };
+  });
+
+   // respond to click events from relevant context menu items. On click events, open a sidepanel with a user detail view
   
-  // client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, ({widgetInteraction, menuItem}) => {
-  //   const handle = extractHandle(widgetInteraction.groupTags);
-  //   if(!handle){
-  //     return;
-  //   }
+  client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, ({widgetInteraction, menuItem}) => {
+    const handle = extractHandle(widgetInteraction.groupTags);
+    if(!handle){
+      return;
+    }
 
-  //   if (menuItem.key === "userinfo-trigger") {
-  //     client.sidePanel.open(
-  //       {
-  //         key: "account-panel",
-  //         source: "account-panel",
-  //         title: "Account details",
-  //       },
-  //       {
-  //         account: handle
-  //       }
-  //     );
-  //   }
-  // });
+    if (menuItem.key === "userinfo-trigger") {
+      client.sidePanel.open(
+        {
+          key: "account-panel",
+          source: "account-panel",
+          title: "Account details",
+        },
+        {
+          account: handle
+        }
+      );
+    }
+  });
 };
 
 function extractHandle(tags: string[]) {

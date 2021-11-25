@@ -2,7 +2,8 @@ version: '3'
 services:
   server:
     build: server
-    command: bash -c 'yarn start'
+    stdin_open: true
+    tty: true
     env_file:
       - ./.env
     ports:
@@ -11,21 +12,24 @@ services:
       - ./server:/server
   ui:
     build: ui
-    command: bash -c 'yarn start'
+    stdin_open: true
+    tty: true
     ports:
       - "3000:3000"
     volumes:
       - ./ui:/ui
   admin:
     build: admin
-    command: bash -c 'yarn start'
+    stdin_open: true
+    tty: true
     ports:
       - "3002:3002"
     volumes:
       - ./admin:/admin
   setup:
     build: setup
-    command: bash -c 'node setup-workshop.js'
+    stdin_open: true
+    tty: true
     env_file:
       - ./.env
     volumes:
