@@ -15,81 +15,81 @@ export default function Widget() {
     // <<<WORKSHOP STEP 6>>>: Please un-comment the code below
     // cmd+k+u on Mac and ctrl+k+u on Windows to uncomment multiple lines
     //
-    // const setRateLimit = (value: number) => {
-    //     post("limits", {
-    //         value,
-    //     });
-    // };
+    const setRateLimit = (value: number) => {
+        post("limits", {
+            value,
+        });
+    };
 
-    // rateLimitControls = (
-    //     <section className="mt-3 p-2">
-    //         <div className="container-fluid">
-    //             <div className="border-bottom">
-    //                 <h4> Traffic control</h4>
-    //             </div>
-    //             <div className="d-flex flex-row justify-content-between mt-4">
-    //                 <button
-    //                     type="button"
-    //                     className="btn btn-primary"
-    //                     onClick={() => {
-    //                         setRateLimit(1);
-    //                     }}
-    //                 >
-    //                     Rate limit
-    //                 </button>
-    //                 <button
-    //                     type="button"
-    //                     className="btn btn-danger"
-    //                     onClick={() => {
-    //                         setRateLimit(0.3);
-    //                     }}
-    //                 >
-    //                     Severly limit
-    //                 </button>
-    //                 <button
-    //                     type="button"
-    //                     className="btn btn-success"
-    //                     onClick={() => {
-    //                         setRateLimit(100);
-    //                     }}
-    //                 >
-    //                     Remove limits
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     </section>
-    // );
+    rateLimitControls = (
+        <section className="mt-3 p-2">
+            <div className="container-fluid">
+                <div className="border-bottom">
+                    <h4> Traffic control</h4>
+                </div>
+                <div className="d-flex flex-row justify-content-between mt-4">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={() => {
+                            setRateLimit(1);
+                        }}
+                    >
+                        Rate limit
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() => {
+                            setRateLimit(0.3);
+                        }}
+                    >
+                        Severly limit
+                    </button>
+                    <button
+                        type="button"
+                        className="btn btn-success"
+                        onClick={() => {
+                            setRateLimit(100);
+                        }}
+                    >
+                        Remove limits
+                    </button>
+                </div>
+            </div>
+        </section>
+    );
 
     let blockUserContent = null;
     // <<<WORKSHOP STEP 7>>>: Please un-comment the code below
 
-    // const onBlockUser = (args: any) => {
-    //     client.modal.open({
-    //         source: "blocklist-modal",
-    //         key: "custom-modal",
-    //         title: "Blocklist",
-    //         size: ModalSize.LARGE,
-    //     });
-    // };
+    const onBlockUser = (args: any) => {
+        client.modal.open({
+            source: "blocklist-modal",
+            key: "custom-modal",
+            title: "Blocklist",
+            size: ModalSize.LARGE,
+        });
+    };
 
-    // blockUserContent = (
-    //     <section className="mt-3 p-2">
-    //         <div className="container-fluid">
-    //             <div className="border-bottom">
-    //                 <h4> User management</h4>
-    //             </div>
-    //             <div className="d-flex flex-row justify-content-between mt-4">
-    //                 <button
-    //                     type="button"
-    //                     className="btn btn-primary"
-    //                     onClick={onBlockUser}
-    //                 >
-    //                     Block users
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     </section>
-    // );
+    blockUserContent = (
+        <section className="mt-3 p-2">
+            <div className="container-fluid">
+                <div className="border-bottom">
+                    <h4> User management</h4>
+                </div>
+                <div className="d-flex flex-row justify-content-between mt-4">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={onBlockUser}
+                    >
+                        Block users
+                    </button>
+                </div>
+            </div>
+        </section>
+    );
 
     const [isLoggedIn, setLoggedIn] = React.useState(
         !!localStorage.getItem(API_TOKEN_KEY)
