@@ -134,8 +134,7 @@ const createDashboard = async (configuration, appID) => {
         headers: {
             'content-type': 'application/json',
             'DD-API-KEY': process.env.DD_API_KEY,
-            'DD-APPLICATION-KEY': process.env.DD_APP_KEY,
-	    'DD-SITE': process.env.DD_SITE
+            'DD-APPLICATION-KEY': process.env.DD_APP_KEY
         },
         method,
         body: JSON.stringify(dashBody),

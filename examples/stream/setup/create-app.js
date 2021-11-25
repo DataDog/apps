@@ -8,8 +8,7 @@ const createAppEntry = async (configuration) => {
   let getAppsResponse = await fetch(`${BASE_URL}/api/v2/apps`, {
     headers: {
       'DD-API-KEY': process.env.DD_API_KEY,
-      'DD-APPLICATION-KEY': process.env.DD_APP_KEY,
-      'DD-SITE': process.env.DD_SITE
+      'DD-APPLICATION-KEY': process.env.DD_APP_KEY
     },
   });
 
@@ -29,14 +28,13 @@ const createAppEntry = async (configuration) => {
     endpoint = `${BASE_URL}/api/v2/apps`;
   }
 
-  const mainURL = process.env.ADMIN_UI_URL || 'http://localhost:3000';
+  const mainURL = process.env.ADMIN_UI_URL;
 
   const createAppResponse = await fetch(endpoint, {
     headers: {
       'content-type': 'application/json',
       'DD-API-KEY': process.env.DD_API_KEY,
-      'DD-APPLICATION-KEY': process.env.DD_APP_KEY,
-      'DD-SITE': process.env.DD_SITE
+      'DD-APPLICATION-KEY': process.env.DD_APP_KEY
     },
     body: JSON.stringify({
       data: {
@@ -48,7 +46,7 @@ const createAppEntry = async (configuration) => {
           terms: {},
           assets: {
             ui_extensions: {
-              debug_mode_url: 'http://localhost:3000',
+              debug_mode_url: 'http://localhost:3002',
               secured: false,
               main_url: mainURL,
               api_version: 'v1.0',
