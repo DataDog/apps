@@ -1,4 +1,4 @@
-export const API_URL = process.env.SERVER_URL;
+export const API_URL = 'http://localhost:3001'
 
 export const API_TOKEN_KEY = 'API_TOKEN';
 
