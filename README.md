@@ -1,6 +1,6 @@
 # Datadog Apps
 
-Datadog Apps allow third party developers to extend the native functionality offered by Datadog. This initiative is in a private alpha release, please contact Datadog support to request access.
+Datadog Apps allow third party developers to extend the native functionality offered by Datadog. This initiative is in a private beta release, please contact Datadog support to request access.
 
 ## Documentation
 
