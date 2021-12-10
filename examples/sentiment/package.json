@@ -13,7 +13,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "format": "prettier --write .",
+    "lint": "echo TODO: Add lint script",
+    "test": "react-scripts test --passWithNoTests --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

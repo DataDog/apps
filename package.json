@@ -17,5 +17,8 @@
     "workspaces": [
         "examples/*",
         "packages/*"
-    ]
+    ],
+    "devDependencies": {
+        "eslint-plugin-prettier": "3.1.4"
+    }
 }
