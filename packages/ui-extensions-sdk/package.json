@@ -1,0 +1,61 @@
+{
+    "name": "@datadog/ui-extensions-sdk",
+    "version": "0.23.0",
+    "description": "Datadog UI Extensions - Official JavaScript SDK ",
+    "homepage": "https://github.com/DataDog/ui-extensions-sdk/tree/master/packages/ui-extensions-sdk",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataDog/ui-extensions-sdk.git"
+    },
+    "main": "dist/ui-extensions-sdk.min.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "webpack --mode production",
+        "lint": "yarn run lint:check && prettier --check .",
+        "lint:check": "npx eslint '**/*.{ts,js}'",
+        "lint:fix": "yarn run lint:check --fix",
+        "test": "yarn test:unit",
+        "test:unit": "jest",
+        "format": "prettier --write .",
+        "prepare": "yarn build",
+        "sandbox": "node scripts/sandbox.js",
+        "start": "yarn watch & webpack serve --mode development --progress --color --hot",
+        "watch": "webpack --watch --mode development"
+    },
+    "files": [
+        "dist"
+    ],
+    "license": "Apache-2.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@datadog/framepost": "^0.2.3"
+    },
+    "devDependencies": {
+        "@types/jest": "^26.0.14",
+        "@typescript-eslint/eslint-plugin": "4.6.1",
+        "@typescript-eslint/parser": "4.6.1",
+        "clean-webpack-plugin": "^3.0.0",
+        "eslint": "7.12.1",
+        "eslint-config-airbnb-base": "14.2.0",
+        "eslint-config-prettier": "6.15.0",
+        "eslint-import-resolver-node": "0.3.4",
+        "eslint-import-resolver-webpack": "0.13.0",
+        "eslint-plugin-arca": "0.9.5",
+        "eslint-plugin-import": "2.22.1",
+        "eslint-plugin-jest": "24.1.0",
+        "eslint-plugin-no-storage": "1.0.2",
+        "eslint-plugin-prettier": "3.1.4",
+        "express": "^4.17.1",
+        "jest": "^26.6.2",
+        "prettier": "2.1.2",
+        "serve-static": "^1.14.1",
+        "ts-jest": "^26.4.3",
+        "ts-loader": "^8.0.3",
+        "typescript": "^4.0.5",
+        "webpack": "^5.3.2",
+        "webpack-cli": "^4.1.0",
+        "webpack-dev-server": "^3.11.0"
+    }
+}
