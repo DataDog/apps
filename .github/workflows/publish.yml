@@ -13,6 +13,6 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
             - run: yarn
-            - run: yarn publish
+            - run: yarn workspace @datadog/ui-extensions-sdk publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
