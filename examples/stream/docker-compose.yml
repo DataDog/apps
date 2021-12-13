@@ -1,0 +1,33 @@
+version: '3'
+services:
+  server:
+    build: server
+    command: bash -c 'yarn start'
+    env_file:
+      - ./.env
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./server:/server
+  ui:
+    build: ui
+    command: bash -c 'yarn start'
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./ui:/ui
+  admin:
+    build: admin
+    command: bash -c 'yarn start'
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./admin:/admin
+  setup:
+    build: setup
+    command: bash -c 'node setup-workshop.js'
+    env_file:
+      - ./.env
+    volumes:
+      - ./setup:/setup
+
