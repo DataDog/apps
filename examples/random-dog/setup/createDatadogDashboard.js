@@ -21,7 +21,28 @@ async function createDashboard(endpoint, method, appId) {
         body: JSON.stringify({
             title: TITLE,
             description: '',
-            widgets: [],
+            widgets: [
+                {
+                    id: 7580321331847784,
+                    definition: {
+                        title: "",
+                        title_size: "16",
+                        title_align: "left",
+                        type: "custom", 
+                        app_id: appId,
+                        custom_widget_key: "random-dog",
+                        options: {
+                            breed: "84"
+                        }
+                    },
+                    layout: {
+                        x: 0,
+                        y: 0,
+                        width: 5,
+                        height: 4
+                    }
+                }
+            ],
             template_variables: [],
             layout_type: 'ordered',
             is_read_only: false,

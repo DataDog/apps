@@ -1,26 +1,39 @@
 version: "3"
 services:
   dog-image-widget:
+    stdin_open: true
+    tty: true
     image: dog-image-widget
     build: dog-image-widget
     container_name: dog-image-widget
-    command: yarn start
     ports:
       - "3000:3000"
+    volumes:
+      - ./dog-image-widget:/app
   dog-api:
+    stdin_open: true
+    tty: true
     image: dog-api
-    build: dog-api
+    build:
+      dockerfile: Dockerfile
+      context: ./dog-api
     container_name: dog-api
-    command: yarn start
     env_file: ./.env
     environment:
       - PORT=3001
     ports:
       - "3001:3001"
+    volumes:
+      - ./dog-api:/server
   dog-setup:
+    stdin_open: true
+    tty: true
     image: setup
-    build: setup
+    build:
+      dockerfile: Dockerfile
+      context: ./setup
     container_name: dog-setup
-    command: yarn start
     env_file: ./.env
+    volumes: 
+      - ./setup:/setup
 

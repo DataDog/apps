@@ -14,10 +14,13 @@ const main = async () => {
         site: DD_SITE
     })
 
+    console.log('Creating the app')
     const id = await createApp(configuration)
+
+    console.log('Creating the dashboard and attaching the app')
     await createDashboard(configuration, id)
 
-    console.log(`You can now open your datadog account at url ${BASE_URL}`)
+    console.log('Done')
 }
 
 main()

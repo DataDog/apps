@@ -33,12 +33,12 @@ async function createApp(endpoint, method) {
                 type: 'apps',
                 attributes: {
                     author_info: {
-                        name: 'Thomas Dimnet',
+                        name: 'Duncan Harvey',
                     },
                     terms: {},
                     assets: {
                         ui_extensions: {
-                            debug_mode_url: 'http://localhost:3002',
+                            debug_mode_url: APP_URL,
                             secured: false,
                             main_url: APP_URL,
                             api_version: 'v1.0',
@@ -114,4 +114,5 @@ async function main(configuration) {
 }
 
 module.exports = main
+
 
