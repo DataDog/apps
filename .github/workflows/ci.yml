@@ -16,7 +16,7 @@ jobs:
             - name: install node
               uses: actions/setup-node@v1
               with:
-                  node-version: 14.14.0
+                  node-version: 16.3.0
             - name: install
               run: yarn
             - name: lint
