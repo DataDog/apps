@@ -25,4 +25,15 @@ services:
       - "3001:3001"
     volumes:
       - ./dog-api:/server
+  dog-setup:
+    stdin_open: true
+    tty: true
+    image: setup
+    build:
+      dockerfile: Dockerfile
+      context: ./setup
+    container_name: dog-setup
+    env_file: ./.env
+    volumes: 
+      - ./setup:/setup
 
