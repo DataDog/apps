@@ -17,6 +17,10 @@ jobs:
                   scope: '@datadog'
             - run: yarn
             - run: yarn build
+            - name: Add auth credentials for lerna
+              run: echo //registry.npmjs.org/:_authToken=${NPM_TOKEN} >> .npmrc
+              env:
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - run: yarn release
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
