@@ -9,6 +9,7 @@
     "scripts": {
         "build": "yarn workspaces run build",
         "lint": "yarn workspaces run lint",
+        "release": "auto shipit",
         "test": "yarn workspaces run test",
         "format": "yarn workspaces run format"
     },
@@ -19,6 +20,9 @@
         "packages/*"
     ],
     "devDependencies": {
-        "eslint-plugin-prettier": "3.1.4"
+        "@auto-it/pr-body-labels": "10.32.5",
+        "auto": "10.32.5",
+        "eslint-plugin-prettier": "3.1.4",
+        "lerna": "4.0.0"
     }
 }
