@@ -1,18 +1,22 @@
 name: publish
 on:
-    release:
-        types: [created]
+    - push
+
 jobs:
     publish:
         runs-on: ubuntu-latest
+        if: "!contains(github.event.head_commit.message, 'ci skip') && !contains(github.event.head_commit.message, 'skip ci')"
         steps:
             - uses: actions/checkout@v2
+            - name: Prepare repository
+              run: git fetch --unshallow --tags
             - uses: actions/setup-node@v1
               with:
                   node-version: 16.3.0
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
             - run: yarn
-            - run: yarn workspace @datadog/ui-extensions-sdk publish
+            - run: yarn publish
               env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
