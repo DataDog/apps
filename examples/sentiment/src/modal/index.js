@@ -3,7 +3,7 @@ import "./../index.css";
 import React from "react";
 import ReactDOM from "react-dom";
 
-const client = init();
+init();
 
 function Modal() {
 
