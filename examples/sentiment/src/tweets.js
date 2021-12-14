@@ -1,4 +1,4 @@
-export default {
+const tweets = {
   "tweets": [
     {
       "name": "JFrog",
@@ -348,3 +348,5 @@ export default {
     }
   ]
 }
+
+export default tweets;
