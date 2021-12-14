@@ -19,6 +19,7 @@
         "packages/*"
     ],
     "devDependencies": {
-        "eslint-plugin-prettier": "3.1.4"
+        "eslint-plugin-prettier": "3.1.4",
+        "lerna": "4.0.0"
     }
 }
