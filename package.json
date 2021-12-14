@@ -9,7 +9,6 @@
     "scripts": {
         "build": "yarn workspaces run build",
         "lint": "yarn workspaces run lint",
-        "prepare": "yarn build",
         "release": "auto shipit",
         "test": "yarn workspaces run test",
         "format": "yarn workspaces run format"
