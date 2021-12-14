@@ -1,0 +1,28 @@
+version: "3"
+services:
+  dog-image-widget:
+    stdin_open: true
+    tty: true
+    image: dog-image-widget
+    build: dog-image-widget
+    container_name: dog-image-widget
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dog-image-widget:/app
+  dog-api:
+    stdin_open: true
+    tty: true
+    image: dog-api
+    build:
+      dockerfile: Dockerfile
+      context: ./dog-api
+    container_name: dog-api
+    env_file: ./.env
+    environment:
+      - PORT=3001
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./dog-api:/server
+
