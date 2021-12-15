@@ -15,6 +15,6 @@ Datadog Apps allow third party developers to extend the native functionality off
 
 ## Examples
 
-* [Starter Kit](https://github.com/DataDog/starter-kit)
+* [Starter Kit](examples/starter-kit)
 ## Code resources
 * [SDK](https://github.com/Datadog/ui-extensions-sdk)
