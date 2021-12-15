@@ -32,7 +32,7 @@ async function createDashboard(endpoint, method, appId) {
                         app_id: appId,
                         custom_widget_key: "random-dog",
                         options: {
-                            breed: "84"
+                            breed: "5"
                         }
                     },
                     layout: {
@@ -58,8 +58,6 @@ async function main(configuration, appId) {
     const { dashboards } = await dashboardApi.listDashboards({})
     
     const existingDashboard = dashboards.find(dashboard => dashboard.title === TITLE)
-
-    console.log(existingDashboard)
 
     const endpoint = existingDashboard 
         ? `${BASE_URL}/api/v1/dashboard/${existingDashboard.id}` 

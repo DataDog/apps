@@ -19,8 +19,6 @@ const main = async () => {
 
     console.log('Creating the dashboard and attaching the app')
     await createDashboard(configuration, id)
-
-    console.log('Done')
 }
 
 main()
