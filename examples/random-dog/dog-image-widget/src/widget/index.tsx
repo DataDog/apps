@@ -41,31 +41,40 @@ function Widget() {
                     }
                 ])
             }
-        },
-    [breeds])
+        }, [breeds])
 
     useEffect(() => {
         client.events.on(
             EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-            () => console.log('===')
+            ({ breed }) => {
+                if (breed !== undefined) {
+                    getImage(breed.toString())
+                }
+            }
         )
     }, [])
 
-    const cycleImage = async () => {}
+    const cycleImage = async () => {
+        const breed = await client
+            .getContext()
+            .then(c => c.widget?.definition.options?.breed)
+        getImage(breed)
+    }
 
-    const getImage = async () => {}
+    const getImage = (breed: string) => fetch(`http://localhost:3001/image?breed_id=${breed}`)
+        .then(res => res.json())
+        .then(({ imageUrl }) => setImage(imageUrl))
+        .catch(err => console.log('An error occurs when fetching breed', err))
 
     return (
-        <div>
-            <div className="button-wrapper">
-                <button className="new-dog" onClick={() => console.log('click')}>
-                    New Dog
-                </button>
-            </div>
+        <div className="main-wrapper">
+            <button className="new-dog-btn" onClick={cycleImage}>
+                New Dog
+            </button>
             {
                 image && (
                     <div className="image-wrapper">
-                        <img src={image} alt="" />
+                        <img className="dog-img" src={image} alt="" />
                     </div>
                 )
             }

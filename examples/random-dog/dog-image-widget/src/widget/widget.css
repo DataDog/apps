@@ -2,39 +2,22 @@ body {
   margin: 0px;
 }
 
-.image-wrapper {
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  width: 100%;
+.main-wrapper {
+    overflow: hidden;
+    position: relative;
 }
 
-img {
-  height: 100%;
-  left:0;
-  object-fit: cover;
-  object-position: center center;
-  position: relative;
-  top: 0;
-  width: 100%;
-  z-index: 0;
+.new-dog-btn {
+    background-color: rgba(100, 44, 165);
+    border: none;
+    color: white;
+    left: 20px;
+    position: absolute;
+    top: 20px;
 }
 
-.new-dog {
-  background-color: rgba(100, 44, 165);
-  border: none;
-  color: white;
-  height: 30px;
-  line-height: 1em;
-  margin: 0px;
-  padding: 8px;
+.dog-img {
+    object-fit: cover;
 }
 
-.button-wrapper {
-  left: 0;
-  margin: 0px;
-  padding: 0px;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-}
+
