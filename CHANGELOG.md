@@ -1,3 +1,16 @@
+# (Thu Dec 16 2021)
+
+#### 🐛 Bug Fix
+
+- `@datadog/ui-extensions-sdk@0.24.2`
+  - Ignore generated `CHANGELOG.md` for  `ui-extensions-sdk` [#71](https://github.com/DataDog/apps/pull/71) ([@joneshf-dd](https://github.com/joneshf-dd))
+
+#### Authors: 1
+
+- Hardy Jones ([@joneshf-dd](https://github.com/joneshf-dd))
+
+---
+
 # (Tue Dec 14 2021)
 
 #### 🐛 Bug Fix
