@@ -26,16 +26,21 @@ function Widget() {
 
     useEffect(() => {
             if (breeds.length) {
-                const options = breeds.map(breed => ({
-                    label: breed['name'],
-                    value: breed['id']
-                }))
+                const options = [
+                    {
+                        label: "All Breeds",
+                        value: "0"
+                    }
+                ].concat(breeds.map(breed => ({
+                    label: breed['name'] as string,
+                    value: breed['id'] as string
+                })))
 
                 client.dashboard.customWidget.updateOptions([
                     {
                         type: WidgetOptionItemType.STRING,
                         name: 'breed',
-                        label: 'Select a Dog Breed so see Random Images of',
+                        label: 'Select a Dog Breed to get Random Images of',
                         enum: options,
                         order: 1
                     }

@@ -11,7 +11,6 @@ app.get('/image', async (req, res) => {
     const breedId = req.query.breed_id;
     const urlBase = "https://api.thedogapi.com/v1/images/search";
     const url = breedId == 0 ? urlBase : urlBase.concat(`?breed_id=${breedId}`);
-    console.log(url);
     const imageUrl = await axios.get(url, {
         headers: {
             "x-api-key": process.env.API_KEY
@@ -20,7 +19,6 @@ app.get('/image', async (req, res) => {
         if (response.data.length == 0) return "https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Datadog_logo.svg/1200px-Datadog_logo.svg.png";
         return response.data[0].url;
     });
-    console.log(`imageUrl: ${imageUrl}`);
     res.json({ imageUrl: imageUrl });
 });
 

@@ -7,17 +7,24 @@ body {
     position: relative;
 }
 
-.new-dog-btn {
-    background-color: rgba(100, 44, 165);
+.new-dog-btn,
+.new-dog-btn:focus {
+    background-color: #642ca5;
     border: none;
     color: white;
     left: 20px;
     position: absolute;
     top: 20px;
+    transition: .4s;
+}
+
+.new-dog-btn:hover {
+    background-color: #9743F7;
 }
 
 .dog-img {
-    object-fit: cover;
+    object-fit: contain;
+    width: 100%;
 }
 
 
