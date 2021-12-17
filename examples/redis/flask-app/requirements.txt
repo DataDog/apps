@@ -1,0 +1,15 @@
+attrs==21.2.0
+click==8.0.3
+ddtrace==0.55.4
+Flask==2.0.2
+Flask-Cors==3.0.10
+itsdangerous==2.0.1
+Jinja2==3.0.2
+MarkupSafe==2.0.1
+packaging==21.2
+protobuf==3.19.1
+pyparsing==2.4.7
+redis==3.5.3
+six==1.16.0
+tenacity==8.0.1
+Werkzeug==2.0.2

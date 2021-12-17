@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "serve": "node --require dd-trace/init src/app.js",
+    "dev": "nodemon ./src/app.js",
+    "seed": "node ./src/db/seed.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dd-trace": "^1.5.1",
+    "express": "^4.17.1",
+    "faker": "^5.5.3",
+    "mongoose": "^6.0.13",
+    "redis": "^4.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

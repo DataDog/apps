@@ -1,0 +1,22 @@
+.sk-form {
+    margin-bottom: 16px;
+}
+
+.sk-key {
+    display: flex;
+    flex-direction: column;
+}
+
+.sk-key button {
+    margin-top: 16px;
+}
+
+.sk-btn-group {
+    margin-left: 16px;
+    margin-bottom: 16px;
+}
+
+.sk-modify-btn {
+    margin-right: 16px;
+}
+

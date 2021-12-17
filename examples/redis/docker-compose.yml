@@ -1,0 +1,82 @@
+version: '3'
+services:
+  flask:
+    build: flask-app
+    stdin_open: true
+    tty: true
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask-app:/flask-app
+    environment:
+      FLASK_ENV: development
+      FLASK_APP: app.py
+      FLASK_RUN_HOST: 0.0.0.0
+      DD_AGENT_HOST: datadog
+      DD_LOGS_INJECTION: 'true'
+      DD_TRACE_AGENT_PORT: 8126
+      DD_SERVICE: flask-app
+      DD_ENV: dev
+  products-api:
+    build: products-api
+    stdin_open: true
+    tty: true
+    ports:
+      - "3020:3020"
+    volumes:
+      - ./products-api:/products-api
+    environment:
+      PORT: 3020
+      DD_AGENT_HOST: datadog
+      DD_LOGS_INJECTION: 'true'
+      DD_TRACE_AGENT_PORT: 8126
+      DD_SERVICE: products-api
+      DD_ENV: dev
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: toto90
+      MONGO_DB: project-db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: toto90
+  datadog-app:
+    build: datadog-app
+    stdin_open: true
+    tty: true
+    environment:
+      REACT_APP_API_URL: http://localhost:5000
+    ports:
+      - "3010:3010"
+    volumes:
+      - ./datadog-app:/datadog-app
+  redis:
+    image: "redis"
+    labels:
+      com.datadoghq.ad.logs: '[{ "source": "redis", "service": "redis" }]'
+  datadog:
+    build: datadog
+    links:
+      - redis
+    env_file:
+      - ./.env
+    ports:
+      - "8126:8126"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  setup:
+    stdin_open: true
+    tty: true
+    build: setup
+    env_file: ./.env
+    volumes:
+      - ./setup:/setup
+
