@@ -21,6 +21,7 @@
     ],
     "devDependencies": {
         "@auto-it/pr-body-labels": "10.32.5",
+        "@changesets/cli": "2.18.1",
         "auto": "10.32.5",
         "eslint-plugin-prettier": "3.1.4",
         "lerna": "4.0.0"
