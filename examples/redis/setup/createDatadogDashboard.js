@@ -3,7 +3,7 @@ const fetch = require('node-fetch')
 
 const { BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants')
 
-const TITLE = 'Datadog App - Redis toto'
+const TITLE = 'Datadog App Redis Dashboard'
 
 async function createDashboard(endpoint, method, appId) {
     return fetch(endpoint, {

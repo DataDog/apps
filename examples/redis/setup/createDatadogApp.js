@@ -7,7 +7,7 @@ const {
     DD_APP_KEY
 } = require('./constants')
 
-const APP_NAME = 'Redis App toto'
+const APP_NAME = 'Redis App'
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
