@@ -5,6 +5,7 @@ const {
     DD_SITE
 } = require('./constants')
 const createApp = require('./createDatadogApp')
+const createDashboard = require('./createDatadogDashboard')
 
 async function main() {
     console.log('Configuring your account')
@@ -15,9 +16,10 @@ async function main() {
     })
 
     console.log('Creating and configuring the Datadog App')
-    await createApp()
+    const appId = await createApp()
 
     console.log('Creating the dashboard and adding the different widgets')
+    await createDashboard(configuration, appId)
 }
 
 main()
