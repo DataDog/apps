@@ -48,23 +48,19 @@ async function createApp(endpoint, method) {
                                     options: {
                                         widgets: [
                                             {
-                                                        source: "clients-list",
-                                                        name: "List of Redis Client",
-                                                        custom_widget_key: "clients-list-widget",
-                                                        options: []
-                                                    },
+                                                source: "clients-list",
+                                                name: "List of Redis Client",
+                                                custom_widget_key: "clients-list-widget",
+                                                options: []
+                                            },
                                             {
-                                                source: "key-search",
+                                                source: "keys-search-widget",
                                                 name: "Search Redis Keys",
                                                 custom_widget_key: "redis-key-search-widget",
                                                 options: []
                                             }
                                         ]
                                     }
-                                },
-                                {
-                                    name: 'widget_context_menu',
-                                    options: {}
                                 },
                                 {
                                     name: 'modals',
