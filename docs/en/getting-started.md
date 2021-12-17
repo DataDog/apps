@@ -21,19 +21,16 @@ Datadog Apps enable developers to extend the native functionality of Datadog thr
 
 ### Create an app
 
-1. Clone the Datadog Apps starter kit.
+1. Create a Datadog App.
 
-$ `git clone git@github.com:DataDog/starter-kit.git` 
+$ `yarn create @datadog/app`
 
-2. Navigate to the folder you have cloned. 
+2. Navigate to the folder you have created.
 
 $ `cd starter-kit`
 
 
 3. Set up your development environment.
-
-$ `yarn install`
-
 
 $ `yarn start`
 
@@ -111,7 +108,7 @@ When this feature is enabled, users need to be authenticated before using the ap
 [Sentiment analysis][2]
 
 
-[1]: https://github.com/DataDog/starter-kit/
+[1]: https://github.com/DataDog/apps/tree/master/examples/starter-kit
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
 [4]: https://app.datadoghq.com/apps

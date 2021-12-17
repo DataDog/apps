@@ -1,3 +1,0 @@
-[submodule "examples/starter-kit"]
-	path = examples/starter-kit
-	url = git@github.com:DataDog/starter-kit.git
