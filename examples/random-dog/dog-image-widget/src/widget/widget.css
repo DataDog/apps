@@ -1,0 +1,30 @@
+body {
+  margin: 0px;
+}
+
+.main-wrapper {
+    overflow: hidden;
+    position: relative;
+}
+
+.new-dog-btn,
+.new-dog-btn:focus {
+    background-color: #642ca5;
+    border: none;
+    color: white;
+    left: 20px;
+    position: absolute;
+    top: 20px;
+    transition: .4s;
+}
+
+.new-dog-btn:hover {
+    background-color: #9743F7;
+}
+
+.dog-img {
+    object-fit: contain;
+    width: 100%;
+}
+
+

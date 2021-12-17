@@ -1,0 +1,26 @@
+version: "3"
+services:
+  dog-image-widget:
+    image: dog-image-widget
+    build: dog-image-widget
+    container_name: dog-image-widget
+    command: yarn start
+    ports:
+      - "3000:3000"
+  dog-api:
+    image: dog-api
+    build: dog-api
+    container_name: dog-api
+    command: yarn start
+    env_file: ./.env
+    environment:
+      - PORT=3001
+    ports:
+      - "3001:3001"
+  dog-setup:
+    image: setup
+    build: setup
+    container_name: dog-setup
+    command: yarn start
+    env_file: ./.env
+

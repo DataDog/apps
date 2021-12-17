@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "v2",
+  "display_on_public_website": false,
+  "app_id": null,
+  "support_type": "partner",
+  "tile": {
+    "description": "App to display random do images in a custom widget",
+    "logo_media": {
+      "light": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emojione_1F44B.svg/1024px-Emojione_1F44B.svg.png"
+    },
+    "title": "Random Dog Images"
+  },
+  "author": {},
+  "pricing": [],
+  "legal_terms": {},
+  "proxy_scopes": [],
+  "assets": {
+    "ui_extensions": {
+      "debug_mode_url": "http://localhost:3000",
+      "secured": false,
+      "main_url": "http://localhost:3000",
+      "api_version": "v1.0",
+      "features": [
+        {
+          "name": "dashboard_custom_widget",
+          "options": {
+            "widgets": [
+              {
+                "name": "Random Dog Images",
+                "has_title": true,
+                "custom_widget_key": "random-dog-images",
+                "source": "widget"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
