@@ -1,6 +1,6 @@
 {
     "name": "@datadog/create-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "npm init package to create a Datadog App",
     "scripts": {
         "build": "ncc build src/index.ts --minify --out bin",
