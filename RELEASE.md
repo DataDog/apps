@@ -1,24 +1,21 @@
 # Release Documentation
 
-## Automatic releases
+## Canary releases
 
-We use [`auto`][auto] to automate releases to each package.
+We use [`auto`][] to automate "canary" releases to each package.
+A "canary" release is a release on `npm` that can be used just by creating a PR.
 
-### PR workflow
-
-When a PR is opened, the correct type of release should be selected: major, minor, or patch.
-After the PR is merged, [`auto`][auto] will create the appropriate release, publish it to `npm`, and report back in the PR what the newly released version is.
-
-### Canary workflow
-
-When a PR is opened, [`auto`][auto] will create a "canary" release, publish it to `npm`, and report back in the PR how to use the "canary" release.
+When a PR is opened, [`auto`][] will create a "canary" release, publish it to `npm`, and report back in the PR how to use the "canary" release.
 The "canary" release can be used to test out some changes without fully merging the PR.
 
-## Manual releases
+## Package releases
 
-There is not currently a (documented) manual release process; neither through GitHub Actions nor outside of GitHub Actions.
-If we find that we need/want the ability to manually release through GitHub Actions, we can look into using the [`workflow_dispatch` event][workflow_dispatch] to [manually run a workflow][]
+We use [`changesets`][] to help with normal package releases.
 
-[auto]: https://intuit.github.io/auto/
-[manually run a workflow]: https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow#running-a-workflow
-[workflow_dispatch]: https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow#configuring-a-workflow-to-run-manually
+[`changesets`][] will manage a long-running PR that batches changes together.
+When a normal PR is merged, [`changsets`][] will keep track of any [changeset][]s in this long-running PR.
+When we're ready to release some number of packages, we can merge this long-running PR and [`changesets`][] will release all packages with a [changeset][].
+
+[`auto`]: https://intuit.github.io/auto/
+[`changesets`]: https://github.com/changesets/changesets
+[changeset]: https://github.com/changesets/changesets/blob/main/docs/detailed-explanation.md

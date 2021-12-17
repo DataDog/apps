@@ -12,20 +12,10 @@ export default function rc(): AutoRc {
 
         plugins: [
             /**
-             * The `npm` plugin allows us to publish packages to `npm`.
+             * The `npm` plugin allows us to publish "canary" packages to `npm`.
              * https://intuit.github.io/auto/docs/generated/npm
              */
-            'npm',
-            /**
-             * The `pr-body-labels` plugin allows us to set the kind of release from a PR.
-             * https://intuit.github.io/auto/docs/generated/pr-body-labels
-             */
-            'pr-body-labels',
-            /**
-             * The `released` plugin updates issues/PRs with the released version.
-             * https://intuit.github.io/auto/docs/generated/released
-             */
-            'released'
+            'npm'
         ]
     };
 }

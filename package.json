@@ -9,7 +9,8 @@
     "scripts": {
         "build": "yarn workspaces run build",
         "lint": "yarn workspaces run lint",
-        "release": "auto shipit",
+        "release:canary": "auto shipit",
+        "release:packages": "changeset publish",
         "test": "yarn workspaces run test",
         "format": "yarn workspaces run format"
     },
@@ -20,7 +21,6 @@
         "packages/*"
     ],
     "devDependencies": {
-        "@auto-it/pr-body-labels": "10.32.5",
         "@changesets/cli": "2.18.1",
         "auto": "10.32.5",
         "eslint-plugin-prettier": "3.1.4",

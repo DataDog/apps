@@ -80,16 +80,6 @@
     parse-author "^2.0.0"
     parse-github-url "1.0.2"
 
-"@auto-it/pr-body-labels@10.32.5":
-  version "10.32.5"
-  resolved "https://registry.yarnpkg.com/@auto-it/pr-body-labels/-/pr-body-labels-10.32.5.tgz#270886dc402ebb0ae4fb600c6eef509b503226f9"
-  integrity sha512-3wRbSOxzndzXW8JfRGjkKK6nWGlw5qcWqMUCeTVWBgQvnMUuY+GoRlbeSwIb10k0y0mz8aSt8wWe4IDCpmhv+Q==
-  dependencies:
-    "@auto-it/core" "10.32.5"
-    fp-ts "^2.5.3"
-    io-ts "^2.1.2"
-    tslib "2.1.0"
-
 "@auto-it/released@10.32.5":
   version "10.32.5"
   resolved "https://registry.yarnpkg.com/@auto-it/released/-/released-10.32.5.tgz#c8a51163f5bd9202ea7c464d2fed1a9f1b667bdf"

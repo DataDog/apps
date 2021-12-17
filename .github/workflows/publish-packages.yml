@@ -1,0 +1,43 @@
+name: Publish changed packages
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16.3.0
+                  registry-url: 'https://registry.npmjs.org'
+                  scope: '@datadog'
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Build packages
+              run: yarn build
+
+            - name: Add auth credentials for npm
+              run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
+              env:
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Create release Pull Request or publish to npm
+              id: changesets
+              uses: changesets/action@v1
+              with:
+                  # `commit` sets the commit message.
+                  # Using `[skip ci]` should force `auto` to ignore these PRs/publishes.
+                  commit: Version Packages [skip ci]
+                  publish: yarn release:packages
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
