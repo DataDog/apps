@@ -1,3 +1,20 @@
+# (Fri Dec 17 2021)
+
+#### 🐛 Bug Fix
+
+- Add random dog image widget example project [#69](https://github.com/DataDog/apps/pull/69) ([@tdimnet](https://github.com/tdimnet))
+- Misc. Development experience updates [#29](https://github.com/DataDog/apps/pull/29) ([@nmuldavin](https://github.com/nmuldavin))
+- `@datadog/create-app@1.0.1`
+  - UIAPPS-69 Start on `npm init` package for creating a Datadog App [#70](https://github.com/DataDog/apps/pull/70) ([@joneshf-dd](https://github.com/joneshf-dd))
+
+#### Authors: 3
+
+- Hardy Jones ([@joneshf-dd](https://github.com/joneshf-dd))
+- Noah Muldavin ([@nmuldavin](https://github.com/nmuldavin))
+- Thomas Dimnet ([@tdimnet](https://github.com/tdimnet))
+
+---
+
 # (Thu Dec 16 2021)
 
 #### 🐛 Bug Fix
