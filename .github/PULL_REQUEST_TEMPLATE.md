@@ -21,12 +21,13 @@
 
 <!--  Anything that would help a reviewer (or your future self) know if the change works as expected -->
 
-## Change Type
+## Releases
 
-<!-- Select one -->
+<!-- If you want to make a release at some point in the future, you'll need to add a changeset. -->
+<!-- For more information, see: https://github.com/DataDog/apps/blob/master/RELEASE.md#package-releases. -->
 
-- [ ] `patch`
-- [ ] `minor`
-- [ ] `major`
+Choose one:
 
-<!-- Change Type Docs https://intuit.github.io/auto/docs/generated/pr-body-labels -->
+- [ ] No release is necessary.
+    If you're only updating examples/documentation, this is likely what you want.
+- [ ] All packages that need a release have a changeset.

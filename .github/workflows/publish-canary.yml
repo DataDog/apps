@@ -1,6 +1,8 @@
-name: publish
+name: Publish canary package
 on:
-    - push
+    push:
+        branches-ignore:
+            - master
 
 jobs:
     publish:
@@ -21,7 +23,7 @@ jobs:
               run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
               env:
                 NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-            - run: yarn release
+            - run: yarn release:canary
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
