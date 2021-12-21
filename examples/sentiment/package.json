@@ -11,6 +11,7 @@
         "typeface-roboto": "^1.1.13"
     },
     "scripts": {
+        "prepare": "exit 0",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "format": "prettier --write .",
