@@ -1,4 +1,4 @@
-# Randon Dog Image App
+# Random Dog Image App
 
 ![A Dog Image in your Datadog Dashboard](hero.png)
 
