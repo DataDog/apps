@@ -5,7 +5,8 @@
     "homepage": "https://github.com/DataDog/ui-extensions-sdk/tree/master/packages/ui-extensions-sdk",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/DataDog/ui-extensions-sdk.git"
+        "url": "git+https://github.com/DataDog/apps.git",
+        "directory": "packages/ui-extensions-sdk"
     },
     "main": "dist/ui-extensions-sdk.min.js",
     "types": "dist/index.d.ts",
