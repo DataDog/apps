@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.24.4
+
+### Patch Changes
+
+-   11cbf60: Update repository field in `package.json`
+
 ## 0.24.3
 
 ### Patch Changes
