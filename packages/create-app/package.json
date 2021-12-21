@@ -2,6 +2,11 @@
     "name": "@datadog/create-app",
     "version": "1.0.1",
     "description": "npm init package to create a Datadog App",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataDog/apps.git",
+        "directory": "packages/create-app"
+    },
     "scripts": {
         "build": "ncc build src/index.ts --minify --out bin",
         "format": "prettier --write .",
