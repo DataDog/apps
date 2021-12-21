@@ -12,7 +12,7 @@
     "scripts": {
         "build": "webpack --mode production",
         "prepare": "yarn build",
-        "lint": "npx eslint '**/*.{ts,js}' && prettier --check .",
+        "lint": "eslint '**/*.{ts,js}' && prettier --check .",
         "test:unit": "jest",
         "format": "prettier --write .",
         "sandbox": "node scripts/sandbox.js",

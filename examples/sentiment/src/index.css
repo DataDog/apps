@@ -1,110 +1,110 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+        'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+        'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
 }
 
 .modal-wrapper {
-  margin: 15px;
+    margin: 15px;
 }
 
 /* css styling for tweets */
 
 img.avatar {
-  border-radius: 50%;
-  max-width: 48px !important;
-  max-height: 48px !important;
+    border-radius: 50%;
+    max-width: 48px !important;
+    max-height: 48px !important;
 }
 
 .sentiment-wrapper {
-  border-bottom: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
 }
 
 .sentiment-body {
-  margin: 15px;
+    margin: 15px;
 }
 
 .sentiment {
-  text-align: right;
-  text-transform: capitalize;
+    text-align: right;
+    text-transform: capitalize;
 }
 
 .sentiment p {
-  border-radius: 10px;
-  margin: 10px;
-  font-size: .75em;
-  font-weight: 500;
-  padding: 5px 10px 5px 5px;
+    border-radius: 10px;
+    margin: 10px;
+    font-size: 0.75em;
+    font-weight: 500;
+    padding: 5px 10px 5px 5px;
 }
 
 .sentiment-scores {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  text-align: center;
-  margin: 10px 0 20px 0;
-  border: 1px solid lightgray;
-  padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    text-align: center;
+    margin: 10px 0 20px 0;
+    border: 1px solid lightgray;
+    padding: 10px;
 }
 
 ul.word-bubble {
-  list-style: none;
+    list-style: none;
 }
 
 ul.word-bubble li {
-  display: inline;
-  padding: 5px;
-  background-color: #bde0fe;
-  margin: 5px;
-  border-radius: 10px;
-  font-size: .75em;
-  font-weight: 500;
+    display: inline;
+    padding: 5px;
+    background-color: #bde0fe;
+    margin: 5px;
+    border-radius: 10px;
+    font-size: 0.75em;
+    font-weight: 500;
 }
 
 .sentiment-scores p {
-  margin: 0;
+    margin: 0;
 }
 
 .sentiment .positive {
-  background: linear-gradient(90deg, #aaf683 75%, #ffffff 72%);
+    background: linear-gradient(90deg, #aaf683 75%, #ffffff 72%);
 }
 .sentiment .negative {
-  background: linear-gradient(90deg, #ee6055 75%, #ffffff 72%);
+    background: linear-gradient(90deg, #ee6055 75%, #ffffff 72%);
 }
 
 .sentiment .neutral {
-  background: linear-gradient(90deg, #bde0fe 75%, #ffffff 72%);
+    background: linear-gradient(90deg, #bde0fe 75%, #ffffff 72%);
 }
 
 .tweet-timeline {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .tweet {
-  margin: 10px 0;
-  display: flex;
-  flex-direction: row;
+    margin: 10px 0;
+    display: flex;
+    flex-direction: row;
 }
 
 .tweet-openable {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .profile-picture {
-  margin-right: 15px;
+    margin-right: 15px;
 }
 
 .display-name {
-  font-weight: bold;
+    font-weight: bold;
 }

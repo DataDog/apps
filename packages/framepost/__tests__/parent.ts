@@ -480,7 +480,7 @@ test('Rejects with data thrown from handlers subscribed in parent client', async
         mockErrorResponseFromChild('request', 'errorResponseData', requestId);
     }, 500);
 
-    let response = '';
+    let response: unknown = '';
 
     try {
         await client.request('request', 'requestData');
@@ -518,7 +518,7 @@ test('Propagates errors thrown from request handlers', async () => {
     }
 
     expect(response).toBeInstanceOf(Error);
-    expect(response.message).toBe('errorResponseData');
+    expect((response as Error).message).toBe('errorResponseData');
 });
 
 test('Sends requests to child client after channel is established', async () => {
