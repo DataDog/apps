@@ -9,7 +9,6 @@ import * as util from 'util';
 const pipeline = util.promisify(stream.Stream.pipeline);
 
 const defaultBranch = 'master';
-const defaultDirectoryName = 'starter-kit';
 const defaultExample = 'starter-kit';
 
 /**
@@ -47,8 +46,8 @@ export class Command extends clipanion.Command {
     /**
      * This option allows App developers to name the directory what they'd prefer.
      */
-    directory = clipanion.Option.String('--directory', defaultDirectoryName, {
-        description: `The directory to initialize. Defaults to \`${defaultDirectoryName}\`, if not supplied`
+    directory = clipanion.Option.String('--directory', {
+        description: `The directory to initialize. Defaults to the example name, if not supplied`
     });
 
     /**
@@ -71,26 +70,27 @@ export class Command extends clipanion.Command {
     async execute(): Promise<void> {
         const logDebug = makeLogger(this.verbose);
         const logInfo = makeLogger(true);
+        const directory = this.directory ?? this.example;
 
         logDebug({
             options: {
                 commit: this.commit,
                 example: this.example,
-                directory: this.directory,
+                directory,
                 verbose: this.verbose
             }
         });
 
-        logInfo(`Creating ${this.directory} directory`);
-        await fs.promises.mkdir(this.directory, { recursive: true });
-        logDebug(`Created ${this.directory} directory`);
+        logInfo(`Creating ${directory} directory`);
+        await fs.promises.mkdir(directory, { recursive: true });
+        logDebug(`Created ${directory} directory`);
 
         logInfo(`Downloading ${this.example} example…`);
         await pipeline(
             got.default.stream(
                 `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
             ),
-            tar.extract({ cwd: this.directory, stripComponents: 3 }, [
+            tar.extract({ cwd: directory, stripComponents: 3 }, [
                 `apps-${this.commit}/examples/${this.example}`
             ])
         );
@@ -98,7 +98,7 @@ export class Command extends clipanion.Command {
 
         logInfo('Installing dependencies…');
         const installResult = await pkgInstall.projectInstall({
-            cwd: this.directory,
+            cwd: directory,
             stdio: 'inherit'
         });
         if (installResult.code !== 0) {
