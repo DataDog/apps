@@ -1,0 +1,58 @@
+/* CSS files add styling rules to your content */
+
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#root,
+#root .widget {
+  height: 100%;
+  width: 100%;
+}
+
+.widget {
+  display: flex;
+  flex-direction: column;
+}
+
+#canvas-container {
+  overflow-x: auto;
+  overflow-y: visible;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.span12 {
+  width: 1170px;
+}
+
+.canvas {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas.hide {
+  display: none;
+}
+
+#canvas {
+  /*width: 1170px;*/
+  /*height: 760px;*/
+  /*height: 80vh;*/
+  /*width: 80vw;*/
+}
+
+#canvas > span {
+  transition: text-shadow 1s ease, opacity 1s ease;
+  -webkit-transition: text-shadow 1s ease, opacity 1s ease;
+  -ms-transition: text-shadow 1s ease, opacity 1s ease;
+}
+
+/*#canvas > span:hover {*/
+/*  text-shadow: 0 0 10px, 0 0 10px #fff, 0 0 10px #fff, 0 0 10px #fff;*/
+/*  opacity: 0.5;*/
+/*}*/

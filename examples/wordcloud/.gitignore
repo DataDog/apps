@@ -1,0 +1,4 @@
+# Global
+*.swp
+.DS_Store
+.env

@@ -1,0 +1,100 @@
+{
+  "schemaVersion": "v2",
+  "display_on_public_website": false,
+  "app_id": null,
+  "support_type": "partner",
+  "tile": {
+    "description": "Word clouds in datadog",
+    "logo_media": {
+      "light": "https://static.datadoghq.com/static/favicon.ico"
+    },
+    "title": "Wordcloud"
+  },
+  "author": {
+    "name": "Rolf Bates"
+  },
+  "pricing": [],
+  "legal_terms": {},
+  "assets": {
+    "ui_extensions": {
+      "features": [
+        {
+          "name": "dashboard_custom_widget",
+          "options": {
+            "widgets": [
+              {
+                "source": "widget",
+                "name": "Wordcloud",
+                "custom_widget_key": "your_first_widget",
+                "options": [
+                  {
+                    "enum": [
+                      "system.cpu.user",
+                      "system.load.1",
+                      "system.load.5",
+                      "system.load.15",
+                      "kubernetes.pods.running"
+                    ],
+                    "type": "string",
+                    "name": "metric",
+                    "label": "Metric"
+                  },
+                  {
+                    "enum": [
+                      "service",
+                      "team",
+                      "app",
+                      "datacenter",
+                      "kube_namespace"
+                    ],
+                    "type": "string",
+                    "name": "group_by_tag",
+                    "label": "Group by tag"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "side_panels",
+          "options": {}
+        },
+        {
+          "name": "modals",
+          "options": {}
+        },
+        {
+          "name": "widget_context_menu",
+          "options": {
+            "items": [
+              {
+                "href": "https://www.google.com",
+                "action_type": "link",
+                "key": "link-item",
+                "label": "Open a link"
+              },
+              {
+                "action_type": "event",
+                "key": "event-item",
+                "label": "Send an event"
+              }
+            ]
+          }
+        }
+      ],
+      "secured": false,
+      "debug_mode_url": "http://localhost:3000",
+      "controller_source": "/widget",
+      "api_version": "v1.0",
+      "main_url": "https://localhost:3000"
+    }
+  },
+  "oauth_client": {
+    "scopes": [
+      "dashboards_read",
+      "metrics_read",
+      "timeseries_query"
+    ]
+  }
+}
