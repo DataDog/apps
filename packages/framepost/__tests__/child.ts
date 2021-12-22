@@ -3,6 +3,11 @@ import {
     MessageType,
     SerializationType
 } from '../src/constants';
+import {
+    ClientDestroyedError,
+    HandshakeTimeoutError,
+    RequestTimeoutError
+} from '../src/errors';
 import { serialize } from '../src/utils';
 import type { Message } from '../src';
 import { ChildClient } from '../src';
@@ -143,10 +148,6 @@ beforeEach(() => {
     };
 });
 
-afterEach(() => {
-    client.destroy();
-});
-
 const flushPromises = () => new Promise(setImmediate);
 
 describe('client', () => {
@@ -202,21 +203,34 @@ describe('client.getContext()', () => {
 });
 
 describe('client.handshake()', () => {
-    test('Rejects if handshake fails', async () => {
+    test('Rejects if handshake times out', async () => {
         client = new ChildClient({
             requestTimeout: 200
         });
 
-        let rejected = false;
-
-        await new Promise(resolve => {
-            client.handshake().catch(() => {
-                rejected = true;
-                resolve(undefined);
+        const error = await new Promise(resolve => {
+            client.handshake().catch(e => {
+                resolve(e);
             });
         });
 
-        expect(rejected).toBe(true);
+        expect(error).toBeInstanceOf(HandshakeTimeoutError);
+    });
+
+    test('Rejects after client is destroyed', async () => {
+        client = new ChildClient<ParentContext>();
+
+        mockInitMessageFromParent();
+
+        client.destroy();
+
+        const error = await new Promise(resolve => {
+            client.handshake().catch(e => {
+                resolve(e);
+            });
+        });
+
+        expect(error).toBeInstanceOf(ClientDestroyedError);
     });
 });
 
@@ -519,26 +533,82 @@ test('Rejects unhandled requests after a timeout', async () => {
 
     await flushPromises();
 
-    let rejected = false;
-
-    await new Promise(resolve => {
-        client.request('request', 'requestData').catch(() => {
-            rejected = true;
-            resolve(undefined);
+    const error = await new Promise(resolve => {
+        client.request('request', 'requestData').catch(e => {
+            resolve(e);
         });
     });
 
-    expect(rejected).toBe(true);
+    expect(error).toBeInstanceOf(RequestTimeoutError);
 });
 
-test('Closes message port on calls to `destroy()`', async () => {
-    client = new ChildClient<ChildContext>();
+describe('client.destroy()', () => {
+    test('Closes message port on calls to `destroy()`', async () => {
+        client = new ChildClient<ChildContext>();
 
-    mockInitMessageFromParent();
+        mockInitMessageFromParent();
 
-    await flushPromises();
+        await flushPromises();
 
-    client.destroy();
+        client.destroy();
 
-    expect(mockMessageChannel.port2.close).toHaveBeenCalled();
+        expect(mockMessageChannel.port2.close).toHaveBeenCalled();
+    });
+
+    test('Rejects handshake if it has not been completed', async () => {
+        client = new ChildClient<ChildContext>();
+
+        client.destroy();
+
+        const error = await new Promise(resolve => {
+            client.handshake().catch(e => {
+                resolve(e);
+            });
+        });
+
+        expect(error).toBeInstanceOf(ClientDestroyedError);
+    });
+
+    test('Rejects handshake even after it has been completed', async () => {
+        client = new ChildClient<ChildContext>();
+        mockInitMessageFromParent();
+        flushPromises();
+
+        client.destroy();
+
+        const error = await new Promise(resolve => {
+            client.handshake().catch(e => {
+                resolve(e);
+            });
+        });
+
+        expect(error).toBeInstanceOf(ClientDestroyedError);
+    });
+
+    test('Rejects all unresolved requests', async () => {
+        client = new ChildClient<ChildContext>();
+        mockInitMessageFromParent();
+
+        const r1 = client.request('request1', 'data1');
+
+        client.destroy();
+
+        // doing one after 'destroy' to test that new requests also fail
+        const r2 = client.request('request2', 'data2');
+
+        const e1 = await new Promise(resolve => {
+            r1.catch(e => {
+                resolve(e);
+            });
+        });
+
+        const e2 = await new Promise(resolve => {
+            r2.catch(e => {
+                resolve(e);
+            });
+        });
+
+        expect(e1).toBeInstanceOf(ClientDestroyedError);
+        expect(e2).toBeInstanceOf(ClientDestroyedError);
+    });
 });

@@ -4,7 +4,11 @@ import {
     DEFAULT_REQUEST_TIMEOUT,
     MessageAPIVersion
 } from './constants';
-import { HandshakeTimeoutError, RequestTimeoutError } from './errors';
+import {
+    HandshakeTimeoutError,
+    RequestTimeoutError,
+    ClientDestroyedError
+} from './errors';
 import { Logger } from './logger';
 import { Profiler, getProfiler } from './profiler';
 import type {
@@ -27,6 +31,7 @@ export interface SharedClientOptions {
 export abstract class SharedClient<C> {
     protected readonly debug: boolean;
     protected readonly profile: boolean;
+    protected destroyed: boolean;
     protected readonly handshakeTimeout: number;
     protected readonly requestTimeout: number;
     protected readonly channel: Deferred<Channel<C>>;
@@ -42,6 +47,9 @@ export abstract class SharedClient<C> {
     };
     protected requestSubscriptions: {
         [requestKey: string]: RequestHandler;
+    };
+    protected onDestroyRequestHandlers: {
+        [id: string]: () => void;
     };
 
     constructor({
@@ -59,11 +67,13 @@ export abstract class SharedClient<C> {
         this.eventSubscriptions = {};
         this.responseSubscriptions = {};
         this.requestSubscriptions = {};
+        this.onDestroyRequestHandlers = {};
+        this.destroyed = false;
 
         this.logger = this.getLogger();
         this.profiler = getProfiler(profile);
 
-        this.channel.promise
+        this.getChannel()
             .then(() => {
                 this.logger.log('Secure parent <-> child channel established');
             })
@@ -76,7 +86,6 @@ export abstract class SharedClient<C> {
     // in parent and child
     protected abstract onChannelInit(event: MessageEvent<Message<C>>): void;
     protected abstract getLogger(): Logger;
-    abstract destroy(): void;
 
     /**
      * Sends an event to the opposite client
@@ -133,10 +142,20 @@ export abstract class SharedClient<C> {
             data
         );
 
+        // this is the random id of the specific request instance
+        const requestId = sentMessage.id;
+
         const unsubscribeResponseHandler = () => {
             this.responseSubscriptions = omit(
                 this.responseSubscriptions,
-                sentMessage.id
+                requestId
+            );
+        };
+
+        const clearOnDestroy = () => {
+            this.onDestroyRequestHandlers = omit(
+                this.responseSubscriptions,
+                requestId
             );
         };
 
@@ -150,6 +169,7 @@ export abstract class SharedClient<C> {
                 clearTimeout(timer);
 
                 unsubscribeResponseHandler();
+                clearOnDestroy();
 
                 if (message.type === MessageType.ERROR_RESPONSE) {
                     reject(response);
@@ -158,10 +178,21 @@ export abstract class SharedClient<C> {
                 }
             };
 
-            this.responseSubscriptions[sentMessage.id] = responseHandler;
+            /**
+             * A handler that will run if client.destroy() is called. This cancels the
+             * timeout for this requests, and rejects the promise
+             */
+            const onDestroyHandler = () => {
+                clearTimeout(timer);
+                reject(new ClientDestroyedError());
+            };
+
+            this.responseSubscriptions[requestId] = responseHandler;
+            this.onDestroyRequestHandlers[requestId] = onDestroyHandler;
 
             timer = setTimeout(() => {
                 unsubscribeResponseHandler();
+                clearOnDestroy();
                 reject(new RequestTimeoutError());
             }, options.timeout || this.requestTimeout);
         });
@@ -220,8 +251,12 @@ export abstract class SharedClient<C> {
      * if the handshake process fails
      */
     async getContext(): Promise<C | null> {
+        if (this.destroyed) {
+            return null;
+        }
+
         try {
-            const { context } = await this.channel.promise;
+            const { context } = await this.getChannel();
             return context;
         } catch (e) {
             return null;
@@ -229,44 +264,61 @@ export abstract class SharedClient<C> {
     }
 
     /**
-     * Rejects if the handshake process has failed
+     * Rejects if the handshake process has failed or if the client was destroyed
      */
     async handshake(): Promise<C> {
-        const { context } = await this.channel.promise;
+        const { context } = await this.getChannel();
         return context;
+    }
+
+    /**
+     * A wrapper around the channel deferred object that also checks
+     * if the client has been destroyed before returning
+     */
+    protected async getChannel(): Promise<Channel<C>> {
+        await this.channel.promise;
+
+        if (this.destroyed) {
+            throw new ClientDestroyedError();
+        }
+
+        return this.channel.promise;
     }
 
     protected async messageListener(ev: MessageEvent<Message>) {
         try {
-            await this.channel.promise;
+            await this.getChannel();
+
+            const isValidMessage = this.isValidMessage(ev);
+
+            const message = deserialize(ev.data);
+
+            if (isValidMessage) {
+                switch (message.type) {
+                    case MessageType.EVENT: {
+                        this.handleEvent(message);
+                        break;
+                    }
+                    case MessageType.REQUEST: {
+                        this.handleRequest(message);
+                        break;
+                    }
+                    case MessageType.ERROR_RESPONSE:
+                    case MessageType.RESPONSE: {
+                        this.handleResponse(message);
+                        break;
+                    }
+                }
+
+                this.profiler.logEvent(
+                    ProfileEventType.RECEIVE_MESSAGE,
+                    message
+                );
+            } else {
+                this.logger.error('Invalid message format. Skipping.');
+            }
         } catch (e) {
             // if handshake fails, do nothing
-        }
-
-        const isValidMessage = this.isValidMessage(ev);
-
-        const message = deserialize(ev.data);
-
-        if (isValidMessage) {
-            switch (message.type) {
-                case MessageType.EVENT: {
-                    this.handleEvent(message);
-                    break;
-                }
-                case MessageType.REQUEST: {
-                    this.handleRequest(message);
-                    break;
-                }
-                case MessageType.ERROR_RESPONSE:
-                case MessageType.RESPONSE: {
-                    this.handleResponse(message);
-                    break;
-                }
-            }
-
-            this.profiler.logEvent(ProfileEventType.RECEIVE_MESSAGE, message);
-        } else {
-            this.logger.error('Invalid message format. Skipping.');
         }
     }
 
@@ -306,7 +358,11 @@ export abstract class SharedClient<C> {
         data: T,
         requestId?: string
     ): Promise<Message<T>> {
-        const { port } = await this.channel.promise;
+        const { port } = await this.getChannel();
+
+        if (this.destroyed) {
+            throw new ClientDestroyedError();
+        }
 
         const message: Message = serialize({
             type,
@@ -389,5 +445,22 @@ export abstract class SharedClient<C> {
         });
 
         return message;
+    }
+
+    destroy() {
+        this.destroyed = true;
+        this.channel.reject(new ClientDestroyedError());
+
+        if (this.messagePort) {
+            this.messagePort.close();
+        }
+
+        if (this.initTimer) {
+            clearTimeout(this.initTimer);
+        }
+
+        Object.values(this.onDestroyRequestHandlers).forEach(destroy =>
+            destroy()
+        );
     }
 }
