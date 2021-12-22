@@ -1,5 +1,7 @@
 # Stream app
 
+![The Datadog Dashboard of the Stream project](stream.png)
+
 ## Prerequesites
 
 - Docker
@@ -31,15 +33,6 @@ Build the Docker images
 
 ```
 $ docker-compose build
-```
-
-Install the dependencies for each service
-
-```
-$ docker-compose run server yarn
-$ docker-compose run ui yarn
-$ docker-compose run admin yarn
-$ docker-compose run setup yarn
 ```
 
 Launch all your containers:

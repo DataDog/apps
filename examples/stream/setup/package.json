@@ -5,6 +5,7 @@
   "main": "setup-workshop.js",
   "license": "MIT",
   "scripts": {
+    "start": "node setup-workshop.js",
     "lint": "eslint .",
     "format": "eslint --fix .",
     "build": "exit 0"
