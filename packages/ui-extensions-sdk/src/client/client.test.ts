@@ -1,7 +1,6 @@
-import { init } from '..';
-
 import { EventType } from '../constants';
 import { MockFramePostChildClient, mockContext } from '../utils/testUtils';
+import { init } from '..';
 
 import { DDClient } from './client';
 

@@ -13,7 +13,7 @@
         "lint": "yarn run lint:check && prettier --check .",
         "lint:check": "npx eslint '**/*.{ts,js}'",
         "lint:fix": "yarn run lint:check --fix",
-        "prepack": "yarn build",
+        "prepare": "yarn build",
         "test": "echo TODO: Add test script",
         "watch": "ncc build --out bin --watch"
     },

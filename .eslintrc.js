@@ -329,14 +329,8 @@ module.exports = {
                 args: 'none'
             }
         ],
-        'arca/import-ordering': [
-            'error',
-            ['^(dd|doggo|web-ui)/', '^\\.\\./', '^\\./']
-        ],
-        'arca/newline-after-import-section': [
-            'error',
-            ['^(dd|doggo|web-ui)/', '^\\.\\./', '^\\./']
-        ],
+        'arca/import-ordering': ['error'],
+        'arca/newline-after-import-section': ['error'],
         'prettier/prettier': [
             'error',
             {},

@@ -1,18 +1,18 @@
-import { init } from "@datadog/ui-extensions-sdk";
-import { setupModal } from "./modal";
-import { setupDashboardCogMenu } from "./dashboard-cog-menu";
+import { init } from '@datadog/ui-extensions-sdk';
+import { setupModal } from './modal';
+import { setupDashboardCogMenu } from './dashboard-cog-menu';
 
 export default function setup() {
-  const client = init();
-  
-  setupModal(client);
-  setupDashboardCogMenu(client);
+    const client = init();
 
-  const root = document.getElementById("root");
-  if (!root) {
-    return;
-  }
-  root.innerHTML = `
+    setupModal(client);
+    setupDashboardCogMenu(client);
+
+    const root = document.getElementById('root');
+    if (!root) {
+        return;
+    }
+    root.innerHTML = `
     <div>
       The application controller is running in the background.
     </div>

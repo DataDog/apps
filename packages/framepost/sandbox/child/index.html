@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FramePost sandbox: Child</title>
+    </head>
+    <body>
+        <h4>FramePost sandbox: Child</h4>
+        <script src="dist/framepost.min.js"></script>
+        <script>
+            const client = new framepost.ChildClient({
+                debug: true,
+                profile: true,
+                context: { version: '0.1.0' }
+            });
+
+            client
+                .getContext()
+                .then(context =>
+                    console.log('Channel established with parent', context)
+                );
+
+            client.on('down', data =>
+                console.log('received event from parent', data)
+            );
+
+            client.send('up', { data: 'up' });
+
+            client.onRequest('requestFromChild', async () => {
+                await new Promise(res => setTimeout(res, 1000));
+
+                throw new Error('hihi');
+            });
+
+            client.request('requestFromParent').then(data => {
+                console.log('received requested data from parent', data);
+            });
+        </script>
+    </body>
+</html>
