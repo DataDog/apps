@@ -1,0 +1,13 @@
+name: myapp
+version: 0.1.0
+
+authors:
+  - your-name-here <your-email-here>
+
+targets:
+  myapp:
+    main: src/myapp.cr
+
+crystal: 1.2.2
+
+license: MIT
