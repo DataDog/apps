@@ -52,6 +52,7 @@ server = HTTP::Server.new do |context|
 
     context.response.content_type = "text/json"
     context.response.print response.to_pretty_json
+    context.response.headers.add "Access-Control-Allow-Origin", "*"
     context.response.status_code = 200
     context.response.close
 end

@@ -95,7 +95,7 @@ Note that this JSON contains a value called `Your first widget`. This is the nam
 
 
 
-To build your application, run `yarn build` in your termal. Then move your static generated site to the hosting of your choice and update the URLs in the app settings.
+To build your application, run `yarn build` in your terminal. Then move your static generated site to the hosting of your choice and update the URLs in the app settings.
 
 ### OAuth API Access
 
