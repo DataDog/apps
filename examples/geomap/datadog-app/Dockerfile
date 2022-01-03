@@ -1,7 +1,7 @@
 FROM node:16.13-buster-slim
 
-ADD . /setup
-WORKDIR /setup
+ADD . /datadog-app
+WORKDIR /datadog-app
 
 RUN yarn
 

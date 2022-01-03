@@ -1,7 +1,7 @@
 version: '3'
 services:
   crystal-api:
-    build: crystal-api
+    build: crystal-api 
     stdin_open: true
     tty: true
     environment:
@@ -16,9 +16,16 @@ services:
     stdin_open: true
     tty: true
     environment:
-      REACT_APP_API_URL: http://localhost:8080
+      REACT_APP_API_URL: http://localhost:5000
     ports:
       - "3000:3000"
     volumes:
       - ./datadog-app:/datadog-app
+  setup:
+    stdin_open: true
+    tty: true
+    build: setup
+    env_file: ./.env
+    volumes:
+      - ./setup:/setup
 
