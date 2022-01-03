@@ -1,5 +1,16 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.25.0
+
+### Minor Changes
+
+-   7e959d1: Ensure full shutdown of requests on framepost client destroy. Additional errors may now be thrown from request handlers in rare side-cases. This should mainly not affect the SDK, but we are bumping the minor version to be safe.
+
+### Patch Changes
+
+-   Updated dependencies [7e959d1]
+    -   @datadog/framepost@0.3.0
+
 ## 0.24.5
 
 ### Patch Changes
