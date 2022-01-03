@@ -1,8 +1,12 @@
 const init = async () => {
     switch (window.location.pathname) {
-        case '/widget': {
-            let widget = await import('./widget');
+        case '/hello-world-widget': {
+            let widget = await import('./widget/HelloWorld');
             return widget.default();
+        }
+        case '/geo-map-widget': {
+            let widget = await import('./widget/GeoMap');
+            return widget.default()
         }
         case '/panel': {
             let sidepanel = await import('./side-panel');
