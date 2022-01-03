@@ -75,14 +75,4 @@ export class ParentClient<C = any> extends SharedClient<C> {
     protected getLogger() {
         return getLogger('parent-client', this.debug);
     }
-
-    destroy() {
-        if (this.messagePort) {
-            this.messagePort.close();
-        }
-
-        if (this.initTimer) {
-            clearTimeout(this.initTimer);
-        }
-    }
 }

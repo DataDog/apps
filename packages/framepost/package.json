@@ -2,10 +2,11 @@
     "name": "@datadog/framepost",
     "version": "0.2.4",
     "description": "Secure parent-child iframe communication",
-    "homepage": "https://github.com/DataDog/framepost",
+    "homepage": "https://github.com/DataDog/apps/tree/master/packages/framepost",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/DataDog/framepost.git"
+        "url": "git+https://github.com/DataDog/apps.git",
+        "directory": "packages/framepost"
     },
     "main": "dist/framepost.min.js",
     "types": "dist/src/index.d.ts",

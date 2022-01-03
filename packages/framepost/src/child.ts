@@ -45,13 +45,7 @@ export class ChildClient<C = any> extends SharedClient<C> {
     }
 
     destroy() {
-        if (this.messagePort) {
-            this.messagePort.close();
-        }
-
-        if (this.initTimer) {
-            clearTimeout(this.initTimer);
-        }
+        super.destroy();
 
         window.removeEventListener('message', this.initListener);
     }
