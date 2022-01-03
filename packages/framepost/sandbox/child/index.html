@@ -34,10 +34,6 @@
             client.request('requestFromParent').then(data => {
                 console.log('received requested data from parent', data);
             });
-
-            try {
-                client.destroy();
-            } catch (e) {}
         </script>
     </body>
 </html>
