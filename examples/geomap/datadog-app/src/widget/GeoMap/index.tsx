@@ -1,3 +1,4 @@
+import { Map, Marker } from 'pigeon-maps'
 import { init } from '@datadog/ui-extensions-sdk';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -22,13 +23,19 @@ function Widget() {
             .catch(err => console.log(`An error occurs`, err))
     }, [])
 
-    console.log('========')
+    if (!location) return <div>Loading...</div>
+
+    console.log('=======')
     console.log(location)
-    console.log('========')
+    console.log('=======')
+
+    const { latitude, longitude } = location
 
     return (
         <div>
-            <h1>Hello</h1>
+            <Map height={300} defaultCenter={[Number(latitude), Number(longitude)]} defaultZoom={11}>
+                <Marker width={50} anchor={[Number(latitude), Number(longitude)]} />
+            </Map>
         </div>
     )
 }
