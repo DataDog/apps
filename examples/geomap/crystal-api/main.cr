@@ -14,6 +14,10 @@ server = HTTP::Server.new do |context|
     params = req.query_params.to_h
     method = req.method
 
+    puts "+++++"
+    puts "#{params}"
+    puts "+++++"
+
     # Conditional request body handling
     if method == "POST"
         if headers["Content-Type"] == "application/json"
@@ -27,11 +31,19 @@ server = HTTP::Server.new do |context|
 
     ## Get geolookup ip either from x-forwarded-for header or from url query params
     if headers.has_key?("X-Forwarded-For") ; ip = headers["X-Forwarded-For"] ; end
-    if headers.has_key?("ip") ; ip = headers["ip"] ; end
+    if params.has_key?("ip") ; ip = params["ip"] ; end
+
+    puts "====="
+    puts "#{ip}"
+    puts "====="
 
     ## Run GeoLookup
     if ip.nil?
         geo = HTTP::Client.get "https://ifconfig.co/json"
+    elsif ip == "*"
+        geo = HTTP::Client.get "https://ifconfig.co/json?ip=8.8.8.8"
+    else
+        geo = HTTP::Client.get "https://ifconfig.co/json?ip=#{ip}"
     end
 
     if ! geo.nil?
