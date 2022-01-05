@@ -15,24 +15,21 @@ interface Location {
     longitude: string;
 }
 
-interface Account {
-    value: string;
-    name: string;
-}
-
 
 function Widget() {
     const [location, setLocation] = useState<Location | null>(null);
 
-    // Example use of template variables
-    const [accountsId, setAccountsId] = useState<Account[] | null>(null)
+    const [ip, setIp] = useState<string[] | []>([])
 
     useEffect(() => {
-        fetch(`${API_URL}?ip=8.8.8.8`)
+        if (!ip.length) return
+        
+        const [ipAddress] = ip
+        fetch(`${API_URL}?ip=${ipAddress}`)
             .then(res => res.json())
             .then(({ geo: { latitude, longitude } }) => setLocation({latitude, longitude}))
             .catch(err => console.log(`An error occurs`, err))
-    }, [])
+    }, [ip])
 
     useEffect(() => {
         client.getContext()
@@ -41,8 +38,8 @@ function Widget() {
     }, [])
 
     useEffect(() => {
-        client.events.on(EventType.CONTEXT_CHANGE, (newContext) => {
-            console.log(newContext)
+        client.events.on(EventType.CONTEXT_CHANGE, ({ dashboard }) => {
+           handleTemplateVariables(dashboard?.templateVars) 
         });
     }, [])
 
@@ -50,27 +47,20 @@ function Widget() {
     const handleTemplateVariables = (templateVariables: undefined | TemplateVariableValue[]) => {
         if (templateVariables === undefined || !templateVariables.length) return
 
-        const newAccountsId = templateVariables
-            .filter(variable => variable.name === 'account_id')
-            .map(variable => ({ value: variable.value, name: variable.name }))
+        const newIp = templateVariables
+            .filter(variable => variable.name === 'IP')
+            .map(variable => variable.value)
 
-        setAccountsId(newAccountsId)
+        setIp(newIp)
     }
 
 
     if (!location) return <div>Loading...</div>
 
-    /*
-    console.log('=======')
-    console.log(location)
-    console.log('=======')
-    */
-
     const { latitude, longitude } = location
-
     return (
         <div>
-            <Map height={300} defaultCenter={[Number(latitude), Number(longitude)]} defaultZoom={11}>
+            <Map height={300} center={[Number(latitude), Number(longitude)]} defaultZoom={11}>
                 <Marker width={50} anchor={[Number(latitude), Number(longitude)]} />
             </Map>
         </div>
