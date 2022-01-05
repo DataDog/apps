@@ -33,10 +33,6 @@ server = HTTP::Server.new do |context|
     if headers.has_key?("X-Forwarded-For") ; ip = headers["X-Forwarded-For"] ; end
     if params.has_key?("ip") ; ip = params["ip"] ; end
 
-    puts "====="
-    puts "#{ip}"
-    puts "====="
-
     ## Run GeoLookup
     if ip.nil?
         geo = HTTP::Client.get "https://ifconfig.co/json"
