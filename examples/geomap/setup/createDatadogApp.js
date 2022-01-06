@@ -22,10 +22,66 @@ async function getAppsData() {
 }
 
 async function createApp(endpoint, method) {
-    console.log('=====')
-    console.log(endpoint)
-    console.log(method)
-    console.log('=====')
+    return fetch(endpoint, {
+        headers: {
+            'content-type': 'application/json',
+            'DD-API-KEY': DD_API_KEY,
+            'DD-APPLICATION-KEY': DD_APP_KEY
+
+        },
+        body: JSON.stringify({
+            data: {
+                type: 'apps',
+                attributes: {
+                    author_info: {
+                        name: 'Thomas Dimnet'
+                    },
+                    terms: {},
+                    assets: {
+                        ui_extensions: {
+                            debug_mode_url: APP_URL,
+                            secured: false,
+                            main_url: APP_URL,
+                            api_version: 'v1.0',
+                            features: [
+                                {
+                                    name: 'dashboard_custom_widget',
+                                    options: {
+                                        widgets: [
+                                            {
+                                                source: "geo-map-widget",
+                                                name: "Geo Map Widget",
+                                                custom_widget_key: "geo_map_widget"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    short_name: null,
+                    support_type: 'partner',
+                    created_at: '2021-08-12T15:47:53.997855+00:00',
+                    proxy_scopes: [],
+                    stability: 'dev',
+                    modified_at: '2021-09-08T00:47:03.116381+00:00',
+                    pricing: [],
+                    published: false,
+                    tile: {
+                        description: 'A Datadog application using OpenStreetMap to display the location of IP addresses',
+                        logo_media: {
+                            light: 'https://freesvg.org/img/location_icon.png'
+                        },
+                        title: APP_NAME
+                    }
+                }
+            }
+        }),
+        method
+    })
+        .then(res => res.json())
+        .then(({ data: { id } }) => id)
+        .catch(err => console.log('An error occurs on createApp function', err))
 }
 
 async function main() {
