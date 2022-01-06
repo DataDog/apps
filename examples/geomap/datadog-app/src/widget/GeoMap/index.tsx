@@ -18,7 +18,6 @@ interface Location {
 
 function Widget() {
     const [location, setLocation] = useState<Location | null>(null);
-
     const [ip, setIp] = useState<string[] | []>([])
 
     useEffect(() => {
@@ -42,7 +41,6 @@ function Widget() {
            handleTemplateVariables(dashboard?.templateVars) 
         });
     }, [])
-
 
     const handleTemplateVariables = (templateVariables: undefined | TemplateVariableValue[]) => {
         if (templateVariables === undefined || !templateVariables.length) return
