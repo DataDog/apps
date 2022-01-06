@@ -86,7 +86,10 @@ export enum RequestType {
     SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
 
     // Widgets
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update'
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
+
+    // Table
+    GET_TABLE_DEF = 'get_table_def'
 }
 
 // These event types are always allowed, regardless of what features have been enabled

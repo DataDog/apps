@@ -7,6 +7,7 @@ import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
+import { DDTableClient } from '../oob-components/table/table';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type {
     Context,
@@ -39,6 +40,7 @@ export class DDClient<AuthStateArgs = unknown> {
     sidePanel: DDSidePanelClient;
     widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
+    table: DDTableClient;
 
     constructor(options: ClientOptions<AuthStateArgs> = {}) {
         this.host = options.host || DEFAULT_OPTIONS.host;
@@ -77,6 +79,7 @@ export class DDClient<AuthStateArgs = unknown> {
         this.modal = new DDModalClient(this);
         this.sidePanel = new DDSidePanelClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
+        this.table = new DDTableClient(this);
 
         this.events.on(EventType.CONTEXT_CHANGE, newContext => {
             this.context = newContext;

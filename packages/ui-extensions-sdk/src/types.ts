@@ -281,3 +281,9 @@ export interface IFrameDimensions {
     height: number;
     width: number;
 }
+
+// Table component
+export interface TableDefRequestResponse {
+    data: any[];
+    columns: any[];
+}
