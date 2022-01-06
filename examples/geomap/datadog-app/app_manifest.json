@@ -4,11 +4,11 @@
     "app_id": null,
     "support_type": "partner",
     "tile": {
-        "description": "A hello-world like application used as a starting point for apps",
+        "description": "A Datadog application using OpenStreetMap to display the location of IP addresses",
         "logo_media": {
             "light": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emojione_1F44B.svg/1024px-Emojione_1F44B.svg.png"
         },
-        "title": "Your first app!"
+        "title": "Geo Map"
     },
     "author": {},
     "pricing": [],
@@ -26,59 +26,16 @@
                     "options": {
                         "widgets": [
                             {
-                                "name": "Your first app",
-                                "has_title": true,
-                                "custom_widget_key": "your_first_app",
-                                "source": "widget",
-                                "options": [
-                                    {
-                                        "enum": [
-                                            "system.cpu.idle",
-                                            "system.load.1",
-                                            "system.load.5",
-                                            "system.load.15"
-                                        ],
-                                        "type": "string",
-                                        "name": "metric",
-                                        "label": "Your favorite metric"
-                                    },
-                                    {
-                                        "enum": [
-                                            "Chevre",
-                                            "Gruyere",
-                                            "Mozzarella"
-                                        ],
-                                        "type": "string",
-                                        "name": "favorite-cheese",
-                                        "label": "Your favorite cheese"
-                                    }
-                                ],
-                                "icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Emojione_1F44B.svg/1024px-Emojione_1F44B.svg.png"
+                                "source": "geo-map-widget",
+                                "name": "Geo Map Widget",
+                                "custom_widget_key": "geo_map_widget"
                             }
                         ]
                     }
                 },
                 {
                     "name": "dashboard_cog_menu",
-                    "options": {
-                        "items": [
-                            {
-                                "action_type": "event",
-                                "key": "open-confirmation",
-                                "label": "Please confirm"
-                            },
-                            {
-                                "action_type": "event",
-                                "key": "open-custom-modal",
-                                "label": "Open a custom modal"
-                            },
-                            {
-                                "action_type": "event",
-                                "key": "open-custom-panel",
-                                "label": "Open a custom side panel with args"
-                            }
-                        ]
-                    }
+                    "options": {}
                 },
                 {
                     "name": "modals",
