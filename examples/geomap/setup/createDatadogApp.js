@@ -80,7 +80,7 @@ async function createApp(endpoint, method) {
         method
     })
         .then(res => res.json())
-        .then(({ data: { id } }) => id)
+        .then(data => console.log(data))
         .catch(err => console.log('An error occurs on createApp function', err))
 }
 
@@ -97,6 +97,7 @@ async function main() {
         : 'POST'
 
     const appId = await createApp(endpoint, method)
+
 }
 
 module.exports = main
