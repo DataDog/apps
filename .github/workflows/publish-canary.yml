@@ -18,7 +18,7 @@ jobs:
                   node-version-file: .node-version
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
-            - run: yarn
+            - run: yarn install --prefer-offline
             - run: yarn build
             - name: Add auth credentials for lerna
               run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
