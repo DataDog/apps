@@ -2,21 +2,30 @@ version: '3'
 services:
   crystal-api:
     build: crystal-api 
-    command: crystal run main.cr
+    stdin_open: true
+    tty: true
     environment:
       BIND: 0.0.0.0
       PORT: 8080
     ports:
       - "8080:8080"
+    volumes:
+      - ./crystal-api:/api
   datadog-app:
     build: datadog-app
-    command: yarn start
+    stdin_open: true
+    tty: true
     environment:
       REACT_APP_API_URL: http://localhost:8080
     ports:
       - "3000:3000"
+    volumes:
+      - ./datadog-app:/datadog-app
   setup:
+    stdin_open: true
+    tty: true
     build: setup
-    command: yarn start
     env_file: ./.env
+    volumes:
+      - ./setup:/setup
 
