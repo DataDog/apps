@@ -1,8 +1,9 @@
 {
+  "private": true,
   "scripts": {
     "start": "node index.js"
   },
-  "name": "setup",
+  "name": "datadog-app-example-redis-setup",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",

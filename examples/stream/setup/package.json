@@ -1,5 +1,6 @@
 {
-  "name": "setup",
+  "name": "datadog-app-example-stream-setup",
+  "private": true,
   "version": "0.1.0",
   "description": "Workshop setup",
   "main": "setup-workshop.js",

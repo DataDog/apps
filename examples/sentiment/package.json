@@ -1,5 +1,5 @@
 {
-    "name": "app-starter-kit-js",
+    "name": "datadog-app-example-sentiment",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

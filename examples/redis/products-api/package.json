@@ -1,9 +1,12 @@
 {
+  "name": "datadog-app-example-redis-products-api",
+  "private": true,
   "scripts": {
     "serve": "node --require dd-trace/init src/app.js",
     "dev": "nodemon ./src/app.js",
     "seed": "node ./src/db/seed.js"
   },
+  "version": "0.0.0",
   "dependencies": {
     "body-parser": "^1.19.0",
     "dd-trace": "^1.5.1",

@@ -1,5 +1,6 @@
 {
-  "name": "stream-server",
+  "name": "datadog-app-example-stream-server",
+  "private": true,
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",

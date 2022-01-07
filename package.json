@@ -12,7 +12,11 @@
         "lint": "yarn workspaces run lint",
         "release:canary": "auto shipit",
         "release:packages": "changeset publish",
-        "test": "yarn workspaces run test",
+        "test": "yarn test:example-packages && yarn workspaces run test",
+        "test:example-packages": "yarn test:example-packages:name && yarn test:example-packages:private && yarn test:example-packages:version",
+        "test:example-packages:name": "./scripts/check-example-packages-name.js",
+        "test:example-packages:private": "./scripts/check-example-packages-private.js",
+        "test:example-packages:version": "./scripts/check-example-packages-version.js",
         "format": "yarn workspaces run format"
     },
     "license": "Apache-2.0",

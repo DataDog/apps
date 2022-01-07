@@ -1,5 +1,6 @@
 {
-  "name": "dog-api",
+  "name": "datadog-app-example-random-dog-dog-api",
+  "private": true,
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
