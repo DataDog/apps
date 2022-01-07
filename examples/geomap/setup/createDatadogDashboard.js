@@ -16,7 +16,7 @@ async function createDashbord(endpoint, method, appId) {
             'DD-API-KEY': DD_API_KEY,
             'DD-APPLICATION-KEY': DD_APP_KEY
         },
-        body: {
+        body: JSON.stringify({
             title: TITLE,
             description: "",
             widgets :[
@@ -275,7 +275,7 @@ async function createDashbord(endpoint, method, appId) {
             notify_list: [],
             reflow_type: "fixed",
             id: appId
-        },
+        }),
         method
     })
         .catch(err => console.log('An error occurs when creating the dashboard', err))

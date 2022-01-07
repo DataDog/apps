@@ -14,10 +14,6 @@ server = HTTP::Server.new do |context|
     params = req.query_params.to_h
     method = req.method
 
-    puts "+++++"
-    puts "#{params}"
-    puts "+++++"
-
     # Conditional request body handling
     if method == "POST"
         if headers["Content-Type"] == "application/json"
