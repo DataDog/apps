@@ -6,15 +6,7 @@ port = ENV["PORT"] ||= "8080"
 port = port.to_i
 
 
-server = HTTP::Server.new do |context|
-    ## Process Context
-    req = context.request
-    headers = req.headers
-    path = req.path
-    params = req.query_params.to_h
-    method = req.method
-
-    # Conditional request body handling
+def parse_body(headers, method, req)
     if method == "POST"
         if headers["Content-Type"] == "application/json"
             body = JSON.parse(req.body.as(IO).gets_to_end.to_s)
@@ -25,11 +17,11 @@ server = HTTP::Server.new do |context|
         body = nil
     end
 
-    ## Get geolookup ip either from x-forwarded-for header or from url query params
-    if headers.has_key?("X-Forwarded-For") ; ip = headers["X-Forwarded-For"] ; end
-    if params.has_key?("ip") ; ip = params["ip"] ; end
+    return body
+end
 
-    ## Run GeoLookup
+
+def get_geo(ip)
     if ip.nil?
         geo = HTTP::Client.get "https://ifconfig.co/json"
     elsif ip == "*"
@@ -37,6 +29,26 @@ server = HTTP::Server.new do |context|
     else
         geo = HTTP::Client.get "https://ifconfig.co/json?ip=#{ip}"
     end
+
+    return geo
+end
+
+
+server = HTTP::Server.new do |context|
+    ## Process Context
+    req = context.request
+    headers = req.headers
+    path = req.path
+    params = req.query_params.to_h
+    method = req.method
+
+    body = parse_body(headers, method, req)
+
+    ## Get geolookup ip either from x-forwarded-for header or from url query params
+    if headers.has_key?("X-Forwarded-For") ; ip = headers["X-Forwarded-For"] ; end
+    if params.has_key?("ip") ; ip = params["ip"] ; end
+
+    geo = get_geo(ip)
 
     if ! geo.nil?
         geo_j = JSON.parse(geo.body)
