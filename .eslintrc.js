@@ -240,7 +240,7 @@ module.exports = {
             {
                 line: {
                     exceptions: ['-', '+'],
-                    markers: ['=', '!']
+                    markers: ['=', '!', '/']
                 },
                 block: {
                     exceptions: ['-', '+'],

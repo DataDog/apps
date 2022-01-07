@@ -8,21 +8,22 @@
     },
     "scripts": {
         "build": "yarn workspaces run build",
-        "prepare": "yarn workspaces run prepare",
+        "format": "yarn workspaces run format",
         "lint": "yarn workspaces run lint",
+        "prepare": "yarn workspaces run prepare",
         "release:canary": "auto shipit",
         "release:packages": "changeset publish",
-        "test": "yarn test:example-packages && yarn workspaces run test",
-        "test:example-packages": "yarn test:example-packages:name && yarn test:example-packages:private && yarn test:example-packages:version",
         "test:example-packages:name": "./scripts/check-example-packages-name.js",
         "test:example-packages:private": "./scripts/check-example-packages-private.js",
         "test:example-packages:version": "./scripts/check-example-packages-version.js",
-        "format": "yarn workspaces run format"
+        "test:example-packages": "yarn test:example-packages:name && yarn test:example-packages:private && yarn test:example-packages:version",
+        "test": "yarn test:example-packages && yarn workspaces run test"
     },
     "license": "Apache-2.0",
     "private": true,
     "workspaces": [
         "examples/*",
+        "examples/*/*",
         "packages/*"
     ],
     "devDependencies": {

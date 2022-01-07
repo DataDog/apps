@@ -14,8 +14,8 @@ export default function Widget() {
     let rateLimitControls = null;
     // WORKSHOP STEP 6
     const setRateLimit = (value: number) => {
-        post("limits", {
-            value,
+        post('limits', {
+            value
         });
     };
 
@@ -63,10 +63,10 @@ export default function Widget() {
 
     const onBlockUser = (args: any) => {
         client.modal.open({
-            source: "blocklist-modal",
-            key: "custom-modal",
-            title: "Blocklist",
-            size: ModalSize.LARGE,
+            source: 'blocklist-modal',
+            key: 'custom-modal',
+            title: 'Blocklist',
+            size: ModalSize.LARGE
         });
     };
 

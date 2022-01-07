@@ -1,13 +1,8 @@
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 
-const {
-    APP_URL,
-    BASE_URL,
-    DD_API_KEY,
-    DD_APP_KEY
-} = require('./constants')
+const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
 
-const APP_NAME = 'Random Dog'
+const APP_NAME = 'Random Dog';
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
@@ -18,7 +13,10 @@ async function getAppsData() {
     })
         .then(res => res.json())
         .then(({ data }) => data)
-        .catch(err => console.log('An error occurs on getApp function', err))
+        .catch(err => {
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on getApp function', err);
+        });
 }
 
 async function createApp(endpoint, method) {
@@ -33,7 +31,7 @@ async function createApp(endpoint, method) {
                 type: 'apps',
                 attributes: {
                     author_info: {
-                        name: 'Duncan Harvey',
+                        name: 'Duncan Harvey'
                     },
                     terms: {},
                     assets: {
@@ -52,25 +50,26 @@ async function createApp(endpoint, method) {
                                                 options: [],
                                                 name: 'Random Dog Image',
                                                 custom_widget_key: 'random-dog',
-                                                icon: 'https://freesvg.org/img/DOG.png',
-                                            },
-                                        ],
-                                    },
+                                                icon:
+                                                    'https://freesvg.org/img/DOG.png'
+                                            }
+                                        ]
+                                    }
                                 },
                                 {
                                     name: 'widget_context_menu',
-                                    options: {},
+                                    options: {}
                                 },
                                 {
                                     name: 'modals',
-                                    options: {},
+                                    options: {}
                                 },
                                 {
                                     name: 'side_panels',
-                                    options: {},
-                                },
-                            ],
-                        },
+                                    options: {}
+                                }
+                            ]
+                        }
                     },
                     short_name: null,
                     support_type: 'partner',
@@ -83,36 +82,37 @@ async function createApp(endpoint, method) {
                     tile: {
                         description: 'Random Dog Images',
                         logo_media: {
-                            light: 'https://freesvg.org/img/DOG.png',
+                            light: 'https://freesvg.org/img/DOG.png'
                         },
-                        title: 'Random Dog',
-                    },
-                },
-            },
+                        title: 'Random Dog'
+                    }
+                }
+            }
         }),
-        method 
+        method
     })
         .then(res => res.json())
         .then(({ data: { id } }) => id)
-        .catch(err => console.log('An error occurs on createApp function', err))
+        .catch(err =>
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on createApp function', err)
+        );
 }
 
 async function main(configuration) {
-    const apps = await getAppsData()
-    const existingApp = apps.find(app => app.attributes.tile.title === APP_NAME)
-    
-    const endpoint = existingApp 
-        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
-        : `${BASE_URL}/api/v2/apps`
+    const apps = await getAppsData();
+    const existingApp = apps.find(
+        app => app.attributes.tile.title === APP_NAME
+    );
 
-    const method = existingApp 
-        ? 'PATCH' 
-        : 'POST'
-    
-    const appId = await createApp(endpoint, method)
-    return appId
+    const endpoint = existingApp
+        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
+        : `${BASE_URL}/api/v2/apps`;
+
+    const method = existingApp ? 'PATCH' : 'POST';
+
+    const appId = await createApp(endpoint, method);
+    return appId;
 }
 
-module.exports = main
-
-
+module.exports = main;

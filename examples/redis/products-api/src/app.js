@@ -1,31 +1,26 @@
-'use strict'
-const express = require('express')
-const jsonParser = require('body-parser').json
+const express = require('express');
+const jsonParser = require('body-parser').json;
 
-const {
-    createConnection,
-    createRedisClient
-} = require('./db/index')
-const products = require('./routes/products')
-const users = require('./routes/users')
+const { createConnection, createRedisClient } = require('./db/index');
+const products = require('./routes/products');
+const users = require('./routes/users');
 
+const app = express();
+const port = process.env.PORT || 3020;
 
-const app = express()
-const port = process.env.PORT || 3020
+app.use(jsonParser());
 
-
-app.use(jsonParser())
-
-app.use('/api/v1/products', products)
-app.use('/api/v1/users', users)
+app.use('/api/v1/products', products);
+app.use('/api/v1/users', users);
 
 app.listen(port, async () => {
-    await createConnection()
+    await createConnection();
 
-    const redisClient = createRedisClient() 
-    await redisClient.connect()
-    console.log('Redis: connection successful')
+    const redisClient = createRedisClient();
+    await redisClient.connect();
+    // eslint-disable-next-line no-console
+    console.log('Redis: connection successful');
 
-    console.log(`Magic Happens on port ${port}`)
-})
-
+    // eslint-disable-next-line no-console
+    console.log(`Magic Happens on port ${port}`);
+});

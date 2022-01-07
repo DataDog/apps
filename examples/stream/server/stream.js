@@ -18,9 +18,9 @@ async function getStream() {
     return stream.slice(0, 15);
 }
 
-async function getStreamForUser(user) {
+async function getStreamForUser(email) {
     await initStream();
-    user = getUser(user);
+    const user = getUser(email);
     if (!user) {
         return [];
     }
@@ -39,10 +39,12 @@ async function getStreamForUser(user) {
 
 function postToStream(item) {
     if (!item.author) {
+        // eslint-disable-next-line no-console
         console.log('Tweet missing author');
         return;
     }
     if (!item.text) {
+        // eslint-disable-next-line no-console
         console.log('Tweet missing text');
         return;
     }

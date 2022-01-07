@@ -1,9 +1,9 @@
-const { v1 } = require('@datadog/datadog-api-client')
-const fetch = require('node-fetch')
+const { v1 } = require('@datadog/datadog-api-client');
+const fetch = require('node-fetch');
 
-const { BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants')
+const { BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
 
-const TITLE = 'Datadog App Redis Dashboard'
+const TITLE = 'Datadog App Redis Dashboard';
 
 async function createDashboard(endpoint, method, appId) {
     return fetch(endpoint, {
@@ -314,25 +314,25 @@ async function createDashboard(endpoint, method, appId) {
             id: appId
         }),
         method
-    })
-        .catch(err => console.log('An error occurs when creating the dashboard'))
+        // eslint-disable-next-line no-console
+    }).catch(err => console.log('An error occurs when creating the dashboard'));
 }
 
 async function main(configuration, appId) {
-    const dashboardApi = new v1.DashboardsApi(configuration)
-    const { dashboards } = await dashboardApi.listDashboards({})
+    const dashboardApi = new v1.DashboardsApi(configuration);
+    const { dashboards } = await dashboardApi.listDashboards({});
 
     const exisitingDashboard = dashboards.find(
         dashboard => dashboard.title === TITLE
-    )
+    );
 
     const endpoint = exisitingDashboard
         ? `${BASE_URL}/api/v1/dashboard?${exisitingDashboard}`
-        : `${BASE_URL}/api/v1/dashboard`
+        : `${BASE_URL}/api/v1/dashboard`;
 
-    const method = exisitingDashboard ? 'PUT' : 'POST'
+    const method = exisitingDashboard ? 'PUT' : 'POST';
 
-    await createDashboard(endpoint, method, appId)
+    await createDashboard(endpoint, method, appId);
 }
 
-module.exports = main
+module.exports = main;
