@@ -1,0 +1,11 @@
+FROM crystallang/crystal:1.3.0-alpine-build
+
+ADD . /api
+WORKDIR /api
+
+RUN shards install
+RUN shards build
+
+EXPOSE 8080
+
+ENTRYPOINT ["bin/geomap"]
