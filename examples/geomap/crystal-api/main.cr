@@ -5,6 +5,7 @@ bind = ENV["BIND"] ||= "0.0.0.0"
 port = ENV["PORT"] ||= "8080"
 port = port.to_i
 
+debug = ENV["DEBUG"] ||= "false"
 
 def parse_body(headers, method, req)
     if method == "POST"
