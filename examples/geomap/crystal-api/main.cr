@@ -51,12 +51,14 @@ server = HTTP::Server.new do |context|
 
     geo = get_geo(ip)
     if geo.status_code == 200
+        retried = false
         context.response.headers.add "X-retried", "false"
     else
         until geo.status_code == 200
-          debug == "true" && STDERR.puts "#{Time.local} : #{geo.status_code} received, retrying..."
+          debug == "true" && STDERR.puts "#{Time.local} : #{geo.status_code} received, retrying in #{geo.status_code/100} seconds..."
           sleep geo.status_code / 100
           geo = get_geo(ip)
+          retried = true
           context.response.headers.add "X-retried", "true"
         end
     end
@@ -82,7 +84,8 @@ server = HTTP::Server.new do |context|
             "headers": headers,
             "method": method,
             "path": path,
-            "params": params
+            "params": params,
+            "retried": retried
         },
         "geo" => geo_h
     }
@@ -98,4 +101,3 @@ address = server.bind_tcp bind, port
 puts "Magic happens on port #{port}"
 
 server.listen
-
