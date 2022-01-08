@@ -16,8 +16,8 @@ _curl(){
             "url"         : "%{url_effective}"
         }
     }
-    ' | jq -ce "${FILTER:-select( .http.status_code == ${STATUS_CODE:-200} )}"
+    ' | jq ${JQ_OPTS:--ce} "${FILTER:-select( .http.status_code == ${STATUS_CODE:-200} )}"
 }
 
 ## loop-test ${URL}
-while _curl ; do true ; done
+while _curl ; do sleep ${DELAY:-0} ; done
