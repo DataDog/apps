@@ -9,3 +9,6 @@ RUN shards build
 EXPOSE 8080
 
 ENTRYPOINT ["bin/geomap"]
+
+HEALTHCHECK --start-period=15s --interval=15s --timeout=5s --retries=3 \
+  CMD curl -f http://localhost:8080 || exit 1
