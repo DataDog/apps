@@ -50,10 +50,30 @@ server = HTTP::Server.new do |context|
     if params.has_key?("ip") ; ip = params["ip"] ; end
 
     geo = get_geo(ip)
+    if geo.status_code == 200
+        context.response.headers.add "X-retried", "false"
+    else
+        until geo.status_code == 200
+          debug == "true" && STDERR.puts "#{Time.local} : #{geo.status_code} received, retrying..."
+          sleep geo.status_code / 100
+          geo = get_geo(ip)
+          context.response.headers.add "X-retried", "true"
+        end
+    end
+    ## quick & dirty hack to handle bad responses (mostly 429s / rate-limits)
+    ## better : implement retries w/ exponential backoff startegy, see https://github.com/feifanzhou/robust_http.cr
+    ## even better : do not rely on 3rd party API, implement GeoIP2 natively, see https://github.com/delef/geoip2.cr
 
     if ! geo.nil?
-        geo_j = JSON.parse(geo.body)
-        geo_h = geo_j.as_h
+        begin
+            geo_j = JSON.parse(geo.body)
+            geo_h = geo_j.as_h
+        rescue
+          debug == "true" && STDERR.puts geo.body
+          geo_h = {} of String => String
+        end
+    else
+        geo_h = {} of String => String
     end
 
     ## Build response object
