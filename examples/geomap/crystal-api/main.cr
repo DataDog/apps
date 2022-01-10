@@ -55,8 +55,7 @@ server = HTTP::Server.new do |context|
         context.response.headers.add "X-retried", "false"
     else
         until geo.status_code == 200
-          debug == "true" && STDERR.puts "#{Time.local} : #{geo.status_code} received, retrying in #{geo.status_code/100} seconds..."
-          sleep geo.status_code / 100
+          debug == "true" && STDERR.puts "#{Time.local} : #{geo.status_code} received, retrying..."
           geo = get_geo(ip)
           retried = true
           context.response.headers.add "X-retried", "true"
