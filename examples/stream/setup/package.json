@@ -7,10 +7,6 @@
     "license": "MIT",
     "scripts": {
         "build": "exit 0",
-        "format": "prettier --write .",
-        "lint:check": "npx eslint '**/*.{ts,js}'",
-        "lint:fix": "yarn run lint:check --fix",
-        "lint": "yarn run lint:check && prettier --check .",
         "prepare": "exit 0",
         "start": "node setup-workshop.js",
         "test": "echo TODO Add test script"
@@ -18,10 +14,5 @@
     "dependencies": {
         "@datadog/datadog-api-client": "^1.0.0-beta.5",
         "node-fetch": "^2.6.1"
-    },
-    "devDependencies": {
-        "eslint": "^7.32.0",
-        "eslint-config-airbnb-base": "^14.2.1",
-        "eslint-plugin-import": "^2.24.2"
     }
 }

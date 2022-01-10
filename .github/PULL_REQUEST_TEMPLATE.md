@@ -2,19 +2,19 @@
 
 ## Motivation
 
-- What is the motivation / context for this change? (Text, screenshot, JIRA ticket, Github Issue)
+-   What is the motivation / context for this change? (Text, screenshot, JIRA ticket, Github Issue)
 
 <!-- - Is this a bugfix or a feature? -->
 
 ## Changes
 
-- What does this change? (Link to Github Issue if applicable, e.g. #44)
+-   What does this change? (Link to Github Issue if applicable, e.g. #44)
 
 <!-- - If there's a UI Change: please include a screenshot. -->
 <!-- - If there's not a UI Change: please remove this table. -->
 
-| Before | After |
-| --- | --- |
+| Before                         | After                        |
+| ------------------------------ | ---------------------------- |
 | ![Before alt text](Before URL) | ![After alt text](After URL) |
 
 ## Testing
@@ -28,6 +28,6 @@
 
 Choose one:
 
-- [ ] No release is necessary.
-    If you're only updating examples/documentation, this is likely what you want.
-- [ ] All packages that need a release have a changeset.
+-   [ ] No release is necessary.
+        If you're only updating examples/documentation, this is likely what you want.
+-   [ ] All packages that need a release have a changeset.

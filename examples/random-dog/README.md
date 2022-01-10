@@ -4,12 +4,11 @@
 
 ## Prerequesites
 
-- Docker
-- A Datadog Account with:
-  - An API Key
-  - An application Key
-- A Dog API Key: you can create an account for free at https://thedogapi.com
-
+-   Docker
+-   A Datadog Account with:
+    -   An API Key
+    -   An application Key
+-   A Dog API Key: you can create an account for free at https://thedogapi.com
 
 ## Getting Started
 
@@ -67,6 +66,3 @@ Then, you can bash into them
 ```
 $ docker container exec -ti ${containerId} bash
 ```
-
-
-

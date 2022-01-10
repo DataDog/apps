@@ -300,7 +300,7 @@ module.exports = {
                 devDependencies: [
                     '**/build/**/*.js',
                     '**/*.preval.js',
-                    '*.config.js',
+                    '**/*.config.js',
                     '**/test-helpers.*',
                     '**/*.test-helpers.*',
                     '**/*test.utils.*'

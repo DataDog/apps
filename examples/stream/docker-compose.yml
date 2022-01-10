@@ -1,25 +1,24 @@
 version: '3'
 services:
-  server:
-    build: server
-    command: yarn start
-    env_file:
-      - ./.env
-    ports:
-      - "3001:3001"
-  ui:
-    build: ui
-    command: yarn start
-    ports:
-      - "3000:3000"
-  admin:
-    build: admin
-    command: yarn start
-    ports:
-      - "3002:3002"
-  setup:
-    build: setup
-    command: yarn start
-    env_file:
-      - ./.env
-
+    server:
+        build: server
+        command: yarn start
+        env_file:
+            - ./.env
+        ports:
+            - '3001:3001'
+    ui:
+        build: ui
+        command: yarn start
+        ports:
+            - '3000:3000'
+    admin:
+        build: admin
+        command: yarn start
+        ports:
+            - '3002:3002'
+    setup:
+        build: setup
+        command: yarn start
+        env_file:
+            - ./.env

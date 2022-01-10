@@ -1,98 +1,97 @@
 version: '3'
 services:
-  flask:
-    build: flask-app
-    command: ddtrace-run flask run
-    depends_on:
-      - mongo
-      - redis
-    ports:
-      - "5000:5000"
-    environment:
-      DD_AGENT_HOST: datadog
-      DD_ENV: dev
-      DD_LOGS_INJECTION: 'true'
-      DD_SERVICE: flask-app
-      DD_TRACE_AGENT_PORT: 8126
-      FLASK_APP: app.py
-      FLASK_ENV: development
-      FLASK_RUN_HOST: 0.0.0.0
-  products-api:
-    build: products-api
-    command: yarn run serve
-    depends_on:
-      - seed-data
-    ports:
-      - "3020:3020"
-    environment:
-      PORT: 3020
-      DD_AGENT_HOST: datadog
-      DD_LOGS_INJECTION: 'true'
-      DD_TRACE_AGENT_PORT: 8126
-      DD_SERVICE: products-api
-      DD_ENV: dev
-      MONGO_URL: mongodb://mongo:27017
-      MONGO_USERNAME: admin
-      MONGO_PASSWORD: toto90
-      MONGO_DB: project-db
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: toto90
-  datadog-app:
-    build: datadog-app
-    command: yarn start
-    environment:
-      REACT_APP_API_URL: http://localhost:5000
-    ports:
-      - "3010:3010"
-  redis:
-    image: "redis"
-    labels:
-      com.datadoghq.ad.logs: '[{ "source": "redis", "service": "redis" }]'
-  datadog:
-    build: datadog
-    links:
-      - redis
-    environment:
-      DD_LOGS_ENABLED: true
-      DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE: true
-      DD_APM_ENABLED: true
-    env_file:
-      - ./.env
-    ports:
-      - "8126:8126"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /proc/:/host/proc/:ro
-      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-  setup:
-    build: setup
-    command: yarn start
-    env_file: ./.env
-  seed-data:
-    build: products-api
-    command: yarn run seed
-    depends_on:
-      - mongo
-      - redis
-    environment:
-      PORT: 3020
-      DD_AGENT_HOST: datadog
-      DD_LOGS_INJECTION: 'true'
-      DD_TRACE_AGENT_PORT: 8126
-      DD_SERVICE: products-api
-      DD_ENV: dev
-      MONGO_URL: mongodb://mongo:27017
-      MONGO_USERNAME: admin
-      MONGO_PASSWORD: toto90
-      MONGO_DB: project-db
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-
+    flask:
+        build: flask-app
+        command: ddtrace-run flask run
+        depends_on:
+            - mongo
+            - redis
+        ports:
+            - '5000:5000'
+        environment:
+            DD_AGENT_HOST: datadog
+            DD_ENV: dev
+            DD_LOGS_INJECTION: 'true'
+            DD_SERVICE: flask-app
+            DD_TRACE_AGENT_PORT: 8126
+            FLASK_APP: app.py
+            FLASK_ENV: development
+            FLASK_RUN_HOST: 0.0.0.0
+    products-api:
+        build: products-api
+        command: yarn run serve
+        depends_on:
+            - seed-data
+        ports:
+            - '3020:3020'
+        environment:
+            PORT: 3020
+            DD_AGENT_HOST: datadog
+            DD_LOGS_INJECTION: 'true'
+            DD_TRACE_AGENT_PORT: 8126
+            DD_SERVICE: products-api
+            DD_ENV: dev
+            MONGO_URL: mongodb://mongo:27017
+            MONGO_USERNAME: admin
+            MONGO_PASSWORD: toto90
+            MONGO_DB: project-db
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+    mongo:
+        image: mongo
+        ports:
+            - '27017:27017'
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: toto90
+    datadog-app:
+        build: datadog-app
+        command: yarn start
+        environment:
+            REACT_APP_API_URL: http://localhost:5000
+        ports:
+            - '3010:3010'
+    redis:
+        image: 'redis'
+        labels:
+            com.datadoghq.ad.logs: '[{ "source": "redis", "service": "redis" }]'
+    datadog:
+        build: datadog
+        links:
+            - redis
+        environment:
+            DD_LOGS_ENABLED: true
+            DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE: true
+            DD_APM_ENABLED: true
+        env_file:
+            - ./.env
+        ports:
+            - '8126:8126'
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /proc/:/host/proc/:ro
+            - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    setup:
+        build: setup
+        command: yarn start
+        env_file: ./.env
+    seed-data:
+        build: products-api
+        command: yarn run seed
+        depends_on:
+            - mongo
+            - redis
+        environment:
+            PORT: 3020
+            DD_AGENT_HOST: datadog
+            DD_LOGS_INJECTION: 'true'
+            DD_TRACE_AGENT_PORT: 8126
+            DD_SERVICE: products-api
+            DD_ENV: dev
+            MONGO_URL: mongodb://mongo:27017
+            MONGO_USERNAME: admin
+            MONGO_PASSWORD: toto90
+            MONGO_DB: project-db
+            REDIS_HOST: redis
+            REDIS_PORT: 6379

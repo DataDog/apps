@@ -4,10 +4,10 @@
 
 ## Prerequesites
 
-- Docker
-- A Datadog Account with:
-  - An API Key
-  - An Application key
+-   Docker
+-   A Datadog Account with:
+    -   An API Key
+    -   An Application key
 
 ## Getting Started
 
@@ -36,12 +36,12 @@ $ docker-compose build
 ```
 
 Launch all your containers:
-- server: the back-end of the stream app 
-- ui: the front-end of the stream (the Twitter like)
-- admin: the datadog app
-- setup: create your dashboard and your app on Datadog
+
+-   server: the back-end of the stream app
+-   ui: the front-end of the stream (the Twitter like)
+-   admin: the datadog app
+-   setup: create your dashboard and your app on Datadog
 
 ```
 docker-compose up
 ```
-

@@ -7,10 +7,6 @@
     "scripts": {
         "build": "exit 0",
         "dev": "node_modules/.bin/nodemon index.js",
-        "format": "prettier --write .",
-        "lint:check": "npx eslint '**/*.{ts,js}'",
-        "lint:fix": "yarn run lint:check --fix",
-        "lint": "yarn run lint:check && prettier --check .",
         "prepare": "exit 0",
         "start": "node index.js",
         "test": "echo TODO Add test script"
