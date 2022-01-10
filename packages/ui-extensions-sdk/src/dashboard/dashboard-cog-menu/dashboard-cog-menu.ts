@@ -39,7 +39,9 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
                     try {
                         validateKey(item);
                     } catch (e) {
-                        this.client.logger.error(e.message);
+                        if (e instanceof Error) {
+                            this.client.logger.error(e.message);
+                        }
 
                         return false;
                     }
