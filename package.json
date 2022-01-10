@@ -17,8 +17,9 @@
         "release:packages": "changeset publish",
         "test:example-packages:name": "./scripts/check-example-packages-name.js",
         "test:example-packages:private": "./scripts/check-example-packages-private.js",
+        "test:example-packages:ui-extensions-sdk-version": "./scripts/check-example-packages-ui-extensions-sdk-version.js",
         "test:example-packages:version": "./scripts/check-example-packages-version.js",
-        "test:example-packages": "yarn test:example-packages:name && yarn test:example-packages:private && yarn test:example-packages:version",
+        "test:example-packages": "yarn test:example-packages:name && yarn test:example-packages:private && yarn test:example-packages:ui-extensions-sdk-version && yarn test:example-packages:version",
         "test": "yarn test:example-packages && yarn workspaces run test"
     },
     "license": "Apache-2.0",

@@ -4,7 +4,7 @@
     "baseBranch": "master",
     "changelog": "@changesets/cli/changelog",
     "commit": false,
-    "ignore": [],
+    "ignore": ["datadog-app-example-*"],
     "linked": [],
     "updateInternalDependencies": "minor"
 }

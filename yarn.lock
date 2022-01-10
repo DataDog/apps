@@ -2312,11 +2312,6 @@
     node-fetch "^2.6.0"
     url-parse "^1.4.3"
 
-"@datadog/framepost@^0.2.3":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@datadog/framepost/-/framepost-0.2.4.tgz#a525236d96e39f17d655d2cfa83867bc523cf742"
-  integrity sha512-k8mCk4mN5WMeCzHzC/Yys9sQSjX8LzVzKtF+d/tc9meGP8ZwG0yBDk85d895W8gPoyBVti4Y5wfi4FvRIMMbRA==
-
 "@datadog/native-metrics@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@datadog/native-metrics/-/native-metrics-1.1.0.tgz#ef860a4cbea81b6e1559b280f5f1f3cd2cc22585"
@@ -2348,20 +2343,6 @@
   integrity sha512-9S5fdz448dLfGw4jSH1A4GZpkLWBufdsJu4PeevEjDvkauEmE175xBiBLfYHQEdKe7lEVNB4IRtUZqY16QRVUw==
   dependencies:
     protobufjs "^6.10.2"
-
-"@datadog/ui-extensions-sdk@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.18.0.tgz#0050a4fb7239c696c3dca9381e393780e61224ff"
-  integrity sha512-M9G0QANmF05bm0ZCmana/U0kFr/WgVYbEF2TvUBzSEwCQRFN+KLUh+dKbDjp1JXDDWSxKnlvaRvYp1oes6ET8g==
-  dependencies:
-    "@datadog/framepost" "^0.2.3"
-
-"@datadog/ui-extensions-sdk@^0.23.0":
-  version "0.23.0"
-  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.23.0.tgz#0c2b77ac9a8f7054c7f06fffaa3179966a519b89"
-  integrity sha512-HfAx+qH2/3DKsERaqGGd2FoEMwKYB32LQnNUcMqYYBwk2O+4erJcnVAnZZwS6HE+P9ucRBb2VgJGLLFWwEZ4Cg==
-  dependencies:
-    "@datadog/framepost" "^0.2.3"
 
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.6"
