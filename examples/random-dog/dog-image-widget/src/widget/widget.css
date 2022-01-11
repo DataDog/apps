@@ -1,5 +1,5 @@
 body {
-  margin: 0px;
+    margin: 0px;
 }
 
 .main-wrapper {
@@ -15,16 +15,14 @@ body {
     left: 20px;
     position: absolute;
     top: 20px;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .new-dog-btn:hover {
-    background-color: #9743F7;
+    background-color: #9743f7;
 }
 
 .dog-img {
     object-fit: contain;
     width: 100%;
 }
-
-

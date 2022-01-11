@@ -147,6 +147,7 @@ async function init() {
     startMetricSubmission(configuration);
     // START LISTENING
     app.listen(port, () => {
+        // eslint-disable-next-line no-console
         console.log(
             `Initialized successfully. Listening at http://localhost:${port}`
         );

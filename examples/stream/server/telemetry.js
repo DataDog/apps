@@ -93,6 +93,7 @@ exports.editBlocklist = ({ email, state }) => {
     const user = users.find(u => u.email === email);
 
     if (user) {
+        // eslint-disable-next-line no-console
         console.log(`Changing user ${user.email} to ${user.state}`);
 
         users = users
@@ -114,6 +115,7 @@ exports.getBlockList = () =>
 exports.getRateLimit = () => globalRateLimit;
 
 exports.setRateLimit = value => {
+    // eslint-disable-next-line no-console
     console.log(`Setting rate limit to ${value}`);
     globalRateLimit = value;
 };

@@ -26,12 +26,12 @@ export default function App() {
         await fetch('http://localhost:3001/stream', {
             method: 'post',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 text,
-                author: CURRENT_USER,
-            }),
+                author: CURRENT_USER
+            })
         });
 
         setNewTweet('');
@@ -48,7 +48,7 @@ export default function App() {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                justifyContent: 'center',
+                justifyContent: 'center'
             }}
         >
             <div
@@ -76,7 +76,7 @@ export default function App() {
                         id="exampleFormControlTextarea1"
                         value={newTweet}
                         rows={3}
-                        onChange={(e) => {
+                        onChange={e => {
                             setNewTweet(e.target.value);
                         }}
                     />
@@ -95,7 +95,7 @@ export default function App() {
                 </div>
 
                 <div className="list-group list-group-flush border-bottom scrollarea">
-                    {tweets.map((t) => (
+                    {tweets.map(t => (
                         <span className="list-group-item list-group-item-action lh-tight">
                             <div className="d-flex w-100 align-items-center justify-content-between">
                                 <strong className="mb-1">{t.author}</strong>

@@ -13,11 +13,11 @@ export default function AuthRedirect() {
 
             resolveAuthFlow({
                 isAuthenticated: true
-            })
+            });
         } else {
             resolveAuthFlow({
                 isAuthenticated: false
-            })
+            });
         }
     }, []);
 

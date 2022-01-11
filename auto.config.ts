@@ -1,3 +1,7 @@
+// `auto` doesn't get resolved properly for `eslint`.
+// This seems to happen because it's `main` field lists a file that doesn't exist.
+// If we find a way to address that, we can remove this disable.
+// eslint-disable-next-line import/no-unresolved
 import { AutoRc } from 'auto';
 
 export default function rc(): AutoRc {

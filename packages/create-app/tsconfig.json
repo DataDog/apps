@@ -1,23 +1,8 @@
 {
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "allowJs": false,
-        "alwaysStrict": true,
         "declaration": false,
-        "esModuleInterop": true,
-        "experimentalDecorators": true,
-        "lib": ["dom", "dom.iterable", "esnext"],
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
         "outDir": "bin",
-        "resolveJsonModule": true,
-        "skipLibCheck": true,
-        "strict": true,
-        "strictFunctionTypes": true,
-        "strictNullChecks": true,
         "target": "es2015"
     },
     "include": ["src"]

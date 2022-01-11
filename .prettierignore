@@ -1,1 +1,6 @@
-dist
+**/bin
+**/build
+**/CHANGELOG.md
+**/dist
+CHANGELOG.md
+docs

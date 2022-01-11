@@ -1,7 +1,7 @@
 const { v1 } = require('@datadog/datadog-api-client');
 const fetch = require('node-fetch');
 
-const BASE_URL = require('./constants')
+const BASE_URL = require('./constants');
 
 const TITLE = 'Stream submissions';
 
@@ -9,18 +9,20 @@ const createDashboard = async (configuration, appID) => {
     const apiInstance = new v1.DashboardsApi(configuration);
     const getDashboardsResponse = await apiInstance.listDashboards({});
     const existingDash = getDashboardsResponse.dashboards.find(
-        (d) => d.title === TITLE
+        d => d.title === TITLE
     );
 
     let method = null;
     let endpoint = null;
     if (existingDash) {
+        // eslint-disable-next-line no-console
         console.log(
             `Found an existing dashboard workshop app: ${existingDash.id}`
         );
         method = 'PUT';
         endpoint = `${BASE_URL}/api/v1/dashboard/${existingDash.id}`;
     } else {
+        // eslint-disable-next-line no-console
         console.log('Creating a new app dashboard for the workshop app.');
         method = 'POST';
         endpoint = `${BASE_URL}/api/v1/dashboard`;
@@ -48,32 +50,32 @@ const createDashboard = async (configuration, appID) => {
                                 {
                                     query: 'avg:tweets.api.gets{*} by {user}',
                                     data_source: 'metrics',
-                                    name: 'query1',
-                                },
+                                    name: 'query1'
+                                }
                             ],
                             style: {
                                 palette: 'dog_classic',
                                 line_type: 'solid',
-                                line_width: 'normal',
+                                line_width: 'normal'
                             },
-                            display_type: 'line',
-                        },
+                            display_type: 'line'
+                        }
                     ],
                     yaxis: {
                         include_zero: true,
                         scale: 'linear',
                         label: '',
                         min: 'auto',
-                        max: 'auto',
+                        max: 'auto'
                     },
-                    markers: [],
+                    markers: []
                 },
                 layout: {
                     x: 0,
                     y: 0,
                     width: 8,
-                    height: 4,
-                },
+                    height: 4
+                }
             },
             {
                 definition: {
@@ -94,40 +96,40 @@ const createDashboard = async (configuration, appID) => {
                                     query:
                                         'sum:tweets.posted{*} by {user}.as_count()',
                                     data_source: 'metrics',
-                                    name: 'query1',
-                                },
+                                    name: 'query1'
+                                }
                             ],
                             style: {
                                 palette: 'dog_classic',
                                 line_type: 'solid',
-                                line_width: 'normal',
+                                line_width: 'normal'
                             },
-                            display_type: 'bars',
-                        },
+                            display_type: 'bars'
+                        }
                     ],
                     yaxis: {
                         include_zero: true,
                         scale: 'linear',
                         label: '',
                         min: 'auto',
-                        max: 'auto',
+                        max: 'auto'
                     },
-                    markers: [],
+                    markers: []
                 },
                 layout: {
                     x: 0,
                     y: 4,
                     width: 8,
-                    height: 4,
-                },
-            },
+                    height: 4
+                }
+            }
         ],
         template_variables: [],
         layout_type: 'ordered',
         is_read_only: false,
         notify_list: [],
         reflow_type: 'fixed',
-        id: appID,
+        id: appID
     };
 
     await fetch(endpoint, {
@@ -137,9 +139,8 @@ const createDashboard = async (configuration, appID) => {
             'DD-APPLICATION-KEY': process.env.DD_APP_KEY
         },
         method,
-        body: JSON.stringify(dashBody),
+        body: JSON.stringify(dashBody)
     });
 };
 
 module.exports = createDashboard;
-

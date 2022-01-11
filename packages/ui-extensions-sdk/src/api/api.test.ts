@@ -102,14 +102,9 @@ describe('api', () => {
             throw new Error('Something went wrong');
         });
 
-        let error;
-
-        try {
-            await apiClient.get('/test/endpoint');
-        } catch (e) {
-            error = e;
-        }
-
-        expect(error.message).toEqual('Something went wrong');
+        await expect(apiClient.get('/test/endpoint')).rejects.toHaveProperty(
+            'message',
+            'Something went wrong'
+        );
     });
 });

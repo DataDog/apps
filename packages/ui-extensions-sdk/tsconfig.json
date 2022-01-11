@@ -1,25 +1,10 @@
 {
+    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
         "declaration": true,
         "outDir": "dist",
-        "experimentalDecorators": true,
-        "module": "commonjs",
-        "allowJs": false,
-        "strict": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "strictFunctionTypes": true,
-        "noImplicitThis": true,
-        "alwaysStrict": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
-        "moduleResolution": "node",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
         "sourceMap": true,
-        "skipLibCheck": true,
-        "target": "es5",
-        "lib": ["dom", "dom.iterable", "esnext"]
+        "target": "es5"
     },
     "exclude": ["dist"]
 }

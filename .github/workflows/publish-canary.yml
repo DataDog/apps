@@ -22,8 +22,8 @@ jobs:
             - name: Add auth credentials for lerna
               run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
               env:
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - run: yarn release:canary
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

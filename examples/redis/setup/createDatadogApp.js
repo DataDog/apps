@@ -1,13 +1,8 @@
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 
-const {
-    APP_URL,
-    BASE_URL,
-    DD_API_KEY,
-    DD_APP_KEY
-} = require('./constants')
+const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
 
-const APP_NAME = 'Redis App'
+const APP_NAME = 'Redis App';
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
@@ -18,7 +13,10 @@ async function getAppsData() {
     })
         .then(res => res.json())
         .then(({ data }) => data)
-        .catch(err => console.log('An error occurs on getAppsData function', err))
+        .catch(err =>
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on getAppsData function', err)
+        );
 }
 
 async function createApp(endpoint, method) {
@@ -48,15 +46,17 @@ async function createApp(endpoint, method) {
                                     options: {
                                         widgets: [
                                             {
-                                                source: "clients-list",
-                                                name: "List of Redis Client",
-                                                custom_widget_key: "clients-list-widget",
+                                                source: 'clients-list',
+                                                name: 'List of Redis Client',
+                                                custom_widget_key:
+                                                    'clients-list-widget',
                                                 options: []
                                             },
                                             {
-                                                source: "keys-search-widget",
-                                                name: "Search Redis Keys",
-                                                custom_widget_key: "redis-key-search-widget",
+                                                source: 'keys-search-widget',
+                                                name: 'Search Redis Keys',
+                                                custom_widget_key:
+                                                    'redis-key-search-widget',
                                                 options: []
                                             }
                                         ]
@@ -95,24 +95,26 @@ async function createApp(endpoint, method) {
     })
         .then(res => res.json())
         .then(({ data: { id } }) => id)
-        .catch(err => console.log('An error occurs on createApp function', err))
+        .catch(err =>
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on createApp function', err)
+        );
 }
 
 async function main() {
-    const apps = await getAppsData()
-    const existingApp = apps.find(app => app.attributes.tile.title === APP_NAME)
+    const apps = await getAppsData();
+    const existingApp = apps.find(
+        app => app.attributes.tile.title === APP_NAME
+    );
 
-    const endpoint = existingApp 
-        ? `${BASE_URL}/api/v2/apps/${existingApp.id}` 
-        : `${BASE_URL}/api/v2/apps`
+    const endpoint = existingApp
+        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
+        : `${BASE_URL}/api/v2/apps`;
 
-    const method = existingApp 
-        ? 'PATCH' 
-        : 'POST'
+    const method = existingApp ? 'PATCH' : 'POST';
 
-    const appId = await createApp(endpoint, method)
-    return appId
+    const appId = await createApp(endpoint, method);
+    return appId;
 }
 
-module.exports = main
-
+module.exports = main;

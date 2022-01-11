@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:3001'
+export const API_URL = 'http://localhost:3001';
 
 export const API_TOKEN_KEY = 'API_TOKEN';
 
@@ -11,10 +11,10 @@ const request = async <T = unknown>(
 
     const defaultOptions: Partial<RequestInit> = {
         headers: {
-            Accept: 'application/json',
+            Accept: 'application/json'
             // <<<WORKSHOP STEP 9>>>: Please un-comment the code below
             // 'Authorization': `Bearer ${apiToken || ''}`
-        },
+        }
     };
 
     const response = await fetch(`${API_URL}/${path}`, {
@@ -22,8 +22,8 @@ const request = async <T = unknown>(
         ...options,
         headers: {
             ...defaultOptions.headers,
-            ...options.headers,
-        },
+            ...options.headers
+        }
     });
 
     if (!response.ok) {
@@ -35,23 +35,23 @@ const request = async <T = unknown>(
 
 export const get = <T = unknown>(path: string) =>
     request<T>(path, {
-        method: 'GET',
+        method: 'GET'
     });
 
 export const post = <Req = unknown, Res = unknown>(path: string, body: Req) =>
     request<Res>(path, {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     });
 
 export const del = <Req = unknown, Res = unknown>(path: string, body: Req) =>
     request<Res>(path, {
         method: 'DELETE',
         headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(body),
+        body: JSON.stringify(body)
     });

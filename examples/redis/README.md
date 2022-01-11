@@ -4,11 +4,10 @@
 
 ## Prerequesites
 
-- Docker
-- A Datadog Account with:
-  - An API Key
-  - An application Key
-
+-   Docker
+-   A Datadog Account with:
+    -   An API Key
+    -   An application Key
 
 ## Getting Started
 
@@ -68,7 +67,3 @@ Then, you can bash into them
 ```
 $ docker container exec -ti ${containerId} bash
 ```
-
-
-
-

@@ -6,3 +6,13 @@ find the full documentation for it [in our repository](https://github.com/change
 
 We have a quick list of common questions to get you started engaging with this project in
 [our documentation](https://github.com/changesets/changesets/blob/main/docs/common-questions.md)
+
+## Config
+
+We try to clarify the configuration that might not be immediately straight-forward.
+
+### `ignore`
+
+We're setting this to all of the examples so we don't end up trying to bump their versions.
+It seems like that's not the proper way to use this configuration,
+but it doesn't look like there's another way to get the behavior we want.

@@ -1,14 +1,9 @@
-const { v1 } = require('@datadog/datadog-api-client')
-const fetch = require('node-fetch')
+const { v1 } = require('@datadog/datadog-api-client');
+const fetch = require('node-fetch');
 
-const {
-    BASE_URL,
-    DD_API_KEY,
-    DD_APP_KEY
-} = require('./constants')
+const { BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
 
-const TITLE = 'Random Dog Image'
-
+const TITLE = 'Random Dog Image';
 
 async function createDashboard(endpoint, method, appId) {
     return fetch(endpoint, {
@@ -25,14 +20,14 @@ async function createDashboard(endpoint, method, appId) {
                 {
                     id: 7580321331847784,
                     definition: {
-                        title: "",
-                        title_size: "16",
-                        title_align: "left",
-                        type: "custom", 
+                        title: '',
+                        title_size: '16',
+                        title_align: 'left',
+                        type: 'custom',
                         app_id: appId,
-                        custom_widget_key: "random-dog",
+                        custom_widget_key: 'random-dog',
                         options: {
-                            breed: "5"
+                            breed: '5'
                         }
                     },
                     layout: {
@@ -48,27 +43,26 @@ async function createDashboard(endpoint, method, appId) {
             is_read_only: false,
             notify_list: [],
             reflow_type: 'fixed',
-            id: appId,
+            id: appId
         })
-    })
+    });
 }
 
 async function main(configuration, appId) {
-    const dashboardApi = new v1.DashboardsApi(configuration)
-    const { dashboards } = await dashboardApi.listDashboards({})
-    
-    const existingDashboard = dashboards.find(dashboard => dashboard.title === TITLE)
+    const dashboardApi = new v1.DashboardsApi(configuration);
+    const { dashboards } = await dashboardApi.listDashboards({});
 
-    const endpoint = existingDashboard 
-        ? `${BASE_URL}/api/v1/dashboard/${existingDashboard.id}` 
-        : `${BASE_URL}/api/v1/dashboard`
+    const existingDashboard = dashboards.find(
+        dashboard => dashboard.title === TITLE
+    );
 
-    const method = existingDashboard 
-        ? 'PUT'
-        : 'POST'
+    const endpoint = existingDashboard
+        ? `${BASE_URL}/api/v1/dashboard/${existingDashboard.id}`
+        : `${BASE_URL}/api/v1/dashboard`;
 
-    await createDashboard(endpoint, method, appId)
+    const method = existingDashboard ? 'PUT' : 'POST';
+
+    await createDashboard(endpoint, method, appId);
 }
 
-module.exports = main
-
+module.exports = main;

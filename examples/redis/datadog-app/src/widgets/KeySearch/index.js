@@ -1,12 +1,10 @@
-import { init } from '@datadog/ui-extensions-sdk'
-import React from 'react'
-import ReactDOM from 'react-dom'
+import { init } from '@datadog/ui-extensions-sdk';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import './index.css'
+import './index.css';
 
-const client = init()
-
-const API_URL = process.env.REACT_APP_API_URL
+const client = init();
 
 const Widget = () => {
     const onOpenModal = () => {
@@ -14,15 +12,15 @@ const Widget = () => {
             key: 'search-key-modal',
             source: 'keys-search-modal',
             size: 'md'
-        })
-    }
+        });
+    };
 
     return (
         <div>
             <button onClick={onOpenModal}>Search a key</button>
         </div>
-    )
-}
+    );
+};
 
 export default function render() {
     ReactDOM.render(
@@ -30,6 +28,5 @@ export default function render() {
             <Widget />
         </React.StrictMode>,
         document.getElementById('root')
-    )
+    );
 }
-
