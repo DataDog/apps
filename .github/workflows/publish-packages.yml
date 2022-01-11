@@ -35,8 +35,8 @@ jobs:
               uses: changesets/action@v1
               with:
                   # `commit` sets the commit message.
-                  # Using `[skip ci]` should force `auto` to ignore these PRs/publishes.
-                  commit: Version Packages [skip ci]
+                  # Using `[skip canary]` should force `auto` to ignore these PRs/publishes.
+                  commit: Version Packages [skip canary]
                   publish: yarn release:packages
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
