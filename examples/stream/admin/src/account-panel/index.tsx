@@ -9,12 +9,28 @@ interface Tweet {
     author: string;
 }
 
+function isRecord(args: unknown): args is Record<string, unknown> {
+    return (
+        typeof args === 'object' && args != null && args.constructor === Object
+    );
+}
+
 export default function AccountPanel() {
     const [tweets, setTweets] = useState<Tweet[]>([]);
     const [account, setAccount] = useState<string>('');
 
     useEffect(() => {
-        client.getContext().then(({ args }) => setAccount(args.account));
+        client.getContext().then(({ args }) => {
+            if (!isRecord(args)) {
+                return;
+            }
+
+            if (typeof args.account !== 'string') {
+                return;
+            }
+
+            return setAccount(args.account);
+        });
     }, []);
 
     async function getTweets(account: string) {
