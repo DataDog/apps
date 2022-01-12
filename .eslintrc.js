@@ -303,7 +303,8 @@ module.exports = {
                     '**/*.config.js',
                     '**/test-helpers.*',
                     '**/*.test-helpers.*',
-                    '**/*test.utils.*'
+                    '**/*test.utils.*',
+                    'scripts/*'
                 ]
             }
         ],

@@ -5,6 +5,6 @@
     "changelog": "@changesets/cli/changelog",
     "commit": false,
     "ignore": ["datadog-app-example-*"],
-    "linked": [],
+    "linked": [["@datadog/ui-extensions-*"]],
     "updateInternalDependencies": "minor"
 }
