@@ -3,7 +3,7 @@ services:
   crystal-api:
     build:
       context: crystal-api
-      dockerfile: Dockerfile-build
+      target: build
     environment:
       BIND: 0.0.0.0
       PORT: 8080

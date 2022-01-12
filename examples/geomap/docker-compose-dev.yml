@@ -3,7 +3,7 @@ services:
   crystal-api:
     build:
       context: crystal-api
-      dockerfile: Dockerfile-dev
+      target: base
     stdin_open: true
     tty: true
     environment:
@@ -12,7 +12,6 @@ services:
       DEBUG: "${DEBUG:-true}"
     ports:
       - "8080:8080"
-    entrypoint: "${ENTRYPOINT:-crystal run main.cr}"
     volumes:
       - ./crystal-api:/api
   datadog-app:
