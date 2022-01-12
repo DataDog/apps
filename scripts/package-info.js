@@ -4,9 +4,6 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 
-const exampleDir = 'examples';
-const packageJSONPattern = path.join(exampleDir, '*', 'package.json');
-
 function getPackageJSONInfo(filename) {
     const buffer = fs.readFileSync(filename);
     const packageJSON = JSON.parse(buffer.toString());
@@ -17,6 +14,12 @@ function getPackageJSONInfo(filename) {
 }
 
 function getExamples() {
+    const packageJSONPattern = path.join('examples', '*', 'package.json');
+
+    return getPackages(packageJSONPattern);
+}
+
+function getPackages(packageJSONPattern) {
     const gitLSFiles = child_process.execSync(
         `git ls-files '${packageJSONPattern}'`
     );
@@ -29,6 +32,16 @@ function getExamples() {
     }
 
     return packageJSONs;
+}
+
+function getUIExtensionsPackages() {
+    const packageJSONPattern = path.join(
+        'packages',
+        'ui-extensions-*',
+        'package.json'
+    );
+
+    return getPackages(packageJSONPattern);
 }
 
 function getUIExtensionsSDK() {
@@ -47,6 +60,7 @@ function handleErrors(errors) {
 
 module.exports = {
     getExamples,
+    getUIExtensionsPackages,
     getUIExtensionsSDK,
     handleErrors
 };
