@@ -1,12 +1,15 @@
 version: '3'
 services:
   crystal-api:
-    build: crystal-api 
+    build:
+      context: crystal-api
+      target: base
     stdin_open: true
     tty: true
     environment:
       BIND: 0.0.0.0
       PORT: 8080
+      DEBUG: "${DEBUG:-true}"
     ports:
       - "8080:8080"
     volumes:
@@ -28,4 +31,3 @@ services:
     env_file: ./.env
     volumes:
       - ./setup:/setup
-
