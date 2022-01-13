@@ -1,7 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const packageJson = require('./package.json');
 
 module.exports = (env, options) => {
     const config = {
@@ -22,11 +20,7 @@ module.exports = (env, options) => {
                 }
             ]
         },
-        plugins: [
-            new webpack.DefinePlugin({
-                SDK_VERSION: JSON.stringify(packageJson.version)
-            })
-        ],
+        plugins: [],
         resolve: {
             extensions: ['.ts', '.tsx', '.js']
         },
