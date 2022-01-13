@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = {
+    extends: ['plugin:react-hooks/recommended'],
     root: true,
     rules: {
         'block-scoped-var': 'error',
@@ -303,6 +304,7 @@ module.exports = {
                     '**/*.config.js',
                     '**/test-helpers.*',
                     '**/*.test-helpers.*',
+                    '**/*.test.ts',
                     '**/*test.utils.*',
                     'scripts/*'
                 ]
