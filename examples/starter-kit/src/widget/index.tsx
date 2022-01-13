@@ -1,3 +1,4 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init, EventType } from '@datadog/ui-extensions-sdk';
 import './../index.css';
 import React from 'react';
@@ -13,12 +14,13 @@ const client = init();
 function Widget() {
     const [metric, setMetric] = useState('system.cpu.idle');
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
+    const result = useContext(client);
+
+    if (result.type === 'initialized') {
+        setMetric(result.context.widget?.definition.options.metric);
+    }
 
     useEffect(() => {
-        client.getContext().then(c => {
-            setMetric(c.widget?.definition.options?.metric);
-        });
-
         client.events.on(
             EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
             ({ metric }) => {

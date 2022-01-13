@@ -1,5 +1,5 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
-import { useState, useEffect } from 'react';
 import './../index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -7,11 +7,9 @@ import ReactDOM from 'react-dom';
 const client = init();
 
 function SidePanel() {
-    const [args, setArgs] = useState<any>();
-
-    useEffect(() => {
-        client.getContext().then(({ args }) => setArgs(args));
-    }, [setArgs]);
+    const result = useContext(client);
+    const args =
+        result.type === 'initialized' ? result.context.args : undefined;
 
     return (
         <div

@@ -1,3 +1,4 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { useState, useEffect } from 'react';
 import '../index.css';
 import React from 'react';
@@ -17,21 +18,15 @@ function isRecord(args: unknown): args is Record<string, unknown> {
 
 export default function AccountPanel() {
     const [tweets, setTweets] = useState<Tweet[]>([]);
-    const [account, setAccount] = useState<string>('');
+    const result = useContext(client);
+    let account = '';
 
-    useEffect(() => {
-        client.getContext().then(({ args }) => {
-            if (!isRecord(args)) {
-                return;
-            }
-
-            if (typeof args.account !== 'string') {
-                return;
-            }
-
-            return setAccount(args.account);
-        });
-    }, []);
+    if (result.type === 'initialized') {
+        const args = result.context.args;
+        if (isRecord(args) && typeof args.account === 'string') {
+            account = args.account;
+        }
+    }
 
     async function getTweets(account: string) {
         const data = await get<{ tweets: Tweet[] }>(`stream/${account}`);

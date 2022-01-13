@@ -1,5 +1,6 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './../index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,11 +9,9 @@ const client = init();
 
 function Modal() {
     const [clickCount, setClickCount] = useState(0);
-    const [args, setArgs] = useState<any>();
-
-    useEffect(() => {
-        client.getContext().then(({ args }) => setArgs(args));
-    }, [setArgs]);
+    const result = useContext(client);
+    const args =
+        result.type === 'initialized' ? result.context.args : undefined;
 
     const onClick = () => {
         setClickCount(clickCount + 1);
