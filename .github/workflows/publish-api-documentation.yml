@@ -1,0 +1,35 @@
+name: Publish API documentation
+
+on:
+    push:
+        branches:
+            - master
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v2
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16.3.0
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Build all packages
+              run: yarn build
+
+            - name: Build API documentation
+              run: yarn docs
+
+            - name: Deploy to GitHub Pages
+              uses: JamesIves/github-pages-deploy-action@v4.2.2
+              with:
+                # The branch the action should deploy to.
+                branch: gh-pages
+                # The directory the action should deploy.
+                folder: docs/API/packages
