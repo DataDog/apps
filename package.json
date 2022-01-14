@@ -28,7 +28,12 @@
     },
     "license": "Apache-2.0",
     "private": true,
+    "workspaces:comment:1": "The `framepost`, `sdk`, and `react` packages are listed first in this order so we build them first with the `yarn workspaces` command.",
+    "workspaces:comment:2": "This is a workaround based on the implementation of `yarn workspaces` that should hopefully be temporary, as this seems hard to maintain.",
     "workspaces": [
+        "packages/framepost",
+        "packages/ui-extensions-sdk",
+        "packages/ui-extensions-react",
         "examples/*",
         "examples/*/*",
         "packages/*"
