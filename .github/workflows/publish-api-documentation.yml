@@ -33,3 +33,5 @@ jobs:
                   branch: gh-pages
                   # The directory the action should deploy.
                   folder: docs/API/packages
+                  git-config-name: github-actions[bot]
+                  git-config-email: github-actions[bot]@users.noreply.github.com
