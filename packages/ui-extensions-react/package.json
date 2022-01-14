@@ -39,5 +39,6 @@
     "peerDependencies": {
         "@datadog/ui-extensions-sdk": "0.25.0",
         "react": "^17.0.2"
-    }
+    },
+    "typedocMain": "src/index.ts"
 }
