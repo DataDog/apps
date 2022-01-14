@@ -4,6 +4,10 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = (env, options) => {
     const config = {
         devtool: 'source-map',
+        externals: {
+            '@datadog/ui-extensions-sdk': '@datadog/ui-extensions-sdk',
+            react: 'react'
+        },
         target: ['web', 'es5'],
         entry: './src/index.ts',
         output: {
