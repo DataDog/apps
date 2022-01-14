@@ -12,13 +12,13 @@ import { useEffect, useState } from 'react';
 const client = init();
 
 function Widget() {
-    const [metric, setMetric] = useState('system.cpu.idle');
-    const [broadcastClickCount, setBroadcastClickCount] = useState(0);
     const result = useContext(client);
-
-    if (result.type === 'initialized') {
-        setMetric(result.context.widget?.definition.options.metric);
-    }
+    const initialMetric =
+        result.type === 'initialized'
+            ? result.context.widget?.definition.options?.metric
+            : 'system.cpu.idle';
+    const [metric, setMetric] = useState(initialMetric);
+    const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
         client.events.on(
