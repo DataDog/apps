@@ -13,14 +13,14 @@ const client = init();
 
 function Widget() {
     const result = useContext(client);
-    const initialMetric =
-        result.type === 'initialized'
-            ? result.context.widget?.definition.options?.metric
-            : 'system.cpu.idle';
-    const [metric, setMetric] = useState(initialMetric);
+    const [metric, setMetric] = useState('system.cpu.idle');
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
+        if (result.type === 'initialized') {
+            setMetric(result.context.widget?.definition.options?.metric);
+        }
+
         client.events.on(
             EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
             ({ metric }) => {
@@ -32,7 +32,7 @@ function Widget() {
         );
 
         client.events.onCustom('modal_button_click', setBroadcastClickCount);
-    }, []);
+    }, [result]);
 
     const onOpenSidePanel = (args: any) => {
         client.sidePanel.open(
