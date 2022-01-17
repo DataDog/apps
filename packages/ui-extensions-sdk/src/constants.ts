@@ -38,7 +38,10 @@ export enum EventType {
 
     // Auth
     AUTH_STATE_CHANGE = 'auth_state_change',
-    API_ACCESS_CHANGE = 'api_access_change'
+    API_ACCESS_CHANGE = 'api_access_change',
+
+    // OOB Table
+    TABLE_ROW_CLICK = 'table_row_click'
 }
 
 export const FramePostClientSettings = Object.freeze({
@@ -97,7 +100,8 @@ export const enabledEvents = new Set<EventType>([
     EventType.CUSTOM_EVENT,
     EventType.CONTEXT_CHANGE,
     EventType.AUTH_STATE_CHANGE,
-    EventType.API_ACCESS_CHANGE
+    EventType.API_ACCESS_CHANGE,
+    EventType.TABLE_ROW_CLICK
 ]);
 
 export enum ModalSize {

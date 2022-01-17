@@ -5,7 +5,6 @@ import type { TableDefRequestResponse } from '../../types';
 export class DDTableClient {
     private readonly client: DDClient;
     constructor(client: DDClient) {
-        console.log('xxx sdk DDTableClient constructor');
         this.client = client;
     }
 
@@ -14,28 +13,24 @@ export class DDTableClient {
      */
 
     onRequest(
-        key: string,
+        tableKey: string,
         requestHandler: (
             passedKey: string
         ) => TableDefRequestResponse | Promise<TableDefRequestResponse>
     ) {
-        console.log('xxx sdk onRequest key', key);
+        // TODO: check if tableKey === passedKey ?
         const wrappedHandler = async (
             passedKey: string
         ): Promise<TableDefRequestResponse> => {
-            console.log('xxx passedKey', passedKey);
-            const { data, columns } = await requestHandler(passedKey);
+            const response = await requestHandler(passedKey);
 
-            console.log('xxx requestHandler data, columns', data, columns);
-
-            return {
-                data,
-                columns
-            };
+            return response;
         };
         this.client.framePostClient.onRequest(
             RequestType.GET_TABLE_DEF,
             wrappedHandler
         );
+
+        // TODO: return an unsubscribe hook
     }
 }

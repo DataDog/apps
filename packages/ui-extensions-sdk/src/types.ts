@@ -83,6 +83,8 @@ export interface FeatureContext {
     widgetInteraction?: WidgetInteractionContext;
     // Optional arguements passed to different feature components like modal, side panel, etc
     args?: unknown;
+    // OOOB Table row click context
+    table?: TableContext;
 }
 
 // A full context object including above feature context and additional global app context
@@ -283,7 +285,15 @@ export interface IFrameDimensions {
 }
 
 // Table component
+
+export interface TableContext {
+    tableKey: string;
+    rowInfo?: any;
+}
 export interface TableDefRequestResponse {
     data: any[];
     columns: any[];
+    rowAction?: boolean;
 }
+
+export type TableRowClickData = RequireKeys<FeatureContext, 'table'>;

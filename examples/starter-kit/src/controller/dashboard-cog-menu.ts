@@ -52,7 +52,6 @@ export const setupDashboardCogMenu = (client: DDClient) => {
 
         // open an iframe side panel defined inline here in controller
         if (context.menuItem.key === 'open-custom-panel') {
-            console.log('xxxx context', context);
             client.sidePanel.open(
                 {
                     key: 'custom-panel-from-controller',
@@ -98,7 +97,6 @@ export const setupDashboardCogMenu = (client: DDClient) => {
 
         // open an iframe side panel defined inline here in controller
         if (context.menuItem.key === 'open-custom-panel') {
-            console.log('xxxx context', context);
             client.sidePanel.open(
                 {
                     key: 'custom-panel-from-controller',
