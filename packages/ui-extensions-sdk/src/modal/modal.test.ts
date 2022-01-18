@@ -1,5 +1,6 @@
 import { FeatureType, RequestType } from '../constants';
 import { MockClient, mockContext } from '../utils/testUtils';
+import { FeatureRenderType } from '..';
 
 import { DDModalClient } from './modal';
 
@@ -26,7 +27,10 @@ describe('modal.open()', () => {
 
         const response = await modalClient.open({
             key: 'my-modal',
-            source: 'modal.html'
+            renderOptions: {
+                type: FeatureRenderType.FRAME,
+                source: 'modal.html'
+            }
         });
 
         expect(response).toEqual(null);
@@ -34,7 +38,10 @@ describe('modal.open()', () => {
         expect(requestMock).toHaveBeenCalledWith(RequestType.OPEN_MODAL, {
             definition: {
                 key: 'my-modal',
-                source: 'modal.html'
+                renderOptions: {
+                    type: FeatureRenderType.FRAME,
+                    source: 'modal.html'
+                }
             }
         });
     });
@@ -54,7 +61,10 @@ describe('modal.open()', () => {
         const response = await modalClient.open(
             {
                 key: 'my-modal',
-                source: 'modal.html'
+                renderOptions: {
+                    type: FeatureRenderType.FRAME,
+                    source: 'modal.html'
+                }
             },
             { foo: 'baar' }
         );
@@ -86,7 +96,10 @@ describe('modal.open()', () => {
         try {
             // @ts-ignore
             await modalClient.open({
-                source: 'modal.html'
+                renderOptions: {
+                    type: FeatureRenderType.FRAME,
+                    source: 'modal.html'
+                }
             });
         } catch (e) {
             error = e;
@@ -103,7 +116,10 @@ describe('modal.open()', () => {
         try {
             await modalClient.open({
                 key: 'my-modal',
-                source: 'modal.html'
+                renderOptions: {
+                    type: FeatureRenderType.FRAME,
+                    source: 'modal.html'
+                }
             });
         } catch (e) {
             error = e;

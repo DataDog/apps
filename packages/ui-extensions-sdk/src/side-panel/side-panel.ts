@@ -1,8 +1,15 @@
 import type { DDClient } from '../client/client';
 import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
-import { SidePanelDefinition } from '../types';
-import { validateKey } from '../utils/utils';
+import {
+    SidePanelDefinition,
+    SidePanelDefinitionWithOldDefinition
+} from '../types';
+import {
+    validateKey,
+    unifyRenderedFeatureDefinitionForOOBComps,
+    isFramedFeatureWithOldDefinition
+} from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
     constructor(client: DDClient) {
@@ -13,8 +20,18 @@ export class DDSidePanelClient extends DDFeatureClient {
      * Opens a side panel, given a full side panel definition or the key of a side panel
      * definition pre-defined in the app manifest
      */
-    async open(definition: SidePanelDefinition, args?: unknown) {
+    async open(
+        passedDefinition:
+            | SidePanelDefinition
+            | SidePanelDefinitionWithOldDefinition,
+        args?: unknown
+    ) {
         await this.validateFeatureIsEnabled();
+
+        const definition = unifyRenderedFeatureDefinitionForOOBComps<
+            SidePanelDefinitionWithOldDefinition,
+            SidePanelDefinition
+        >(passedDefinition);
 
         if (validateKey(definition)) {
             return this.client.framePostClient.request(

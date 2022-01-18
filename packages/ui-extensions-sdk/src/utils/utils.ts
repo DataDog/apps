@@ -1,6 +1,15 @@
-import { EventType, FeatureType, enabledEvents } from '../constants';
+import {
+    EventType,
+    FeatureType,
+    enabledEvents,
+    FeatureRenderType
+} from '../constants';
 import { features } from '../features';
-import type { DefinitionWithKey } from '../types';
+import type {
+    DefinitionWithKey,
+    FramedFeatureWithOldDefinition,
+    RenderedFeatureDefinition
+} from '../types';
 
 const memoize = <T>(getter: () => T): (() => T) => {
     let executed = false;
@@ -82,3 +91,29 @@ export type RequireKeys<T, K extends keyof T> = {
     {
         [P in K]-?: T[P];
     };
+
+const isFramedFeatureWithOldDefinition = (
+    feature: FramedFeatureWithOldDefinition | RenderedFeatureDefinition
+): feature is FramedFeatureWithOldDefinition => {
+    return 'source' in feature || !('renderOptions' in feature);
+};
+
+export const unifyRenderedFeatureDefinitionForOOBComps = <
+    T extends FramedFeatureWithOldDefinition,
+    Q extends RenderedFeatureDefinition
+>(
+    feature: T | Q
+): Q => {
+    if (isFramedFeatureWithOldDefinition(feature)) {
+        const { source, ...rest } = feature;
+        return ({
+            ...(rest as T),
+            renderOptions: {
+                type: FeatureRenderType.FRAME,
+                source
+            }
+        } as unknown) as Q;
+    }
+
+    return feature as Q;
+};

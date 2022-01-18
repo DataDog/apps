@@ -1,5 +1,6 @@
 import { FeatureType, EventType } from '../constants';
 import { ModalDefinition, SidePanelDefinition } from '../types';
+import { FeatureRenderType } from '..';
 
 import {
     isFeatureEnabled,
@@ -12,7 +13,10 @@ describe('validateKey', () => {
     it('accepts a valid ModalDefinition', () => {
         const defintion: ModalDefinition = {
             key: 'my-modal',
-            source: 'modal.html'
+            renderOptions: {
+                type: FeatureRenderType.FRAME,
+                source: 'modal.html'
+            }
         };
 
         const result = validateKey(defintion);
@@ -22,7 +26,10 @@ describe('validateKey', () => {
     it('accepts a valid SidePanelDefinition', () => {
         const defintion: SidePanelDefinition = {
             key: 'side-panel',
-            source: 'panel.html'
+            renderOptions: {
+                type: FeatureRenderType.FRAME,
+                source: 'modal.html'
+            }
         };
 
         const result = validateKey(defintion);

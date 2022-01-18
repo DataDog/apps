@@ -5,7 +5,8 @@ import type {
     ModalActionLevel,
     MenuItemType,
     WidgetOptionItemType,
-    ColorTheme
+    ColorTheme,
+    FeatureRenderType
 } from './constants';
 import type { RequireKeys } from './utils/utils';
 
@@ -142,21 +143,32 @@ export interface MenuItemRequestResponse {
 }
 
 // Modals
-export interface ModalDefinition extends DefinitionWithKey {
+export interface ModalDefinition
+    extends DefinitionWithKey,
+        RenderedFeatureDefinition {
     title?: string;
     size?: ModalSize;
     message?: string;
-    source?: string;
     actionLabel?: string;
     actionLevel?: ModalActionLevel;
     cancelLabel?: string;
 }
 
 // Sidepanels
-export interface SidePanelDefinition extends DefinitionWithKey {
+interface SidePanelDefinitionBase extends DefinitionWithKey {
     title?: string;
-    source?: string;
 }
+export interface SidePanelDefinition
+    extends SidePanelDefinitionBase,
+        RenderedFeatureDefinition {}
+
+/**
+ * Deprecated - do not use.
+ * @deprecated use SidePanelDefinition instead
+ */
+export interface SidePanelDefinitionWithOldDefinition
+    extends SidePanelDefinitionBase,
+        FramedFeatureWithOldDefinition {}
 
 // Widget Context Menus
 export type WidgetContextMenuClickData = RequireKeys<
@@ -284,6 +296,32 @@ export interface IFrameDimensions {
     width: number;
 }
 
+// OOB Components
+
+export interface FrameRenderOptions {
+    type: FeatureRenderType.FRAME;
+    source: string;
+}
+
+export interface TableRenderOptions {
+    type: FeatureRenderType.TABLE;
+    tableKey: string;
+}
+
+export type RenderOptions = FrameRenderOptions | TableRenderOptions;
+
+export interface RenderedFeatureDefinition {
+    renderOptions: RenderOptions;
+}
+
+export interface FramedFeatureWithOldDefinition {
+    // for backward compatiblity with old features before introducing OOB Components
+    /**
+     * Deprecated - do not use.
+     * @deprecated use renderOptions.source instead
+     */
+    source?: string;
+}
 // Table component
 
 export interface TableContext {

@@ -140,3 +140,9 @@ export enum ColorTheme {
     dark = 'dark',
     light = 'light'
 }
+
+export enum FeatureRenderType {
+    // default value
+    FRAME = 'frame',
+    TABLE = 'table'
+}
