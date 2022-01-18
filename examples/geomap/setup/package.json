@@ -1,6 +1,6 @@
 {
   "scripts": {
-      "start": "node index.js"
+    "start": "node index.js"
   },
   "name": "setup",
   "version": "1.0.0",
