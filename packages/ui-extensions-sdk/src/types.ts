@@ -143,9 +143,7 @@ export interface MenuItemRequestResponse {
 }
 
 // Modals
-export interface ModalDefinition
-    extends DefinitionWithKey,
-        RenderedFeatureDefinition {
+interface ModalDefinitionBase extends DefinitionWithKey {
     title?: string;
     size?: ModalSize;
     message?: string;
@@ -153,6 +151,18 @@ export interface ModalDefinition
     actionLevel?: ModalActionLevel;
     cancelLabel?: string;
 }
+
+export interface ModalDefinition
+    extends ModalDefinitionBase,
+        RenderedFeatureDefinition {}
+
+/**
+ * Deprecated - do not use.
+ * @deprecated use ModalDefinition instead
+ */
+export interface ModalDefinitionWithOldDefinition
+    extends ModalDefinitionBase,
+        FramedFeatureWithOldDefinition {}
 
 // Sidepanels
 interface SidePanelDefinitionBase extends DefinitionWithKey {

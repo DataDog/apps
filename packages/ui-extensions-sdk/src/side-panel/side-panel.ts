@@ -7,8 +7,7 @@ import {
 } from '../types';
 import {
     validateKey,
-    unifyRenderedFeatureDefinitionForOOBComps,
-    isFramedFeatureWithOldDefinition
+    unifyRenderedFeatureDefinitionForOOBComps
 } from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
