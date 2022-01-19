@@ -18,11 +18,11 @@ function isRecord(args: unknown): args is Record<string, unknown> {
 
 export default function AccountPanel() {
     const [tweets, setTweets] = useState<Tweet[]>([]);
-    const result = useContext(client);
+    const context = useContext(client);
     let account = '';
 
-    if (result.type === 'initialized') {
-        const args = result.context.args;
+    if (context !== undefined) {
+        const args = context.args;
         if (isRecord(args) && typeof args.account === 'string') {
             account = args.account;
         }

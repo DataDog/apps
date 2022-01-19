@@ -12,13 +12,13 @@ import { useEffect, useState } from 'react';
 const client = init();
 
 function Widget() {
-    const result = useContext(client);
+    const context = useContext(client);
     const [metric, setMetric] = useState('system.cpu.idle');
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
-        if (result.type === 'initialized') {
-            setMetric(result.context.widget?.definition.options?.metric);
+        if (context !== undefined) {
+            setMetric(context.widget?.definition.options?.metric);
         }
 
         client.events.on(
@@ -32,7 +32,7 @@ function Widget() {
         );
 
         client.events.onCustom('modal_button_click', setBroadcastClickCount);
-    }, [result]);
+    }, [context]);
 
     const onOpenSidePanel = (args: any) => {
         client.sidePanel.open(

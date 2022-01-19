@@ -7,9 +7,8 @@ import ReactDOM from 'react-dom';
 const client = init();
 
 function SidePanel() {
-    const result = useContext(client);
-    const args =
-        result.type === 'initialized' ? result.context.args : undefined;
+    const context = useContext(client);
+    const args = context?.args;
 
     return (
         <div

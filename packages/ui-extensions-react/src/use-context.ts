@@ -30,14 +30,14 @@ type ContextInitialized = {
 };
 
 /**
- * Returns a {@link Context} describing the state of the underlying {@link uiExtensionsSDK.Context}.
+ * Returns a {@link uiExtensionsSDK.Context}.
  * Will be updated whenever the {@link uiExtensionsSDK.Context} changes.
  *
  * This hook abstracts away the intricacies of keeping the {@link uiExtensionsSDK.Context} up to date.
  *
  * @param client An initialized {@link uiExtensionsSDK.DDClient}.
  * This should be the result of invoking {@link uiExtensionsSDK.init}.
- * @returns The state of the {@link uiExtensionsSDK.Context}.
+ * @returns The {@link uiExtensionsSDK.Context}, if it exists.
  *
  * @example
  * This can be used like:
@@ -49,21 +49,41 @@ type ContextInitialized = {
  * const client = uiExtensionsSDK.init();
  *
  * const Widget: React.FunctionComponent = () => {
- *      const result = uiExtensionsReact.useContext(client)
- *      if (result.type === 'initializing') {
+ *      const context = uiExtensionsReact.useContext(client)
+ *      if (context == null) {
  *          return <p>Initializing</p>;
  *      }
  *
- *      if (result.type === 'handshake failure') {
- *          return <p>Error</p>;
- *      }
- *
- *      const colorTheme: uiExtensionsSDK.ColorTheme = result.context.app.currentUser.colorTheme;
+ *      const colorTheme: uiExtensionsSDK.ColorTheme = context.app.currentUser.colorTheme;
  *      return <p>Widget is ready! Color theme: {colorTheme}</p>;
  * }
  * ```
  */
-function useContext(client: uiExtensionsSDK.DDClient): Context {
+function useContext(
+    client: uiExtensionsSDK.DDClient
+): uiExtensionsSDK.Context | undefined {
+    const result = useContextImplementation(client);
+    switch (result.type) {
+        case 'handshake failure':
+            return undefined;
+
+        case 'initialized':
+            return result.context;
+
+        case 'initializing':
+            return undefined;
+    }
+}
+
+/**
+ * The low-level implementation of the {@link useContext} hook.
+ * This only exists to make it a bit clearer to understand how we deal with the different states.
+ *
+ * @param client An initialized {@link uiExtensionsSDK.DDClient}.
+ * This should be the result of invoking {@link uiExtensionsSDK.init}.
+ * @returns The state of the {@link uiExtensionsSDK.Context}.
+ */
+function useContextImplementation(client: uiExtensionsSDK.DDClient): Context {
     const [context, setContext] = React.useState<Context>({
         type: 'initializing'
     });
@@ -108,10 +128,4 @@ function useContext(client: uiExtensionsSDK.DDClient): Context {
     return context;
 }
 
-export {
-    Context,
-    ContextHandshakeFailure,
-    ContextInitialized,
-    ContextInitializing,
-    useContext
-};
+export { useContext };

@@ -67,16 +67,14 @@ beforeEach((): void => {
 });
 
 describe('useContext', (): void => {
-    test('starts off in `initializing`', (): void => {
+    test('starts off as `undefined`', (): void => {
         const client = new uiExtensionsSDK.DDClient();
 
         const result = reactHooks.renderHook(() => {
             return useContext(client);
         });
 
-        expect(result.result.current).toEqual({
-            type: 'initializing'
-        });
+        expect(result.result.current).toEqual(undefined);
     });
 
     test('waits for the context to resolve', async (): Promise<void> => {
@@ -102,13 +100,10 @@ describe('useContext', (): void => {
             }
         );
 
-        expect(result.result.current).toEqual({
-            type: 'initialized',
-            context
-        });
+        expect(result.result.current).toEqual(context);
     });
 
-    test('handles handshake failures', async (): Promise<void> => {
+    test('ignores handshake failures', async (): Promise<void> => {
         const error: Error = new Error('Handshake failure');
         const client = new uiExtensionsSDK.DDClient();
 
@@ -122,10 +117,7 @@ describe('useContext', (): void => {
             }
         );
 
-        expect(result.result.current).toEqual({
-            type: 'handshake failure',
-            error
-        });
+        expect(result.result.current).toEqual(undefined);
     });
 
     test('updates from `CONTEXT_CHANGE` event', async (): Promise<void> => {
@@ -151,10 +143,7 @@ describe('useContext', (): void => {
             }
         );
 
-        expect(result.result.current).toEqual({
-            type: 'initialized',
-            context
-        });
+        expect(result.result.current).toEqual(context);
     });
 
     test('invokes unsubscribe callback when unmounting', (): void => {

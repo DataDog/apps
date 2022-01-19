@@ -17,7 +17,7 @@ const client = init();
 function Widget() {
     const [breeds, setBreeds] = useState([]);
     const [image, setImage] = useState(null);
-    const result = useContext(client);
+    const context = useContext(client);
 
     useEffect(() => {
         fetch('http://localhost:3001/breeds')
@@ -66,11 +66,11 @@ function Widget() {
     }, []);
 
     const cycleImage = async () => {
-        if (result.type !== 'initialized') {
+        if (context === undefined) {
             return;
         }
 
-        const breed = result.context.widget?.definition.options?.breed;
+        const breed = context.widget?.definition.options?.breed;
         getImage(breed);
     };
 

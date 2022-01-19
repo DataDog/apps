@@ -10,9 +10,8 @@ import Sentiment from './Sentiment';
 const client = init();
 
 function SidePanel() {
-    const result = useContext(client);
-    const sentimentTweet =
-        result.type === 'initialized' ? result.context.args.args : undefined;
+    const context = useContext(client);
+    const sentimentTweet = context?.args.args;
 
     return (
         <div

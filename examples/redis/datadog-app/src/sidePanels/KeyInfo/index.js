@@ -8,11 +8,11 @@ import './index.css';
 const client = init();
 
 const SidePanel = () => {
-    const result = useContext(client);
+    const context = useContext(client);
 
-    if (result.type !== 'initialized') return <div>Loading...</div>;
+    if (context === undefined) return <div>Loading...</div>;
 
-    const redisMetric = result.context.args.redisData;
+    const redisMetric = context.args.redisData;
 
     return (
         <div>

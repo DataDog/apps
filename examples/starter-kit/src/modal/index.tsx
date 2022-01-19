@@ -9,9 +9,8 @@ const client = init();
 
 function Modal() {
     const [clickCount, setClickCount] = useState(0);
-    const result = useContext(client);
-    const args =
-        result.type === 'initialized' ? result.context.args : undefined;
+    const context = useContext(client);
+    const args = context?.args
 
     const onClick = () => {
         setClickCount(clickCount + 1);
