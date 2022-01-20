@@ -307,7 +307,13 @@ export interface IFrameDimensions {
 }
 
 // OOB Components
-
+interface OOBButton extends DefinitionWithKey {
+    // TODO: commong with MenuItemType. Unify.
+    actionType: 'link' | 'event';
+    // TODO: extract into a separate type to be used in other types
+    level: 'default' | 'success' | 'warning' | 'danger';
+    label?: string;
+}
 export interface FrameRenderOptions {
     type: FeatureRenderType.FRAME;
     source: string;
@@ -333,7 +339,6 @@ export interface FramedFeatureWithOldDefinition {
     source?: string;
 }
 // Table component
-
 export interface TableContext {
     tableKey: string;
     searchQuery: string;
@@ -349,6 +354,7 @@ export interface GetTableDefResponse {
     searchInputPlaceholder?: string;
     hasHeaders?: boolean;
     searchType?: 'none' | 'filter' | 'external_search';
+    footerButtons?: [OOBButton] | [OOBButton, OOBButton];
 }
 
 export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
