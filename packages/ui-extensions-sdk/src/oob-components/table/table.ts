@@ -1,6 +1,6 @@
 import type { DDClient } from '../../client/client';
 import { RequestType } from '../../constants';
-import type { TableDefRequestResponse } from '../../types';
+import type { GetTableDefResponse, GetTableDefRequest } from '../../types';
 
 export class DDTableClient {
     private readonly client: DDClient;
@@ -15,14 +15,14 @@ export class DDTableClient {
     onRequest(
         tableKey: string,
         requestHandler: (
-            passedKey: string
-        ) => TableDefRequestResponse | Promise<TableDefRequestResponse>
+            context: GetTableDefRequest
+        ) => GetTableDefResponse | Promise<GetTableDefResponse>
     ) {
         // TODO: check if tableKey === passedKey ?
         const wrappedHandler = async (
-            passedKey: string
-        ): Promise<TableDefRequestResponse> => {
-            const response = await requestHandler(passedKey);
+            context: GetTableDefRequest
+        ): Promise<GetTableDefResponse> => {
+            const response = await requestHandler(context);
 
             return response;
         };

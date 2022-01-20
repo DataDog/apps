@@ -336,12 +336,21 @@ export interface FramedFeatureWithOldDefinition {
 
 export interface TableContext {
     tableKey: string;
-    rowInfo?: any;
+    searchQuery: string;
+    args?: {
+        [key: string]: any;
+    };
 }
-export interface TableDefRequestResponse {
+export interface GetTableDefResponse {
     data: any[];
     columns: any[];
     rowAction?: boolean;
+    emptyStateMessage?: string;
+    searchInputPlaceholder?: string;
 }
 
-export type TableRowClickData = RequireKeys<FeatureContext, 'table'>;
+export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
+    rowInfo?: any;
+};
+
+export type GetTableDefRequest = RequireKeys<FeatureContext, 'table'>;
