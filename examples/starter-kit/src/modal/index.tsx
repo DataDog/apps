@@ -10,7 +10,7 @@ const client = init();
 function Modal() {
     const [clickCount, setClickCount] = useState(0);
     const context = useContext(client);
-    const args = context?.args
+    const args = context?.args;
 
     const onClick = () => {
         setClickCount(clickCount + 1);
