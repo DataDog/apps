@@ -17,6 +17,25 @@ jobs:
               with:
                   cache: yarn
                   node-version-file: .node-version
+            # The `actions/setup-node` action only caches the global yarn cache.
+            # We explicitly cache the `node_modules`.
+            - name: restore node_modules
+              uses: actions/cache@v2
+              with:
+                  # We want to include the Node.js version in the key.
+                  # Per the documentation,
+                  # caching `node_modules` is unsafe due to changes in Node.js versions.
+                  # If we track the Node.js version,
+                  # it ought to miss the cache whenever the Node.js version changes.
+                  key: node_modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-${{ hashFiles('yarn.lock') }}
+                  path: |
+                      node_modules
+                      **/node_modules
+                  # We only go as far back as the Node.js version.
+                  # We can run into issues if we restore caches from different versions.
+                  # This will check the current branch as well as the parent branch.
+                  restore-keys: |
+                      node_modules-${{ runner.os }}-${{ hashFiles('.node-version') }}-
             - name: install
               run: yarn install --prefer-offline
             - name: lint
