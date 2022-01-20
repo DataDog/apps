@@ -361,6 +361,10 @@ export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
     rowInfo?: any;
 };
 
+export type TableButtonClickData = RequireKeys<FeatureContext, 'table'> & {
+    button: OOBButton;
+};
+
 export type GetTableDefRequest = RequireKeys<FeatureContext, 'table'>;
 
 export type TableRequestHandler = (

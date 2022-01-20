@@ -28,30 +28,19 @@ export class DDTableClient {
     onRequest(tableKey: string, requestHandler: TableRequestHandler) {
         // TODO: check if tableKey === passedKey ?
 
-        console.log('xxx sdk onRequest tableKey', tableKey);
         const wrappedHandler = async (
             context: GetTableDefRequest
         ): Promise<GetTableDefResponse> => {
-            console.log('xxx sdk onRequest wrappedHandler context', context);
             const response = await requestHandler(context);
 
             return response;
         };
         this.requestSubscriptions[tableKey] = wrappedHandler;
-        // this.client.framePostClient.onRequest(
-        //     RequestType.GET_TABLE_DEF,
-        //     wrappedHandler
-        // );
 
         // TODO: return an unsubscribe hook
     }
 
     handleRequest(context: GetTableDefRequest) {
-        console.log('xxx sdk handleRequest context', context);
-        console.log(
-            'xxx sdk handleRequest this.requestSubscriptions',
-            this.requestSubscriptions
-        );
         return this.requestSubscriptions[context.table.tableKey](context);
     }
 }

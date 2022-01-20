@@ -13,7 +13,8 @@ import type {
     SidePanelDefinition,
     AuthState,
     APIAccessChangeEvent,
-    TableRowClickData
+    TableRowClickData,
+    TableButtonClickData
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -48,6 +49,7 @@ interface DDEventDataTypes<AuthStateArgs> {
 
     // OOB Table
     [EventType.TABLE_ROW_CLICK]: TableRowClickData;
+    [EventType.TABLE_BUTTON_CLICK]: TableButtonClickData;
 }
 
 export class DDEventsClient<AuthStateArgs = unknown> {
