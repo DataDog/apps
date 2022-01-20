@@ -347,6 +347,8 @@ export interface GetTableDefResponse {
     rowAction?: boolean;
     emptyStateMessage?: string;
     searchInputPlaceholder?: string;
+    hasHeaders?: boolean;
+    searchType?: 'none' | 'filter' | 'external_search';
 }
 
 export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
@@ -354,3 +356,7 @@ export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
 };
 
 export type GetTableDefRequest = RequireKeys<FeatureContext, 'table'>;
+
+export type TableRequestHandler = (
+    context: GetTableDefRequest
+) => GetTableDefResponse | Promise<GetTableDefResponse>;

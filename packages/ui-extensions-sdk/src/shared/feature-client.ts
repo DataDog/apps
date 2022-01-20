@@ -13,6 +13,7 @@ export class DDFeatureClient {
 
     private async isEnabled(): Promise<boolean> {
         const context = await this.client.getContext();
+        console.log('xxxx isEnabled context', context);
 
         const {
             app: { features }
