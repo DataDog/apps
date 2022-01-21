@@ -322,6 +322,7 @@ export interface FrameRenderOptions {
 export interface TableRenderOptions {
     type: FeatureRenderType.TABLE;
     tableKey: string;
+    theme?: BrandingTheme;
 }
 
 export type RenderOptions = FrameRenderOptions | TableRenderOptions;
@@ -337,6 +338,10 @@ export interface FramedFeatureWithOldDefinition {
      * @deprecated use renderOptions.source instead
      */
     source?: string;
+}
+
+export interface BrandingTheme {
+    color: string;
 }
 // Table component
 export interface TableContext {
