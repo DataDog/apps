@@ -355,6 +355,8 @@ export interface GetTableDefResponse {
     hasHeaders?: boolean;
     searchType?: 'none' | 'filter' | 'external_search';
     footerButtons?: [OOBButton] | [OOBButton, OOBButton];
+    // TODO: add pagination size
+    pagination?: boolean;
 }
 
 export type TableRowClickData = RequireKeys<FeatureContext, 'table'> & {
