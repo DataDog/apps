@@ -7,7 +7,6 @@ import type {
     WidgetOptionItemType,
     ColorTheme
 } from './constants';
-import type { RequireKeys } from './utils/utils';
 
 export interface ClientOptions<AuthStateArgs = unknown> {
     debug?: boolean;
@@ -281,3 +280,14 @@ export interface IFrameDimensions {
     height: number;
     width: number;
 }
+
+/**
+ * Typescript utility type, takes an interface and makes the specified keys required
+ * Example: RequireKeys<MyType, 'a' | 'b'>
+ */
+type RequireKeys<T, K extends keyof T> = {
+    [X in Exclude<keyof T, K>]?: T[X];
+} &
+    {
+        [P in K]-?: T[P];
+    };

@@ -71,14 +71,3 @@ export const validateKey = <T = any>(definition: T): boolean => {
 
     return true;
 };
-
-/**
- * Typescript utility type, takes an interface and makes the specified keys required
- * Example: RequireKeys<MyType, 'a' | 'b'>
- */
-export type RequireKeys<T, K extends keyof T> = {
-    [X in Exclude<keyof T, K>]?: T[X];
-} &
-    {
-        [P in K]-?: T[P];
-    };
