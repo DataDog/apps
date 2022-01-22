@@ -1,11 +1,15 @@
-import type { DDClient } from '../client/client';
 import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
-import type { ModalDefinition } from '../types';
+import type {
+    ContextClient,
+    LoggerClient,
+    ModalDefinition,
+    RequestClient
+} from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDModalClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.MODALS);
     }
 

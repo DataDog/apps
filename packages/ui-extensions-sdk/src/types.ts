@@ -25,6 +25,11 @@ export interface EventClient {
     send<T = unknown>(eventType: EventType, eventData: T): Promise<void>;
 }
 
+export interface LoggerClient {
+    log(message: string): void;
+    logError(message: string): void;
+}
+
 export interface RequestClient {
     onRequest<Q = unknown, R = unknown>(
         requestType: RequestType,

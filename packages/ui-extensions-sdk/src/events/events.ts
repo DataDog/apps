@@ -1,18 +1,21 @@
-import type { DDClient } from '../client/client';
 import { EventType, RequestType } from '../constants';
 import type {
+    APIAccessChangeEvent,
+    AuthState,
     Context,
+    ContextClient,
+    DashboardCogMenuClickData,
+    EventClient,
     EventHandler,
     IFrameDimensions,
-    Timeframe,
-    TemplateVariableValue,
+    LoggerClient,
     ModalDefinition,
-    WidgetContextMenuClickData,
-    WidgetSettingsMenuClickData,
-    DashboardCogMenuClickData,
+    RequestClient,
     SidePanelDefinition,
-    AuthState,
-    APIAccessChangeEvent
+    TemplateVariableValue,
+    Timeframe,
+    WidgetContextMenuClickData,
+    WidgetSettingsMenuClickData
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -47,9 +50,14 @@ interface DDEventDataTypes<AuthStateArgs> {
 }
 
 export class DDEventsClient<AuthStateArgs = unknown> {
-    private readonly client: DDClient<AuthStateArgs>;
+    private readonly client: ContextClient &
+        EventClient &
+        LoggerClient &
+        RequestClient;
 
-    constructor(client: DDClient<AuthStateArgs>) {
+    constructor(
+        client: ContextClient & EventClient & LoggerClient & RequestClient
+    ) {
         this.client = client;
     }
 
@@ -78,7 +86,7 @@ export class DDEventsClient<AuthStateArgs = unknown> {
 
                 if (!canHandleEvent) {
                     unsubscribe();
-                    this.client.logger.error(
+                    this.client.logError(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
                     );
                 }

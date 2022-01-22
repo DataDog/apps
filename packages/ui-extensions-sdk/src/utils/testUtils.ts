@@ -5,6 +5,7 @@ import {
     DebugClient,
     EventClient,
     EventHandler,
+    LoggerClient,
     RequestClient,
     RequestHandler
 } from '../types';
@@ -168,7 +169,12 @@ export class MockLocalStorage {
 }
 
 export class MockClient
-    implements ContextClient, DebugClient, EventClient, RequestClient {
+    implements
+        ContextClient,
+        DebugClient,
+        EventClient,
+        LoggerClient,
+        RequestClient {
     framePostClient: MockFramePostChildClient;
     logger: Logger;
     debug: boolean = true;
@@ -180,6 +186,14 @@ export class MockClient
 
     getContext() {
         return this.framePostClient.getContext();
+    }
+
+    log(message: string): void {
+        return this.logger.log(message);
+    }
+
+    logError(message: string): void {
+        return this.logger.error(message);
     }
 
     on<T = unknown>(

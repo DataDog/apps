@@ -22,6 +22,7 @@ import type {
     EventClient,
     EventHandler,
     IFrameDimensions,
+    LoggerClient,
     ParentAuthStateOptions,
     RequestClient,
     RequestHandler
@@ -37,11 +38,16 @@ const DEFAULT_OPTIONS = {
 };
 
 export class DDClient<AuthStateArgs = unknown>
-    implements ContextClient, DebugClient, EventClient, RequestClient {
+    implements
+        ContextClient,
+        DebugClient,
+        EventClient,
+        LoggerClient,
+        RequestClient {
     private readonly host: string;
     private context?: Context | null;
     private readonly framePostClient: ChildClient<Context>;
-    readonly logger: Logger;
+    private readonly logger: Logger;
     api: DDAPIClient;
     dashboard: DDDashboardClient;
     debug: boolean;
@@ -101,6 +107,14 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
+    }
+
+    log(message: string): void {
+        return this.logger.log(message);
+    }
+
+    logError(message: string): void {
+        return this.logger.error(message);
     }
 
     on<T = unknown>(

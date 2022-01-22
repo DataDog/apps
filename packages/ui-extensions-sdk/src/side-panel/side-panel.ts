@@ -1,11 +1,15 @@
-import type { DDClient } from '../client/client';
 import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
-import { SidePanelDefinition } from '../types';
+import {
+    ContextClient,
+    LoggerClient,
+    RequestClient,
+    SidePanelDefinition
+} from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.SIDE_PANELS);
     }
 

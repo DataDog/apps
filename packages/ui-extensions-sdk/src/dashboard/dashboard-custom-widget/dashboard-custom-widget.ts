@@ -1,10 +1,14 @@
-import type { DDClient } from '../../client/client';
 import { RequestType, FeatureType } from '../../constants';
 import { DDFeatureClient } from '../../shared/feature-client';
-import type { WidgetOptionItem } from '../../types';
+import type {
+    ContextClient,
+    LoggerClient,
+    RequestClient,
+    WidgetOptionItem
+} from '../../types';
 
 export class DDDashboardCustomWidgetClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.DASHBOARD_CUSTOM_WIDGET);
     }
 

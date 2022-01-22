@@ -1,12 +1,15 @@
-import type { DDClient } from '../client/client';
 import type { FeatureType } from '../constants';
+import { ContextClient, LoggerClient, RequestClient } from '../types';
 import { isFeatureEnabled } from '../utils/utils';
 
 export class DDFeatureClient {
-    protected readonly client: DDClient;
+    protected readonly client: ContextClient & LoggerClient & RequestClient;
     protected readonly featureType: FeatureType;
 
-    constructor(client: DDClient, featureType: FeatureType) {
+    constructor(
+        client: ContextClient & LoggerClient & RequestClient,
+        featureType: FeatureType
+    ) {
         this.client = client;
         this.featureType = featureType;
     }
