@@ -9,6 +9,10 @@ import type {
     WidgetOptionItemType
 } from './constants';
 
+export interface ContextClient {
+    getContext(): Promise<Context>;
+}
+
 export interface DebugClient {
     debug: boolean;
 }

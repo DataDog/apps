@@ -1,6 +1,7 @@
 import { ColorTheme, EventType, FeatureType, RequestType } from '../constants';
 import {
     Context,
+    ContextClient,
     DebugClient,
     EventClient,
     EventHandler,
@@ -166,7 +167,8 @@ export class MockLocalStorage {
     }
 }
 
-export class MockClient implements DebugClient, EventClient, RequestClient {
+export class MockClient
+    implements ContextClient, DebugClient, EventClient, RequestClient {
     framePostClient: MockFramePostChildClient;
     logger: Logger;
     debug: boolean = true;

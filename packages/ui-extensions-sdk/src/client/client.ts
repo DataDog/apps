@@ -17,6 +17,7 @@ import type {
     ClientContext,
     ClientOptions,
     Context,
+    ContextClient,
     DebugClient,
     EventClient,
     EventHandler,
@@ -36,7 +37,7 @@ const DEFAULT_OPTIONS = {
 };
 
 export class DDClient<AuthStateArgs = unknown>
-    implements DebugClient, EventClient, RequestClient {
+    implements ContextClient, DebugClient, EventClient, RequestClient {
     private readonly host: string;
     private context?: Context | null;
     private readonly framePostClient: ChildClient<Context>;
