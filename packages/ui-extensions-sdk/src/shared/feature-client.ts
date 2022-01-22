@@ -22,9 +22,6 @@ export class DDFeatureClient {
     }
 
     protected async validateFeatureIsEnabled() {
-        // will throw a handshake error if handshake fails
-        await this.client.framePostClient.handshake();
-
         const isEnabled = await this.isEnabled();
 
         if (!isEnabled) {

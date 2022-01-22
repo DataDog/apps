@@ -51,7 +51,7 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
             };
         };
 
-        this.client.framePostClient.onRequest(
+        this.client.onRequest(
             RequestType.GET_WIDGET_CONTEXT_MENU_ITEMS,
             wrappedHandler
         );

@@ -1,5 +1,12 @@
-import { ColorTheme, FeatureType } from '../constants';
-import { Context, DebugClient } from '../types';
+import { ColorTheme, EventType, FeatureType, RequestType } from '../constants';
+import {
+    Context,
+    DebugClient,
+    EventClient,
+    EventHandler,
+    RequestClient,
+    RequestHandler
+} from '../types';
 
 import { Logger } from './logger';
 
@@ -159,7 +166,7 @@ export class MockLocalStorage {
     }
 }
 
-export class MockClient implements DebugClient {
+export class MockClient implements DebugClient, EventClient, RequestClient {
     framePostClient: MockFramePostChildClient;
     logger: Logger;
     debug: boolean = true;
@@ -171,5 +178,30 @@ export class MockClient implements DebugClient {
 
     getContext() {
         return this.framePostClient.getContext();
+    }
+
+    on<T = unknown>(
+        eventType: EventType,
+        eventHandler: EventHandler<T>
+    ): () => void {
+        return this.framePostClient.on(eventType, eventHandler);
+    }
+
+    onRequest<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestHandler: RequestHandler<Q, R>
+    ): () => void {
+        return this.framePostClient.onRequest(requestType, requestHandler);
+    }
+
+    request<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestData?: Q
+    ): Promise<R> {
+        return this.framePostClient.request(requestType, requestData);
+    }
+
+    async send<T = unknown>(eventType: EventType, eventData: T): Promise<void> {
+        this.framePostClient.send(eventType, eventData);
     }
 }

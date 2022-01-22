@@ -51,7 +51,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             };
         };
 
-        this.client.framePostClient.onRequest(
+        this.client.onRequest(
             RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             wrappedHandler
         );

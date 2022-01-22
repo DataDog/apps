@@ -21,7 +21,7 @@ export class DDAuthClient<AuthStateArgs = unknown> {
             this.options = options;
         }
 
-        this.client.framePostClient.onRequest(
+        this.client.onRequest(
             RequestType.CHECK_AUTH_STATE,
             this.checkAuthState.bind(this)
         );
@@ -41,14 +41,14 @@ export class DDAuthClient<AuthStateArgs = unknown> {
 
     async getAuthState(): Promise<AuthState<AuthStateArgs>> {
         await this.client.getContext();
-        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+        return this.client.request(RequestType.GET_AUTH_STATE, {
             forceUpdate: false
         });
     }
 
     async updateAuthState() {
         await this.client.getContext();
-        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+        return this.client.request(RequestType.GET_AUTH_STATE, {
             forceUpdate: true
         });
     }

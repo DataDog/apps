@@ -18,7 +18,7 @@ export class DDDashboardClient {
     }
 
     async setCursor({ timestamp }: SetDashboardCursorRequest) {
-        return this.client.framePostClient.request<SetDashboardCursorRequest>(
+        return this.client.request<SetDashboardCursorRequest>(
             RequestType.SET_DASHBOARD_CURSOR,
             {
                 timestamp
@@ -27,11 +27,12 @@ export class DDDashboardClient {
     }
 
     async setTimeframe({ timeframe }: SetDashboardTimeframeRequest) {
-        return this.client.framePostClient.request<
-            SetDashboardTimeframeRequest
-        >(RequestType.SET_DASHBOARD_TIMEFRAME, {
-            timeframe
-        });
+        return this.client.request<SetDashboardTimeframeRequest>(
+            RequestType.SET_DASHBOARD_TIMEFRAME,
+            {
+                timeframe
+            }
+        );
     }
 }
 

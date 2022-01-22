@@ -2,7 +2,12 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import { FramePostClientSettings, EventType, Host } from '../constants';
+import {
+    EventType,
+    FramePostClientSettings,
+    Host,
+    RequestType
+} from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -13,8 +18,12 @@ import type {
     ClientOptions,
     Context,
     DebugClient,
+    EventClient,
+    EventHandler,
     IFrameDimensions,
-    ParentAuthStateOptions
+    ParentAuthStateOptions,
+    RequestClient,
+    RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
@@ -26,10 +35,11 @@ const DEFAULT_OPTIONS = {
     debug: false
 };
 
-export class DDClient<AuthStateArgs = unknown> implements DebugClient {
+export class DDClient<AuthStateArgs = unknown>
+    implements DebugClient, EventClient, RequestClient {
     private readonly host: string;
     private context?: Context | null;
-    readonly framePostClient: ChildClient<Context>;
+    private readonly framePostClient: ChildClient<Context>;
     readonly logger: Logger;
     api: DDAPIClient;
     dashboard: DDDashboardClient;
@@ -90,6 +100,31 @@ export class DDClient<AuthStateArgs = unknown> implements DebugClient {
         });
 
         this.registerEventListeners();
+    }
+
+    on<T = unknown>(
+        eventType: EventType,
+        eventHandler: EventHandler<T>
+    ): () => void {
+        return this.framePostClient.on(eventType, eventHandler);
+    }
+
+    onRequest<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestHandler: RequestHandler<Q, R>
+    ): () => void {
+        return this.framePostClient.onRequest(requestType, requestHandler);
+    }
+
+    request<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestData?: Q
+    ): Promise<R> {
+        return this.framePostClient.request(requestType, requestData);
+    }
+
+    async send<T = unknown>(eventType: EventType, eventData: T): Promise<void> {
+        this.framePostClient.send(eventType, eventData);
     }
 
     private registerEventListeners() {

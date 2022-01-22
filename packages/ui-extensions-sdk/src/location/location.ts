@@ -1,15 +1,15 @@
-import type { DDClient } from '../client/client';
 import { RequestType } from '../constants';
+import { RequestClient } from '../types';
 
 export class DDLocationClient {
-    private readonly client: DDClient;
+    private readonly client: RequestClient;
 
-    constructor(client: DDClient) {
+    constructor(client: RequestClient) {
         this.client = client;
     }
 
     async goTo(url: string) {
-        return this.client.framePostClient.request<NavigateTopRequest>(
+        return this.client.request<NavigateTopRequest>(
             RequestType.NAVIGATE_TOP,
             {
                 url
