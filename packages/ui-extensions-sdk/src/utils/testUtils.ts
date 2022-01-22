@@ -1,5 +1,5 @@
 import { ColorTheme, FeatureType } from '../constants';
-import { Context } from '../types';
+import { Context, DebugClient } from '../types';
 
 import { Logger } from './logger';
 
@@ -159,7 +159,7 @@ export class MockLocalStorage {
     }
 }
 
-export class MockClient {
+export class MockClient implements DebugClient {
     framePostClient: MockFramePostChildClient;
     logger: Logger;
     debug: boolean = true;

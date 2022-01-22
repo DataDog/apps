@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
-import type { DDClient } from '../client/client';
+import { DebugClient } from '../types';
 
 export class Logger {
-    private readonly client: DDClient;
+    private readonly client: DebugClient;
 
-    constructor(client: DDClient) {
+    constructor(client: DebugClient) {
         this.client = client;
     }
 

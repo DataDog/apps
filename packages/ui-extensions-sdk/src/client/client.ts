@@ -9,9 +9,10 @@ import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type {
-    Context,
     ClientContext,
     ClientOptions,
+    Context,
+    DebugClient,
     IFrameDimensions,
     ParentAuthStateOptions
 } from '../types';
@@ -25,7 +26,7 @@ const DEFAULT_OPTIONS = {
     debug: false
 };
 
-export class DDClient<AuthStateArgs = unknown> {
+export class DDClient<AuthStateArgs = unknown> implements DebugClient {
     private readonly host: string;
     private context?: Context | null;
     readonly framePostClient: ChildClient<Context>;

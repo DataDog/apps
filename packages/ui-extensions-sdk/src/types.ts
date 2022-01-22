@@ -8,6 +8,10 @@ import type {
     ColorTheme
 } from './constants';
 
+export interface DebugClient {
+    debug: boolean;
+}
+
 export interface ClientOptions<AuthStateArgs = unknown> {
     debug?: boolean;
     host?: string;
