@@ -1,5 +1,6 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
@@ -7,16 +8,11 @@ import './index.css';
 const client = init();
 
 const SidePanel = () => {
-    const [redisMetric, setRedisMetric] = useState(null);
+    const context = useContext(client);
 
-    useEffect(() => {
-        client
-            .getContext()
-            .then(({ args: { redisData } }) => setRedisMetric(redisData))
-            .catch(err => console.log('Oh no'));
-    }, []);
+    if (context === undefined) return <div>Loading...</div>;
 
-    if (!redisMetric) return <div>Loading...</div>;
+    const redisMetric = context.args.redisData;
 
     return (
         <div>

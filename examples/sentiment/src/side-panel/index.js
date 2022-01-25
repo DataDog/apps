@@ -1,5 +1,5 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
-import { useState, useEffect } from 'react';
 import './../index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -10,17 +10,8 @@ import Sentiment from './Sentiment';
 const client = init();
 
 function SidePanel() {
-    const [args, setArgs] = useState();
-
-    let sentimentTweet;
-
-    useEffect(() => {
-        client.getContext().then(({ args }) => setArgs(args.args));
-    }, [setArgs]);
-
-    if (args !== undefined) {
-        sentimentTweet = args;
-    }
+    const context = useContext(client);
+    const sentimentTweet = context?.args.args;
 
     return (
         <div

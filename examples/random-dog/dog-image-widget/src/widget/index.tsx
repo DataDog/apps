@@ -1,3 +1,4 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import {
     WidgetOptionItemType,
     init,
@@ -16,6 +17,7 @@ const client = init();
 function Widget() {
     const [breeds, setBreeds] = useState([]);
     const [image, setImage] = useState(null);
+    const context = useContext(client);
 
     useEffect(() => {
         fetch('http://localhost:3001/breeds')
@@ -64,9 +66,11 @@ function Widget() {
     }, []);
 
     const cycleImage = async () => {
-        const breed = await client
-            .getContext()
-            .then(c => c.widget?.definition.options?.breed);
+        if (context === undefined) {
+            return;
+        }
+
+        const breed = context.widget?.definition.options?.breed;
         getImage(breed);
     };
 

@@ -1,3 +1,4 @@
+import { useContext } from '@datadog/ui-extensions-react';
 import { init, EventType } from '@datadog/ui-extensions-sdk';
 import './../index.css';
 import React from 'react';
@@ -11,13 +12,14 @@ import { useEffect, useState } from 'react';
 const client = init();
 
 function Widget() {
+    const context = useContext(client);
     const [metric, setMetric] = useState('system.cpu.idle');
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
-        client.getContext().then(c => {
-            setMetric(c.widget?.definition.options?.metric);
-        });
+        if (context !== undefined) {
+            setMetric(context.widget?.definition.options?.metric);
+        }
 
         client.events.on(
             EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
@@ -30,7 +32,7 @@ function Widget() {
         );
 
         client.events.onCustom('modal_button_click', setBroadcastClickCount);
-    }, []);
+    }, [context]);
 
     const onOpenSidePanel = (args: any) => {
         client.sidePanel.open(
