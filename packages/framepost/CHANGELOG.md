@@ -1,5 +1,13 @@
 # @datadog/framepost
 
+## 0.3.1
+
+### Patch Changes
+
+-   1f2d674: Bump `typescript` to 4.5.4 and remove from explicit `devDependencies`.
+
+    We move the dependency up to the root `package.json` for consistency across projects.
+
 ## 0.3.0
 
 ### Minor Changes
