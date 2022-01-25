@@ -1,5 +1,19 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.26.0
+
+### Minor Changes
+
+-   df17b3f: Create a new package for UI Extensions with the React framework.
+
+    This package provides helpers that make working with the SDK in React a bit easier.
+
+### Patch Changes
+
+-   1f2d674: Bump `typescript` to 4.5.4 and remove from explicit `devDependencies`.
+
+    We move the dependency up to the root `package.json` for consistency across projects.
+
 ## 0.25.0
 
 ### Minor Changes
