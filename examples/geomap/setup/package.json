@@ -1,6 +1,9 @@
 {
   "scripts": {
-    "start": "node index.js"
+    "build": "exit 0",
+    "prepare": "exit 0",
+    "start": "node index.js",
+    "test": "echo TODO Add test script"
   },
   "name": "setup",
   "version": "1.0.0",
