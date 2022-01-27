@@ -7,16 +7,15 @@
 This project shows you how to create a Datadog App with a custom
 Widget.
 
-- [To learn more about Crystal](https://betterprogramming.pub/a-tale-of-two-engineers-discovering-the-crystal-programming-language-104b1fdbe525)
-- [to learn more about the Datadog Apps] - coming soon
+-   [To learn more about Crystal](https://betterprogramming.pub/a-tale-of-two-engineers-discovering-the-crystal-programming-language-104b1fdbe525)
+-   [to learn more about the Datadog Apps] - coming soon
 
 ## Prerequesites
 
-- Docker
-- A Datadog Account with:
-    - An API Key
-    - An application Key
-
+-   Docker
+-   A Datadog Account with:
+    -   An API Key
+    -   An application Key
 
 ## Getting Started
 
@@ -90,5 +89,3 @@ Then, you can bash into them
 ```
 $ docker container exec -ti ${containerId} bash
 ```
-
-

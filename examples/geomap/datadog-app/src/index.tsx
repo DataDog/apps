@@ -6,7 +6,7 @@ const init = async () => {
         }
         case '/geo-map-widget': {
             let widget = await import('./widget/GeoMap');
-            return widget.default()
+            return widget.default();
         }
         case '/panel': {
             let sidepanel = await import('./side-panel');

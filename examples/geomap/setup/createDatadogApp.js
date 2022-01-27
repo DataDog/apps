@@ -1,13 +1,8 @@
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 
-const {
-    APP_URL,
-    BASE_URL,
-    DD_API_KEY,
-    DD_APP_KEY
-} = require('./constants')
+const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
 
-const APP_NAME = 'Geo Map'
+const APP_NAME = 'Geo Map';
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
@@ -18,7 +13,10 @@ async function getAppsData() {
     })
         .then(res => res.json())
         .then(({ data }) => data)
-        .catch(err => console.log('An error occurs on getAppsData function', err))
+        .catch(err =>
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on getAppsData function', err)
+        );
 }
 
 async function createApp(endpoint, method) {
@@ -27,7 +25,6 @@ async function createApp(endpoint, method) {
             'content-type': 'application/json',
             'DD-API-KEY': DD_API_KEY,
             'DD-APPLICATION-KEY': DD_APP_KEY
-
         },
         body: JSON.stringify({
             data: {
@@ -49,9 +46,10 @@ async function createApp(endpoint, method) {
                                     options: {
                                         widgets: [
                                             {
-                                                source: "geo-map-widget",
-                                                name: "Geo Map Widget",
-                                                custom_widget_key: "geo_map_widget"
+                                                source: 'geo-map-widget',
+                                                name: 'Geo Map Widget',
+                                                custom_widget_key:
+                                                    'geo_map_widget'
                                             }
                                         ]
                                     }
@@ -68,7 +66,8 @@ async function createApp(endpoint, method) {
                     pricing: [],
                     published: false,
                     tile: {
-                        description: 'A Datadog application using OpenStreetMap to display the location of IP addresses',
+                        description:
+                            'A Datadog application using OpenStreetMap to display the location of IP addresses',
                         logo_media: {
                             light: 'https://freesvg.org/img/location_icon.png'
                         },
@@ -80,25 +79,27 @@ async function createApp(endpoint, method) {
         method
     })
         .then(res => res.json())
-        .then(({ data: { id }}) => id)
-        .catch(err => console.log('An error occurs on createApp function', err))
+        .then(({ data: { id } }) => id)
+        .catch(err =>
+            // eslint-disable-next-line no-console
+            console.log('An error occurs on createApp function', err)
+        );
 }
 
 async function main() {
-    const apps = await getAppsData()
-    const existingApp = apps.find(app => app.attributes.tile.title === APP_NAME)
+    const apps = await getAppsData();
+    const existingApp = apps.find(
+        app => app.attributes.tile.title === APP_NAME
+    );
 
-    const endpoint = existingApp 
-        ? `${BASE_URL}/api/v2/apps/${existingApp.id}` 
-        : `${BASE_URL}/api/v2/apps`
+    const endpoint = existingApp
+        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
+        : `${BASE_URL}/api/v2/apps`;
 
-    const method = existingApp 
-        ? 'PATCH' 
-        : 'POST'
+    const method = existingApp ? 'PATCH' : 'POST';
 
-    const appId = await createApp(endpoint, method)
-    return appId
+    const appId = await createApp(endpoint, method);
+    return appId;
 }
 
-module.exports = main
-
+module.exports = main;

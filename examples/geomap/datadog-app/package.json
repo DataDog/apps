@@ -1,6 +1,6 @@
 {
     "name": "apps-getting-started",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "private": true,
     "dependencies": {
         "@datadog/ui-extensions-sdk": "^0.23.0",
