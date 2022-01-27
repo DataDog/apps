@@ -5,7 +5,8 @@
         "start": "node index.js",
         "test": "echo TODO Add test script"
     },
-    "name": "setup",
+    "private": true,
+    "name": "datadog-app-example-geomap-setup",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",

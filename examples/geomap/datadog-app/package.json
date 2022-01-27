@@ -1,9 +1,9 @@
 {
-    "name": "apps-getting-started",
+    "name": "datadog-app-example-geomap-datadog-app",
     "version": "0.0.0",
     "private": true,
     "dependencies": {
-        "@datadog/ui-extensions-sdk": "^0.23.0",
+        "@datadog/ui-extensions-sdk": "0.26.0",
         "@types/node": "^14.14.14",
         "@types/react": "^17.0.0",
         "@types/react-dom": "^17.0.0",
