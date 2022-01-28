@@ -1,0 +1,14 @@
+name: geomap
+version: 1.0.0
+
+authors:
+    - Thomas Dimnet <thomas.dimnet@datadoghq.com>
+    - Matthieu Hermitte <matthieu.hermitte@datadoghq.com>
+
+targets:
+    geomap:
+        main: src/geomap.cr
+
+crystal: 1.3.0
+
+license: MIT

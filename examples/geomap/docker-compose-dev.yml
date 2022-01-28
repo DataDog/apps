@@ -1,0 +1,33 @@
+version: '3'
+services:
+    crystal-api:
+        build:
+            context: crystal-api
+            target: base
+        stdin_open: true
+        tty: true
+        environment:
+            BIND: 0.0.0.0
+            PORT: 8080
+            DEBUG: '${DEBUG:-true}'
+        ports:
+            - '8080:8080'
+        volumes:
+            - ./crystal-api:/api
+    datadog-app:
+        build: datadog-app
+        stdin_open: true
+        tty: true
+        environment:
+            REACT_APP_API_URL: http://localhost:8080
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./datadog-app:/datadog-app
+    setup:
+        stdin_open: true
+        tty: true
+        build: setup
+        env_file: ./.env
+        volumes:
+            - ./setup:/setup

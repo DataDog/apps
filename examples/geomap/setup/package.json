@@ -1,0 +1,17 @@
+{
+    "scripts": {
+        "build": "exit 0",
+        "prepare": "exit 0",
+        "start": "node index.js",
+        "test": "echo TODO Add test script"
+    },
+    "private": true,
+    "name": "datadog-app-example-geomap-setup",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "dependencies": {
+        "@datadog/datadog-api-client": "^1.0.0-beta.6",
+        "node-fetch": "2"
+    }
+}
