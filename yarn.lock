@@ -2650,13 +2650,6 @@
   dependencies:
     protobufjs "^6.10.2"
 
-"@datadog/ui-extensions-sdk@0.25.0":
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.25.0.tgz#c9941ce3005dc783ccf9884d8c7dcec3470ed9be"
-  integrity sha512-IAkPGpDsCD3YOAKDrC/k8qH4Z4DIBMM14HF85GCobbq39+cVWz1Mcfo+u9qmSJjifwXlTKXUJZKQcc64RNyVhQ==
-  dependencies:
-    "@datadog/framepost" "^0.3.0"
-
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.6.tgz#d5e0706cf8c6acd8c6032f8d54070af261bbbb2f"
