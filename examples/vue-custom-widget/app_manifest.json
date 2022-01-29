@@ -1,0 +1,51 @@
+{
+    "schemaVersion": "v2",
+    "display_on_public_website": false,
+    "app_id": null,
+    "support_type": "partner",
+    "tile": {
+        "description": "A custom widget written in Vue.js",
+        "logo_media": {
+            "light": "https://vuejs.org/images/logo.svg"
+        },
+        "title": "Vue custom widget"
+    },
+    "author": {},
+    "pricing": [],
+    "legal_terms": {},
+    "assets": {
+        "ui_extensions": {
+            "debug_mode_url": "http://localhost:8080/",
+            "secured": false,
+            "main_url": "http://localhost:8080/",
+            "api_version": "v1.0",
+            "features": [
+                {
+                    "name": "dashboard_custom_widget",
+                    "options": {
+                        "widgets": [
+                            {
+                                "source": "#/widget",
+                                "name": "Vue widget",
+                                "custom_widget_key": "your_first_widget",
+                                "options": [
+                                    {
+                                        "enum": [
+                                            "system.cpu.idle",
+                                            "system.load.1",
+                                            "system.load.5",
+                                            "system.load.15"
+                                        ],
+                                        "type": "string",
+                                        "name": "metric",
+                                        "label": "Your favorite metric"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    }
+}
