@@ -1,4 +1,4 @@
-# vue-starter
+# vue-widget
 
 ## Project setup
 
