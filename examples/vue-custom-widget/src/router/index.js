@@ -3,7 +3,9 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const routes = [
     {
         path: '/',
-        name: 'Controller'
+        name: 'Controller',
+        component: () =>
+            import(/* webpackChunkName: "controller" */ '../views/Controller.vue')
     },
     {
         path: '/widget',
