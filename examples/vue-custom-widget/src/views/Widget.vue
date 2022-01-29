@@ -1,22 +1,25 @@
 <template>
-    <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld msg="Welcome to Your Vue.js App" />
-    </div>
+    <section>
+        <h2>Hello App Developer! 👋</h2>
+        <p>Welcome to your first Datadog application.</p>
+        <p>Your favorite metric is: <strong>TODO</strong></p>
+    </section>
 </template>
 
 <script>
 import { init } from '@datadog/ui-extensions-sdk';
-
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import 'milligram';
+import 'typeface-roboto';
 
 init();
 
 export default {
-    name: 'Widget',
-    components: {
-        HelloWorld
-    }
+    name: 'Widget'
 };
 </script>
+
+<style scoped>
+section {
+    padding: 10px;
+}
+</style>
