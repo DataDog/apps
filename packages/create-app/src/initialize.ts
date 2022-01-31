@@ -58,6 +58,13 @@ export class Command extends clipanion.Command {
     });
 
     /**
+     * This option controls whether to perform `npm install`/`yarn install`.
+     */
+    install = clipanion.Option.Boolean('--install', true, {
+        description: `Run the install command. Respects the package manager choice (\`npm\` or \`yarn\`). Turn off installs with \`--no-install\``
+    });
+
+    /**
      * This option is useful for debugging purposes.
      */
     verbose = clipanion.Option.Boolean('--verbose', false, {
@@ -75,8 +82,9 @@ export class Command extends clipanion.Command {
         logDebug({
             options: {
                 commit: this.commit,
-                example: this.example,
                 directory,
+                example: this.example,
+                install: this.install,
                 verbose: this.verbose
             }
         });
@@ -96,16 +104,18 @@ export class Command extends clipanion.Command {
         );
         logDebug(`Downloaded ${this.example} example`);
 
-        logInfo('Installing dependencies…');
-        const installResult = await pkgInstall.projectInstall({
-            cwd: directory,
-            stdio: 'inherit'
-        });
-        if (installResult.code !== 0) {
-            logDebug('Error installing dependencies', { installResult });
-            return Promise.reject(new Error(installResult.stderr));
+        if (this.install) {
+            logInfo('Installing dependencies…');
+            const installResult = await pkgInstall.projectInstall({
+                cwd: directory,
+                stdio: 'inherit'
+            });
+            if (installResult.code !== 0) {
+                logDebug('Error installing dependencies', { installResult });
+                return Promise.reject(new Error(installResult.stderr));
+            }
+            logDebug('Installed dependencies', { installResult });
         }
-        logDebug('Installed dependencies', { installResult });
 
         logInfo('');
         logInfo("You're all setup and ready to go!");

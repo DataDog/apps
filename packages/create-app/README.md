@@ -35,6 +35,12 @@ Defaults to `starter-kit`.
 The example to initialize.
 Defaults to the `starter-kit`, if not supplied
 
+### `--install`
+
+Perform the package manager installation (`npm install` vs. `yarn install`).
+Defaults to performing the installation, if not supplied.
+Can turn off package manager installation with `--no-install`.
+
 ### `--verbose`
 
 Prints out debugging information.
