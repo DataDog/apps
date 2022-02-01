@@ -58,7 +58,7 @@ async function createApp(endpoint, method) {
                                 },
                                 {
                                     name: 'widget_context_menu',
-                                    options: {}
+                                    options: { items: [] }
                                 },
                                 {
                                     name: 'modals',
