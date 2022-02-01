@@ -43,6 +43,7 @@ const createAppEntry = async configuration => {
         body: JSON.stringify({
             data: {
                 type: 'apps',
+                id: existingApp?.id,
                 attributes: {
                     author_info: {
                         name: 'Ivan Di Lernia'

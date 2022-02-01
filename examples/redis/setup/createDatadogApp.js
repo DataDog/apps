@@ -19,7 +19,14 @@ async function getAppsData() {
         );
 }
 
-async function createApp(endpoint, method) {
+/**
+ * Upserts an App.
+ * @param {string} endpoint The API to make the request to
+ * @param {'POST' | 'PATCH'} method The HTTP method to use.
+ * @param {string} [appId] The App id, if it exists. If the {@link method} is 'PATCH', this must be provided.
+ * @returns {Promise<string>} The upserted App id.
+ */
+async function createApp(endpoint, method, appId) {
     return fetch(endpoint, {
         headers: {
             'content-type': 'application/json',
@@ -29,6 +36,7 @@ async function createApp(endpoint, method) {
         body: JSON.stringify({
             data: {
                 type: 'apps',
+                id: appId,
                 attributes: {
                     author_info: {
                         name: 'Thomas Dimnet'
@@ -113,7 +121,7 @@ async function main() {
 
     const method = existingApp ? 'PATCH' : 'POST';
 
-    const appId = await createApp(endpoint, method);
+    const appId = await createApp(endpoint, method, existingApp?.id);
     return appId;
 }
 
