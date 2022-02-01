@@ -21,12 +21,16 @@ async function getAppsData() {
 
 /**
  * Upserts an App.
- * @param {string} endpoint The API to make the request to
- * @param {'POST' | 'PATCH'} method The HTTP method to use.
- * @param {string} [appId] The App id, if it exists. If the {@link method} is 'PATCH', this must be provided.
+ * @param {string} [appId] The App id, if it exists.
  * @returns {Promise<string>} The upserted App id.
  */
-async function createApp(endpoint, method, appId) {
+async function createApp(appId) {
+    const endpoint = appId
+        ? `${BASE_URL}/api/v2/apps/${appId}`
+        : `${BASE_URL}/api/v2/apps`;
+
+    const method = appId ? 'PATCH' : 'POST';
+
     return fetch(endpoint, {
         headers: {
             'content-type': 'application/json',
@@ -113,13 +117,7 @@ async function main(configuration) {
         app => app.attributes.tile.title === APP_NAME
     );
 
-    const endpoint = existingApp
-        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
-        : `${BASE_URL}/api/v2/apps`;
-
-    const method = existingApp ? 'PATCH' : 'POST';
-
-    const appId = await createApp(endpoint, method, existingApp?.id);
+    const appId = await createApp(existingApp?.id);
     return appId;
 }
 
