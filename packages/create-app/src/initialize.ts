@@ -4,12 +4,21 @@ import * as got from 'got';
 import * as pkgInstall from 'pkg-install';
 import * as stream from 'stream';
 import * as tar from 'tar';
+import * as typanion from 'typanion';
 import * as util from 'util';
 
 const pipeline = util.promisify(stream.Stream.pipeline);
 
 const defaultBranch = 'master';
 const defaultExample = 'starter-kit';
+
+const features = [
+    'custom-widget',
+    'dashboard-cog-menu',
+    'modal',
+    'side-panel',
+    'widget-context-menu'
+] as const;
 
 /**
  * Helper to make logging just a bit easier.
@@ -52,9 +61,31 @@ export class Command extends clipanion.Command {
 
     /**
      * This option allows App developers to select an example to initialize with.
+     *
+     * This is mutually exclusive with the `--features` option.
      */
-    example = clipanion.Option.String('--example', defaultExample, {
-        description: `The example to initialize. Defaults to the \`${defaultExample}\`, if not supplied`
+    example = clipanion.Option.String('--example', {
+        description: `The example to initialize. Defaults to the \`${defaultExample}\`, if not supplied. Cannot be used with the \`--feature\` option`
+    });
+
+    /**
+     * This option allows App developers to select the features they want to initialize with.
+     * It initialize multiple features by separating them with commas.
+     *
+     * This is mutually exclusive with the `--example` option.
+     */
+    features = clipanion.Option.String('--features', {
+        description: `The features to initialize. Must be one of ${features.join(
+            ', '
+        )}. Can initialize multiple features by separating them with commas. Cannot be used with the \`--example\` option`,
+        validator: typanion.isArray(
+            typanion.isOneOf(
+                features.map(feature => typanion.isLiteral(feature))
+            ),
+            {
+                delimiter: ','
+            }
+        )
     });
 
     /**
@@ -77,32 +108,55 @@ export class Command extends clipanion.Command {
     async execute(): Promise<void> {
         const logDebug = makeLogger(this.verbose);
         const logInfo = makeLogger(true);
-        const directory = this.directory ?? this.example;
+        const directory = this.directory ?? this.example ?? defaultExample;
 
         logDebug({
             options: {
                 commit: this.commit,
                 directory,
                 example: this.example,
+                features: this.features,
                 install: this.install,
                 verbose: this.verbose
             }
         });
 
+        // We don't want to deal with both `--examples` and `--features` at the same time.
+        if (this.example != null && this.features != null) {
+            return Promise.reject(
+                new Error(
+                    `Cannot use both \`--example\` and \`--features\` at the same time. Please choose one or the other`
+                )
+            );
+        }
+
+        // If neither `--example` nor `--features` was given,
+        // default to `--example` using the default example.
+        if (this.example == null && this.features == null) {
+            this.example = defaultExample;
+        }
+
         logInfo(`Creating ${directory} directory`);
         await fs.promises.mkdir(directory, { recursive: true });
         logDebug(`Created ${directory} directory`);
 
-        logInfo(`Downloading ${this.example} example…`);
-        await pipeline(
-            got.default.stream(
-                `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
-            ),
-            tar.extract({ cwd: directory, stripComponents: 3 }, [
-                `apps-${this.commit}/examples/${this.example}`
-            ])
-        );
-        logDebug(`Downloaded ${this.example} example`);
+        if (this.example) {
+            logInfo(`Downloading ${this.example} example…`);
+            await pipeline(
+                got.default.stream(
+                    `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
+                ),
+                tar.extract({ cwd: directory, stripComponents: 3 }, [
+                    `apps-${this.commit}/examples/${this.example}`
+                ])
+            );
+            logDebug(`Downloaded ${this.example} example`);
+        }
+
+        if (this.features?.length !== 0) {
+            logInfo(`Initializing the following features: ${this.features}…`);
+            logDebug(`Initialized the following features: ${this.features}`);
+        }
 
         if (this.install) {
             logInfo('Installing dependencies…');

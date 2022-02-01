@@ -20,7 +20,8 @@
         "clipanion": "3.1.0",
         "got": "11.8.3",
         "pkg-install": "1.0.0",
-        "tar": "6.1.11"
+        "tar": "6.1.11",
+        "typanion": "3.7.1"
     },
     "bin": "bin/index.js",
     "files": [
