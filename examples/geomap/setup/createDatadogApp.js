@@ -19,7 +19,18 @@ async function getAppsData() {
         );
 }
 
-async function createApp(endpoint, method) {
+/**
+ * Upserts an App.
+ * @param {string} [appId] The App id, if it exists.
+ * @returns {Promise<string>} The upserted App id.
+ */
+async function createApp(appId) {
+    const endpoint = appId
+        ? `${BASE_URL}/api/v2/apps/${appId}`
+        : `${BASE_URL}/api/v2/apps`;
+
+    const method = appId ? 'PATCH' : 'POST';
+
     return fetch(endpoint, {
         headers: {
             'content-type': 'application/json',
@@ -29,6 +40,7 @@ async function createApp(endpoint, method) {
         body: JSON.stringify({
             data: {
                 type: 'apps',
+                id: appId,
                 attributes: {
                     author_info: {
                         name: 'Thomas Dimnet'
@@ -92,13 +104,7 @@ async function main() {
         app => app.attributes.tile.title === APP_NAME
     );
 
-    const endpoint = existingApp
-        ? `${BASE_URL}/api/v2/apps/${existingApp.id}`
-        : `${BASE_URL}/api/v2/apps`;
-
-    const method = existingApp ? 'PATCH' : 'POST';
-
-    const appId = await createApp(endpoint, method);
+    const appId = await createApp(existingApp?.id);
     return appId;
 }
 
