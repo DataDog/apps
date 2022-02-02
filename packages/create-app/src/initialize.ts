@@ -206,6 +206,18 @@ export class Command extends clipanion.Command {
         await fs.promises.mkdir(directory, { recursive: true });
         this.logDebug(`Created ${directory} directory`);
 
+        await this.handleExample(directory);
+        await this.handleFeatures(directory);
+        await this.handleInstall(directory);
+
+        this.logInfo('');
+        this.logInfo("You're all setup and ready to go!");
+        this.logInfo(
+            'Visit https://docs.datadoghq.com/developers/datadog_apps for documentation.'
+        );
+    }
+
+    private async handleExample(directory: string): Promise<void> {
         if (this.example) {
             this.logInfo(`Downloading ${this.example} example…`);
             await pipeline(
@@ -218,7 +230,9 @@ export class Command extends clipanion.Command {
             );
             this.logDebug(`Downloaded ${this.example} example`);
         }
+    }
 
+    private async handleFeatures(directory: string): Promise<void> {
         if (this.features != null && this.features.length !== 0) {
             this.logInfo(
                 `Initializing the following features: ${this.features}…`
@@ -323,7 +337,9 @@ export class Command extends clipanion.Command {
                 `Initialized the following features: ${this.features}`
             );
         }
+    }
 
+    private async handleInstall(directory: string): Promise<void> {
         if (this.install) {
             this.logInfo('Installing dependencies…');
             const installResult = await pkgInstall.projectInstall({
@@ -338,12 +354,6 @@ export class Command extends clipanion.Command {
             }
             this.logDebug('Installed dependencies', { installResult });
         }
-
-        this.logInfo('');
-        this.logInfo("You're all setup and ready to go!");
-        this.logInfo(
-            'Visit https://docs.datadoghq.com/developers/datadog_apps for documentation.'
-        );
     }
 
     private logDebug(message?: unknown, ...optionalParams: unknown[]): void {
