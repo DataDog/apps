@@ -102,19 +102,6 @@ async function copyFromHandlebars(
 }
 
 /**
- * Helper to make logging just a bit easier.
- *
- * We might consider pulling in an actual logger if need be.
- */
-function makeLogger(verbose: boolean): typeof console.log {
-    if (!verbose) {
-        return (): void => {};
-    }
-
-    return console.log;
-}
-
-/**
  * The {@link clipanion.Command} for initializing.
  *
  * Will create the appropriate directory, download the example, and install any dependencies.
@@ -187,11 +174,9 @@ export class Command extends clipanion.Command {
      * The actual {@link clipanion.Command} logic.
      */
     async execute(): Promise<void> {
-        const logDebug = makeLogger(this.verbose);
-        const logInfo = makeLogger(true);
         const directory = this.directory ?? this.example ?? defaultExample;
 
-        logDebug({
+        this.logDebug({
             options: {
                 commit: this.commit,
                 directory,
@@ -217,12 +202,12 @@ export class Command extends clipanion.Command {
             this.example = defaultExample;
         }
 
-        logInfo(`Creating ${directory} directory`);
+        this.logInfo(`Creating ${directory} directory`);
         await fs.promises.mkdir(directory, { recursive: true });
-        logDebug(`Created ${directory} directory`);
+        this.logDebug(`Created ${directory} directory`);
 
         if (this.example) {
-            logInfo(`Downloading ${this.example} example…`);
+            this.logInfo(`Downloading ${this.example} example…`);
             await pipeline(
                 got.default.stream(
                     `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
@@ -231,11 +216,13 @@ export class Command extends clipanion.Command {
                     `apps-${this.commit}/examples/${this.example}`
                 ])
             );
-            logDebug(`Downloaded ${this.example} example`);
+            this.logDebug(`Downloaded ${this.example} example`);
         }
 
         if (this.features != null && this.features.length !== 0) {
-            logInfo(`Initializing the following features: ${this.features}…`);
+            this.logInfo(
+                `Initializing the following features: ${this.features}…`
+            );
             const config: FeaturesConfig = {
                 customWidget: this.features.includes('custom-widget'),
                 dashboardCogMenu: this.features.includes('dashboard-cog-menu'),
@@ -332,26 +319,42 @@ export class Command extends clipanion.Command {
                 );
             }
 
-            logDebug(`Initialized the following features: ${this.features}`);
+            this.logDebug(
+                `Initialized the following features: ${this.features}`
+            );
         }
 
         if (this.install) {
-            logInfo('Installing dependencies…');
+            this.logInfo('Installing dependencies…');
             const installResult = await pkgInstall.projectInstall({
                 cwd: directory,
                 stdio: 'inherit'
             });
             if (installResult.code !== 0) {
-                logDebug('Error installing dependencies', { installResult });
+                this.logDebug('Error installing dependencies', {
+                    installResult
+                });
                 return Promise.reject(new Error(installResult.stderr));
             }
-            logDebug('Installed dependencies', { installResult });
+            this.logDebug('Installed dependencies', { installResult });
         }
 
-        logInfo('');
-        logInfo("You're all setup and ready to go!");
-        logInfo(
+        this.logInfo('');
+        this.logInfo("You're all setup and ready to go!");
+        this.logInfo(
             'Visit https://docs.datadoghq.com/developers/datadog_apps for documentation.'
         );
+    }
+
+    private logDebug(message?: unknown, ...optionalParams: unknown[]): void {
+        if (!this.verbose) {
+            return;
+        }
+
+        console.log(message, ...optionalParams);
+    }
+
+    private logInfo(message?: unknown, ...optionalParams: unknown[]): void {
+        console.log(message, ...optionalParams);
     }
 }
