@@ -1,0 +1,23 @@
+const init = async () => {
+    switch (window.location.pathname) { {{#if customWidget}}
+        case '/custom-widget': {
+            let customWidget = await import('./custom-widget');
+            return customWidget.default();
+        }{{/if}}{{#if modal}}
+        case '/modal': {
+            let modal = await import('./modal');
+            return modal.default();
+        }{{/if}}{{#if sidePanel}}
+        case '/side-panel': {
+            let sidePanel = await import('./side-panel');
+            return sidePanel.default();
+        }{{/if}}
+        default: {
+            let controller = await import('./controller');
+            return controller.default();
+        }
+    }
+};
+
+init();
+export {};
