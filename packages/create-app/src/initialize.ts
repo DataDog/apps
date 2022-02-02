@@ -218,142 +218,135 @@ export class Command extends clipanion.Command {
     }
 
     private async handleExample(directory: string): Promise<void> {
-        if (this.example) {
-            this.logInfo(`Downloading ${this.example} example…`);
-            await pipeline(
-                got.default.stream(
-                    `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
-                ),
-                tar.extract({ cwd: directory, stripComponents: 3 }, [
-                    `apps-${this.commit}/examples/${this.example}`
-                ])
-            );
-            this.logDebug(`Downloaded ${this.example} example`);
+        if (!this.example) {
+            return;
         }
+
+        this.logInfo(`Downloading ${this.example} example…`);
+        await pipeline(
+            got.default.stream(
+                `https://github.com/DataDog/apps/archive/${this.commit}.tar.gz`
+            ),
+            tar.extract({ cwd: directory, stripComponents: 3 }, [
+                `apps-${this.commit}/examples/${this.example}`
+            ])
+        );
+        this.logDebug(`Downloaded ${this.example} example`);
     }
 
     private async handleFeatures(directory: string): Promise<void> {
-        if (this.features != null && this.features.length !== 0) {
-            this.logInfo(
-                `Initializing the following features: ${this.features}…`
-            );
-            const config: FeaturesConfig = {
-                customWidget: this.features.includes('custom-widget'),
-                dashboardCogMenu: this.features.includes('dashboard-cog-menu'),
-                modal: this.features.includes('modal'),
-                sidePanel: this.features.includes('side-panel'),
-                widgetContextMenu: this.features.includes('widget-context-menu')
-            };
+        if (this.features == null || this.features.length === 0) {
+            return;
+        }
 
-            // Top-level files
-            await copyFromTemplate(directory, '.gitignore');
-            await copyFromTemplate(directory, '.prettierignore');
-            await copyFromTemplate(directory, 'package.json');
-            await copyFromTemplate(directory, 'README.md');
-            await copyFromTemplate(directory, 'tsconfig.json');
+        this.logInfo(`Initializing the following features: ${this.features}…`);
+        const config: FeaturesConfig = {
+            customWidget: this.features.includes('custom-widget'),
+            dashboardCogMenu: this.features.includes('dashboard-cog-menu'),
+            modal: this.features.includes('modal'),
+            sidePanel: this.features.includes('side-panel'),
+            widgetContextMenu: this.features.includes('widget-context-menu')
+        };
 
-            // `/public` files
-            await copyFromHandlebars(
-                config,
+        // Top-level files
+        await copyFromTemplate(directory, '.gitignore');
+        await copyFromTemplate(directory, '.prettierignore');
+        await copyFromTemplate(directory, 'package.json');
+        await copyFromTemplate(directory, 'README.md');
+        await copyFromTemplate(directory, 'tsconfig.json');
+
+        // `/public` files
+        await copyFromHandlebars(
+            config,
+            directory,
+            path.join('public', '_redirects.handlebars')
+        );
+        await copyFromTemplate(directory, path.join('public', 'favicon.ico'));
+        await copyFromTemplate(directory, path.join('public', 'index.html'));
+        await copyFromTemplate(directory, path.join('public', 'robots.txt'));
+
+        // `/src` files
+        await copyFromTemplate(directory, path.join('src', 'index.css'));
+        await copyFromTemplate(
+            directory,
+            path.join('src', 'react-app-env.d.ts')
+        );
+        await copyFromHandlebars(
+            config,
+            directory,
+            path.join('src', 'index.tsx.handlebars')
+        );
+
+        // `/src/controller` files
+        await copyFromHandlebars(
+            config,
+            directory,
+            path.join('src', 'controller', 'index.ts.handlebars')
+        );
+
+        if (config.customWidget) {
+            await copyFromTemplate(
                 directory,
-                path.join('public', '_redirects.handlebars')
+                path.join('src', 'custom-widget', 'custom-widget.css')
             );
             await copyFromTemplate(
                 directory,
-                path.join('public', 'favicon.ico')
-            );
-            await copyFromTemplate(
-                directory,
-                path.join('public', 'index.html')
-            );
-            await copyFromTemplate(
-                directory,
-                path.join('public', 'robots.txt')
-            );
-
-            // `/src` files
-            await copyFromTemplate(directory, path.join('src', 'index.css'));
-            await copyFromTemplate(
-                directory,
-                path.join('src', 'react-app-env.d.ts')
-            );
-            await copyFromHandlebars(
-                config,
-                directory,
-                path.join('src', 'index.tsx.handlebars')
-            );
-
-            // `/src/controller` files
-            await copyFromHandlebars(
-                config,
-                directory,
-                path.join('src', 'controller', 'index.ts.handlebars')
-            );
-
-            if (config.customWidget) {
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'custom-widget', 'custom-widget.css')
-                );
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'custom-widget', 'index.tsx')
-                );
-            }
-
-            if (config.dashboardCogMenu) {
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'controller', 'dashboard-cog-menu.ts')
-                );
-            }
-
-            if (config.modal) {
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'controller', 'modal.ts')
-                );
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'modal', 'index.tsx')
-                );
-            }
-
-            if (config.sidePanel) {
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'side-panel', 'index.tsx')
-                );
-            }
-
-            if (config.widgetContextMenu) {
-                await copyFromTemplate(
-                    directory,
-                    path.join('src', 'controller', 'widget-context-menu.ts')
-                );
-            }
-
-            this.logDebug(
-                `Initialized the following features: ${this.features}`
+                path.join('src', 'custom-widget', 'index.tsx')
             );
         }
+
+        if (config.dashboardCogMenu) {
+            await copyFromTemplate(
+                directory,
+                path.join('src', 'controller', 'dashboard-cog-menu.ts')
+            );
+        }
+
+        if (config.modal) {
+            await copyFromTemplate(
+                directory,
+                path.join('src', 'controller', 'modal.ts')
+            );
+            await copyFromTemplate(
+                directory,
+                path.join('src', 'modal', 'index.tsx')
+            );
+        }
+
+        if (config.sidePanel) {
+            await copyFromTemplate(
+                directory,
+                path.join('src', 'side-panel', 'index.tsx')
+            );
+        }
+
+        if (config.widgetContextMenu) {
+            await copyFromTemplate(
+                directory,
+                path.join('src', 'controller', 'widget-context-menu.ts')
+            );
+        }
+
+        this.logDebug(`Initialized the following features: ${this.features}`);
     }
 
     private async handleInstall(directory: string): Promise<void> {
-        if (this.install) {
-            this.logInfo('Installing dependencies…');
-            const installResult = await pkgInstall.projectInstall({
-                cwd: directory,
-                stdio: 'inherit'
-            });
-            if (installResult.code !== 0) {
-                this.logDebug('Error installing dependencies', {
-                    installResult
-                });
-                return Promise.reject(new Error(installResult.stderr));
-            }
-            this.logDebug('Installed dependencies', { installResult });
+        if (!this.install) {
+            return;
         }
+
+        this.logInfo('Installing dependencies…');
+        const installResult = await pkgInstall.projectInstall({
+            cwd: directory,
+            stdio: 'inherit'
+        });
+        if (installResult.code !== 0) {
+            this.logDebug('Error installing dependencies', {
+                installResult
+            });
+            return Promise.reject(new Error(installResult.stderr));
+        }
+        this.logDebug('Installed dependencies', { installResult });
     }
 
     private logDebug(message?: unknown, ...optionalParams: unknown[]): void {
