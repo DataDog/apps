@@ -1,13 +1,47 @@
 import type {
-    FeatureType,
+    ColorTheme,
     EventType,
-    ModalSize,
-    ModalActionLevel,
+    FeatureType,
     MenuItemType,
-    WidgetOptionItemType,
-    ColorTheme
+    ModalActionLevel,
+    ModalSize,
+    RequestType,
+    WidgetOptionItemType
 } from './constants';
-import type { RequireKeys } from './utils/utils';
+
+export interface ContextClient {
+    getContext(): Promise<Context>;
+}
+
+export interface DebugClient {
+    debug: boolean;
+}
+
+export interface EventClient {
+    on<T = unknown>(
+        eventType: EventType,
+        eventHandler: EventHandler<T>
+    ): () => void;
+    send<T = unknown>(eventType: EventType, eventData: T): Promise<void>;
+}
+
+export interface LoggerClient {
+    log(message: string): void;
+    logError(message: string): void;
+}
+
+export interface RequestClient {
+    onRequest<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestHandler: RequestHandler<Q, R>
+    ): () => void;
+    request<Q = unknown, R = unknown>(
+        requestType: RequestType,
+        requestData?: Q
+    ): Promise<R>;
+}
+
+export type RequestHandler<Q = unknown, R = unknown> = (requestData: Q) => R;
 
 export interface ClientOptions<AuthStateArgs = unknown> {
     debug?: boolean;
@@ -281,3 +315,14 @@ export interface IFrameDimensions {
     height: number;
     width: number;
 }
+
+/**
+ * Typescript utility type, takes an interface and makes the specified keys required
+ * Example: RequireKeys<MyType, 'a' | 'b'>
+ */
+type RequireKeys<T, K extends keyof T> = {
+    [X in Exclude<keyof T, K>]?: T[X];
+} &
+    {
+        [P in K]-?: T[P];
+    };

@@ -1,17 +1,21 @@
-import type { DDClient } from '../../client/client';
 import { RequestType, FeatureType } from '../../constants';
 import { DDFeatureClient } from '../../shared/feature-client';
-import type { WidgetOptionItem } from '../../types';
+import type {
+    ContextClient,
+    LoggerClient,
+    RequestClient,
+    WidgetOptionItem
+} from '../../types';
 
 export class DDDashboardCustomWidgetClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.DASHBOARD_CUSTOM_WIDGET);
     }
 
     async updateOptions(newOptions: WidgetOptionItem[]) {
         const { widget } = await this.client.getContext();
         if (widget?.definition && widget?.id) {
-            return this.client.framePostClient.request(
+            return this.client.request(
                 RequestType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE,
                 {
                     customWidgetKey: widget.definition.custom_widget_key,

@@ -1,16 +1,18 @@
-import type { DDClient } from '../../client/client';
 import { FeatureType, RequestType } from '../../constants';
 import { DDFeatureClient } from '../../shared/feature-client';
 import type {
+    ContextClient,
     GetDashboardCogMenuItemsRequest,
-    GetDashboardCogMenuItemsResponse
+    GetDashboardCogMenuItemsResponse,
+    LoggerClient,
+    RequestClient
 } from '../../types';
 import { validateKey } from '../../utils/utils';
 
 const emptyConfig: GetDashboardCogMenuItemsResponse = { items: [] };
 
 export class DDDashboardCogMenuClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.DASHBOARD_COG_MENU);
 
         // initialize with an empty reponse handler
@@ -40,7 +42,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
                         validateKey(item);
                     } catch (e) {
                         if (e instanceof Error) {
-                            this.client.logger.error(e.message);
+                            this.client.logError(e.message);
                         }
 
                         return false;
@@ -51,7 +53,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             };
         };
 
-        this.client.framePostClient.onRequest(
+        this.client.onRequest(
             RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             wrappedHandler
         );

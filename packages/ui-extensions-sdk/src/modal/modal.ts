@@ -1,11 +1,15 @@
-import type { DDClient } from '../client/client';
 import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
-import type { ModalDefinition } from '../types';
+import type {
+    ContextClient,
+    LoggerClient,
+    ModalDefinition,
+    RequestClient
+} from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDModalClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.MODALS);
     }
 
@@ -17,7 +21,7 @@ export class DDModalClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
-            return this.client.framePostClient.request(RequestType.OPEN_MODAL, {
+            return this.client.request(RequestType.OPEN_MODAL, {
                 definition,
                 args
             });
@@ -31,9 +35,6 @@ export class DDModalClient extends DDFeatureClient {
     async close(key?: string) {
         await this.validateFeatureIsEnabled();
 
-        return this.client.framePostClient.request(
-            RequestType.CLOSE_MODAL,
-            key
-        );
+        return this.client.request(RequestType.CLOSE_MODAL, key);
     }
 }

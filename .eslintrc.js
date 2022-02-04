@@ -287,6 +287,7 @@ module.exports = {
         'prefer-template': 'error',
         'require-yield': 'error',
         'symbol-description': 'error',
+        'import/no-cycle': 'error',
         'import/no-unresolved': [
             'error',
             {
@@ -357,6 +358,9 @@ module.exports = {
     // React plugin, configured with the right version
     plugins: ['import', 'prettier', '@typescript-eslint', 'arca'],
     settings: {
+        'import/parsers': {
+            '@typescript-eslint/parser': ['.js', '.jsx', '.ts', '.tsx']
+        },
         'import/resolver': {
             node: {
                 extensions: ['.js', '.jsx', '.ts', '.tsx']

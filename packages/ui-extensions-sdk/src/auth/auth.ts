@@ -1,18 +1,23 @@
-import type { DDClient } from '../client/client';
 import { RequestType } from '../constants';
-import { AuthState, AuthStateOptions } from '../types';
+import {
+    AuthState,
+    AuthStateOptions,
+    ContextClient,
+    LoggerClient,
+    RequestClient
+} from '../types';
 
 const defaultAuthState: Required<AuthState<unknown>> = {
     isAuthenticated: false,
     args: {}
 };
 export class DDAuthClient<AuthStateArgs = unknown> {
-    private readonly client: DDClient;
+    private readonly client: ContextClient & LoggerClient & RequestClient;
     private authState: AuthState<AuthStateArgs>;
     readonly options?: AuthStateOptions<AuthStateArgs>;
 
     constructor(
-        client: DDClient<AuthStateArgs>,
+        client: ContextClient & LoggerClient & RequestClient,
         options?: AuthStateOptions<AuthStateArgs>
     ) {
         this.client = client;
@@ -21,7 +26,7 @@ export class DDAuthClient<AuthStateArgs = unknown> {
             this.options = options;
         }
 
-        this.client.framePostClient.onRequest(
+        this.client.onRequest(
             RequestType.CHECK_AUTH_STATE,
             this.checkAuthState.bind(this)
         );
@@ -29,7 +34,7 @@ export class DDAuthClient<AuthStateArgs = unknown> {
 
     private async checkAuthState(): Promise<AuthState<AuthStateArgs> | null> {
         if (!this.options) {
-            this.client.logger.error('Auth Provider is not set');
+            this.client.logError('Auth Provider is not set');
             return null;
         }
         const rawState = await this.options.authStateCallback();
@@ -41,14 +46,14 @@ export class DDAuthClient<AuthStateArgs = unknown> {
 
     async getAuthState(): Promise<AuthState<AuthStateArgs>> {
         await this.client.getContext();
-        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+        return this.client.request(RequestType.GET_AUTH_STATE, {
             forceUpdate: false
         });
     }
 
     async updateAuthState() {
         await this.client.getContext();
-        return this.client.framePostClient.request(RequestType.GET_AUTH_STATE, {
+        return this.client.request(RequestType.GET_AUTH_STATE, {
             forceUpdate: true
         });
     }

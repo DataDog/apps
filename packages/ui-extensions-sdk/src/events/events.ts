@@ -1,18 +1,21 @@
-import type { DDClient } from '../client/client';
 import { EventType, RequestType } from '../constants';
 import type {
+    APIAccessChangeEvent,
+    AuthState,
     Context,
+    ContextClient,
+    DashboardCogMenuClickData,
+    EventClient,
     EventHandler,
     IFrameDimensions,
-    Timeframe,
-    TemplateVariableValue,
+    LoggerClient,
     ModalDefinition,
-    WidgetContextMenuClickData,
-    WidgetSettingsMenuClickData,
-    DashboardCogMenuClickData,
+    RequestClient,
     SidePanelDefinition,
-    AuthState,
-    APIAccessChangeEvent
+    TemplateVariableValue,
+    Timeframe,
+    WidgetContextMenuClickData,
+    WidgetSettingsMenuClickData
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -47,9 +50,14 @@ interface DDEventDataTypes<AuthStateArgs> {
 }
 
 export class DDEventsClient<AuthStateArgs = unknown> {
-    private readonly client: DDClient<AuthStateArgs>;
+    private readonly client: ContextClient &
+        EventClient &
+        LoggerClient &
+        RequestClient;
 
-    constructor(client: DDClient<AuthStateArgs>) {
+    constructor(
+        client: ContextClient & EventClient & LoggerClient & RequestClient
+    ) {
         this.client = client;
     }
 
@@ -63,7 +71,7 @@ export class DDEventsClient<AuthStateArgs = unknown> {
         handler: EventHandler<DDEventDataTypes<AuthStateArgs>[K]>
     ): () => void {
         // first, immediately subscribe
-        const unsubscribe = this.client.framePostClient.on(eventType, handler);
+        const unsubscribe = this.client.on(eventType, handler);
 
         // kick off async process to message access errors after handshake succeeds.
         // failure also unsubscribes. This routine is to message errors to devs.
@@ -78,7 +86,7 @@ export class DDEventsClient<AuthStateArgs = unknown> {
 
                 if (!canHandleEvent) {
                     unsubscribe();
-                    this.client.logger.error(
+                    this.client.logError(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
                     );
                 }
@@ -107,13 +115,13 @@ export class DDEventsClient<AuthStateArgs = unknown> {
      * for debug purposes
      */
     async broadcast<T = any>(eventType: string, data: T) {
-        return this.client.framePostClient.request<
-            CustomEventPayload<T>,
-            undefined
-        >(RequestType.EVENT_BROADCAST, {
-            eventType,
-            data
-        });
+        return this.client.request<CustomEventPayload<T>, undefined>(
+            RequestType.EVENT_BROADCAST,
+            {
+                eventType,
+                data
+            }
+        );
     }
 }
 

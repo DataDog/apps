@@ -1,11 +1,15 @@
-import type { DDClient } from '../client/client';
 import { FeatureType, RequestType } from '../constants';
 import { DDFeatureClient } from '../shared/feature-client';
-import { SidePanelDefinition } from '../types';
+import {
+    ContextClient,
+    LoggerClient,
+    RequestClient,
+    SidePanelDefinition
+} from '../types';
 import { validateKey } from '../utils/utils';
 
 export class DDSidePanelClient extends DDFeatureClient {
-    constructor(client: DDClient) {
+    constructor(client: ContextClient & LoggerClient & RequestClient) {
         super(client, FeatureType.SIDE_PANELS);
     }
 
@@ -17,10 +21,10 @@ export class DDSidePanelClient extends DDFeatureClient {
         await this.validateFeatureIsEnabled();
 
         if (validateKey(definition)) {
-            return this.client.framePostClient.request(
-                RequestType.OPEN_SIDE_PANEL,
-                { definition, args }
-            );
+            return this.client.request(RequestType.OPEN_SIDE_PANEL, {
+                definition,
+                args
+            });
         }
     }
 
@@ -31,9 +35,6 @@ export class DDSidePanelClient extends DDFeatureClient {
     async close(key?: string) {
         await this.validateFeatureIsEnabled();
 
-        return this.client.framePostClient.request(
-            RequestType.CLOSE_SIDE_PANEL,
-            key
-        );
+        return this.client.request(RequestType.CLOSE_SIDE_PANEL, key);
     }
 }

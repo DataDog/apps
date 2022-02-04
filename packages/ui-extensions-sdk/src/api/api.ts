@@ -1,11 +1,10 @@
-import type { DDClient } from '../client/client';
 import { RequestType } from '../constants';
-import type { ApiRequest, ApiRequestOptions } from '../types';
+import type { ApiRequest, ApiRequestOptions, RequestClient } from '../types';
 
 export class DDAPIClient {
-    private readonly client: DDClient;
+    private readonly client: RequestClient;
 
-    constructor(client: DDClient) {
+    constructor(client: RequestClient) {
         this.client = client;
     }
 
@@ -18,16 +17,13 @@ export class DDAPIClient {
             contentType = 'json'
         }: ApiRequestOptions<Q>
     ): Promise<R> {
-        return this.client.framePostClient.request<ApiRequest<Q>, R>(
-            RequestType.API_REQUEST,
-            {
-                resource,
-                method,
-                params,
-                data,
-                contentType
-            }
-        );
+        return this.client.request<ApiRequest<Q>, R>(RequestType.API_REQUEST, {
+            resource,
+            method,
+            params,
+            data,
+            contentType
+        });
     }
 
     async get<R = any>(
@@ -93,8 +89,6 @@ export class DDAPIClient {
     }
 
     async clearCredentials() {
-        return this.client.framePostClient.request(
-            RequestType.CLEAR_OAUTH_CREDENTIALS
-        );
+        return this.client.request(RequestType.CLEAR_OAUTH_CREDENTIALS);
     }
 }
