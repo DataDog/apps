@@ -8,9 +8,12 @@
         "directory": "packages/create-app"
     },
     "scripts": {
-        "build": "ncc build src/index.ts --minify --out bin",
+        "build": "yarn build:compile && yarn build:copy-template",
+        "build:compile": "ncc build src/index.ts --minify --out bin",
+        "build:copy-template": "cp -R src/template/. bin/template",
         "prepare": "yarn build",
-        "test": "echo TODO: Add test script",
+        "test": "yarn test:acceptance",
+        "test:acceptance": "./src/index.acceptance.sh",
         "watch": "ncc build --out bin --watch"
     },
     "license": "Apache-2.0",
@@ -19,12 +22,15 @@
         "@vercel/ncc": "0.33.0",
         "clipanion": "3.1.0",
         "got": "11.8.3",
+        "handlebars": "4.7.7",
         "pkg-install": "1.0.0",
-        "tar": "6.1.11"
+        "tar": "6.1.11",
+        "typanion": "3.7.1"
     },
     "bin": "bin/index.js",
     "files": [
-        "bin"
+        "bin",
+        "bin/template/.gitignore"
     ],
     "publishConfig": {
         "access": "public"

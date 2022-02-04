@@ -33,7 +33,22 @@ Defaults to `starter-kit`.
 ### `--example`
 
 The example to initialize.
+This option cannot be used with the `--features` option.
 Defaults to the `starter-kit`, if not supplied
+
+### `--features`
+
+The features to initialize.
+Can initialize multiple features by separating each with a `,`.
+This option cannot be used with the `--example` option.
+
+E.g. `yarn create @datadog/app --features custom-widget,side-panel`.
+
+### `--install`
+
+Perform the package manager installation (`npm install` vs. `yarn install`).
+Defaults to performing the installation, if not supplied.
+Can turn off package manager installation with `--no-install`.
 
 ### `--verbose`
 
