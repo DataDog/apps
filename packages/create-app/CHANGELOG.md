@@ -1,5 +1,19 @@
 # v1.0.1 (Fri Dec 17 2021)
 
+## 1.1.0
+
+### Minor Changes
+
+-   409fe6b: Add `--features` option.
+    This option allows initializing with a specific set of features.
+    E.g. `yarn create @datadog/app --features custom-widget,side-panel`.
+    It cannot be used with the `--example` option.
+-   031dcb7: Add a `--install` option.
+    This option controls whether or not to perform `npm install`/`yarn install`.
+    The default is to perform in the install,
+    so passing the options is a no-op.
+    The install can be turned off with `--no-install`.
+
 ## 1.0.3
 
 ### Patch Changes
