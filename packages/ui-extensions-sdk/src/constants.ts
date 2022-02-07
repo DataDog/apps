@@ -1,8 +1,3 @@
-export enum Host {
-    PROD = 'https://app.datadoghq.com/',
-    STAGE = 'https://dd.datad0g.com/'
-}
-
 export enum FeatureType {
     DASHBOARD_COG_MENU = 'dashboard_cog_menu',
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
@@ -114,14 +109,6 @@ export enum ModalActionLevel {
 export enum MenuItemType {
     LINK = 'link',
     EVENT = 'event'
-}
-
-export enum AuthStateStatus {
-    NONE = 'none',
-    SET = 'set',
-    INITIATED = 'initiated',
-    SUCCESS = 'success',
-    FAILED = 'failed'
 }
 
 export enum WidgetOptionItemType {
