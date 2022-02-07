@@ -1,5 +1,19 @@
 # @datadog/ui-extensions-react
 
+## 0.27.1
+
+### Patch Changes
+
+-   d8c24b2: Fix custom widgets not validating the feature is enabled.
+
+    For consistency with the other features,
+    we make sure that `DDDashboardCustomWidgetClient.updateOptions` validates that the `FeatureType.DASHBOARD_CUSTOM_WIDGET` feature is enabled.
+    It's likely that the parent wouldn't allow this,
+    but the error message is more consistent on the SDK-side of things.
+
+-   Updated dependencies [d8c24b2]
+    -   @datadog/ui-extensions-sdk@0.27.1
+
 ## 0.27.0
 
 ### Patch Changes
