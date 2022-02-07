@@ -18,10 +18,8 @@ export class DDModalClient extends DDFeatureClient {
      * definition pre-defined in the app manifest
      */
     async open(definition: ModalDefinition, args?: unknown) {
-        await this.validateFeatureIsEnabled();
-
         if (validateKey(definition)) {
-            return this.client.request(RequestType.OPEN_MODAL, {
+            return this.sendRequest(RequestType.OPEN_MODAL, {
                 definition,
                 args
             });
@@ -33,8 +31,6 @@ export class DDModalClient extends DDFeatureClient {
      * if it matches the provided key.
      */
     async close(key?: string) {
-        await this.validateFeatureIsEnabled();
-
-        return this.client.request(RequestType.CLOSE_MODAL, key);
+        return this.sendRequest(RequestType.CLOSE_MODAL, key);
     }
 }

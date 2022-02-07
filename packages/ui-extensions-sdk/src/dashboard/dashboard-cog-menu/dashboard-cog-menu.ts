@@ -32,8 +32,6 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
         const wrappedHandler = async (
             context: GetDashboardCogMenuItemsRequest
         ): Promise<GetDashboardCogMenuItemsResponse> => {
-            await this.validateFeatureIsEnabled();
-
             const { items } = await requestHandler(context);
 
             return {
@@ -42,7 +40,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
                         validateKey(item);
                     } catch (e) {
                         if (e instanceof Error) {
-                            this.client.logError(e.message);
+                            this.logError(e.message);
                         }
 
                         return false;
@@ -53,7 +51,7 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
             };
         };
 
-        this.client.onRequest(
+        this.handleRequest(
             RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
             wrappedHandler
         );

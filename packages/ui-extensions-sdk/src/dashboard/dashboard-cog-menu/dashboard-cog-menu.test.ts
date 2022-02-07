@@ -12,6 +12,23 @@ beforeEach(() => {
 });
 
 describe('dashboardContextMenu.onRequestItems()', () => {
+    test('throws an error if `DASHBOARD_COG_MENU` is not enabled', async () => {
+        client.framePostClient.init({
+            ...mockContext,
+            app: {
+                ...mockContext.app,
+                features: []
+            }
+        });
+
+        const response = client.framePostClient.mockRequest(
+            RequestType.GET_DASHBOARD_COG_MENU_ITEMS,
+            'data'
+        );
+
+        await expect(response).rejects.toBeInstanceOf(Error);
+    });
+
     test('Registers a handler returning an empty array on init', async () => {
         client.framePostClient.init({
             ...mockContext,
