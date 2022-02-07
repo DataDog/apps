@@ -27,7 +27,7 @@ describe('DDDashboardCustomWidgetClient', () => {
             expect(requestSpy).not.toHaveBeenCalled();
         });
 
-        test('does not throw an error if `DASHBOARD_CUSTOM_WIDGET` is not enabled', async () => {
+        test('throws an error if `DASHBOARD_CUSTOM_WIDGET` is not enabled', async () => {
             const client = new MockClient();
             const context: Context = {
                 ...mockContext,
@@ -56,21 +56,8 @@ describe('DDDashboardCustomWidgetClient', () => {
                 }
             ]);
 
-            await expect(response).resolves.not.toBeInstanceOf(Error);
-            expect(requestSpy).toHaveBeenCalledWith(
-                'dashboard_custom_widget_options_update',
-                {
-                    customWidgetID: 1,
-                    customWidgetKey: 'key',
-                    newOptions: [
-                        {
-                            type: WidgetOptionItemType.BOOLEAN,
-                            label: 'option',
-                            name: 'option'
-                        }
-                    ]
-                }
-            );
+            await expect(response).rejects.toBeInstanceOf(Error);
+            expect(requestSpy).not.toHaveBeenCalledWith();
         });
 
         test('sends a request if `DASHBOARD_CUSTOM_WIDGET` is enabled', async () => {

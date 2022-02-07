@@ -15,6 +15,7 @@ export class DDDashboardCustomWidgetClient extends DDFeatureClient {
     async updateOptions(newOptions: WidgetOptionItem[]) {
         const { widget } = await this.client.getContext();
         if (widget?.definition && widget?.id) {
+            await this.validateFeatureIsEnabled();
             return this.client.request(
                 RequestType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE,
                 {
