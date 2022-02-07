@@ -18,7 +18,6 @@ export class DDSidePanelClient extends DDFeatureClient {
      * definition pre-defined in the app manifest
      */
     async open(definition: SidePanelDefinition, args?: unknown) {
-
         if (validateKey(definition)) {
             return this.sendRequest(RequestType.OPEN_SIDE_PANEL, {
                 definition,
@@ -32,7 +31,6 @@ export class DDSidePanelClient extends DDFeatureClient {
      * if it matches the provided key.
      */
     async close(key?: string) {
-
         return this.sendRequest(RequestType.CLOSE_SIDE_PANEL, key);
     }
 }

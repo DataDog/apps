@@ -32,7 +32,6 @@ export class DDDashboardCogMenuClient extends DDFeatureClient {
         const wrappedHandler = async (
             context: GetDashboardCogMenuItemsRequest
         ): Promise<GetDashboardCogMenuItemsResponse> => {
-
             const { items } = await requestHandler(context);
 
             return {

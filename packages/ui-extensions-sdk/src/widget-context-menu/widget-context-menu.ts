@@ -32,7 +32,6 @@ export class DDWidgetContextMenuClient extends DDFeatureClient {
         const wrappedHandler = async (
             context: GetWidgetContextMenuItemsRequest
         ): Promise<GetWidgetContextMenuItemsResponse> => {
-
             const { items } = await requestHandler(context);
 
             return {

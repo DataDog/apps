@@ -18,7 +18,6 @@ export class DDModalClient extends DDFeatureClient {
      * definition pre-defined in the app manifest
      */
     async open(definition: ModalDefinition, args?: unknown) {
-
         if (validateKey(definition)) {
             return this.sendRequest(RequestType.OPEN_MODAL, {
                 definition,
@@ -32,7 +31,6 @@ export class DDModalClient extends DDFeatureClient {
      * if it matches the provided key.
      */
     async close(key?: string) {
-
         return this.sendRequest(RequestType.CLOSE_MODAL, key);
     }
 }
