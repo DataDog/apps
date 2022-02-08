@@ -2,12 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import {
-    EventType,
-    FramePostClientSettings,
-    Host,
-    RequestType
-} from '../constants';
+import { EventType, FramePostClientSettings, RequestType } from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -33,7 +28,6 @@ import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context
 declare const SDK_VERSION: string;
 
 const DEFAULT_OPTIONS = {
-    host: Host.STAGE,
     debug: false
 };
 
@@ -44,7 +38,6 @@ export class DDClient<AuthStateArgs = unknown>
         EventClient,
         LoggerClient,
         RequestClient {
-    private readonly host: string;
     private context?: Context | null;
     private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
@@ -59,7 +52,6 @@ export class DDClient<AuthStateArgs = unknown>
     auth: DDAuthClient<AuthStateArgs>;
 
     constructor(options: ClientOptions<AuthStateArgs> = {}) {
-        this.host = options.host || DEFAULT_OPTIONS.host;
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
 
         let authStateOptions: ParentAuthStateOptions | undefined;

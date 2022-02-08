@@ -7,13 +7,8 @@ import {
     RequestClient
 } from '../types';
 
-const defaultAuthState: Required<AuthState<unknown>> = {
-    isAuthenticated: false,
-    args: {}
-};
 export class DDAuthClient<AuthStateArgs = unknown> {
     private readonly client: ContextClient & LoggerClient & RequestClient;
-    private authState: AuthState<AuthStateArgs>;
     readonly options?: AuthStateOptions<AuthStateArgs>;
 
     constructor(
@@ -21,7 +16,6 @@ export class DDAuthClient<AuthStateArgs = unknown> {
         options?: AuthStateOptions<AuthStateArgs>
     ) {
         this.client = client;
-        this.authState = defaultAuthState as AuthState<AuthStateArgs>;
         if (options) {
             this.options = options;
         }
