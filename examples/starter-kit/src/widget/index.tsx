@@ -1,5 +1,5 @@
-import { useContext } from '@datadog/ui-extensions-react';
-import { init, EventType } from '@datadog/ui-extensions-sdk';
+import { useCustomWidgetOptions } from '@datadog/ui-extensions-react';
+import { init } from '@datadog/ui-extensions-sdk';
 import './../index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -12,27 +12,14 @@ import { useEffect, useState } from 'react';
 const client = init();
 
 function Widget() {
-    const context = useContext(client);
-    const [metric, setMetric] = useState('system.cpu.idle');
+    const options = useCustomWidgetOptions(client, {
+        metric: 'system.cpu.idle'
+    });
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
-        if (context !== undefined) {
-            setMetric(context.widget?.definition.options?.metric);
-        }
-
-        client.events.on(
-            EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-            ({ metric }) => {
-                if (typeof metric !== 'string') {
-                    return;
-                }
-                setMetric(metric);
-            }
-        );
-
         client.events.onCustom('modal_button_click', setBroadcastClickCount);
-    }, [context]);
+    }, []);
 
     const onOpenSidePanel = (args: any) => {
         client.sidePanel.open(
@@ -41,7 +28,7 @@ function Widget() {
                 key: 'custom-side-panel',
                 title: 'Custom Sidepanel'
             },
-            { metric }
+            { metric: options.metric }
         );
     };
 
@@ -50,7 +37,7 @@ function Widget() {
             <h2>Hello App Developer! 👋</h2>
             <p>Welcome to your first Datadog application.</p>
             <p>
-                Your favorite metric is: <strong>{metric}</strong>
+                Your favorite metric is: <strong>{options.metric}</strong>
             </p>
             <p>
                 You can open a side panel programatically and pass to it your

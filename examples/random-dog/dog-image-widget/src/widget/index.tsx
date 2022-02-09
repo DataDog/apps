@@ -1,9 +1,5 @@
-import { useContext } from '@datadog/ui-extensions-react';
-import {
-    WidgetOptionItemType,
-    init,
-    EventType
-} from '@datadog/ui-extensions-sdk';
+import { useCustomWidgetOptions } from '@datadog/ui-extensions-react';
+import { init, WidgetOptionItemType } from '@datadog/ui-extensions-sdk';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -14,10 +10,14 @@ import 'milligram';
 
 const client = init();
 
+type WidgetOptions = {
+    breed: string;
+};
+
 function Widget() {
     const [breeds, setBreeds] = useState([]);
     const [image, setImage] = useState(null);
-    const context = useContext(client);
+    const options = useCustomWidgetOptions<WidgetOptions>(client);
 
     useEffect(() => {
         fetch('http://localhost:3001/breeds')
@@ -55,23 +55,19 @@ function Widget() {
     }, [breeds]);
 
     useEffect(() => {
-        client.events.on(
-            EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-            ({ breed }) => {
-                if (breed !== undefined) {
-                    getImage(breed.toString());
-                }
-            }
-        );
-    }, []);
-
-    const cycleImage = async () => {
-        if (context === undefined) {
+        if (options.breed === undefined) {
             return;
         }
 
-        const breed = context.widget?.definition.options?.breed;
-        getImage(breed);
+        getImage(options.breed);
+    }, [options.breed]);
+
+    const cycleImage = async () => {
+        if (options.breed === undefined) {
+            return;
+        }
+
+        getImage(options.breed);
     };
 
     const getImage = (breed: string) =>
