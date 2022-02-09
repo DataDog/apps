@@ -302,6 +302,16 @@ export interface CustomWidgetItem {
     icon?: string;
 }
 
+export interface GetDashboardCustomWidgetOptionsRequest {
+    widget: Omit<DashboardWidgetContext, 'definition'> & {
+        definition: CustomWidgetDefinition;
+    };
+}
+
+export interface GetDashboardCustomWidgetOptionsResponse {
+    options: WidgetOptionItem[];
+}
+
 // Payload of event broadcast when oauth access is updated
 export interface APIAccessChangeEvent {
     isAuthorized: boolean;

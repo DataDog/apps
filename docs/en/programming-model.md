@@ -263,19 +263,23 @@ Widget options can be updated at runtime. This is useful if you need to fill the
 
 ![options](https://user-images.githubusercontent.com/1262407/116876143-f91ba400-abe9-11eb-83d2-c804c3f9f218.gif)
 
-Important: This code needs to run in the widget code and not in the main controller.
+Important: This code needs to run in the main controller and not in the widget code.
 
 ```js
-client.dashboard.customWidget.updateOptions([
-  {
-    type: WidgetOptionItemType.STRING,
-    name: 'favorite-cheese',
-    label: 'Your favorite cheese',
-    enum: ['Chevre', 'Gruyere', 'Mozzarella', 'default'],
-    // enforce a specific order to display the field in the widget editor
-    order: 1,
-  },
-]);
+client.dashboard.customWidget.onOptionsRequest(() => {
+  return {
+    options: [
+      {
+        type: WidgetOptionItemType.STRING,
+        name: 'favorite-cheese',
+        label: 'Your favorite cheese',
+        enum: ['Chevre', 'Gruyere', 'Mozzarella', 'default'],
+        // enforce a specific order to display the field in the widget editor
+        order: 1,
+      },
+    ],
+  };
+});
 ```
 
 

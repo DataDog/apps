@@ -81,7 +81,11 @@ export enum RequestType {
     SET_DASHBOARD_CURSOR = 'set_dashboard_cursor',
 
     // Widgets
-    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update'
+    /**
+     * @deprecated Subscribe to and handle requests from {@link GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS} instead of sending requests with {@link DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE}.
+     */
+    DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
+    GET_DASHBOARD_CUSTOM_WIDGET_OPTIONS = 'get_dashboard_custom_widget_options'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
