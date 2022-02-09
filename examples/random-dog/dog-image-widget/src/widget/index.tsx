@@ -1,9 +1,5 @@
 import { useContext } from '@datadog/ui-extensions-react';
-import {
-    WidgetOptionItemType,
-    init,
-    EventType
-} from '@datadog/ui-extensions-sdk';
+import { EventType, init } from '@datadog/ui-extensions-sdk';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -15,44 +11,8 @@ import 'milligram';
 const client = init();
 
 function Widget() {
-    const [breeds, setBreeds] = useState([]);
     const [image, setImage] = useState(null);
     const context = useContext(client);
-
-    useEffect(() => {
-        fetch('http://localhost:3001/breeds')
-            .then(res => res.json())
-            .then(({ breeds }) => setBreeds(breeds))
-            .catch(err =>
-                console.log('An error occurs on fetching breeds', err)
-            );
-    }, []);
-
-    useEffect(() => {
-        if (breeds.length) {
-            const options = [
-                {
-                    label: 'All Breeds',
-                    value: '0'
-                }
-            ].concat(
-                breeds.map(breed => ({
-                    label: breed['name'] as string,
-                    value: breed['id'] as string
-                }))
-            );
-
-            client.dashboard.customWidget.updateOptions([
-                {
-                    type: WidgetOptionItemType.STRING,
-                    name: 'breed',
-                    label: 'Select a Dog Breed to get Random Images of',
-                    enum: options,
-                    order: 1
-                }
-            ]);
-        }
-    }, [breeds]);
 
     useEffect(() => {
         client.events.on(

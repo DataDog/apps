@@ -1,7 +1,9 @@
 import { init } from '@datadog/ui-extensions-sdk';
+import { setupCustomWidget } from './custom-widget';
 
 export default function setup() {
-    init();
+    const client = init();
+    setupCustomWidget(client);
 
     const root = document.getElementById('root');
     if (!root) {
