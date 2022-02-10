@@ -38,16 +38,46 @@ function useTemplateVariable(
     variableName: string
 ): string | undefined {
     const context = useContext.useContext(client);
+    const [variable, setVariable] = React.useState<string | undefined>();
 
-    const variable = React.useMemo(() => {
+    React.useEffect(() => {
         const templateVariable = context?.dashboard?.templateVars.find(
             (value: uiExtensionsSDK.TemplateVariableValue): boolean => {
                 return value.name === variableName;
             }
         );
 
-        return templateVariable?.value;
+        if (templateVariable?.value == null) {
+            return;
+        }
+
+        setVariable(templateVariable.value);
     }, [context?.dashboard?.templateVars, variableName]);
+
+    React.useEffect(() => {
+        const unsubscribe = client.events.on(
+            uiExtensionsSDK.EventType.DASHBOARD_TEMPLATE_VAR_CHANGE,
+            (
+                templateVariables: uiExtensionsSDK.TemplateVariableValue[]
+            ): void => {
+                const templateVariable = templateVariables.find(
+                    (value: uiExtensionsSDK.TemplateVariableValue): boolean => {
+                        return value.name === variableName;
+                    }
+                );
+
+                if (templateVariable?.value == null) {
+                    return;
+                }
+
+                setVariable(templateVariable.value);
+            }
+        );
+
+        return () => {
+            unsubscribe();
+        };
+    }, [client.events, variableName]);
 
     return variable;
 }

@@ -31,7 +31,8 @@ const defer = <Value>(): Deferred<Value> => {
 };
 
 let deferredContext: Deferred<uiExtensionsSDK.Context>;
-let handler: (eventData: unknown) => void;
+const handlerContextChange = jest.fn<void, unknown[]>();
+const handlerDashboardTemplateVarChange = jest.fn<void, unknown[]>();
 
 const makeContext = (
     templateVars: uiExtensionsSDK.TemplateVariableValue[]
@@ -58,7 +59,8 @@ const makeContext = (
     };
 };
 
-const onUnsubscribe = jest.fn<void, never[]>();
+const onUnsubscribeContextChange = jest.fn<void, never[]>();
+const onUnsubscribeDashboardTemplateVarChange = jest.fn<void, never[]>();
 
 jest.mock('@datadog/ui-extensions-sdk', () => {
     return {
@@ -71,15 +73,23 @@ jest.mock('@datadog/ui-extensions-sdk', () => {
                             eventType: uiExtensionsSDK.EventType,
                             callback: (eventData: unknown) => void
                         ): (() => void) => {
-                            if (
-                                eventType !==
-                                uiExtensionsSDK.EventType.CONTEXT_CHANGE
-                            ) {
-                                return () => {};
-                            }
+                            switch (eventType) {
+                                case uiExtensionsSDK.EventType.CONTEXT_CHANGE:
+                                    handlerContextChange.mockImplementation(
+                                        callback
+                                    );
+                                    return onUnsubscribeContextChange;
 
-                            handler = callback;
-                            return onUnsubscribe;
+                                case uiExtensionsSDK.EventType
+                                    .DASHBOARD_TEMPLATE_VAR_CHANGE:
+                                    handlerDashboardTemplateVarChange.mockImplementation(
+                                        callback
+                                    );
+                                    return onUnsubscribeDashboardTemplateVarChange;
+
+                                default:
+                                    return () => {};
+                            }
                         }
                     )
                 },
@@ -95,7 +105,6 @@ jest.mock('@datadog/ui-extensions-sdk', () => {
 
 beforeEach((): void => {
     deferredContext = defer();
-    handler = (eventData: unknown): void => {};
     jest.clearAllMocks();
 });
 
@@ -134,75 +143,151 @@ describe('useTemplateVariable', (): void => {
         expect(result.result.current).toEqual('value1');
     });
 
-    test('updates from the `CONTEXT_CHANGE` event', async (): Promise<void> => {
-        const client = new uiExtensionsSDK.DDClient();
-        const context: uiExtensionsSDK.Context = makeContext([
-            {
-                name: 'variable1',
-                value: 'value1'
-            }
-        ]);
+    describe('for the `CONTEXT_CHANGE` event', (): void => {
+        test('updates from the event', async (): Promise<void> => {
+            const client = new uiExtensionsSDK.DDClient();
+            const context: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value1'
+                }
+            ]);
 
-        const result = reactHooks.renderHook(() => {
-            return useTemplateVariable(client, 'variable1');
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context);
+                    await result.waitForNextUpdate();
+                }
+            );
+
+            expect(result.result.current).toEqual('value1');
         });
-        await reactHooks.act(
-            async (): Promise<void> => {
-                handler(context);
-                await result.waitForNextUpdate();
-            }
-        );
 
-        expect(result.result.current).toEqual('value1');
+        test('uses latest value from the event', async (): Promise<void> => {
+            const client = new uiExtensionsSDK.DDClient();
+            const context1: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value1'
+                }
+            ]);
+            const context2: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value2'
+                }
+            ]);
+
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context1);
+                    await result.waitForNextUpdate();
+                }
+            );
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context2);
+                    await result.waitForNextUpdate();
+                }
+            );
+
+            expect(result.result.current).toEqual('value2');
+        });
+
+        test('invokes unsubscribe callback when unmounting', (): void => {
+            const client = new uiExtensionsSDK.DDClient();
+
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+
+            expect(onUnsubscribeContextChange).not.toHaveBeenCalled();
+
+            result.unmount();
+
+            expect(onUnsubscribeContextChange).toHaveBeenCalledTimes(1);
+        });
     });
 
-    test('uses latest value from the `CONTEXT_CHANGE` event', async (): Promise<
-        void
-    > => {
-        const client = new uiExtensionsSDK.DDClient();
-        const context1: uiExtensionsSDK.Context = makeContext([
-            {
-                name: 'variable1',
-                value: 'value1'
-            }
-        ]);
-        const context2: uiExtensionsSDK.Context = makeContext([
-            {
-                name: 'variable1',
-                value: 'value2'
-            }
-        ]);
+    describe('for the `DASHBOARD_TEMPLATE_VAR_CHANGE` event', (): void => {
+        test('updates from the event', async (): Promise<void> => {
+            const client = new uiExtensionsSDK.DDClient();
+            const context: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value1'
+                }
+            ]);
 
-        const result = reactHooks.renderHook(() => {
-            return useTemplateVariable(client, 'variable1');
-        });
-        await reactHooks.act(
-            async (): Promise<void> => {
-                handler(context1);
-                await result.waitForNextUpdate();
-            }
-        );
-        await reactHooks.act(
-            async (): Promise<void> => {
-                handler(context2);
-                await result.waitForNextUpdate();
-            }
-        );
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context);
+                    await result.waitForNextUpdate();
+                }
+            );
 
-        expect(result.result.current).toEqual('value2');
-    });
-
-    test('invokes unsubscribe callback when unmounting', (): void => {
-        const client = new uiExtensionsSDK.DDClient();
-
-        const result = reactHooks.renderHook(() => {
-            return useTemplateVariable(client, 'variable1');
+            expect(result.result.current).toEqual('value1');
         });
 
-        expect(onUnsubscribe).not.toHaveBeenCalled();
+        test('uses latest value from the event', async (): Promise<void> => {
+            const client = new uiExtensionsSDK.DDClient();
+            const context1: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value1'
+                }
+            ]);
+            const context2: uiExtensionsSDK.Context = makeContext([
+                {
+                    name: 'variable1',
+                    value: 'value2'
+                }
+            ]);
 
-        result.unmount();
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context1);
+                    await result.waitForNextUpdate();
+                }
+            );
+            await reactHooks.act(
+                async (): Promise<void> => {
+                    handlerContextChange(context2);
+                    await result.waitForNextUpdate();
+                }
+            );
 
-        expect(onUnsubscribe).toHaveBeenCalledTimes(1);
+            expect(result.result.current).toEqual('value2');
+        });
+
+        test('invokes unsubscribe callback when unmounting', (): void => {
+            const client = new uiExtensionsSDK.DDClient();
+
+            const result = reactHooks.renderHook(() => {
+                return useTemplateVariable(client, 'variable1');
+            });
+
+            expect(
+                onUnsubscribeDashboardTemplateVarChange
+            ).not.toHaveBeenCalled();
+
+            result.unmount();
+
+            expect(
+                onUnsubscribeDashboardTemplateVarChange
+            ).toHaveBeenCalledTimes(1);
+        });
     });
 });
