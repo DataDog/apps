@@ -1,5 +1,15 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.28.0
+
+### Minor Changes
+
+-   a9208fa: Remove a bunch of dead code.
+
+    We remove both `AuthStateStatus` and `Host` enums.
+    We also remove the `MockLocalStorage` test helper.
+    None of these things were used in the codebase anymore.
+
 ## 0.27.1
 
 ### Patch Changes

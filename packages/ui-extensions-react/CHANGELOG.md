@@ -1,5 +1,32 @@
 # @datadog/ui-extensions-react
 
+## 0.28.0
+
+### Minor Changes
+
+-   a9208fa: Remove a bunch of dead code.
+
+    We remove both `AuthStateStatus` and `Host` enums.
+    We also remove the `MockLocalStorage` test helper.
+    None of these things were used in the codebase anymore.
+
+### Patch Changes
+
+-   7a7d318: Add a react hook (`useTemplateVariable`) for working template variables.
+
+    Dealing with template variables can be a bit difficult to get right.
+    You have to at least:
+    grab the initial variables from the context,
+    listen for changes to the context,
+    unsubscribe from event changes when unmounted,
+    and search through all the template variables to find the one you're looking for.
+
+    This new `useCustomWidgetOptions` hook hopefully makes that easier.
+    It manages all the intricacies of dealing with template variables so the App can focus on the logic that's important.
+
+-   Updated dependencies [a9208fa]
+    -   @datadog/ui-extensions-sdk@0.28.0
+
 ## 0.27.1
 
 ### Patch Changes
