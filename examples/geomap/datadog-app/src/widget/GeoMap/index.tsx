@@ -1,9 +1,6 @@
+import { useTemplateVariable } from '@datadog/ui-extensions-react';
 import { Map, Marker } from 'pigeon-maps';
-import {
-    init,
-    EventType,
-    TemplateVariableValue
-} from '@datadog/ui-extensions-sdk';
+import { init } from '@datadog/ui-extensions-sdk';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
@@ -19,47 +16,18 @@ interface Location {
 
 function Widget() {
     const [location, setLocation] = useState<Location | null>(null);
-    const [ip, setIp] = useState<string[] | []>([]);
+    const ipAddress = useTemplateVariable(client, 'IP');
 
     useEffect(() => {
-        if (!ip.length) return;
+        if (!ipAddress) return;
 
-        const [ipAddress] = ip;
         fetch(`${API_URL}?ip=${ipAddress}`)
             .then(res => res.json())
             .then(({ geo: { latitude, longitude } }) =>
                 setLocation({ latitude, longitude })
             )
             .catch(err => console.log(`An error occurs`, err));
-    }, [ip]);
-
-    useEffect(() => {
-        client
-            .getContext()
-            //.then(context => console.log(context.dashboard?.templateVars))
-            .then(({ dashboard }) =>
-                handleTemplateVariables(dashboard?.templateVars)
-            );
-    }, []);
-
-    useEffect(() => {
-        client.events.on(EventType.CONTEXT_CHANGE, ({ dashboard }) => {
-            handleTemplateVariables(dashboard?.templateVars);
-        });
-    }, []);
-
-    const handleTemplateVariables = (
-        templateVariables: undefined | TemplateVariableValue[]
-    ) => {
-        if (templateVariables === undefined || !templateVariables.length)
-            return;
-
-        const newIp = templateVariables
-            .filter(variable => variable.name === 'IP')
-            .map(variable => variable.value);
-
-        setIp(newIp);
-    };
+    }, [ipAddress]);
 
     if (!location) return <div>Loading...</div>;
 
