@@ -22,7 +22,7 @@ function findTemplateVariableValue(
 
 /**
  * Returns the current value of a specific template variable.
- * This will be updated whenever the template variable change.
+ * This will be updated whenever the template variable changes.
  *
  * This hook abstracts away the intricacies of keeping template variables up to date.
  *
