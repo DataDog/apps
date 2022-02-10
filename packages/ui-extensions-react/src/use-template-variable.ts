@@ -3,6 +3,23 @@ import * as React from 'react';
 
 import * as useContext from './use-context';
 
+function findTemplateVariableValue(
+    variableName: string,
+    templateVariables: uiExtensionsSDK.TemplateVariableValue[]
+): string | undefined {
+    const templateVariable = templateVariables.find(
+        (value: uiExtensionsSDK.TemplateVariableValue): boolean => {
+            return value.name === variableName;
+        }
+    );
+
+    if (templateVariable?.value == null) {
+        return;
+    }
+
+    return templateVariable.value;
+}
+
 /**
  * Returns the current value of a specific template variable.
  * This will be updated whenever the template variable change.
@@ -41,17 +58,16 @@ function useTemplateVariable(
     const [variable, setVariable] = React.useState<string | undefined>();
 
     React.useEffect(() => {
-        const templateVariable = context?.dashboard?.templateVars.find(
-            (value: uiExtensionsSDK.TemplateVariableValue): boolean => {
-                return value.name === variableName;
-            }
+        const templateVariables = context?.dashboard?.templateVars ?? [];
+        const value = findTemplateVariableValue(
+            variableName,
+            templateVariables
         );
-
-        if (templateVariable?.value == null) {
+        if (value == null) {
             return;
         }
 
-        setVariable(templateVariable.value);
+        setVariable(value);
     }, [context?.dashboard?.templateVars, variableName]);
 
     React.useEffect(() => {
@@ -60,17 +76,15 @@ function useTemplateVariable(
             (
                 templateVariables: uiExtensionsSDK.TemplateVariableValue[]
             ): void => {
-                const templateVariable = templateVariables.find(
-                    (value: uiExtensionsSDK.TemplateVariableValue): boolean => {
-                        return value.name === variableName;
-                    }
+                const value = findTemplateVariableValue(
+                    variableName,
+                    templateVariables
                 );
-
-                if (templateVariable?.value == null) {
+                if (value == null) {
                     return;
                 }
 
-                setVariable(templateVariable.value);
+                setVariable(value);
             }
         );
 
