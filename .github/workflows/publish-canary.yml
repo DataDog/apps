@@ -47,20 +47,16 @@ jobs:
 
                   const packageJSONFilenamesOutput = await exec.getExecOutput("git diff --name-only -- 'packages/*/package.json'");
                   const packageJSONFilenames = packageJSONFilenamesOutput.stdout.split(os.EOL);
+                  console.log({packageJSONFilenames});
 
                   let body = [];
                   for (const packageJSONFilename of packageJSONFilenames) {
-                      const packageJSONString = fs.readFileSync(packageJSONFilename).toString();
-                      const packageJSON = JSON.parse(packageJSONString);
+                      const packageJSON = require(packageJSONFilename);
                       body.push("yarn add " + packageJSON.name + "@" + packageJSON.version);
                   }
+                  console.log({ helloOutput, body });
 
                   core.setOutput("body", body.join(os.EOL));
-
-                  const helloOutput = await exec.getExecOutput("echo hello");
-                  core.setOutput("hello", helloOutput.stdout);
-
-                  console.log({ helloOutput, body });
 
             - name: Debug outputs
               run: |
