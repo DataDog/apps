@@ -28,25 +28,25 @@ jobs:
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - name: Format comment 
-              id: comment
-              run: |
-                output=$(git tag --contains HEAD --list --format='yarn add %(refname:strip=2)')
-                echo "::set-output name=result::${output}"
-              
-            - name: Find PR number
-              id: number
-              run: |
-                PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-                echo "::set-output name=result::${PR_NUMBER}"
+            - name: Get comment information
+              id: comment-information
+              uses: actions/github-script@v5.1.0
+              with:
+                github-token: ${{ secrets.GITHUB_TOKEN }}
+                script: |
+                  const prNumber = context.payload.number;
+                  core.setOutput("prNumber", prNumber);
+
+                  const tagOutput = await exec.getExecOutput("git tag --contains HEAD --list --format='yarn add %(refname:strip=2)'");
+                  core.setOutput("body", tagOutput.stdout);
 
             - name: Debug outputs
               run: |
-                echo PR Number ${{ steps.number.outputs.result }}
-                echo comment ${{ steps.comment.outputs.result }}
+                echo PR Number ${{ steps.comment-information.outputs.prNumber }}
+                echo Body ${{ steps.comment-information.outputs.body }}
 
             - name: Comment PR
               uses: peter-evans/create-or-update-comment@v1
               with:
-                issue-number: ${{ steps.number.outputs.result }}
-                body: ${{ steps.comment.outputs.result }}
+                issue-number: ${{ steps.comment-information.outputs.prNumber }}
+                body: ${{ steps.comment-information.outputs.body }}
