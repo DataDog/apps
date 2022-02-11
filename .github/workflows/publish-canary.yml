@@ -19,7 +19,6 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
             - run: yarn
-            - run: yarn build
             - name: Add auth credentials for publishing
               run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
               env:

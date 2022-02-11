@@ -14,7 +14,6 @@
         "lint:fix": "yarn run lint:check --fix",
         "lint": "yarn run lint:check && prettier --check .",
         "postinstall": "patch-package",
-        "prepare": "yarn workspaces run prepare",
         "release:canary": "./scripts/publish-canary.sh",
         "release:packages": "changeset publish",
         "test:example-packages:name": "./scripts/check-example-packages-name.js",
