@@ -28,27 +28,30 @@ jobs:
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+            - name: Get Pull Request Number
+              id: pr
+              run: echo "::set-output name=number::$(gh pr view --json number -q .number || echo "")"
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Get comment information
               id: comment-information
               uses: actions/github-script@v5.1.0
               with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 script: |
-                  const prNumber = context.payload.number;
-                  core.setOutput("prNumber", prNumber);
-
                   const tagOutput = await exec.getExecOutput("git tag --contains HEAD --list --format='yarn add %(refname:strip=2)'");
                   core.setOutput("body", tagOutput.stdout);
 
-                  console.log({ prNumber, body: tagOutput.stdout });
+                  console.log({ tagOutput });
 
             - name: Debug outputs
               run: |
-                echo PR Number ${{ steps.comment-information.outputs.prNumber }}
+                echo PR Number ${{ steps.pr.outputs.number }}
                 echo Body ${{ steps.comment-information.outputs.body }}
 
             - name: Comment PR
               uses: peter-evans/create-or-update-comment@v1
               with:
-                issue-number: ${{ steps.comment-information.outputs.prNumber }}
+                issue-number: ${{ steps.pr.outputs.number }}
                 body: ${{ steps.comment-information.outputs.body }}
