@@ -40,6 +40,8 @@ jobs:
                   const tagOutput = await exec.getExecOutput("git tag --contains HEAD --list --format='yarn add %(refname:strip=2)'");
                   core.setOutput("body", tagOutput.stdout);
 
+                  console.log({ prNumber, body: tagOutput.stdout });
+
             - name: Debug outputs
               run: |
                 echo PR Number ${{ steps.comment-information.outputs.prNumber }}
