@@ -33,9 +33,6 @@ jobs:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: List all tags
-              run: git tag --list --format='yarn add %(refname:strip=2)'
-
             - name: Show diff
               run: git diff
 
@@ -45,13 +42,25 @@ jobs:
               with:
                 github-token: ${{ secrets.GITHUB_TOKEN }}
                 script: |
-                  const tagOutput = await exec.getExecOutput("git tag --contains HEAD --list --format='yarn add %(refname:strip=2)'");
-                  core.setOutput("body", tagOutput.stdout);
+                  const fs = require("fs");
+                  const os = require("os");
+
+                  const packageJSONFilenamesOutput = await exec.getExecOutput("git diff --name-only -- 'packages/*/package.json'");
+                  const packageJSONFilenames = packageJSONFilenamesOutput.stdout.split(os.EOL);
+
+                  let body = [];
+                  for (const packageJSONFilename of packageJSONFilenames) {
+                      const packageJSONString = fs.readFileSync(packageJSONFilename).toString();
+                      const packageJSON = JSON.parse(packageJSONString);
+                      body.push("yarn add " + packageJSON.name + "@" + packageJSON.version);
+                  }
+
+                  core.setOutput("body", body.join(os.EOL));
 
                   const helloOutput = await exec.getExecOutput("echo hello");
                   core.setOutput("hello", helloOutput.stdout);
 
-                  console.log({ helloOutput, tagOutput });
+                  console.log({ helloOutput, body });
 
             - name: Debug outputs
               run: |
