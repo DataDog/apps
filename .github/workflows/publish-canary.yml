@@ -34,7 +34,7 @@ jobs:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Show diff
-              run: git diff
+              run: git diff --name-only -- 'packages/*/package.json'
 
             - name: Get comment information
               id: comment-information
