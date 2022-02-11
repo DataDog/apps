@@ -20,11 +20,22 @@ jobs:
                   scope: '@datadog'
             - run: yarn
             - run: yarn build
-            - name: Add auth credentials for lerna
+            - name: Add auth credentials for publishing
               run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
               env:
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
             - run: yarn release:canary
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Format comment 
+              id: comment
+              run: |
+                output=$(git tag --contains HEAD --list --format='yarn add %(refname:strip=2)')
+                echo "::set-output name=result::${output}"
+
+            - name: Comment PR
+              uses: peter-evans/create-or-update-comment@v1
+              with:
+                issue-number: ${{ github.event.pull_request.number }}
+                body: ${{ steps.comment.outputs.result }}
