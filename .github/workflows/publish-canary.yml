@@ -36,6 +36,9 @@ jobs:
             - name: List all tags
               run: git tag --list --format='yarn add %(refname:strip=2)'
 
+            - name: Show diff
+              run: git diff
+
             - name: Get comment information
               id: comment-information
               uses: actions/github-script@v5.1.0
