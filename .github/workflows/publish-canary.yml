@@ -33,6 +33,9 @@ jobs:
               env:
                 GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+            - name: List all tags
+              run: git tag --list --format='yarn add %(refname:strip=2)'
+
             - name: Get comment information
               id: comment-information
               uses: actions/github-script@v5.1.0
@@ -42,12 +45,16 @@ jobs:
                   const tagOutput = await exec.getExecOutput("git tag --contains HEAD --list --format='yarn add %(refname:strip=2)'");
                   core.setOutput("body", tagOutput.stdout);
 
-                  console.log({ tagOutput });
+                  const helloOutput = await exec.getExecOutput("echo hello");
+                  core.setOutput("hello", helloOutput.stdout);
+
+                  console.log({ helloOutput, tagOutput });
 
             - name: Debug outputs
               run: |
                 echo PR Number ${{ steps.pr.outputs.number }}
                 echo Body ${{ steps.comment-information.outputs.body }}
+                echo Hello ${{ steps.comment-information.outputs.hello }}
 
             - name: Comment PR
               uses: peter-evans/create-or-update-comment@v1
