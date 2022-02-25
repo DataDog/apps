@@ -1,0 +1,20 @@
+version: '3'
+services:
+    datadog-app:
+        build: datadog-app
+        stdin_open: true
+        tty: true
+        environment:
+            REACT_APP_API_URL: http://localhost:8080
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./datadog-app:/datadog-app
+    setup:
+        stdin_open: true
+        tty: true
+        build: setup
+        env_file: ./.env
+        volumes:
+            - ./setup:/setup
+
