@@ -7,6 +7,7 @@ import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
+import { DDNotificationClient } from '../notification/notification';
 import { DDSidePanelClient } from '../side-panel/side-panel';
 import type {
     ClientContext,
@@ -37,7 +38,8 @@ export class DDClient<AuthStateArgs = unknown>
         DebugClient,
         EventClient,
         LoggerClient,
-        RequestClient {
+        RequestClient
+{
     private context?: Context | null;
     private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
@@ -47,6 +49,7 @@ export class DDClient<AuthStateArgs = unknown>
     events: DDEventsClient<AuthStateArgs>;
     location: DDLocationClient;
     modal: DDModalClient;
+    notification: DDNotificationClient;
     sidePanel: DDSidePanelClient;
     widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
@@ -85,6 +88,7 @@ export class DDClient<AuthStateArgs = unknown>
         this.dashboard = new DDDashboardClient(this);
         this.location = new DDLocationClient(this);
         this.modal = new DDModalClient(this);
+        this.notification = new DDNotificationClient(this);
         this.sidePanel = new DDSidePanelClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
 
