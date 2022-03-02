@@ -246,13 +246,14 @@ export type ParentAuthStateOptions = {
     | AuthStateOptionsCloseResolution
 );
 
-export type AuthStateOptions<AuthStateArgs = unknown> =
-    ParentAuthStateOptions & {
-        authStateCallback: () =>
-            | Promise<AuthState<AuthStateArgs> | boolean>
-            | AuthState<AuthStateArgs>
-            | boolean;
-    };
+export type AuthStateOptions<
+    AuthStateArgs = unknown
+> = ParentAuthStateOptions & {
+    authStateCallback: () =>
+        | Promise<AuthState<AuthStateArgs> | boolean>
+        | AuthState<AuthStateArgs>
+        | boolean;
+};
 
 interface WidgetOptionEnum {
     label: string;
@@ -321,9 +322,10 @@ export interface IFrameDimensions {
  */
 type RequireKeys<T, K extends keyof T> = {
     [X in Exclude<keyof T, K>]?: T[X];
-} & {
-    [P in K]-?: T[P];
-};
+} &
+    {
+        [P in K]-?: T[P];
+    };
 
 export type NotificationLevel = 'success' | 'warning' | 'danger';
 

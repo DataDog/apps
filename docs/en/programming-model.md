@@ -164,6 +164,37 @@ client.location.goTo('/infrastructure/map');
 
 In addition, apps may open new tabs with `target=”\_\_blank”` links.
 
+### Notifications
+
+The SDK provides a hook for sending user notifications. This is useful for general communication outside of specific UI Extension features. The notifications are transient and are not shared between user sessions:
+
+```js
+// Standard format:
+client.notification.send({
+  label: 'Please read this thing!'
+})
+```
+
+Notifications may optionally include a 'level' indicating notification severity. Available levels are `success`, `warning`, and `danger`. This is particularly useful for reporting success and failure of asyncrhronous actions:
+
+```js
+try {
+  await submitReport(report);
+
+  client.notification.send({
+    label: 'Report submitted',
+    level: 'success'
+  })
+} catch (e) {
+  client.notification.send({
+    label: 'Failed to submit, please try again.',
+    level: 'danger'
+  })
+}
+```
+
+
+
 # UI Extensions
 
 ## Dashboard Custom Widget

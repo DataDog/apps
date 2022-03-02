@@ -38,8 +38,7 @@ export class DDClient<AuthStateArgs = unknown>
         DebugClient,
         EventClient,
         LoggerClient,
-        RequestClient
-{
+        RequestClient {
     private context?: Context | null;
     private readonly framePostClient: ChildClient<Context>;
     private readonly logger: Logger;
