@@ -326,3 +326,10 @@ type RequireKeys<T, K extends keyof T> = {
     {
         [P in K]-?: T[P];
     };
+
+export type NotificationLevel = 'success' | 'warning' | 'danger';
+
+export interface NotificationDefinition {
+    label: string;
+    level?: NotificationLevel;
+}
