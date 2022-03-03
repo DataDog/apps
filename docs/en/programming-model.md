@@ -175,7 +175,7 @@ client.notification.send({
 })
 ```
 
-Notifications may optionally include a 'level' indicating notification severity. Available levels are `success`, `warning`, and `danger`. This is particularly useful for reporting success and failure of asyncrhronous actions:
+Notifications may optionally include a 'level' indicating notification severity. Available levels are `success`, `warning`, and `danger`. This is particularly useful for reporting success and failure of asynchronous actions:
 
 ```js
 try {
