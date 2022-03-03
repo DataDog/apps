@@ -1,5 +1,16 @@
 # @datadog/ui-extensions-react
 
+## 0.29.0
+
+### Minor Changes
+
+-   12e9654: Notifications
+
+### Patch Changes
+
+-   Updated dependencies [4a58870]
+    -   @datadog/ui-extensions-sdk@0.29.0
+
 ## 0.28.0
 
 ### Minor Changes
