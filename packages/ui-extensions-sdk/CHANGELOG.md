@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.29.0
+
+### Patch Changes
+
+-   4a58870: Add notification hook
+
 ## 0.28.0
 
 ### Minor Changes
