@@ -46,6 +46,22 @@ const Widget = () => {
         }
     }, [])
 
+    useEffect(() => {
+
+        const fromDate = (new Date(new Date().getTime() / 1000 + -1 * 86400).getTime() / 1000).toString()
+        const toDate = (new Date().getTime() / 1000).toString()
+
+        client.api.get('/api/v1/query', {
+            params: {
+                from: fromDate,
+                to: toDate,
+                query: 'system.cpu.idle',
+            }
+        })
+        .then(data => console.log('+++++++++', data))
+        .catch(e => console.log('--------', e))
+    }, [])
+
     //<img src="./earth-night.jpeg" />
 
     return (

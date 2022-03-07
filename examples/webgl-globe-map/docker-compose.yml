@@ -6,6 +6,8 @@ services:
         tty: true
         environment:
             REACT_APP_API_URL: http://localhost:8080
+        env_file:
+          - ./.env
         ports:
             - '3000:3000'
         volumes:
@@ -14,7 +16,22 @@ services:
         stdin_open: true
         tty: true
         build: setup
-        env_file: ./.env
+        env_file: 
+          - ./.env
         volumes:
             - ./setup:/setup
+        environment:
+          DD_AGENT_HOST: agent
+          DD_ENV: dev
+          DD_LOGS_INJECTION: 'true'
+          DD_TRACE_AGENT_PORT: 8126
+    agent:
+      build: agent
+      env_file:
+        - ./.env
+      environment:
+        DD_LOGS_ENABLED: true
+        DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE: true
+      ports:
+        - "8126:8126"
 
