@@ -1,37 +1,36 @@
 version: '3'
 services:
-    datadog-app:
-        build: datadog-app
-        stdin_open: true
-        tty: true
-        environment:
-            REACT_APP_API_URL: http://localhost:8080
-        env_file:
-          - ./.env
-        ports:
-            - '3000:3000'
-        volumes:
-            - ./datadog-app:/datadog-app
-    setup:
-        stdin_open: true
-        tty: true
-        build: setup
-        env_file: 
-          - ./.env
-        volumes:
-            - ./setup:/setup
-        environment:
-          DD_AGENT_HOST: agent
-          DD_ENV: dev
-          DD_LOGS_INJECTION: 'true'
-          DD_TRACE_AGENT_PORT: 8126
-    agent:
-      build: agent
-      env_file:
-        - ./.env
-      environment:
-        DD_LOGS_ENABLED: true
-        DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE: true
-      ports:
-        - "8126:8126"
+  datadog-agent:
+    environment:
+      DD_APM_ENABLED: true
+      DD_ENV: dev
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: true
+      DD_LOGS_ENABLED: true
+      DD_PROCESS_AGENT_ENABLED: true
+    env_file:
+      - ./.env
+    image: datadog/agent
+    labels:
+      com.datadoghq.ad.logs: '[{ "source": "agent", "service": "agent" }]'
+    ports:
+      - "8126:8126"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  datadog-app:
+    build: datadog-app
+    depends_on:
+      - datadog-agent
+    env_file:
+      - ./.env
+    environment:
+      REACT_APP_API_URL: http://localhost:8080
+    ports:
+      - '3000:3000'
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./datadog-app:/datadog-app
 

@@ -47,22 +47,33 @@ const Widget = () => {
     }, [])
 
     useEffect(() => {
-
         const fromDate = (new Date(new Date().getTime() / 1000 + -1 * 86400).getTime() / 1000).toString()
         const toDate = (new Date().getTime() / 1000).toString()
 
-        client.api.get('/api/v1/query', {
-            params: {
-                from: fromDate,
-                to: toDate,
-                query: 'system.cpu.idle',
-            }
+        // it works
+        console.log('query dashboards')
+        client.api.get('/api/v1/dashboard', {
         })
         .then(data => console.log('+++++++++', data))
         .catch(e => console.log('--------', e))
     }, [])
 
-    //<img src="./earth-night.jpeg" />
+
+    useEffect(() => {
+        const fromDate = (new Date(new Date().getTime() / 1000 + -1 * 86400).getTime() / 1000).toString()
+        const toDate = (new Date().getTime() / 1000).toString()
+
+        // it also works
+        console.log('query metrics')
+        client.api.get('/api/v1/metrics', {
+            params: {
+                from: '34312785'
+            }
+        })
+        .then(data => console.log('++++++++', data))
+        .catch(e => console.log('--------', e))
+
+    }, [])
 
     return (
         <div className='globe-wrapper'>
