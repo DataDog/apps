@@ -19,6 +19,12 @@ export class Logger {
         }
     }
 
+    warn(message: string) {
+        if (this.client.debug) {
+            return console.warn(`${this.getPrefix()}${message}`);
+        }
+    }
+
     error(message: string) {
         if (this.client.debug) {
             return console.error(`${this.getPrefix()}${message}`);

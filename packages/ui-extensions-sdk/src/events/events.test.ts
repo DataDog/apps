@@ -104,6 +104,21 @@ describe('events.on()', () => {
         logSpy.mockRestore();
         errorSpy.mockRestore();
     });
+
+    test('Logs a warning in debug mode when attempting to subscribe to a deprecated event', async () => {
+        const warnSpy = jest
+            .spyOn(console, 'warn')
+            .mockImplementation(() => {});
+
+        eventsClient.on(EventType.DASHBOARD_TIMEFRAME_CHANGE, () => {});
+        eventsClient.on(EventType.DASHBOARD_TEMPLATE_VAR_CHANGE, () => {});
+
+        mockClient.framePostClient.init();
+
+        await flushPromises();
+
+        expect(warnSpy).toHaveBeenCalledTimes(2);
+    });
 });
 
 describe('events.broadcast()', () => {

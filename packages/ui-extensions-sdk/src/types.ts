@@ -27,6 +27,7 @@ export interface EventClient {
 
 export interface LoggerClient {
     log(message: string): void;
+    logWarning(message: string): void;
     logError(message: string): void;
 }
 

@@ -49,6 +49,13 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
 
+const deprecationWarnings: Partial<Record<EventType, string>> = {
+    [EventType.DASHBOARD_TIMEFRAME_CHANGE]:
+        'The "dashboard_timeframe_change" event is deprecated. You may subcribe to updated dashboard timeframes from the more general "context_change" event.',
+    [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]:
+        'The "dashboard_template_var_change" event is deprecated. You may subscribe to template variable changes from the more general "context_change" event.'
+};
+
 export class DDEventsClient<AuthStateArgs = unknown> {
     private readonly client: ContextClient &
         EventClient &
@@ -70,6 +77,8 @@ export class DDEventsClient<AuthStateArgs = unknown> {
         eventType: K,
         handler: EventHandler<DDEventDataTypes<AuthStateArgs>[K]>
     ): () => void {
+        this.logDeprecationWarning(eventType);
+
         // first, immediately subscribe
         const unsubscribe = this.client.on(eventType, handler);
 
@@ -122,6 +131,15 @@ export class DDEventsClient<AuthStateArgs = unknown> {
                 data
             }
         );
+    }
+
+    private logDeprecationWarning(eventType: EventType) {
+        // For now, an event is considered deprecated if it has a warning in the above index
+        const warning = deprecationWarnings[eventType];
+
+        if (warning) {
+            this.client.logWarning(warning);
+        }
     }
 }
 
