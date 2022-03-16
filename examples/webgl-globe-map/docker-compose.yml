@@ -2,11 +2,11 @@ version: '3'
 services:
   datadog-agent:
     environment:
-      DD_APM_ENABLED: true
+      #DD_APM_ENABLED: true
       DD_ENV: dev
-      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: true
-      DD_LOGS_ENABLED: true
-      DD_PROCESS_AGENT_ENABLED: true
+      #DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: true
+      #DD_LOGS_ENABLED: true
+      #DD_PROCESS_AGENT_ENABLED: true
     env_file:
       - ./.env
     image: datadog/agent
@@ -26,11 +26,23 @@ services:
     env_file:
       - ./.env
     environment:
-      REACT_APP_API_URL: http://localhost:8080
+      REACT_APP_API_URL: http://localhost:5000
     ports:
       - '3000:3000'
     stdin_open: true
     tty: true
     volumes:
       - ./datadog-app:/datadog-app
+  proxy:
+    build: flask-proxy
+    env_file:
+      - ./.env
+    environment:
+      FLASK_APP: app.py
+    ports:
+      - "5000:5000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./flask-proxy:/app
 

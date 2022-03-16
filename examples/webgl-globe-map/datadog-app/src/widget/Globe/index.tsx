@@ -29,6 +29,7 @@ const useDimensions = (): { width: number; height: number} => {
 
 const Widget = () => {
     const globeElt = useRef<any>()
+    const [geoLocation, setGeoLocation] = useState([])
 
     const N = 300
     const gData = Array.from({length: 300}, (x, i) => i) 
@@ -51,7 +52,6 @@ const Widget = () => {
         const toDate = (new Date().getTime() / 1000).toString()
 
         // it works
-        console.log('query dashboards')
         client.api.get('/api/v1/dashboard', {
         })
         .then(data => console.log('+++++++++', data))
@@ -64,7 +64,6 @@ const Widget = () => {
         const toDate = (new Date().getTime() / 1000).toString()
 
         // it also works
-        console.log('query metrics')
         client.api.get('/api/v1/metrics', {
             params: {
                 from: '34312785'
@@ -72,8 +71,32 @@ const Widget = () => {
         })
         .then(data => console.log('++++++++', data))
         .catch(e => console.log('--------', e))
-
     }, [])
+
+
+    useEffect(() => {
+        // it also works
+        fetch('http://localhost:5000')
+            .then(() => console.log('fetch hello world'))
+            .catch(() => console.log("didn't fetch error"))
+    }, [])
+
+    useEffect(() => {
+        // it also works
+        fetch('http://localhost:5000/ips')
+            .then((res) => res.json())
+            .then(data => {
+                console.log('++++++', data)
+
+                setGeoLocation(data)
+            })
+            .catch(() => console.log('error'))
+    }, [])
+
+
+    console.log("======")
+    console.log(geoLocation)
+    console.log("======")
 
     return (
         <div className='globe-wrapper'>
@@ -82,7 +105,7 @@ const Widget = () => {
                 globeImageUrl='./earth-night.jpeg'
                 height={500}
                 width={700}
-                pointsData={gData}
+                pointsData={geoLocation}
                 pointAltitude='size'
                 pointColor='color'
             />
