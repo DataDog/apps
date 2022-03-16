@@ -12,6 +12,7 @@ import type {
     ModalDefinition,
     RequestClient,
     SidePanelDefinition,
+    DeprecatedUsage,
     TemplateVariableValue,
     Timeframe,
     WidgetContextMenuClickData,
@@ -133,12 +134,23 @@ export class DDEventsClient<AuthStateArgs = unknown> {
         );
     }
 
-    private logDeprecationWarning(eventType: EventType) {
+    private async logDeprecationWarning(eventType: EventType) {
         // For now, an event is considered deprecated if it has a warning in the above index
         const warning = deprecationWarnings[eventType];
 
         if (warning) {
             this.client.logWarning(warning);
+            try {
+                await this.client.request<DeprecatedUsage, void>(
+                    RequestType.LOG_DEPRECATED_USAGE,
+                    {
+                        entity: 'event',
+                        eventType
+                    }
+                );
+            } catch (e) {
+                //
+            }
         }
     }
 }

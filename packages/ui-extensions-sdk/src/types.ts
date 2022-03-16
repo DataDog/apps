@@ -334,3 +334,10 @@ export interface NotificationDefinition {
     label: string;
     level?: NotificationLevel;
 }
+
+export interface DeprecatedEventUsage {
+    entity: 'event';
+    eventType: EventType;
+}
+
+export type DeprecatedUsage = DeprecatedEventUsage; // we can union type here later
