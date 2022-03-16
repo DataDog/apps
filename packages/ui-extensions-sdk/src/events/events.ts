@@ -78,8 +78,6 @@ export class DDEventsClient<AuthStateArgs = unknown> {
         eventType: K,
         handler: EventHandler<DDEventDataTypes<AuthStateArgs>[K]>
     ): () => void {
-        this.logDeprecationWarning(eventType);
-
         // first, immediately subscribe
         const unsubscribe = this.client.on(eventType, handler);
 
@@ -99,6 +97,8 @@ export class DDEventsClient<AuthStateArgs = unknown> {
                     this.client.logError(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
                     );
+                } else {
+                    this.logDeprecationWarning(eventType);
                 }
             })
             .catch(() => {});
