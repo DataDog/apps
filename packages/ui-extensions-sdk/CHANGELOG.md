@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.30.0
+
+### Minor Changes
+
+-   9cd3715: Deprecate granular dashboard change events in favor of context_change
+
 ## 0.29.0
 
 ### Patch Changes

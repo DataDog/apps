@@ -1,5 +1,16 @@
 # @datadog/ui-extensions-react
 
+## 0.30.0
+
+### Minor Changes
+
+-   9cd3715: Deprecate granular dashboard change events in favor of context_change
+
+### Patch Changes
+
+-   Updated dependencies [9cd3715]
+    -   @datadog/ui-extensions-sdk@0.30.0
+
 ## 0.29.0
 
 ### Minor Changes
