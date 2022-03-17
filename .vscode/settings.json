@@ -34,6 +34,10 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "go.toolsEnvVars": {
+        "GOARCH": "wasm",
+        "GOOS": "js"
+    },
     "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
     "prettier.configPath": "prettier.config.js",
     "search.exclude": {

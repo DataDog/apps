@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datadog App - go - dashboard cog menu item</title>
+</head>
+<body>
+    <script src="wasm_exec.js"></script>
+    <script src="https://unpkg.com/@datadog/ui-extensions-sdk@0.29.0/dist/ui-extensions-sdk.min.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then(result => {
+            go.run(result.instance)
+        });
+
+        // It's unclear why we need this, but we do.
+        // If we remove it, the handshake fails.
+        const client = DD_SDK.init();
+    </script>
+</body>
+</html>
