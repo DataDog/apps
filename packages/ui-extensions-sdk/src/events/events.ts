@@ -12,6 +12,7 @@ import type {
     ModalDefinition,
     RequestClient,
     SidePanelDefinition,
+    DeprecatedUsage,
     TemplateVariableValue,
     Timeframe,
     WidgetContextMenuClickData,
@@ -48,6 +49,13 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.AUTH_STATE_CHANGE]: AuthState<AuthStateArgs>;
     [EventType.API_ACCESS_CHANGE]: APIAccessChangeEvent;
 }
+
+const deprecationWarnings: Partial<Record<EventType, string>> = {
+    [EventType.DASHBOARD_TIMEFRAME_CHANGE]:
+        'The "dashboard_timeframe_change" event is deprecated. You may subcribe to updated dashboard timeframes from the more general "context_change" event.',
+    [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]:
+        'The "dashboard_template_var_change" event is deprecated. You may subscribe to template variable changes from the more general "context_change" event.'
+};
 
 export class DDEventsClient<AuthStateArgs = unknown> {
     private readonly client: ContextClient &
@@ -89,6 +97,8 @@ export class DDEventsClient<AuthStateArgs = unknown> {
                     this.client.logError(
                         `Your app does not have the required features enabled to respond to events of type ${eventType}.`
                     );
+                } else {
+                    this.logDeprecationWarning(eventType);
                 }
             })
             .catch(() => {});
@@ -122,6 +132,26 @@ export class DDEventsClient<AuthStateArgs = unknown> {
                 data
             }
         );
+    }
+
+    private async logDeprecationWarning(eventType: EventType) {
+        // For now, an event is considered deprecated if it has a warning in the above index
+        const warning = deprecationWarnings[eventType];
+
+        if (warning) {
+            this.client.logWarning(warning);
+            try {
+                await this.client.request<DeprecatedUsage, void>(
+                    RequestType.LOG_DEPRECATED_USAGE,
+                    {
+                        entity: 'event',
+                        eventType
+                    }
+                );
+            } catch (e) {
+                //
+            }
+        }
     }
 }
 

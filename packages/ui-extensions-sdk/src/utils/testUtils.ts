@@ -51,7 +51,10 @@ export const mockContext: Context = {
             timeZone: 'America/New_York',
             colorTheme: ColorTheme.light
         },
-        features: [FeatureType.DASHBOARD_COG_MENU],
+        features: [
+            FeatureType.DASHBOARD_COG_MENU,
+            FeatureType.DASHBOARD_CUSTOM_WIDGET
+        ],
         debug: true
     }
 };
@@ -157,6 +160,10 @@ export class MockClient
 
     log(message: string): void {
         return this.logger.log(message);
+    }
+
+    logWarning(message: string): void {
+        return this.logger.warn(message);
     }
 
     logError(message: string): void {

@@ -108,6 +108,10 @@ export class DDClient<AuthStateArgs = unknown>
         return this.logger.log(message);
     }
 
+    logWarning(message: string): void {
+        return this.logger.warn(message);
+    }
+
     logError(message: string): void {
         return this.logger.error(message);
     }

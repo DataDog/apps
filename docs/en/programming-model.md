@@ -49,29 +49,35 @@ Although there are no architectural requirements for how to structure your app, 
 
 ## Context Data
 
-**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. Context data will be provided to the SDK in several different ways:
+**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. For example, in a custom widget the configured widget options will be present at `context.widget.options`, and on a dashboard (both for custom widgets and dashboard menu item features), the current template variables will be provided at `context.dashboard.templateVars`. 
 
-- When an App IFrame mounts and successfully handshakes with the Datadog UI, it will receive a set of **context** data containing basic information about the setting in which the IFrame renders. This context Data can be accessed with client.getContext() on the SDK client:
+### Getting initial context data
+
+When an App IFrame mounts and successfully handshakes with the Datadog UI, it will receive the initial **context**. This data can be accessed with client.getContext() on the SDK client:
 
 ```js
 client.getContext().then((context) => {
-  ...
+  console.log(context.dashboard.templateVars)
 })
 ```
 
-- When the context sent to an IFrame changes, each frame will receive new context from the `context_change` event:
+### Responding to changing context
+
+In most cases apps will also need to listen for changing context. For example, the current dashboard timeframe may change as the user edits. Whenever any subset of an iFrame's context changes, the Frame will receive a `context_change` event containing updated information. This can be used to update local state, respond to changes in specific fields, and more. 
 
 ```
 client.events.on('context_change', (newContext) => {
- //
+ setTemplateVars(newContext.dashboard.templateVars);
+
+ if (!deepEquals(newContext.widget.options !== oldContext.widget.options)) {
+   // handle options change
+ }
 });
 ```
 
-- When menu-items (cog menu items, context menu items, or others) are clicked, the SDK in all active iframes will receive a click event. In order to determine where the click event is in the app, click event handlers will receive another set of context data:
+As a convenience for React developers, we provide a lightweight [useContext](https://datadoghq.dev/apps/modules/_datadog_ui_extensions_react.html#useContext) hook which automatically provides live-updated context data for use in a React component. 
 
-```js
-client.events.on('dashboard_cog_menu_click', (clickContext) => {});
-```
+If there is interest in similar framework-specific wrappers please let us know. 
 
 **Context structure attributes**
 
@@ -106,12 +112,12 @@ Events allow the Datadog UI to communicate with App IFrames, and for App IFrames
 
 **Standard Events:**
 
-Datadog will send App IFrames events at relevant times in the lifecycle of the application. For example, custom widget iframes will receive a `dashboard_timeframe_change` event when dashboard timeframe changes. Other IFrames will receive events relevant to their use cases, in addition to any global events that may be relevant. These events can be subscribed to with `client.events.on()`:
+Datadog will send App IFrames events at relevant times in the lifecycle of the application. For example, custom widget iframes will receive a `dashboard_cursor_change` event as the user moves the cursor on a dashboard. Other IFrames will receive events relevant to their use cases, in addition to any global events that may be relevant. These events can be subscribed to with `client.events.on()`:
 
 ```js
 const unsubscribe = client.events.on(
-  'dashboard_timeframe_change',
-  (newoptions) => {}
+  'dashboard_cursor_change',
+  (newlocation) => {}
 );
 ```
 
@@ -332,8 +338,6 @@ const { app, dashboard, widget } = await client.getContext();
 Additionally, Custom widget iframes can subscribe to the following events:
 
 - `dashboard_custom_widget_options_change`: triggered when the widget is edited. Event handlers will receive an object with the updated configuration options of this widget.
-- `dashboard_timeframe_change`: triggered when the timeframe of the current dashboard changes. Event handlers will receive an object with the updated timeframe values.
-- `dashboard_template_var_change`: triggered when the template variables of the current dashboard change. Event handlers will receive an object with the updated template variables values.
 - `dashboard_cursor_change`: triggered when users mouse over charts on the dashboard. Can be used to track active timestamp across charts.
 
 ```js

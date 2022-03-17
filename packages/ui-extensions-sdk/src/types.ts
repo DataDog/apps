@@ -27,6 +27,7 @@ export interface EventClient {
 
 export interface LoggerClient {
     log(message: string): void;
+    logWarning(message: string): void;
     logError(message: string): void;
 }
 
@@ -333,3 +334,10 @@ export interface NotificationDefinition {
     label: string;
     level?: NotificationLevel;
 }
+
+export interface DeprecatedEventUsage {
+    entity: 'event';
+    eventType: EventType;
+}
+
+export type DeprecatedUsage = DeprecatedEventUsage; // we can union type here later

@@ -84,7 +84,9 @@ export enum RequestType {
     DASHBOARD_CUSTOM_WIDGET_OPTIONS_UPDATE = 'dashboard_custom_widget_options_update',
 
     // Notifications
-    SEND_NOTIFICATION = 'send_notification'
+    SEND_NOTIFICATION = 'send_notification',
+
+    LOG_DEPRECATED_USAGE = 'log_deprecated_usage'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
