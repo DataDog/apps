@@ -237,57 +237,5 @@ describe('useTemplateVariable', (): void => {
 
             expect(result.result.current).toEqual('value1');
         });
-
-        test('uses latest value from the event', async (): Promise<void> => {
-            const client = new uiExtensionsSDK.DDClient();
-            const context1: uiExtensionsSDK.Context = makeContext([
-                {
-                    name: 'variable1',
-                    value: 'value1'
-                }
-            ]);
-            const context2: uiExtensionsSDK.Context = makeContext([
-                {
-                    name: 'variable1',
-                    value: 'value2'
-                }
-            ]);
-
-            const result = reactHooks.renderHook(() => {
-                return useTemplateVariable(client, 'variable1');
-            });
-            await reactHooks.act(
-                async (): Promise<void> => {
-                    handlerContextChange(context1);
-                    await result.waitForNextUpdate();
-                }
-            );
-            await reactHooks.act(
-                async (): Promise<void> => {
-                    handlerContextChange(context2);
-                    await result.waitForNextUpdate();
-                }
-            );
-
-            expect(result.result.current).toEqual('value2');
-        });
-
-        test('invokes unsubscribe callback when unmounting', (): void => {
-            const client = new uiExtensionsSDK.DDClient();
-
-            const result = reactHooks.renderHook(() => {
-                return useTemplateVariable(client, 'variable1');
-            });
-
-            expect(
-                onUnsubscribeDashboardTemplateVarChange
-            ).not.toHaveBeenCalled();
-
-            result.unmount();
-
-            expect(
-                onUnsubscribeDashboardTemplateVarChange
-            ).toHaveBeenCalledTimes(1);
-        });
     });
 });

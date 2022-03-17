@@ -70,29 +70,6 @@ function useTemplateVariable(
         setVariable(value);
     }, [context?.dashboard?.templateVars, variableName]);
 
-    React.useEffect(() => {
-        const unsubscribe = client.events.on(
-            uiExtensionsSDK.EventType.DASHBOARD_TEMPLATE_VAR_CHANGE,
-            (
-                templateVariables: uiExtensionsSDK.TemplateVariableValue[]
-            ): void => {
-                const value = findTemplateVariableValue(
-                    variableName,
-                    templateVariables
-                );
-                if (value == null) {
-                    return;
-                }
-
-                setVariable(value);
-            }
-        );
-
-        return () => {
-            unsubscribe();
-        };
-    }, [client.events, variableName]);
-
     return variable;
 }
 

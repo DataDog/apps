@@ -49,7 +49,7 @@ Although there are no architectural requirements for how to structure your app, 
 
 ## Context Data
 
-**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. For example, in a custom widget the configured widget options will be present at `context.widget.options`, and on a dashboard the current template variables will be provided at `context.dashboard.templateVars`. 
+**Context** data provides information about the global and specific setting in which features mount in the Datadog UI. For example, in a custom widget the configured widget options will be present at `context.widget.options`, and on a dashboard (both for custom widgets and dashboard menu item features), the current template variables will be provided at `context.dashboard.templateVars`. 
 
 ### Getting initial context data
 
@@ -67,8 +67,10 @@ In most cases apps will also need to listen for changing context. For example, t
 
 ```
 client.events.on('context_change', (newContext) => {
- if (newContext.dashboard.templateVars !== oldContext.dashboard.templateVars) {
+ setTemplateVars(newContext.dashboard.templateVars);
 
+ if (!deepEquals(newContext.widget.options !== oldContext.widget.options)) {
+   // handle options change
  }
 });
 ```
