@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.30.1
+
+### Patch Changes
+
+-   9b03834: Bump for release of `@datadog/ui-extensions-react` package.
+
 ## 0.30.0
 
 ### Minor Changes
