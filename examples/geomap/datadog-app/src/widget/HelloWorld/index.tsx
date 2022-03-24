@@ -1,4 +1,5 @@
-import { init, EventType } from '@datadog/ui-extensions-sdk';
+import { useCustomWidgetOptionString } from '@datadog/ui-extensions-react';
+import { init } from '@datadog/ui-extensions-sdk';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -12,24 +13,10 @@ import { useEffect, useState } from 'react';
 const client = init();
 
 function Widget() {
-    const [metric, setMetric] = useState('system.cpu.idle');
+    const metric = useCustomWidgetOptionString(client, 'metric');
     const [broadcastClickCount, setBroadcastClickCount] = useState(0);
 
     useEffect(() => {
-        client.getContext().then(c => {
-            setMetric(c.widget?.definition.options?.metric);
-        });
-
-        client.events.on(
-            EventType.DASHBOARD_CUSTOM_WIDGET_OPTIONS_CHANGE,
-            ({ metric }) => {
-                if (typeof metric !== 'string') {
-                    return;
-                }
-                setMetric(metric);
-            }
-        );
-
         client.events.onCustom('modal_button_click', setBroadcastClickCount);
     }, []);
 
