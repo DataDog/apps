@@ -3,7 +3,7 @@
 '@datadog/ui-extensions-react': patch
 ---
 
-Add a few react hooks (`useCustomWidgetOption`, `useCustomWidgetOptionBoolean`, `useCustomWidgetOptionString`) for working custom widget options.
+Add a few react hooks (`useCustomWidgetOption`, `useCustomWidgetOptionBoolean`, `useCustomWidgetOptionString`) for working with custom widget options.
 
 Dealing with custom widget options can be a bit difficult to get right.
 You have to at least:

@@ -24,7 +24,7 @@ import { useCustomWidgetOption } from './use-custom-widget-option';
  * const CustomWidget: React.FunctionComponent = () => {
  *     const verbose = uiExtensionsReact.useCustomWidgetOptionBoolean(client, 'verbose');
  *
- *     if (query == null) {
+ *     if (verbose == null) {
  *         return <p>Please decide on verbosity</p>;
  *     } else {
  *         return <p>Verbose: {verbose}</p>;
