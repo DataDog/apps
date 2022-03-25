@@ -2,7 +2,12 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import { EventType, FramePostClientSettings, RequestType } from '../constants';
+import {
+    EventType,
+    FramePostClientSettings,
+    RequestType,
+    RESOURCE_BATCH_INTERVAL
+} from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -19,11 +24,18 @@ import type {
     EventHandler,
     IFrameDimensions,
     LoggerClient,
+    NetworkRequestMetadata,
     ParentAuthStateOptions,
     RequestClient,
     RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
+import {
+    collectResourceUsage,
+    registerNetworkRequestListeners
+} from '../utils/security';
+import type { LoadedResourceIds } from '../utils/security';
+import { setImmediateInterval } from '../utils/utils';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
@@ -102,6 +114,8 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
+        this.startNetworkMonitoring();
+        this.startResourceMonitoring();
     }
 
     log(message: string): void {
@@ -196,5 +210,44 @@ export class DDClient<AuthStateArgs = unknown>
     // Turn on debugger if dev mode is on in parent
     private syncDebugMode(context: Context | null) {
         this.debug = context?.app?.debug || this.debug;
+    }
+
+    private startResourceMonitoring() {
+        let loadedResourceIds: LoadedResourceIds = new Set();
+
+        const interval = setImmediateInterval(async () => {
+            try {
+                // collect batch of resource-loading data
+                const [batch, newIds] = collectResourceUsage(loadedResourceIds);
+
+                // update index of loaded resources
+                loadedResourceIds = newIds;
+
+                // send to web-ui
+                await this.framePostClient.request(
+                    RequestType.SECURITY_LOG_RESOURCES_LOADED,
+                    batch
+                );
+            } catch (e) {
+                // Stop batch collecting if there's an error
+                clearInterval(interval);
+            }
+        }, RESOURCE_BATCH_INTERVAL);
+    }
+
+    private startNetworkMonitoring() {
+        const removeListeners = registerNetworkRequestListeners(
+            (networkRequest: NetworkRequestMetadata) => {
+                this.framePostClient
+                    .request(
+                        RequestType.SECURITY_LOG_NETWORK_REQUEST,
+                        networkRequest
+                    )
+                    .catch(e => {
+                        // Remove listeners on error
+                        removeListeners();
+                    });
+            }
+        );
     }
 }
