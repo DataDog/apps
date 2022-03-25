@@ -341,3 +341,11 @@ export interface DeprecatedEventUsage {
 }
 
 export type DeprecatedUsage = DeprecatedEventUsage; // we can union type here later
+
+export interface LoadedResourceMetadata {}
+
+export interface LoadedResourceMetaDataBatch {
+    resources: LoadedResourceMetadata[];
+}
+
+export interface NetworkRequestMetadata {}

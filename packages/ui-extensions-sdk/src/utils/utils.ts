@@ -71,3 +71,12 @@ export const validateKey = <T = any>(definition: T): boolean => {
 
     return true;
 };
+
+export const setImmediateInterval = (
+    callback: () => unknown,
+    timeout: number
+) => {
+    callback();
+
+    return setInterval(callback, timeout);
+};

@@ -86,7 +86,9 @@ export enum RequestType {
     // Notifications
     SEND_NOTIFICATION = 'send_notification',
 
-    LOG_DEPRECATED_USAGE = 'log_deprecated_usage'
+    LOG_DEPRECATED_USAGE = 'log_deprecated_usage',
+    SECURITY_LOG_NETWORK_REQUEST = 'security_log_network_request',
+    SECURITY_LOG_RESOURCES_LOADED = 'security_log_resources'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
@@ -125,3 +127,6 @@ export enum ColorTheme {
     dark = 'dark',
     light = 'light'
 }
+
+// 10 seconds?
+export const RESOURCE_BATCH_INTERVAL = 10000;
