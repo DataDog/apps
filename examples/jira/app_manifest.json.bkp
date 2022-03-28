@@ -26,6 +26,10 @@
                     "options": {
                         "widgets": [
                             {
+                                "name": "Hello, World Widget",
+                                "has_title": true
+                            },
+                            {
                                 "name": "Your first app",
                                 "has_title": true,
                                 "custom_widget_key": "your_first_app",
