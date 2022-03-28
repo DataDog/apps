@@ -1,0 +1,4 @@
+# Directory holding user and cart details. Ignore everything in this directory
+*
+# Except this file
+!.gitignore

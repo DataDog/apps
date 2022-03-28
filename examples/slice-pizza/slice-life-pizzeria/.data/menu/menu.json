@@ -1,0 +1,44 @@
+{
+    "655d-462a-95d2": {
+        "id": "655d-462a-95d2",
+        "name": "The Godfather Pizza",
+        "description": "Gourmet Italian sausage, fresh garlic, onions & our hot giardiniera.",
+        "sizeUpPrice": 1.50,
+        "price": 15.99
+    },
+    "da8e-9f48-eac6": {
+        "id": "da8e-9f48-eac6",
+        "name": "The Veggie Pizza",
+        "description": "Vegetarian. Mushrooms, onions & green peppers with tomatoes on top.",
+        "sizeUpPrice": 1.25,
+        "price": 13.99
+    },
+    "b48e-4f29-a6eb": {           
+        "id": "b48e-4f29-a6eb",
+        "name": " White Pizza",
+        "description": "Vegetarian. Olive oil, fresh garlic & sauteed spinach with tomatoes on top (no pizza sauce).",
+        "sizeUpPrice": 1.25,
+        "price": 12.99
+    },
+    "8566-40c0-b584": {
+        "id": "8566-40c0-b584",
+        "name": "The Hawaiian Pizza",
+        "description": "A blend of our special pizza & BBQ sauces, topped with Australian bacon, and pineapple.",
+        "sizeUpPrice": 1.00,
+        "price": 17.99
+    },
+    "9f7b-4d13-8d4a": {
+        "id": "9f7b-4d13-8d4a",
+        "name": "Meat Mania Pizza",
+        "description": "Gourmet Italian sausage, meatballs & pepperoni with turkey bacon on top.",
+        "sizeUpPrice": 1.75,
+        "price": 21.99
+    },
+    "1e5c-496d-8ace": {
+        "id": "1e5c-496d-8ace",
+        "name": "Fabulous Four Pizza",
+        "description": "Gourmet Italian sausage, mushrooms, onions & green peppers.",
+        "sizeUpPrice": 1.25,
+        "price": 17.99
+    }
+}
