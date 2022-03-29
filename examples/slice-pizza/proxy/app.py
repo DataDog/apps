@@ -7,6 +7,8 @@ import json
 app = Flask(__name__)
 CORS(app)
 
+API_URL = 'http://api:3000/api'
+TOKEN = 'EewtzQMfhSnbt3AwY98EQB'
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
@@ -46,15 +48,25 @@ def get_token():
 
 @app.route('/api/menu', methods=['GET'])
 def get_menu():
-    url = "http://api:3001/api/menu?email=thomas.dimnet@datadoghq.com"
+    url = '{}/menu?email=thomas.dimnet@datadoghq.com'.format(API_URL)
 
     payload = json.dumps({})
     headers = {
-      'token': '3qyPgFdVA2GvkJZxSsthtM',
+      'token': TOKEN,
       'Content-Type': 'application/json'
     }
 
     response = requests.request("GET", url, headers=headers, data=payload)
+    data = json.loads(response.text)
 
-    return response.text
+    pizzas = []
 
+    for key, pizza in data.items():
+        pizzas.append(pizza)
+
+
+    res = {
+        "data": pizzas
+    }
+
+    return jsonify(res)

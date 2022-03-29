@@ -5,12 +5,13 @@ import ReactDOM from 'react-dom'
 
 const client = init()
 
+const PROXY_URL = process.env.REACT_APP_PROXY_URL 
 
 function SignInForm () {
     const { register, handleSubmit } = useForm()
 
     const onSubmit = (data: any) => {
-        fetch('http://localhost:5000/api/tokens', {
+        fetch(`${PROXY_URL}/api/tokens`, {
             body: JSON.stringify({
                 "email": data.email,
                 "password": data.password
@@ -39,7 +40,7 @@ function SignUpForm(props: {onSubmit: any}) {
     const { register, handleSubmit } = useForm()
 
     const onSubmit = (data: any) => {
-        fetch('http://localhost:5000/api/users', {
+        fetch(`${PROXY_URL}/api/users`, {
                 body: JSON.stringify({
                     "name": data.name,
                     "email": data.email,
@@ -69,21 +70,71 @@ function SignUpForm(props: {onSubmit: any}) {
 }
 
 
+interface Pizza {
+    description: string;
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+}
+
 function PizzaLists() {
-    const [pizzas, setPizzas] = useState([])
+    const [ pizzas, setPizzas ] = useState<Pizza[]>([])
 
     useEffect(() => {
         fetch('http://localhost:5000/api/menu')
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(data => {
+                const updatedPizzas = data.data.map((pizza: Pizza) => ({
+                    ...pizza,
+                    quantity: 0
+                }))
+                setPizzas(updatedPizzas)
+            })
             .catch(err => console.log('Oh no', err))
     }, [])
 
-    console.log('=====')
-    console.log(pizzas)
-    console.log('=====')
+    const onAddPizza = (pizza: Pizza) => {
+        const updatedPizzas = Array.from(pizzas)
 
-    return <h1>Pizzas</h1>
+        const item = updatedPizzas.findIndex(i => i.id === pizza.id)
+        updatedPizzas[item]['quantity'] +=1
+
+        setPizzas(updatedPizzas)
+    }
+
+    const onRemovePizza = (pizza: Pizza) => {
+        if (pizza.quantity === 0) return
+
+        const updatedPizzas = Array.from(pizzas)
+
+        const item = updatedPizzas.findIndex(i => i.id === pizza.id)
+        updatedPizzas[item]['quantity'] -=1
+
+        setPizzas(updatedPizzas)
+    }
+
+
+    if (pizzas.length) {
+        return (
+            <form>
+                {
+                    pizzas.map(pizza => (
+                        <div key={pizza.id} className='form-group'>
+                            <p>{pizza.name}</p>
+                            <span className='minus' onClick={() => onRemovePizza(pizza)}>-</span>
+                            <input readOnly type='text' value={pizza.quantity} />
+                            <span className='plus' onClick={() => onAddPizza(pizza)}>+</span>
+                        </div>
+                    ))
+                }
+            </form>
+        )
+    }
+
+
+
+    return <h1>Loading...</h1>
 }
 
 function Modal() {
