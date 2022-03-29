@@ -7,7 +7,7 @@ services:
     tty: true
     environment:
       REACT_APP_API_URL: http://localhost:3001
-      REACT_APP_PROXY_URL: http://api:5000
+      REACT_APP_PROXY_URL: http://localhost:5000
     ports:
       - '3002:3000'
     volumes:
@@ -24,6 +24,8 @@ services:
 
   proxy:
     build: proxy
+    environment:
+      API_URL: http://api:3000/api
     stdin_open: true
     tty: true
     ports:
