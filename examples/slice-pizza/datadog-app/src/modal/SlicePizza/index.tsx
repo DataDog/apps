@@ -7,6 +7,20 @@ const client = init()
 
 const PROXY_URL = process.env.REACT_APP_PROXY_URL 
 
+interface Pizza {
+    description: string;
+    id: string;
+    name: string;
+    price: number;
+    quantity: number;
+}
+
+interface Order {
+    items: Pizza[];
+    total: number;
+}
+
+
 function SignInForm () {
     const { register, handleSubmit } = useForm()
 
@@ -70,15 +84,7 @@ function SignUpForm(props: {onSubmit: any}) {
 }
 
 
-interface Pizza {
-    description: string;
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-}
-
-function PizzaLists() {
+function PizzaLists(props: {onSubmitOrder: any}) {
     const [ pizzas, setPizzas ] = useState<Pizza[]>([])
 
     useEffect(() => {
@@ -114,10 +120,14 @@ function PizzaLists() {
         setPizzas(updatedPizzas)
     }
 
+    console.log('=======')
+    console.log(pizzas)
+    console.log('=======')
+
 
     if (pizzas.length) {
         return (
-            <form>
+            <div>
                 {
                     pizzas.map(pizza => (
                         <div key={pizza.id} className='form-group'>
@@ -128,7 +138,8 @@ function PizzaLists() {
                         </div>
                     ))
                 }
-            </form>
+                <button onClick={() => props.onSubmitOrder()}>Place order</button>
+            </div>
         )
     }
 
@@ -137,15 +148,45 @@ function PizzaLists() {
     return <h1>Loading...</h1>
 }
 
+
+function OrderSummary(props: {onSubmitOrder: any}) {
+    const [ orderData, setOrderData ] = useState<Order | null>(null)
+
+    useEffect(() => {
+        fetch('http://localhost:5000/api/cart')
+            .then(res => res.json())
+            .then(data => setOrderData(data))
+            .catch(err => console.log('Oh no', err))
+    }, [])
+
+    return (
+        <div>
+            <p>Order Summary</p>
+            {
+                orderData && (
+                    <p>Amount: {orderData.total}</p>
+                )
+            }
+            <hr />
+            <button onClick={() => props.onSubmitOrder()}>Go back</button>
+        </div>
+    )
+}
+
+
 function Modal() {
     const [token, setToken] = useState('3qyPgFdVA2GvkJZxSsthtM')
     const [isRegistered, setIsRegistered] = useState(true)
+    const [isOrderSummary, setIsOrderSummary] = useState(false)
 
     const onSubmitForm = () => {
-        console.log('======')
-        console.log('======')
-        console.log('======')
         setIsRegistered(!isRegistered)
+    }
+
+    const displayOrderSummary = () => setIsOrderSummary(!isOrderSummary)
+
+    if (isOrderSummary) {
+        return <OrderSummary onSubmitOrder={displayOrderSummary}/>
     }
 
     if (!isRegistered) {
@@ -153,11 +194,12 @@ function Modal() {
     }
 
     if (token) {
-        return <PizzaLists />
+        return <PizzaLists onSubmitOrder={displayOrderSummary}/>
     }
 
     return <SignInForm />
 }
+
 
 export default function render() {
     ReactDOM.render(

@@ -8,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 API_URL = 'http://api:3000/api'
-TOKEN = 'b10WW0pmL45BlNl8nfCKTP'
+TOKEN = 'IkQfZt50rspbRSsoLSgwgo'
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
