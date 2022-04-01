@@ -131,9 +131,5 @@ def create_order():
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
-    print("=======")
-    print(response.text)
-    print("=======")
-
-    return "ok"
+    return response.text
 
