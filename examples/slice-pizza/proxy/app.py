@@ -77,6 +77,7 @@ def get_menu():
 
 @app.route('/api/cart', methods=['GET'])
 def get_cart():
+    email = request.args.get("email")
     token = request.headers.get("token")
 
     payload={}
@@ -84,48 +85,55 @@ def get_cart():
       'token': token
     }
 
-    url = '{}/cart?email=thomas.dimnet@datadoghq.com'.format(API_URL)
+    url = '{}/cart?email={}'.format(API_URL, email)
     response = requests.request("GET", url, headers=headers, data=payload)
 
     return response.text
 
 
-
 @app.route('/api/cart', methods=['POST'])
 def update_cart():
-    url = '{}/cart'.format(API_URL)
+    token = request.headers.get("token")
+    data = request.json
 
     payload = json.dumps({
-      "email": "thomas.dimnet@datadoghq.com",
-      "id": "da8e-9f48-eac6",
-      "size": 10,
-      "amount": 1
+      "email": data["email"],
+      "id": data["id"],
+      "size": data["size"],
+      "amount": data["amount"]
     })
+
     headers = {
-      'token': TOKEN,
+      'token': token,
       'Content-Type': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    url = '{}/cart'.format(API_URL)
 
+    response = requests.request("POST", url, headers=headers, data=payload)
     return response.text
 
 
 @app.route('/api/order', methods=['POST'])
 def create_order():
-    url = "{}/order".format(API_URL)
+    token = request.headers.get("token")
+    data = request.json
 
     payload = json.dumps({
-      "email": "thomas.dimnet@datadoghq.com"
+      "email": data["email"]
     })
     headers = {
-      'token': TOKEN,
+      'token': token,
       'Content-Type': 'application/json'
     }
 
+    url = "{}/order".format(API_URL)
+
     response = requests.request("POST", url, headers=headers, data=payload)
 
+    print("=======")
     print(response.text)
+    print("=======")
 
     return "ok"
 
