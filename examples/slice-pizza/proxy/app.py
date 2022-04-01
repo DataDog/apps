@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 
 import requests
@@ -8,38 +8,40 @@ app = Flask(__name__)
 CORS(app)
 
 API_URL = 'http://api:3000/api'
-TOKEN = 'IkQfZt50rspbRSsoLSgwgo'
 
 @app.route('/api/users', methods=['POST'])
 def create_user():
-    url = "http://api:3001/api/users"
+    data = request.json
 
     payload = json.dumps({
-      "name": "thomas",
-      "email": "thomas.dimnet@datadoghq.com",
-      "password": "toto90",
-      "address": "Hooiland 20, 5663HC Geldrop"
+      "name": data["name"],
+      "email": data["email"],
+      "password": data["password"],
+      "address": data["address"]
     })
     headers = {
       'Content-Type': 'application/json'
     }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+    url = "{}/users".format(API_URL)
 
+    response = requests.request("POST", url, headers=headers, data=payload)
     return response.text
 
 
 @app.route('/api/tokens', methods=['POST'])
 def get_token():
-    url = "http://api:3000/api/tokens"
+    data = request.json
 
     payload = json.dumps({
-      "email": "thomas.dimnet@datadoghq.com",
-      "password": "toto90"
+      "email": data["email"],
+      "password": data["password"]
     })
     headers = {
       'Content-Type': 'application/json'
     }
+
+    url = "{}/tokens".format(API_URL)
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
@@ -48,22 +50,23 @@ def get_token():
 
 @app.route('/api/menu', methods=['GET'])
 def get_menu():
-    url = '{}/menu?email=thomas.dimnet@datadoghq.com'.format(API_URL)
-
+    email = request.args.get("email")
+    token = request.headers.get("token")
+    
     payload = json.dumps({})
     headers = {
-      'token': TOKEN,
+      'token': token,
       'Content-Type': 'application/json'
     }
+
+    url = '{}/menu?email={}'.format(API_URL, email)
 
     response = requests.request("GET", url, headers=headers, data=payload)
     data = json.loads(response.text)
 
     pizzas = []
-
     for key, pizza in data.items():
         pizzas.append(pizza)
-
 
     res = {
         "data": pizzas
@@ -74,13 +77,14 @@ def get_menu():
 
 @app.route('/api/cart', methods=['GET'])
 def get_cart():
-    url = '{}/cart?email=thomas.dimnet@datadoghq.com'.format(API_URL)
+    token = request.headers.get("token")
 
     payload={}
     headers = {
-      'token': TOKEN
+      'token': token
     }
 
+    url = '{}/cart?email=thomas.dimnet@datadoghq.com'.format(API_URL)
     response = requests.request("GET", url, headers=headers, data=payload)
 
     return response.text
