@@ -94,6 +94,11 @@ export interface DashboardContext {
     templateVars: TemplateVariableValue[];
 }
 
+export interface SyntheticsContext {
+    // synthetics id
+    id: string;
+}
+
 // TODO: This is an incomplete typing because widget API typing is exenstive and varied based on widget type.
 // We should port full typing here eventually
 export interface DashboardWidgetContext {
@@ -115,6 +120,7 @@ export interface FeatureContext {
     dashboard?: DashboardContext;
     widget?: DashboardWidgetContext;
     menuItem?: MenuItemContext;
+    syntheticsTest?: SyntheticsContext;
     widgetInteraction?: WidgetInteractionContext;
     // Optional arguements passed to different feature components like modal, side panel, etc
     args?: unknown;
@@ -217,6 +223,19 @@ export type GetDashboardCogMenuItemsRequest = RequireKeys<
 >;
 
 export interface GetDashboardCogMenuItemsResponse
+    extends MenuItemRequestResponse {}
+
+export type SyntheticsCogMenuClickData = RequireKeys<
+    FeatureContext,
+    'syntheticsTest' | 'menuItem'
+>;
+
+export type GetSyntheticsCogMenuItemsRequest = RequireKeys<
+    FeatureContext,
+    'syntheticsTest'
+>;
+
+export interface GetSyntheticsCogMenuItemsResponse
     extends MenuItemRequestResponse {}
 
 export interface AuthState<Args = unknown> {

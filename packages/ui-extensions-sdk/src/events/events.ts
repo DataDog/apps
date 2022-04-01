@@ -16,7 +16,8 @@ import type {
     TemplateVariableValue,
     Timeframe,
     WidgetContextMenuClickData,
-    WidgetSettingsMenuClickData
+    WidgetSettingsMenuClickData,
+    SyntheticsCogMenuClickData
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
 
@@ -33,6 +34,7 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.MODAL_CANCEL]: ModalDefinition;
     [EventType.MODAL_ACTION]: ModalDefinition;
     [EventType.SIDE_PANEL_CLOSE]: SidePanelDefinition;
+    [EventType.SYNTHETICS_COG_MENU_CLICK]: SyntheticsCogMenuClickData;
     [EventType.DASHBOARD_TIMEFRAME_CHANGE]: Timeframe;
     [EventType.DASHBOARD_CURSOR_CHANGE]: number | null;
     [EventType.DASHBOARD_TEMPLATE_VAR_CHANGE]: TemplateVariableValue[];

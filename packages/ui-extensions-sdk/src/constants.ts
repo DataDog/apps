@@ -3,6 +3,7 @@ export enum FeatureType {
     DASHBOARD_CUSTOM_WIDGET = 'dashboard_custom_widget',
     MODALS = 'modals',
     SIDE_PANELS = 'side_panels',
+    SYNTHETICS_COG_MENU = 'synthetics_cog_menu',
     WIDGET_CONTEXT_MENU = 'widget_context_menu'
 }
 
@@ -26,6 +27,9 @@ export enum EventType {
 
     // Side panels
     SIDE_PANEL_CLOSE = 'side_panel_close',
+
+    // Synthetics
+    SYNTHETICS_COG_MENU_CLICK = 'synthetics_cog_menu_click',
 
     // Widgets
     WIDGET_CONTEXT_MENU_CLICK = 'widget_context_menu_click',
@@ -70,6 +74,9 @@ export enum RequestType {
 
     // Dashboard Cog Menu
     GET_DASHBOARD_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
+
+    // Synthetics Cog Menu
+    GET_SYNTHETICS_COG_MENU_ITEMS = 'get_dashboard_cog_menu_items',
 
     // Auth
     CHECK_AUTH_STATE = 'check_auth_state',

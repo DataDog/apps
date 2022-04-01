@@ -4,6 +4,7 @@ import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
 import { EventType, FramePostClientSettings, RequestType } from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
+import { DDSyntheticsClient } from '../synthetics/synthetics';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
 import { DDModalClient } from '../modal/modal';
@@ -50,6 +51,7 @@ export class DDClient<AuthStateArgs = unknown>
     modal: DDModalClient;
     notification: DDNotificationClient;
     sidePanel: DDSidePanelClient;
+    synthetics: DDSyntheticsClient;
     widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
 
@@ -89,6 +91,7 @@ export class DDClient<AuthStateArgs = unknown>
         this.modal = new DDModalClient(this);
         this.notification = new DDNotificationClient(this);
         this.sidePanel = new DDSidePanelClient(this);
+        this.synthetics = new DDSyntheticsClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
 
         this.events.on(EventType.CONTEXT_CHANGE, newContext => {
