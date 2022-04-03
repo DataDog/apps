@@ -21,7 +21,20 @@ interface Order {
 }
 
 
-function SignInForm () {
+interface User {
+    email: string;
+    password: string;
+}
+
+
+interface Token {
+    email: string;
+    id: string;
+    expires: number;
+}
+
+
+function SignInForm (props: {onSubmit: any}) {
     const { register, handleSubmit } = useForm()
 
     const onSubmit = (data: any) => {
@@ -30,10 +43,13 @@ function SignInForm () {
                 "email": data.email,
                 "password": data.password
             }),
+            headers: {
+                    'Content-Type': 'application/json'
+            },
             method: 'POST',
         })
         .then(res => res.json())
-        .then(data => console.log(data))
+        .then(data => props.onSubmit(data))
         .catch(err => console.log('Oh no :(', err))
     }
 
@@ -54,17 +70,24 @@ function SignUpForm(props: {onSubmit: any}) {
     const { register, handleSubmit } = useForm()
 
     const onSubmit = (data: any) => {
+        const user: User = {
+            email: data.email,
+            password: data.password
+        }
+
         fetch(`${PROXY_URL}/api/users`, {
                 body: JSON.stringify({
                     "name": data.name,
-                    "email": data.email,
-                    "password": data.password,
+                    "email": user.email,
+                    "password": user.password,
                     "address": data.address
                 }),
-                method: 'POST',
-                mode: 'no-cors'
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST'
         })
-        .then(() => props.onSubmit())
+        .then(() => props.onSubmit(user))
         // Add modal
         .catch(err => console.log('Oh no :(', err))
     }
@@ -84,11 +107,21 @@ function SignUpForm(props: {onSubmit: any}) {
 }
 
 
-function PizzaLists(props: {onSubmitOrder: any}) {
+function PizzaLists(props: {onSubmitOrder: any, token: Token}) {
     const [ pizzas, setPizzas ] = useState<Pizza[]>([])
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/menu')
+
+        console.log("=======")
+        console.log(props.token)
+        console.log("=======")
+
+        fetch(`http://localhost:5000/api/menu?email=${props.token.email}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': props.token.id
+                }
+            })
             .then(res => res.json())
             .then(data => {
                 const updatedPizzas = data.data.map((pizza: Pizza) => ({
@@ -175,12 +208,18 @@ function OrderSummary(props: {onSubmitOrder: any}) {
 
 
 function Modal() {
-    const [token, setToken] = useState('3qyPgFdVA2GvkJZxSsthtM')
-    const [isRegistered, setIsRegistered] = useState(true)
+    const [token, setToken] = useState<Token | null>(null)
     const [isOrderSummary, setIsOrderSummary] = useState(false)
+    const [user, setUser] = useState<User | null>(null)
+    const [hasAccount, setHasAccount] = useState(false)
 
-    const onSubmitForm = () => {
-        setIsRegistered(!isRegistered)
+    const onRegisterUser = (user: User) => {
+        setUser(user)
+        setHasAccount(true)
+    }
+
+    const onSignInUser = (data: Token) => {
+        setToken(data)
     }
 
     const displayOrderSummary = () => setIsOrderSummary(!isOrderSummary)
@@ -189,15 +228,22 @@ function Modal() {
         return <OrderSummary onSubmitOrder={displayOrderSummary}/>
     }
 
-    if (!isRegistered) {
-        return <SignUpForm onSubmit={onSubmitForm}  />
-    }
-
     if (token) {
-        return <PizzaLists onSubmitOrder={displayOrderSummary}/>
+        return <PizzaLists onSubmitOrder={displayOrderSummary} token={token} />
     }
 
-    return <SignInForm />
+    return (
+        <div>
+            <button onClick={() => setHasAccount(true)}>Sign In</button>
+            <button onClick={() => setHasAccount(false)}>Sign Up</button>
+            <hr />
+            {
+                hasAccount 
+                    ? <SignInForm onSubmit={onSignInUser} />
+                    : <SignUpForm onSubmit={onRegisterUser} />
+            }
+        </div>
+    )
 }
 
 

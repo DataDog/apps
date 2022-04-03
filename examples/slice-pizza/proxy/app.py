@@ -52,6 +52,11 @@ def get_token():
 def get_menu():
     email = request.args.get("email")
     token = request.headers.get("token")
+
+    print("=====")
+    print(email)
+    print(token)
+    print("=====")
     
     payload = json.dumps({})
     headers = {
