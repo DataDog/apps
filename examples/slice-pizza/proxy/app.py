@@ -53,11 +53,6 @@ def get_menu():
     email = request.args.get("email")
     token = request.headers.get("token")
 
-    print("=====")
-    print(email)
-    print(token)
-    print("=====")
-    
     payload = json.dumps({})
     headers = {
       'token': token,
@@ -100,6 +95,11 @@ def get_cart():
 def update_cart():
     token = request.headers.get("token")
     data = request.json
+
+    print("======")
+    print(token)
+    print(data)
+    print("======")
 
     payload = json.dumps({
       "email": data["email"],

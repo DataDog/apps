@@ -111,11 +111,6 @@ function PizzaLists(props: {onSubmitOrder: any, token: Token}) {
     const [ pizzas, setPizzas ] = useState<Pizza[]>([])
 
     useEffect(() => {
-
-        console.log("=======")
-        console.log(props.token)
-        console.log("=======")
-
         fetch(`http://localhost:5000/api/menu?email=${props.token.email}`, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -157,6 +152,29 @@ function PizzaLists(props: {onSubmitOrder: any, token: Token}) {
     console.log(pizzas)
     console.log('=======')
 
+    const onSubmit = () => {
+        const pizzasOrdered = pizzas.filter(pizza => pizza.quantity > 0)
+
+        Promise.all(pizzasOrdered.map(async pizza => {
+            await fetch('http://localhost:5000/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'token': props.token.id
+                },
+                body: JSON.stringify({
+                    email: props.token.email,
+                    id: pizza.id,
+                    size: 10,
+                    amount: pizza.quantity
+                })
+            })
+            .then(res => res.json())
+            .then(data => console.log("Add to cart", data))
+            .catch(err => console.log("An error happended on adding to cart", err))
+        })).then(() => props.onSubmitOrder())
+    }
+
 
     if (pizzas.length) {
         return (
@@ -171,7 +189,7 @@ function PizzaLists(props: {onSubmitOrder: any, token: Token}) {
                         </div>
                     ))
                 }
-                <button onClick={() => props.onSubmitOrder()}>Place order</button>
+                <button onClick={() => onSubmit()}>Place order</button>
             </div>
         )
     }
@@ -182,15 +200,40 @@ function PizzaLists(props: {onSubmitOrder: any, token: Token}) {
 }
 
 
-function OrderSummary(props: {onSubmitOrder: any}) {
+function OrderSummary(props: {onPlaceOrder: any, token: Token}) {
     const [ orderData, setOrderData ] = useState<Order | null>(null)
 
     useEffect(() => {
-        fetch('http://localhost:5000/api/cart')
+
+        console.log("=====")
+        console.log(props.token)
+        console.log("=====")
+        console.log("=====")
+
+        fetch(`http://localhost:5000/api/cart?email=${props.token.email}`, {
+                headers: {
+                    'token': props.token.id
+                }
+            })
             .then(res => res.json())
             .then(data => setOrderData(data))
             .catch(err => console.log('Oh no', err))
     }, [])
+
+    const onPlaceOrder = () => {
+        fetch('http://localhost:5000/api/order', {
+            headers: {
+                token: props.token.id,
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                email: props.token.email
+            })
+        })
+        .then(() => props.onPlaceOrder())
+        .catch(err => console.log("Something went wrong when placing the order", err))
+    }
 
     return (
         <div>
@@ -200,18 +243,48 @@ function OrderSummary(props: {onSubmitOrder: any}) {
                     <p>Amount: {orderData.total}</p>
                 )
             }
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {
+                    orderData && orderData.items.map(pizza => (
+                        <tr key={pizza.id}>
+                            <td key={pizza.id}>{pizza.name}</td>
+                        </tr>
+                    ))
+                }
+                </tbody>
+            </table>
             <hr />
-            <button onClick={() => props.onSubmitOrder()}>Go back</button>
+            <button onClick={() => onPlaceOrder()}>Place order</button>
         </div>
     )
 }
 
+
+function OrderSuccess(props: {token: Token}) {
+        return (
+            <div>
+                <p>
+                Thank you for your order!
+                <br />
+                Please find your order detail at {props.token ? props.token.email : ''}
+                </p>
+            </div>
+        )
+}
 
 function Modal() {
     const [token, setToken] = useState<Token | null>(null)
     const [isOrderSummary, setIsOrderSummary] = useState(false)
     const [user, setUser] = useState<User | null>(null)
     const [hasAccount, setHasAccount] = useState(false)
+    const [hasPlacedOrder, setHasPlacedOrder] = useState(false)
 
     const onRegisterUser = (user: User) => {
         setUser(user)
@@ -224,8 +297,14 @@ function Modal() {
 
     const displayOrderSummary = () => setIsOrderSummary(!isOrderSummary)
 
-    if (isOrderSummary) {
-        return <OrderSummary onSubmitOrder={displayOrderSummary}/>
+    const onPlaceOrder = () => setHasPlacedOrder(!hasPlacedOrder)
+
+    if (hasPlacedOrder && token) {
+        return <OrderSuccess token={token} />
+    }
+
+    if (isOrderSummary && token) {
+        return <OrderSummary onPlaceOrder={onPlaceOrder} token={token} />
     }
 
     if (token) {
