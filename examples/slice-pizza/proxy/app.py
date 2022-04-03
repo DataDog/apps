@@ -96,11 +96,6 @@ def update_cart():
     token = request.headers.get("token")
     data = request.json
 
-    print("======")
-    print(token)
-    print(data)
-    print("======")
-
     payload = json.dumps({
       "email": data["email"],
       "id": data["id"],
