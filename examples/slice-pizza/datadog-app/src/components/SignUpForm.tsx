@@ -30,15 +30,52 @@ export function SignUpForm(props: { onSubmit: any }) {
     };
 
     return (
-        <div>
-            <h1>Sign Up</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register('name')} />
-                <input {...register('email')} />
-                <input {...register('password')} />
-                <input {...register('address')} />
-                <input type="submit" />
-            </form>
+        <div className="sp-app-sign-up">
+            <div className="sp-app-sign-up__wrapper">
+                <p className="sp-app-sign-up-title">Sign Up</p>
+                <form
+                    className="sp-app-sign-up-form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            placeholder="Name"
+                            className="sp-app-sign-up__input"
+                            type="text"
+                            {...register('name')}
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            placeholder="Email"
+                            className="sp-app-sign-up__input"
+                            type="email"
+                            {...register('email')}
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            placeholder="Create password"
+                            className="sp-app-sign-up__input"
+                            type="password"
+                            {...register('password')}
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <textarea
+                            {...register('address')}
+                            className="sp-app-sign-up__input"
+                            placeholder="Address"
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            type="submit"
+                            className="sp-app-sign-up__submit-btn"
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }

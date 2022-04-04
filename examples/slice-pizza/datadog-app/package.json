@@ -1,5 +1,5 @@
 {
-    "name": "datadog-app-example-starter-kit",
+    "name": "datadog-app-example-pizza-app",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -19,6 +19,8 @@
     "scripts": {
         "build": "react-scripts build",
         "eject": "react-scripts eject",
+        "format": "prettier --write .",
+        "lint": "echo TODO: Add lint script",
         "prepare": "exit 0",
         "start": "react-scripts start",
         "test": "react-scripts test --passWithNoTests --watchAll=false"

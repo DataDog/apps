@@ -15,8 +15,10 @@ function Widget() {
     };
 
     return (
-        <div className='sp-app-widget'>
-            <button className='sp-app-widget__btn' onClick={onOpenModal}>Order pizza</button>
+        <div className="sp-app-widget">
+            <button className="sp-app-widget__btn" onClick={onOpenModal}>
+                Order pizza
+            </button>
         </div>
     );
 }
