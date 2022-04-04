@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { init, ModalSize } from '@datadog/ui-extensions-sdk';
+import React from 'react';
 import ReactDOM from 'react-dom';
+import { init, ModalSize } from '@datadog/ui-extensions-sdk';
 
+// eslint-disable-next-line
 const client = init();
 
 function Widget() {
@@ -14,9 +15,8 @@ function Widget() {
     };
 
     return (
-        <div>
-            <h1>Pizza Slices</h1>
-            <button onClick={onOpenModal}>Order a pizza</button>
+        <div className='sp-app-widget'>
+            <button className='sp-app-widget__btn' onClick={onOpenModal}>Order pizza</button>
         </div>
     );
 }

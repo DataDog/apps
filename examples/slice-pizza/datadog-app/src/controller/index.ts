@@ -1,13 +1,8 @@
 import { init } from '@datadog/ui-extensions-sdk';
-import { setupModal } from './modal';
-import { setupWidgetCtxMenu } from './widget-ctx-menu';
-import { setupDashboardCogMenu } from './dashboard-cog-menu';
 
 export default function setup() {
+    // eslint-disable-next-line
     const client = init();
-    setupModal(client);
-    setupWidgetCtxMenu(client);
-    setupDashboardCogMenu(client);
 
     const root = document.getElementById('root');
     if (!root) {

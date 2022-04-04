@@ -9,11 +9,6 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
     const [orderData, setOrderData] = useState<Order | null>(null);
 
     useEffect(() => {
-        console.log('=====');
-        console.log(props.token);
-        console.log('=====');
-        console.log('=====');
-
         fetch(`${PROXY_URL}/api/cart?email=${props.token.email}`, {
             headers: {
                 token: props.token.id
@@ -22,10 +17,10 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
             .then(res => res.json())
             .then(data => setOrderData(data))
             .catch(err => console.log('Oh no', err));
-    }, []);
+    }, [props.token]);
 
     const onPlaceOrder = () => {
-        fetch('${PROXY_URL}/api/order', {
+        fetch(`${PROXY_URL}/api/order`, {
             headers: {
                 token: props.token.id,
                 'Content-Type': 'application/json'

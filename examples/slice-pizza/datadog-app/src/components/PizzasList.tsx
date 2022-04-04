@@ -24,7 +24,7 @@ export function PizzaLists(props: { onSubmitOrder: any; token: Token }) {
                 setPizzas(updatedPizzas);
             })
             .catch(err => console.log('Oh no', err));
-    }, []);
+    }, [props.token]);
 
     const onAddPizza = (pizza: Pizza) => {
         const updatedPizzas = Array.from(pizzas);

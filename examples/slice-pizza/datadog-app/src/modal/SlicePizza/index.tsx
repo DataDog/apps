@@ -11,11 +11,13 @@ import { SignInForm } from '../../components/SignInForm';
 import { SignUpForm } from '../../components/SignUpForm';
 import { PizzaLists } from '../../components/PizzasList';
 
+// eslint-disable-next-line
 const client = init();
 
 function Modal() {
     const [token, setToken] = useState<Token | null>(null);
     const [isOrderSummary, setIsOrderSummary] = useState(false);
+    // eslint-disable-next-line
     const [user, setUser] = useState<User | null>(null);
     const [hasAccount, setHasAccount] = useState(false);
     const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
