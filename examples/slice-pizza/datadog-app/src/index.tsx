@@ -5,8 +5,8 @@ const init = async () => {
             return widget.default();
         }
         case '/slice-pizza-modal': {
-            let modal = await import ('./modal/SlicePizza')
-            return modal.default()
+            let modal = await import('./modal/SlicePizza');
+            return modal.default();
         }
         default: {
             let controller = await import('./controller');

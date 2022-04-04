@@ -54,7 +54,7 @@ Windows: `set NODE_DEBUG=[option]&&node index.js` \*
 
 The following options are available:
 
-- server
+-   server
 
 \* replace `[option]` with one of the above.
 

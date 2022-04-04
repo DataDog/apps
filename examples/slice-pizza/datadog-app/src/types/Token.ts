@@ -3,4 +3,3 @@ export default interface Token {
     id: string;
     expires: number;
 }
-
