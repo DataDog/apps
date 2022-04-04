@@ -5,7 +5,7 @@ body {
 
 .sp-app-widget {
     align-items: center;
-    background-image: url("./img/pizza-bg.jpg");
+    background-image: url('./img/pizza-bg.jpg');
     background-position: center center;
     background-size: cover;
     display: flex;
@@ -20,11 +20,72 @@ body {
     border: 1px solid #333;
     cursor: pointer;
     padding: 8px 16px;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .sp-app-widget__btn:hover {
     background-color: #eee;
 }
 
+.sp-app-sign-up {
+    background-color: #eee;
+    height: 100vh;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-image: url('./img/pizza-maker.jpg');
+    background-position: center center;
+    background-size: cover;
+}
 
+.sp-app-sign-up__wrapper {
+    width: 80%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sp-app-sign-up-title {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+}
+
+.sp-app-sign-up-title:before,
+.sp-app-sign-up-title:after {
+    background-color: #000;
+    content: '';
+    display: inline-block;
+    height: 1px;
+    position: relative;
+    vertical-align: middle;
+    width: 50%;
+}
+
+.sp-app-sign-up-title:before {
+    right: 0.5em;
+    margin-left: -50%;
+}
+
+.sp-app-sign-up-title:after {
+    left: 0.5em;
+    margin-right: -50%;
+}
+
+.sp-app-sign-up__form {
+}
+
+.sp-app-sign-up__form-group {
+    margin-bottom: 16px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px;
+}
+
+.sp-app-sign-up__input {
+    width: 100%;
+    padding: 4px 4px 4px 8px;
+}
+
+.sp-app-sign-up__submit-btn {
+}

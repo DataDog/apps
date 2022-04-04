@@ -22,13 +22,37 @@ export function SignInForm(props: { onSubmit: any }) {
     };
 
     return (
-        <div>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <input {...register('email')} />
-                <input {...register('password')} />
-                <input type="submit" />
-            </form>
+        <div className="sp-app-sign-up">
+            <div className="sp-app-sign-up__wrapper">
+                <p className="sp-app-sign-up-title">Sign In</p>
+                <form
+                    className="sp-app-sign-up-form"
+                    onSubmit={handleSubmit(onSubmit)}
+                >
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            className="sp-app-sign-up__input"
+                            placeholder="Email"
+                            type="email"
+                            {...register('email')}
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            className="sp-app-sign-up__input"
+                            placeholder="Create password"
+                            type="password"
+                            {...register('password')}
+                        />
+                    </div>
+                    <div className="sp-app-sign-up__form-group">
+                        <input
+                            className="sp-app-sign-up__submit-btn"
+                            type="submit"
+                        />
+                    </div>
+                </form>
+            </div>
         </div>
     );
 }
