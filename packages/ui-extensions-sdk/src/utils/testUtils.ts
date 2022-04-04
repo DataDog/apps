@@ -1,3 +1,5 @@
+import { setImmediate } from 'timers';
+
 import { ColorTheme, EventType, FeatureType, RequestType } from '../constants';
 import {
     Context,
