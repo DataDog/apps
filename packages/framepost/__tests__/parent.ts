@@ -1,3 +1,5 @@
+import { setImmediate } from 'timers';
+
 import {
     MessageAPIVersion,
     MessageType,
