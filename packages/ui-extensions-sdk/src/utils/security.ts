@@ -1,19 +1,28 @@
 import { LoadedResourceMetaDataBatch, NetworkRequestMetadata } from '../types';
 
-// TODO: Feel free to pass in whatever data structure you need
-// to track what has been previously loaded. Here I'm assuming it will be a set of
-// string ids
 export type LoadedResourceIds = Set<string>;
 
 export const collectResourceUsage = (
     previouslyLoadedResources: LoadedResourceIds
 ): [LoadedResourceMetaDataBatch, LoadedResourceIds] => {
-    const newLoadedResourceIds = new Set(previouslyLoadedResources);
+    // Use resource timing api to to retrieve application loaded resources
 
-    // TODO: Do batch collection of resource data
-    // TODO: Update list of preivously loaded resource ids
+    const snapshot = performance.getEntriesByType('resource').map(e => {
+        const a = e as PerformanceResourceTiming;
+        return {
+            url: a.name,
+            initiatorType: a.initiatorType,
+            nextHopProtocol: a.nextHopProtocol
+        };
+    });
 
-    return [{ resources: [] }, newLoadedResourceIds];
+    // to avoid collecting the same resource twice, we use
+    // the Set difference: snapshot - previouslyLoadedResources
+    const resources = snapshot.filter(
+        r => !previouslyLoadedResources.has(r.url)
+    );
+
+    return [{ resources }, new Set(snapshot.map(x => x.url))];
 };
 
 export const registerNetworkRequestListeners = (

@@ -233,6 +233,14 @@ export class DDClient<AuthStateArgs = unknown>
                 clearInterval(interval);
             }
         }, RESOURCE_BATCH_INTERVAL);
+
+        addEventListener('resourcetimingbufferfull', event => {
+            // TODO: maybe reset the buffer using performance.clearResourceTimings() instead ?
+            clearInterval(interval);
+            this.logger.warn(
+                'Resource timing buffer is full, stopping resource monitoring'
+            );
+        });
     }
 
     private startNetworkMonitoring() {
