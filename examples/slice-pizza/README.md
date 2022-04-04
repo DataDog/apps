@@ -1,6 +1,5 @@
 # Slice Pizza
 
-
 ## cURL Requests
 
 ### Creating an user
@@ -27,7 +26,6 @@ curl --location --request POST 'http://localhost:5000/api/tokens' \
 }'
 ```
 
-
 ### Getting the menu
 
 ```
@@ -37,14 +35,12 @@ curl --location --request GET 'http://localhost:5000/api/menu?email=username@exa
 --data-raw '{}'
 ```
 
-
 ### Getting the cart
 
 ```
 curl --location --request GET 'http://localhost:5000/api/cart?email=username@example.com' \
 --header 'token: yourToken'
 ```
-
 
 ### Updating the cart
 
@@ -60,7 +56,6 @@ curl --location --request POST 'http://localhost:5000/api/cart' \
 }'
 ```
 
-
 ### Creating the order
 
 ```
@@ -71,4 +66,3 @@ curl --location --request POST 'http://localhost:5000/api/order' \
     "email": "username@example.com"
 }'
 ```
-

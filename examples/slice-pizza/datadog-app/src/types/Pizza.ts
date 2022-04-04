@@ -5,4 +5,3 @@ export default interface Pizza {
     price: number;
     quantity: number;
 }
-
