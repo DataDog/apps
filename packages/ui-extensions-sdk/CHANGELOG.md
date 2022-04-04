@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.31.0
+
+### Minor Changes
+
+-   58a9034: Upgrade to react-scripts v5
+
 ## 0.30.1
 
 ### Patch Changes
