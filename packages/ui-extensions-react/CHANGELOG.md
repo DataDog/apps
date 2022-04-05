@@ -1,5 +1,16 @@
 # @datadog/ui-extensions-react
 
+## 0.31.0
+
+### Minor Changes
+
+-   58a9034: Upgrade to react-scripts v5
+
+### Patch Changes
+
+-   Updated dependencies [58a9034]
+    -   @datadog/ui-extensions-sdk@0.31.0
+
 ## 0.30.1
 
 ### Patch Changes
