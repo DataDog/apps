@@ -15,7 +15,7 @@
         "lint": "yarn run lint:check && prettier --check .",
         "postinstall": "patch-package",
         "prepare": "yarn prepare:husky && yarn workspaces run prepare",
-        "prepare:husky": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+        "prepare:husky": "./scripts/husky-avoid-prepare-in-ci.js",
         "release:canary": "auto shipit",
         "release:packages": "changeset publish",
         "test:example-packages:name": "./scripts/check-example-packages-name.js",
