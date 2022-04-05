@@ -3,6 +3,11 @@ name: Continuous Integration
 on:
     - pull_request
     - push
+    - workflow_dispatch
+
+concurrency:
+    group: ${{ github.ref }}-ci
+    cancel-in-progress: true
 
 jobs:
     ci:
@@ -12,13 +17,14 @@ jobs:
 
         steps:
             - name: checkout
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
             - name: install node
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
-                  node-version: 16.3.0
+                  node-version-file: '.node-version'
+                  cache: 'yarn'
             - name: install
-              run: yarn
+              run: yarn --prefer-offline
             - name: lint
               run: yarn lint
             - name: build

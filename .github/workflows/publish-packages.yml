@@ -5,30 +5,32 @@ on:
         branches:
             - master
 
+concurrency:
+    group: ${{ github.ref }}-publish
+    cancel-in-progress: true
+
 jobs:
     publish:
         runs-on: ubuntu-latest
+        env:
+            NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
 
             - name: Setup Node.js
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v3
               with:
-                  node-version: 16.3.0
+                  node-version-file: '.node-version'
+                  cache: 'yarn'
                   registry-url: 'https://registry.npmjs.org'
                   scope: '@datadog'
 
             - name: Install dependencies
-              run: yarn
+              run: yarn --prefer-offline
 
             - name: Build packages
               run: yarn build
-
-            - name: Add auth credentials for npm
-              run: npm config set //registry.npmjs.org/:_authToken=${NPM_TOKEN}
-              env:
-                  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
             - name: Create release Pull Request or publish to npm
               id: changesets
