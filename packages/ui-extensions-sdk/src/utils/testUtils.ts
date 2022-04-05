@@ -123,7 +123,9 @@ export class MockFramePostChildClient {
         );
     }
 
-    request(eventType: string, data: any): any {}
+    request(eventType: string, data: any): any {
+        return this.mockRequest(eventType, data);
+    }
 
     onRequest(requestKey: string, requestHandler: (arg?: any) => any) {
         this.requestSubscriptions[requestKey] = requestHandler;
