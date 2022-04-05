@@ -1,34 +1,34 @@
 {
-  "name": "@datadog/cra-template-apps-starter-kit",
-  "version": "1.0.0",
-  "keywords": [
-    "react",
-    "create-react-app",
-    "template",
-    "datadog"
-  ],
-  "description": "Datadog UI Apps Starter Kit",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/DataDog/apps.git",
-    "directory": "packages/cra-template-apps-starter-kit"
-  },
-  "license": "Apache-2.0",
-  "engines": {
-    "node": ">=16"
-  },
-  "bugs": {
-    "url": "https://github.com/DataDog/apps/issues"
-  },
-  "main": "template.json",
-  "files": [
-    "template",
-    "template.json"
-  ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "scripts": {
-    "prepare": "exit 0"
-  }
+    "name": "@datadog/cra-template-apps-starter-kit",
+    "version": "1.0.0",
+    "keywords": [
+        "react",
+        "create-react-app",
+        "template",
+        "datadog"
+    ],
+    "description": "Datadog UI Apps Starter Kit",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DataDog/apps.git",
+        "directory": "packages/cra-template-apps-starter-kit"
+    },
+    "license": "Apache-2.0",
+    "engines": {
+        "node": ">=16"
+    },
+    "bugs": {
+        "url": "https://github.com/DataDog/apps/issues"
+    },
+    "main": "template.json",
+    "files": [
+        "template",
+        "template.json"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "prepare": "exit 0"
+    }
 }
