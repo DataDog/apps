@@ -48,10 +48,21 @@ function Modal() {
     }
 
     return (
-        <div>
-            <button onClick={() => setHasAccount(true)}>Sign In</button>
-            <button onClick={() => setHasAccount(false)}>Sign Up</button>
-            <hr />
+        <div className='sp-app-modal'>
+            <div className='sp-app-modal__navigation'>
+                <button
+                    className='sp-app-modal__navigation-btn'
+                    onClick={() => setHasAccount(true)}
+                >
+                    Sign In
+                </button>
+                <button
+                    className='sp-app-modal__navigation-btn'
+                    onClick={() => setHasAccount(false)}
+                >
+                    Sign Up
+                </button>
+            </div>
             {hasAccount ? (
                 <SignInForm onSubmit={onSignInUser} />
             ) : (
