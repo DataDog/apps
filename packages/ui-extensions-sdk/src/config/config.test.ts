@@ -13,16 +13,13 @@ beforeEach(() => {
 
 describe('DDConfigClient', () => {
     test('can return app config', async () => {
-        const mockConfig = {
-            customStringKey: 'customVal',
-            customBooleanKey: true
-        };
+        mockClient.framePostClient.request = jest.fn();
 
-        mockClient.framePostClient.onRequest(RequestType.GET_CONFIG, () =>
-            Promise.resolve(mockConfig)
+        await configClient.getConfig();
+
+        expect(mockClient.framePostClient.request).toHaveBeenCalledWith(
+            RequestType.GET_CONFIG,
+            undefined
         );
-
-        const config = await configClient.getConfig();
-        expect(config).toEqual(mockConfig);
     });
 });
