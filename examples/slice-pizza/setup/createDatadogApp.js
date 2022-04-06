@@ -78,10 +78,10 @@ async function createApp(appId) {
                     pricing: [],
                     published: false,
                     tile: {
-                        description:
-                            'Order Pizza whenever you want',
+                        description: 'Order Pizza whenever you want',
                         logo_media: {
-                            light: 'https://freesvg.org/img/Pizza-Slice-in-Tango-Colors.png'
+                            light:
+                                'https://freesvg.org/img/Pizza-Slice-in-Tango-Colors.png'
                         },
                         title: APP_NAME
                     }

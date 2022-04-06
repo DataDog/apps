@@ -75,35 +75,32 @@ export function PizzaLists(props: { onSubmitOrder: any; token: Token }) {
 
     if (pizzas.length) {
         return (
-            <div className='sp-app-pizzas-list'>
+            <div className="sp-app-pizzas-list">
                 {pizzas.map(pizza => (
-                    <div
-                        key={pizza.id}
-                        className='sp-app-pizza-lists-pizza'
-                    >
+                    <div key={pizza.id} className="sp-app-pizza-lists-pizza">
                         <img
                             alt={pizza.name}
-                            src='/img/pizza-item.jpg'
-                            className='sp-app-pizza-lists-pizza__img'
+                            src="/img/pizza-item.jpg"
+                            className="sp-app-pizza-lists-pizza__img"
                         />
-                        <p className='sp-app-pizza-lists-pizza__name'>
+                        <p className="sp-app-pizza-lists-pizza__name">
                             {pizza.name}
                         </p>
-                        <div className='sp-app-pizza-lists-pizza__btn-group'>
+                        <div className="sp-app-pizza-lists-pizza__btn-group">
                             <span
-                                className='sp-app-pizza-lists-pizza__btn'
+                                className="sp-app-pizza-lists-pizza__btn"
                                 onClick={() => onRemovePizza(pizza)}
                             >
                                 -
                             </span>
                             <input
-                                className='sp-app-pizza-lists-pizza__input'
+                                className="sp-app-pizza-lists-pizza__input"
                                 readOnly
                                 type="text"
                                 value={pizza.quantity}
                             />
                             <span
-                                className='sp-app-pizza-lists-pizza__btn'
+                                className="sp-app-pizza-lists-pizza__btn"
                                 onClick={() => onAddPizza(pizza)}
                             >
                                 +
@@ -112,7 +109,7 @@ export function PizzaLists(props: { onSubmitOrder: any; token: Token }) {
                     </div>
                 ))}
                 <button
-                    className='sp-app-pizzas-list__submit-btn'
+                    className="sp-app-pizzas-list__submit-btn"
                     onClick={() => onSubmit()}
                 >
                     Place order
