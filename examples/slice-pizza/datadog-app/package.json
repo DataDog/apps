@@ -1,6 +1,6 @@
 {
     "name": "datadog-app-example-pizza-app",
-    "version": "0.1.0",
+    "version": "0.0.0",
     "private": true,
     "dependencies": {
         "@datadog/ui-extensions-react": "0.30.1",

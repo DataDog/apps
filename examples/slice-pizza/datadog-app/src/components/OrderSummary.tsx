@@ -37,10 +37,10 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
     };
 
     return (
-        <div>
-            <p>Order Summary</p>
+        <div className="sp-app-order-summary">
+            <p className="sp-app-order-summary-title">Order Summary</p>
             {orderData && <p>Amount: {orderData.total}</p>}
-            <table>
+            <table className="sp-app-order-summary-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -51,13 +51,19 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
                     {orderData &&
                         orderData.items.map(pizza => (
                             <tr key={pizza.id}>
-                                <td key={pizza.id}>{pizza.name}</td>
+                                <td>{pizza.name}</td>
+                                <td>1</td>
                             </tr>
                         ))}
                 </tbody>
             </table>
             <hr />
-            <button onClick={() => onPlaceOrder()}>Place order</button>
+            <button
+                onClick={() => onPlaceOrder()}
+                className="sp-app-order-summary-btn"
+            >
+                Place order
+            </button>
         </div>
     );
 }

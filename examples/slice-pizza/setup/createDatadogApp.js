@@ -65,6 +65,10 @@ async function createApp(appId) {
                                             }
                                         ]
                                     }
+                                },
+                                {
+                                    name: 'modals',
+                                    options: {}
                                 }
                             ]
                         }
