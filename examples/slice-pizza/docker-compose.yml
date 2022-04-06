@@ -31,3 +31,12 @@ services:
             - '5000:5000'
         volumes:
             - ./proxy:/proxy
+
+    setup:
+      stdin_open: true
+      tty: true
+      build: setup
+      env_file:
+        - ./.env
+      volumes:
+        - ./setup:/setup
