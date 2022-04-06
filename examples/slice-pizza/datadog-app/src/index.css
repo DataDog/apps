@@ -42,7 +42,7 @@ body {
     font-size: 16px;
     border-radius: 4px;
     padding: 4px 8px;
-    transition: .4s;
+    transition: 0.4s;
 }
 
 .sp-app-modal__navigation-btn:hover {
@@ -166,4 +166,3 @@ body {
 .sp-app-pizzas-list__submit-btn:hover {
     background-color: #eee;
 }
-

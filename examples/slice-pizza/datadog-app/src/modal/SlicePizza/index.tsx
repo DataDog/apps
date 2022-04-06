@@ -48,16 +48,16 @@ function Modal() {
     }
 
     return (
-        <div className='sp-app-modal'>
-            <div className='sp-app-modal__navigation'>
+        <div className="sp-app-modal">
+            <div className="sp-app-modal__navigation">
                 <button
-                    className='sp-app-modal__navigation-btn'
+                    className="sp-app-modal__navigation-btn"
                     onClick={() => setHasAccount(true)}
                 >
                     Sign In
                 </button>
                 <button
-                    className='sp-app-modal__navigation-btn'
+                    className="sp-app-modal__navigation-btn"
                     onClick={() => setHasAccount(false)}
                 >
                     Sign Up
