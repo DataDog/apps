@@ -1,0 +1,1 @@
+export { renderLogin } from './login';
