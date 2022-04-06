@@ -269,6 +269,19 @@ const customConfig = await client.config.getConfig()
   input_field: <string>,
   select_field: <string>
 } */
+
+switch (customConfig.select_field) {
+  case 'choice_a':
+    // do something
+    break;
+
+  case 'choice_b':
+    // do something else
+    break;
+
+  default:
+    throw new Error(`Unrecognized value of 'select_field': ${customConfig.select_field}`)
+}
 ```
 
 **Note**: In this particular example, each of these fields can be `undefined` since none of them have `required: true` nor a `default` value.
