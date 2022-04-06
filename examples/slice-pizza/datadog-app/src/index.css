@@ -166,3 +166,51 @@ body {
 .sp-app-pizzas-list__submit-btn:hover {
     background-color: #eee;
 }
+
+.sp-app-order-summary {
+    width: 90%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sp-app-order-summary-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.sp-app-order-summary-btn {
+    align-items: center;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #333;
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    transition: 0.4s;
+}
+
+.sp-app-order-summary-btn:hover {
+    background-color: #eee;
+}
+
+.sp-app-order-summary-table,
+.sp-app-order-summary-table th,
+.sp-app-order-summary-table td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 8px;
+}
+
+.sp-app-order-success {
+    width: 80%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sp-app-order-success__message {
+    width: 100%;
+}
