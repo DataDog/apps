@@ -201,6 +201,78 @@ try {
 
 
 
+## Custom Configuration
+
+If app behavior must be further tailored for specific orgs, custom user configurations can be enabled via the [Developer Platform][1]. To begin, navigate to the "User Configuration" tab of your app:
+
+<img style="max-width:80%" alt="User Configuration" src="https://user-images.githubusercontent.com/17037651/161995079-e16913ee-42c8-4c66-b03d-d2e51fadf26c.png">
+
+On this page, you can define up to **20** settings that users can configure to customize your app's behavior; these configuration values can ultimately be retrieved within your app by using the `client.config.getConfig()` method in the SDK to implement the desired customization. Upon clicking the "Add New" drop-down button, you will be able to select from three options:
+
+  1. Boolean: a `boolean` field that will be rendered as a toggle switch to users; useful for turning on/off specific behavior within your app
+  2. Input Field: a free-form `string` field rendered as an input field; can be used, for example, to define a custom on-premises URL that your app will fetch org data from — see the note below on credentials / secrets for caveats
+  3. Select Field: a `string` field, rendered as a drop down, that only accepts an option defined in the associated `enum` key; useful if orgs can only select a configuration from a number of pre-defined options
+
+**Important**: Configuration values should **never contain sensitive information**. This feature is **only for configuration** and as such, does not provide sufficient security to support storage of secrets and other sensitive information.
+
+All three options share the following keys:
+  * `key`: the **unique** key your app will use to refer to a particular configuration value
+  * `label`: the label text that users will see when configuring a particular setting
+  * `description`: text describing the behavior that a specific setting will modify; displayed to users when configuring your app
+  * `default`: the default configuration value for a setting if the user has **not** already input one
+    * In the case of a select field, the `default` **must** be one of the options associated with the `enum` key
+  * `required`: whether the field is required for the app to function; if set to `true`, users will **not** be able to use your app until they've configured the required setting
+    * While a setting with both a non-empty `default` value and `required: true` is valid, requiring the setting is unnecessary since the `default` value satisfies the `required: true` constraint even when the user has never configured the setting
+
+For a more concrete illustration, assuming that your app's custom configuration is defined as follows:
+
+```JSON
+[
+    {
+        "key": "boolean_field",
+        "label": "A Boolean Field",
+        "description": "A boolean field that controls app behavior",
+        "required": false,
+        "type": "boolean"
+    },
+    {
+        "key": "input_field",
+        "label": "An Input Field",
+        "description": "An input field that controls app behavior",
+        "required": false,
+        "type": "string"
+    },
+    {
+        "key": "select_field",
+        "label": "A Select Field",
+        "description": "A select field that controls app behavior",
+        "enum": [
+            "choice_a",
+            "choice_b"
+        ],
+        "required": false,
+        "type": "string"
+    }
+]
+```
+
+An org using your app would see the following page to configure the settings you defined:
+
+<img style="max-width:80%" alt="Configuring an App" src="https://user-images.githubusercontent.com/17037651/161990413-7f5061b0-6577-4dc3-b775-cf6d14e864d8.png">
+
+Back in your app, you could access configured values with the following:
+
+```js
+const customConfig = await client.config.getConfig()
+/* customConfig = {
+  boolean_field: <boolean>,
+  input_field: <string>,
+  select_field: <string>
+} */
+```
+
+**Note**: In this particular example, each of these fields can be `undefined` since none of them have `required: true` nor a `default` value.
+
 # UI Extensions
 
 ## Dashboard Custom Widget
@@ -746,3 +818,5 @@ client.resize({
 
 All fields are optional, and will be defaulted to the actual content dimensions.
 For example, if a modal is 1000px wide, and you only pass the height, the width will be computed to be 1000px.
+
+[1]: https://app.datadoghq.com/apps
