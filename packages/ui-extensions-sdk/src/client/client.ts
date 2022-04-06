@@ -215,6 +215,18 @@ export class DDClient<AuthStateArgs = unknown>
     private startResourceMonitoring() {
         let loadedResourceIds: LoadedResourceIds = new Set();
 
+        if (
+            !(
+                window.performance !== undefined &&
+                'getEntriesByType' in performance
+            )
+        ) {
+            this.logger.warn(
+                'resource monitoring is disabled because browser does not support performance object'
+            );
+            return;
+        }
+
         const interval = setImmediateInterval(async () => {
             try {
                 // collect batch of resource-loading data
@@ -234,13 +246,11 @@ export class DDClient<AuthStateArgs = unknown>
             }
         }, RESOURCE_BATCH_INTERVAL);
 
-        addEventListener('resourcetimingbufferfull', event => {
-            // TODO: maybe reset the buffer using performance.clearResourceTimings() instead ?
-            clearInterval(interval);
-            this.logger.warn(
-                'Resource timing buffer is full, stopping resource monitoring'
-            );
-        });
+        if ('addEventListener' in performance) {
+            performance.addEventListener('resourcetimingbufferfull', () => {
+                performance.clearResourceTimings();
+            });
+        }
     }
 
     private startNetworkMonitoring() {
