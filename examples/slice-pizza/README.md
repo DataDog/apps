@@ -1,8 +1,56 @@
-# Slice Pizza
+# Slice Pizza App
 
-## cURL Requests
+![A Ordering Pizza App in your Datadog Dashboard](hero.png)
 
-### Creating an user
+## 1. Description
+
+Source code of the Slice Pizza Datadog App example.
+
+## 2. Prerequesites
+
+- docker
+- a datadog account with:
+    - an api key
+    - an application key
+
+## 3. Getting Started
+
+Clone the repo
+
+```
+$ git clone git@github.com:DataDog/apps.git
+```
+
+Change to Random Dog Directory
+
+```
+$ cd ./examples/slice-pizza`/
+```
+
+Copy the example env file and add yours
+
+```
+$ cp .env.example .env
+```
+
+Build the Docker images
+
+```
+$ docker-compose build
+```
+
+Launch the Docker containers and go to Datadog.
+A Dashboard and an Datadog App has been created for you.
+
+Add the Slice Pizza Widget in your dashboards.
+
+```
+$ docker-compose up
+```
+
+## 4. cURL Requests
+
+### 4.1. Creating an user
 
 ```
 curl --location --request POST 'http://localhost:5000/api/users' \
@@ -15,7 +63,7 @@ curl --location --request POST 'http://localhost:5000/api/users' \
 }'
 ```
 
-### Getting a token
+### 4.2. Getting a token
 
 ```
 curl --location --request POST 'http://localhost:5000/api/tokens' \
@@ -26,7 +74,7 @@ curl --location --request POST 'http://localhost:5000/api/tokens' \
 }'
 ```
 
-### Getting the menu
+### 4.3. Getting the menu
 
 ```
 curl --location --request GET 'http://localhost:5000/api/menu?email=username@example.com' \
@@ -35,14 +83,14 @@ curl --location --request GET 'http://localhost:5000/api/menu?email=username@exa
 --data-raw '{}'
 ```
 
-### Getting the cart
+### 4.4. Getting the cart
 
 ```
 curl --location --request GET 'http://localhost:5000/api/cart?email=username@example.com' \
 --header 'token: yourToken'
 ```
 
-### Updating the cart
+### 4.5. Updating the cart
 
 ```
 curl --location --request POST 'http://localhost:5000/api/cart' \
@@ -56,7 +104,7 @@ curl --location --request POST 'http://localhost:5000/api/cart' \
 }'
 ```
 
-### Creating the order
+### 4.6. Creating the order
 
 ```
 curl --location --request POST 'http://localhost:5000/api/order' \
@@ -66,3 +114,56 @@ curl --location --request POST 'http://localhost:5000/api/order' \
     "email": "username@example.com"
 }'
 ```
+
+
+## 6. Contributing
+
+If you want to contribute to the project, don't hesitate to contact me at
+thomas.dimnet@datadoghq.com.
+
+There is also a docker-compose file for the dev env.
+Build your Docker images
+
+```
+$ docker-compose -f docker-compose-dev.yml build
+```
+
+Launch your Docker containers
+
+```
+$ docker-compose -f docker-compose-dev.yml up
+```
+
+Then, you can bash into them
+
+```
+$ docker container exec -ti ${containerId} bash
+```
+
+Finally, launch the appropriat commands:
+
+### 6.1. Datadog App
+```
+$ yarn 
+$ yarn start
+```
+
+### 6.2. Api
+```
+$ node index.js
+```
+
+**Please note that the data, such as user, token, and pizza menu are stored in
+the .data folder.**
+
+### 6.3. Proxy
+```
+$ flask run --port=5000 --host=0.0.0.0
+```
+
+### 6.4. Setup
+```
+$ yarn
+$ yarn start
+```
+

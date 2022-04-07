@@ -12,10 +12,10 @@ Widget.
 
 ## Prerequesites
 
--   Docker
--   A Datadog Account with:
-    -   An API Key
-    -   An application Key
+-   docker
+-   a datadog account with:
+    -   an api key
+    -   an application key
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ $ git clone git@github.com:DataDog/apps.git
 Change to Random Dog Directory
 
 ```
-$ cd ./cd examples/geomap/
+$ cd ./examples/geomap/
 ```
 
 Copy the example env file and add yours
