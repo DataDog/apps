@@ -212,34 +212,37 @@ export class DDClient<AuthStateArgs = unknown>
         this.debug = context?.app?.debug || this.debug;
     }
 
+    private supportPerformanceObject() {
+        return window.performance !== undefined && 'getEntries' in performance;
+    }
+
     private startResourceMonitoring() {
         let loadedResourceIds: LoadedResourceIds = new Set();
 
-        if (
-            !(
-                window.performance !== undefined &&
-                'getEntriesByType' in performance
-            )
-        ) {
+        if (!this.supportPerformanceObject()) {
             this.logger.warn(
                 'resource monitoring is disabled because browser does not support performance object'
             );
             return;
         }
 
+        const collectResources = async () => {
+            // collect batch of resource-loading data
+            const [batch, newIds] = collectResourceUsage(loadedResourceIds);
+
+            // update index of loaded resources
+            loadedResourceIds = newIds;
+
+            // send to web-ui
+            await this.framePostClient.request(
+                RequestType.SECURITY_LOG_RESOURCES_LOADED,
+                batch
+            );
+        };
+
         const interval = setImmediateInterval(async () => {
             try {
-                // collect batch of resource-loading data
-                const [batch, newIds] = collectResourceUsage(loadedResourceIds);
-
-                // update index of loaded resources
-                loadedResourceIds = newIds;
-
-                // send to web-ui
-                await this.framePostClient.request(
-                    RequestType.SECURITY_LOG_RESOURCES_LOADED,
-                    batch
-                );
+                await collectResources();
             } catch (e) {
                 // Stop batch collecting if there's an error
                 clearInterval(interval);
@@ -247,9 +250,14 @@ export class DDClient<AuthStateArgs = unknown>
         }, RESOURCE_BATCH_INTERVAL);
 
         if ('addEventListener' in performance) {
-            performance.addEventListener('resourcetimingbufferfull', () => {
-                performance.clearResourceTimings();
-            });
+            performance.addEventListener(
+                'resourcetimingbufferfull',
+                async () => {
+                    // ensure we collect the last resources before clearing the buffer
+                    await collectResources();
+                    performance.clearResourceTimings();
+                }
+            );
         }
     }
 

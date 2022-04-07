@@ -2,6 +2,13 @@ import { LoadedResourceMetaDataBatch, NetworkRequestMetadata } from '../types';
 
 export type LoadedResourceIds = Set<string>;
 
+function isRequestKind(timing: PerformanceResourceTiming) {
+    return (
+        timing.initiatorType === 'xmlhttprequest' ||
+        timing.initiatorType === 'fetch'
+    );
+}
+
 export const collectResourceUsage = (
     previouslyLoadedResources: LoadedResourceIds
 ): [LoadedResourceMetaDataBatch, LoadedResourceIds] => {
@@ -16,10 +23,7 @@ export const collectResourceUsage = (
             const a = e as PerformanceResourceTiming;
             const urlHostname = new URL(a.name).hostname;
             let url;
-            if (
-                a.initiatorType !== 'fetch' &&
-                a.initiatorType !== 'xhrequest'
-            ) {
+            if (!isRequestKind(a)) {
                 // for privacy reason we do not capture full URLs of network calls
                 url = a.name;
             }
