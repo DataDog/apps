@@ -10,6 +10,7 @@ export function OrderSuccess(props: { token: Token }) {
                 {props.token ? props.token.email : ''}
             </p>
             <img
+                alt="Spiderman delivering a pizza"
                 className="sp-app-order-success__img"
                 src="https://c.tenor.com/UhhsVw2lzLgAAAAd/love-pizza-pizza.gif"
             />
