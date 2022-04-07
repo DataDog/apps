@@ -28,8 +28,10 @@
         "test": "yarn test:example-packages && yarn test:fixed-packages && yarn workspaces run test"
     },
     "lint-staged": {
+        "*.{ts,tsx,js,jsx}": [
+            "eslint --fix"
+        ],
         "*.{ts,tsx,js,jsx,md,mdx}": [
-            "eslint --fix",
             "prettier --write"
         ]
     },
