@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Container, TableContainer, Table, Thead, Tbody, Tr, Td, Th, Button, Stack, Heading, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
 
+import currency from '../utils/currency'
+
+import Pizza from '../types/Pizza';
 import Token from '../types/Token';
 import Order from '../types/Order';
 
@@ -37,33 +41,54 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
     };
 
     return (
-        <div className="sp-app-order-summary">
-            <p className="sp-app-order-summary-title">Order Summary</p>
-            {orderData && <p>Amount: {orderData.total}</p>}
-            <table className="sp-app-order-summary-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {orderData &&
-                        orderData.items.map(pizza => (
-                            <tr key={pizza.id}>
-                                <td>{pizza.name}</td>
-                                <td>1</td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
-            <hr />
-            <button
-                onClick={() => onPlaceOrder()}
-                className="sp-app-order-summary-btn"
-            >
-                Place order
-            </button>
-        </div>
+        <Container centerContent padding="20px">
+            <Stack spacing={4}>
+                <Heading>Order Confirmation</Heading>
+                {orderData && (
+                    <Stat>
+                        <StatLabel>Total:</StatLabel>
+                        <StatNumber>{currency.format(orderData.total)}</StatNumber>
+                    </Stat>
+                )}
+                <TableContainer>
+                    <Table>
+                        <Thead>
+                            <Tr>
+                                <Th>Item</Th>
+                                <Th>Amount</Th>
+                                <Th>Price</Th>
+                            </Tr>
+                        </Thead>
+                        <Tbody>
+                            {orderData &&
+                                orderData.items
+                                    // collate multiple orders for the same pizza into one item with updated quantity
+                                    .reduce((pizzas: Pizza[] = [], pizza: Pizza) => {
+                                        const pizzaOrder = pizzas.findIndex((item) => item.id === pizza.id)
+
+                                        if (pizzaOrder > -1) {
+                                            pizzas[pizzaOrder].amount += pizza.amount
+                                        } else {
+                                            pizzas.push(pizza)
+                                        }
+
+                                        return pizzas
+                                    }, [])
+                                    .map((pizza, index) => (
+                                        <Tr key={`${pizza.id}-${index}`}>
+                                            <Td>{pizza.name}</Td>
+                                            <Td>{pizza.amount}</Td>
+                                            <Td>{currency.format(pizza.price)}</Td>
+                                        </Tr>
+                                    )
+                            )}
+                        </Tbody>
+                    </Table>
+                </TableContainer>
+                <Button onClick={onPlaceOrder}>
+                    Confirm Order
+                </Button>
+            </Stack>
+        </Container>
     );
 }

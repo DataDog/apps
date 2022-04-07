@@ -1,44 +1,50 @@
 {
     "655d-462a-95d2": {
         "id": "655d-462a-95d2",
-        "name": "The Godfather Pizza",
-        "description": "Gourmet Italian sausage, fresh garlic, onions & our hot giardiniera.",
-        "sizeUpPrice": 1.5,
-        "price": 15.99
+        "image": "pizza__standard.png",
+        "name": "Standard",
+        "description": "san marzano tomato, four cheese blend, olive oil",
+        "sizeUpPrice": 0,
+        "price": 22.0
     },
     "da8e-9f48-eac6": {
         "id": "da8e-9f48-eac6",
-        "name": "The Veggie Pizza",
-        "description": "Vegetarian. Mushrooms, onions & green peppers with tomatoes on top.",
-        "sizeUpPrice": 1.25,
-        "price": 13.99
+        "image": "pizza__tomato.png",
+        "name": "Tomato",
+        "description": "sliced garlic, oregano, aged gouda",
+        "sizeUpPrice": 0,
+        "price": 18.0
     },
     "b48e-4f29-a6eb": {
         "id": "b48e-4f29-a6eb",
-        "name": " White Pizza",
-        "description": "Vegetarian. Olive oil, fresh garlic & sauteed spinach with tomatoes on top (no pizza sauce).",
-        "sizeUpPrice": 1.25,
-        "price": 12.99
+        "image": "pizza__diavolo.png",
+        "name": "Diavolo",
+        "description": "cheese blend, pepperoncinis, pepperoni, soppressata, pickled chilis",
+        "sizeUpPrice": 0,
+        "price": 27.0
     },
     "8566-40c0-b584": {
         "id": "8566-40c0-b584",
-        "name": "The Hawaiian Pizza",
-        "description": "A blend of our special pizza & BBQ sauces, topped with Australian bacon, and pineapple.",
-        "sizeUpPrice": 1.0,
-        "price": 17.99
+        "image": "pizza__sausage_peppers.png",
+        "name": "Sausage + Peppers",
+        "description": "garlic cream, sausage, cheese blend, ricotta, peppadew peppers, spring onions",
+        "sizeUpPrice": 0,
+        "price": 27.0
     },
     "9f7b-4d13-8d4a": {
         "id": "9f7b-4d13-8d4a",
-        "name": "Meat Mania Pizza",
-        "description": "Gourmet Italian sausage, meatballs & pepperoni with turkey bacon on top.",
-        "sizeUpPrice": 1.75,
-        "price": 21.99
+        "image": "pizza__mushrooms.png",
+        "name": "All the Mushrooms",
+        "description": "cheese blend, garlic cream, roasted oysters, picked beech mushrooms, marinated buttons",
+        "sizeUpPrice": 0,
+        "price": 28.0
     },
     "1e5c-496d-8ace": {
         "id": "1e5c-496d-8ace",
-        "name": "Fabulous Four Pizza",
-        "description": "Gourmet Italian sausage, mushrooms, onions & green peppers.",
-        "sizeUpPrice": 1.25,
-        "price": 17.99
+        "image": "pizza__harissa_lamb.png",
+        "name": "Harissa Lamb",
+        "description": "green charmoula, harissa lamb, olives, dates, mint",
+        "sizeUpPrice": 0,
+        "price": 29.0
     }
 }

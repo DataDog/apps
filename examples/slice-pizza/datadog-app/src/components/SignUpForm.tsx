@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { Container, Input, Textarea, Button, Heading, Stack } from '@chakra-ui/react'
 
 import User from '../types/User';
 import { PROXY_URL } from '../config';
@@ -30,52 +31,38 @@ export function SignUpForm(props: { onSubmit: any }) {
     };
 
     return (
-        <div className="sp-app-sign-up">
-            <div className="sp-app-sign-up__wrapper">
-                <p className="sp-app-sign-up-title">Sign Up</p>
-                <form
-                    className="sp-app-sign-up-form"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    <div className="sp-app-sign-up__form-group">
-                        <input
+        <Container centerContent>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={5}>
+                    <Heading size="lg" as="h2">Sign Up</Heading>
+                    <Stack spacing={2}>
+                        <Input
                             placeholder="Name"
-                            className="sp-app-sign-up__input"
+                            size="sm"
                             type="text"
                             {...register('name')}
                         />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <input
+                        <Input
                             placeholder="Email"
-                            className="sp-app-sign-up__input"
+                            size="sm"
                             type="email"
                             {...register('email')}
                         />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <input
+                        <Input
                             placeholder="Create password"
-                            className="sp-app-sign-up__input"
+                            size="sm"
                             type="password"
                             {...register('password')}
                         />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <textarea
+                        <Textarea
+                            size="sm"
+                            placeholder="Delivery Address"
                             {...register('address')}
-                            className="sp-app-sign-up__input"
-                            placeholder="Address"
                         />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <input
-                            type="submit"
-                            className="sp-app-sign-up__submit-btn"
-                        />
-                    </div>
-                </form>
-            </div>
-        </div>
+                    </Stack>
+                    <Button type="submit">Create Account</Button>
+                </Stack>
+            </form>
+        </Container>
     );
 }

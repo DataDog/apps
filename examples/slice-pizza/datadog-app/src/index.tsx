@@ -1,5 +1,3 @@
-import './index.css';
-
 const init = async () => {
     switch (window.location.pathname) {
         case '/slice-pizza-widget': {

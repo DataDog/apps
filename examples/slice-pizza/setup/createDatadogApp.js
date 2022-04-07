@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 
-const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY } = require('./constants');
-
-const APP_NAME = 'Slice Pizza App';
+const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY, APP_NAME } = require('./constants');
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
@@ -59,7 +57,7 @@ async function createApp(appId) {
                                         widgets: [
                                             {
                                                 source: 'slice-pizza-widget',
-                                                name: 'Slice Pizza Widget',
+                                                name: `${APP_NAME} Widget`,
                                                 custom_widget_key:
                                                     'slice_pizza_widget'
                                             }
@@ -85,7 +83,7 @@ async function createApp(appId) {
                         description: 'Order Pizza whenever you want',
                         logo_media: {
                             light:
-                                'https://freesvg.org/img/Pizza-Slice-in-Tango-Colors.png'
+                                'http://localhost:3002/img/logo.png'
                         },
                         title: APP_NAME
                     }

@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form';
+import { Container, Stack, Button, Input, Heading } from '@chakra-ui/react'
 
 import { PROXY_URL } from '../config';
 
@@ -21,38 +22,20 @@ export function SignInForm(props: { onSubmit: any }) {
             .catch(err => console.log('Oh no :(', err));
     };
 
+
+
     return (
-        <div className="sp-app-sign-up">
-            <div className="sp-app-sign-up__wrapper">
-                <p className="sp-app-sign-up-title">Sign In</p>
-                <form
-                    className="sp-app-sign-up-form"
-                    onSubmit={handleSubmit(onSubmit)}
-                >
-                    <div className="sp-app-sign-up__form-group">
-                        <input
-                            className="sp-app-sign-up__input"
-                            placeholder="Email"
-                            type="email"
-                            {...register('email')}
-                        />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <input
-                            className="sp-app-sign-up__input"
-                            placeholder="Create password"
-                            type="password"
-                            {...register('password')}
-                        />
-                    </div>
-                    <div className="sp-app-sign-up__form-group">
-                        <input
-                            className="sp-app-sign-up__submit-btn"
-                            type="submit"
-                        />
-                    </div>
-                </form>
-            </div>
-        </div>
+        <Container centerContent>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={5}>
+                    <Heading size="lg" as="h2">Sign In</Heading>
+                    <Stack spacing={2}>
+                        <Input size="sm" placeholder="Email" type="email" {...register('email')} />
+                        <Input size="sm" placeholder="Password" type="password" {...register('password')} />
+                    </Stack>
+                    <Button type="submit">Log In</Button>
+                </Stack>
+            </form>
+        </Container>
     );
 }

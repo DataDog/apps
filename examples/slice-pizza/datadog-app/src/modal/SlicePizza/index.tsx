@@ -1,6 +1,12 @@
 import { init } from '@datadog/ui-extensions-sdk';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
+import { ChakraProvider, Container, Button, Text, Stack } from '@chakra-ui/react'
+
+import '@fontsource/tourney/variable.css'
+import '@fontsource/bebas-neue/index.css'
+
+import theme from '../../theme'
 
 import Token from '../../types/Token';
 import User from '../../types/User';
@@ -9,15 +15,17 @@ import { OrderSuccess } from '../../components/OrderSuccess';
 import { OrderSummary } from '../../components/OrderSummary';
 import { SignInForm } from '../../components/SignInForm';
 import { SignUpForm } from '../../components/SignUpForm';
-import { PizzaLists } from '../../components/PizzasList';
+import { PizzasList } from '../../components/PizzasList';
 
 // eslint-disable-next-line
 const client = init();
 
 function Modal() {
+    console.log(client)
+
     const [token, setToken] = useState<Token | null>(null);
     const [isOrderSummary, setIsOrderSummary] = useState(false);
-    // eslint-disable-next-line
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [user, setUser] = useState<User | null>(null);
     const [hasAccount, setHasAccount] = useState(false);
     const [hasPlacedOrder, setHasPlacedOrder] = useState(false);
@@ -44,38 +52,52 @@ function Modal() {
     }
 
     if (token) {
-        return <PizzaLists onSubmitOrder={displayOrderSummary} token={token} />;
+        return <PizzasList onSubmitOrder={displayOrderSummary} token={token} />;
     }
 
     return (
-        <div className="sp-app-modal">
-            <div className="sp-app-modal__navigation">
-                <button
-                    className="sp-app-modal__navigation-btn"
-                    onClick={() => setHasAccount(true)}
-                >
-                    Sign In
-                </button>
-                <button
-                    className="sp-app-modal__navigation-btn"
-                    onClick={() => setHasAccount(false)}
-                >
-                    Sign Up
-                </button>
-            </div>
+        <Container centerContent padding="20px">
             {hasAccount ? (
-                <SignInForm onSubmit={onSignInUser} />
+                <>
+                    <SignInForm onSubmit={onSignInUser} />
+                    <Stack direction="row" marginTop="40px">
+                        <Text>Don't have an account?</Text>
+                        <Button
+                            onClick={() => setHasAccount(false)}
+                            variant="link"
+                            marginInlineStart={0}
+                            marginLeft={0}
+                        >
+                            Register
+                        </Button>
+                    </Stack>
+                </>
             ) : (
-                <SignUpForm onSubmit={onRegisterUser} />
+                <>
+                    <SignUpForm onSubmit={onRegisterUser} />
+                    <Stack direction="row" marginTop="40px">
+                        <Text>Already have an account?</Text>
+                        <Button
+                            onClick={() => setHasAccount(true)}
+                            variant="link"
+                            marginInlineStart={0}
+                            marginLeft={0}
+                        >
+                            Sign In
+                        </Button>
+                    </Stack>
+                </>
             )}
-        </div>
+        </Container>
     );
 }
 
 export default function render() {
     ReactDOM.render(
         <React.StrictMode>
-            <Modal />
+            <ChakraProvider theme={theme}>
+                <Modal />
+            </ChakraProvider>
         </React.StrictMode>,
         document.getElementById('root')
     );
