@@ -14,7 +14,7 @@ async function main() {
 
     // eslint-disable-next-line no-console
     console.log('Creating and configuring the Datadog App');
-    const appId = await createApp();
+    await createApp();
 
     // eslint-disable-next-line no-console
     console.log(`You can now go to ${BASE_URL}`);
