@@ -1453,6 +1453,9 @@
   dependencies:
     postcss-value-parser "^4.2.0"
 
+"@datadog/cra-template-apps-starter-kit@file:/Users/eric.allen/Development/apps/packages/cra-template-apps-starter-kit":
+  version "1.0.0"
+
 "@datadog/datadog-api-client@^1.0.0-beta.5", "@datadog/datadog-api-client@^1.0.0-beta.6":
   version "1.0.0-beta.9"
   resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.9.tgz#90c87e54c40b01bfaed6d4df57e64026b0a19e1d"
@@ -1502,6 +1505,18 @@
   integrity sha512-9S5fdz448dLfGw4jSH1A4GZpkLWBufdsJu4PeevEjDvkauEmE175xBiBLfYHQEdKe7lEVNB4IRtUZqY16QRVUw==
   dependencies:
     protobufjs "^6.10.2"
+
+"@datadog/ui-extensions-react@^0.31.0":
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-react/-/ui-extensions-react-0.31.0.tgz#319b86c842a21598b744d79fc484511a447fd6de"
+  integrity sha512-+S68mtPevAWPVLCX2RIR5+9jW/pXXmY7mh3r2EKrKizEBa9D8rWdBeZpkI95I2+Q93cSzFj+sQGYnqLkk0L4mg==
+
+"@datadog/ui-extensions-sdk@^0.31.0":
+  version "0.31.0"
+  resolved "https://registry.yarnpkg.com/@datadog/ui-extensions-sdk/-/ui-extensions-sdk-0.31.0.tgz#057c5f0d5ea8a96fa43ecf7d4bc0904b445c2dd5"
+  integrity sha512-iBo6QhbPHSe3V2iSEx0N42ORUb+aLZFarAq0//375y3UqO5Bhbbru8QBIP1WTA2WO0Lvsr+BabYG6DgAiwGAVg==
+  dependencies:
+    "@datadog/framepost" "^0.3.0"
 
 "@discoveryjs/json-ext@^0.5.0":
   version "0.5.7"
@@ -3538,7 +3553,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.12.tgz#0d4557fd3b94497d793efd4e7d92df2f83b4ef24"
   integrity sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==
 
-"@types/node@^16.9.1":
+"@types/node@^16.11.26", "@types/node@^16.9.1":
   version "16.11.26"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.26.tgz#63d204d136c9916fb4dcd1b50f9740fe86884e47"
   integrity sha512-GZ7bu5A6+4DtG7q9GsoHXy3ALcgeIHP4NnL0Vv2wu0uUB/yQex26v0tf6/na1mm0+bS9Uw+0DFex7aaKr2qawQ==
@@ -3588,7 +3603,7 @@
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.4.tgz#cd667bcfdd025213aafb7ca5915a932590acdcdc"
   integrity sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==
 
-"@types/react-dom@*", "@types/react-dom@>=16.9.0", "@types/react-dom@^17.0.0":
+"@types/react-dom@*", "@types/react-dom@>=16.9.0", "@types/react-dom@^17.0.0", "@types/react-dom@^17.0.14":
   version "17.0.14"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.14.tgz#c8f917156b652ddf807711f5becbd2ab018dea9f"
   integrity sha512-H03xwEP1oXmSfl3iobtmQ/2dHF5aBHr8aUMwyGZya6OW45G+xtdzmq6HkncefiBt5JU8DVyaWl/nWZbjZCnzAQ==
@@ -3602,7 +3617,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@>=16.9.0", "@types/react@^17.0.0", "@types/react@^17.0.21":
+"@types/react@*", "@types/react@>=16.9.0", "@types/react@^17.0.0", "@types/react@^17.0.21", "@types/react@^17.0.43":
   version "17.0.43"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.43.tgz#4adc142887dd4a2601ce730bc56c3436fdb07a55"
   integrity sha512-8Q+LNpdxf057brvPu1lMtC5Vn7J119xrP1aq4qiaefNioQUYANF/CYeK4NsKorSZyUGJ66g0IM+4bbjwx45o2A==
@@ -16473,7 +16488,7 @@ typescript@4.5.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.4.tgz#a17d3a0263bf5c8723b9c52f43c5084edf13c2e8"
   integrity sha512-VgYs2A2QIRuGphtzFV7aQJduJ2gyfTljngLzjpfW9FoYZF6xuw1W0vW9ghCKLfcWrCFxK81CSGRAvS1pn4fIUg==
 
-typescript@^4.1.2, typescript@^4.1.3, typescript@^4.4.3, typescript@^4.5.4:
+typescript@^4.1.2, typescript@^4.1.3, typescript@^4.4.3, typescript@^4.5.4, typescript@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.3.tgz#eefeafa6afdd31d725584c67a0eaba80f6fc6c6c"
   integrity sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==

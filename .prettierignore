@@ -4,3 +4,4 @@
 **/dist
 CHANGELOG.md
 docs
+**/*.handlebars
