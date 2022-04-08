@@ -343,11 +343,14 @@ export interface DeprecatedEventUsage {
 export type DeprecatedUsage = DeprecatedEventUsage; // we can union type here later
 
 export interface LoadedResourceMetadata {
-    timestamp: number;
+    startTimeTs: number; // timestamp (in ms) of the resource started being fetched
+    secureConnectionStartTs: number; // timestamp (in ms) of the SSL handshake
     url?: string; // the resources URL (set to null in case of network calls for privacy reason)
     urlHostname: string; // the resource URL hostname
     initiatorType: string; // the type of resource that initiated the performance event (xmlhttprequest, css, img)
     nextHopProtocol: string; // the network protocol used to fetch the resource, as identified by the ALPN Protocol ID (RFC7301).
+    duration: number; // overall time required to fetch the resource
+    decodedBodySize: number; // size of the body after removing any applied content-codings
 }
 
 export interface LoadedResourceMetaDataBatch {
