@@ -343,6 +343,7 @@ export interface DeprecatedEventUsage {
 export type DeprecatedUsage = DeprecatedEventUsage; // we can union type here later
 
 export interface LoadedResourceMetadata {
+    timestamp: number;
     url?: string; // the resources URL (set to null in case of network calls for privacy reason)
     urlHostname: string; // the resource URL hostname
     initiatorType: string; // the type of resource that initiated the performance event (xmlhttprequest, css, img)

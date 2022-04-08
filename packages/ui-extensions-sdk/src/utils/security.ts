@@ -15,27 +15,29 @@ export const collectResourceUsage = (
     // Use resource timing api to to retrieve application loaded resources
     const snapshot = performance.getEntriesByType('resource');
 
-    // to avoid collecting the same resource twice, we use
-    // the Set difference: snapshot - previouslyLoadedResources
     const resources = snapshot
+        // to avoid collecting the same resource twice, we use
+        // the Set difference: snapshot - previousSnapshot
         .filter(r => !previouslyLoadedResources.has(r.name))
-        .map(e => {
-            const a = e as PerformanceResourceTiming;
-            const urlHostname = new URL(a.name).hostname;
+        .map(r => r as PerformanceNavigationTiming)
+        .map(r => {
+            const urlHostname = new URL(r.name).hostname;
+            const timestamp = performance.timeOrigin + r.startTime;
             let url;
-            if (!isRequestKind(a)) {
+            if (!isRequestKind(r)) {
                 // for privacy reason we do not capture full URLs of network calls
-                url = a.name;
+                url = r.name;
             }
             return {
+                timestamp,
                 url,
                 urlHostname,
-                initiatorType: a.initiatorType,
-                nextHopProtocol: a.nextHopProtocol
+                initiatorType: r.initiatorType,
+                nextHopProtocol: r.nextHopProtocol
             };
         });
 
-    return [{ resources }, new Set(snapshot.map(x => x.name))];
+    return [{ resources }, new Set(snapshot.map(r => r.name))];
 };
 
 export const registerNetworkRequestListeners = (
