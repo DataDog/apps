@@ -1,7 +1,23 @@
 import { useState, useEffect } from 'react';
-import { Container, TableContainer, Table, Thead, Tbody, Tr, Td, Th, Button, Stack, Heading, Stat, StatLabel, StatNumber } from '@chakra-ui/react'
+import {
+    Container,
+    TableContainer,
+    Table,
+    Thead,
+    Tbody,
+    Tr,
+    Td,
+    Th,
+    Button,
+    Stack,
+    Heading,
+    Stat,
+    StatLabel,
+    StatNumber,
+    Image
+} from '@chakra-ui/react';
 
-import currency from '../utils/currency'
+import currency from '../utils/currency';
 
 import Pizza from '../types/Pizza';
 import Token from '../types/Token';
@@ -43,11 +59,14 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
     return (
         <Container centerContent padding="20px">
             <Stack spacing={4}>
+                <Image src="/img/header.png" />
                 <Heading>Order Confirmation</Heading>
                 {orderData && (
                     <Stat>
                         <StatLabel>Total:</StatLabel>
-                        <StatNumber>{currency.format(orderData.total)}</StatNumber>
+                        <StatNumber>
+                            {currency.format(orderData.total)}
+                        </StatNumber>
                     </Stat>
                 )}
                 <TableContainer>
@@ -63,31 +82,39 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
                             {orderData &&
                                 orderData.items
                                     // collate multiple orders for the same pizza into one item with updated quantity
-                                    .reduce((pizzas: Pizza[] = [], pizza: Pizza) => {
-                                        const pizzaOrder = pizzas.findIndex((item) => item.id === pizza.id)
+                                    .reduce(
+                                        (
+                                            pizzas: Pizza[] = [],
+                                            pizza: Pizza
+                                        ) => {
+                                            const pizzaOrder = pizzas.findIndex(
+                                                item => item.id === pizza.id
+                                            );
 
-                                        if (pizzaOrder > -1) {
-                                            pizzas[pizzaOrder].amount += pizza.amount
-                                        } else {
-                                            pizzas.push(pizza)
-                                        }
+                                            if (pizzaOrder > -1) {
+                                                pizzas[pizzaOrder].amount +=
+                                                    pizza.amount;
+                                            } else {
+                                                pizzas.push(pizza);
+                                            }
 
-                                        return pizzas
-                                    }, [])
+                                            return pizzas;
+                                        },
+                                        []
+                                    )
                                     .map((pizza, index) => (
                                         <Tr key={`${pizza.id}-${index}`}>
                                             <Td>{pizza.name}</Td>
                                             <Td>{pizza.amount}</Td>
-                                            <Td>{currency.format(pizza.price)}</Td>
+                                            <Td>
+                                                {currency.format(pizza.price)}
+                                            </Td>
                                         </Tr>
-                                    )
-                            )}
+                                    ))}
                         </Tbody>
                     </Table>
                 </TableContainer>
-                <Button onClick={onPlaceOrder}>
-                    Confirm Order
-                </Button>
+                <Button onClick={onPlaceOrder}>Confirm Order</Button>
             </Stack>
         </Container>
     );

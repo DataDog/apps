@@ -26,7 +26,7 @@ environment.production = {
     stripeSecretApi: '--stripe-api--',
     mailgun: {
         from: 'mailgun@--mailgun-domain--',
-        domain: '--malgun-domain--',
+        domain: '--mailgun-domain--',
         privateApi: '--mailgun-api--'
     }
 };

@@ -1,6 +1,12 @@
 const fetch = require('node-fetch');
 
-const { APP_URL, BASE_URL, DD_API_KEY, DD_APP_KEY, APP_NAME } = require('./constants');
+const {
+    APP_URL,
+    BASE_URL,
+    DD_API_KEY,
+    DD_APP_KEY,
+    APP_NAME
+} = require('./constants');
 
 async function getAppsData() {
     return fetch(`${BASE_URL}/api/v2/apps`, {
@@ -82,8 +88,7 @@ async function createApp(appId) {
                     tile: {
                         description: 'Order Pizza whenever you want',
                         logo_media: {
-                            light:
-                                'http://localhost:3002/img/logo.png'
+                            light: 'http://localhost:3002/img/widget.svg'
                         },
                         title: APP_NAME
                     }

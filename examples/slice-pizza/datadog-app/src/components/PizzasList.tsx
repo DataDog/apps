@@ -1,8 +1,20 @@
 import { useEffect, useState } from 'react';
-import { Container, Box, Stack, Spinner, Button, Heading, Text, Image, Stat, StatHelpText, StatNumber } from '@chakra-ui/react'
+import {
+    Container,
+    Box,
+    Stack,
+    Spinner,
+    Button,
+    Heading,
+    Text,
+    Image,
+    Stat,
+    StatHelpText,
+    StatNumber
+} from '@chakra-ui/react';
 
-import { PizzaInput } from './PizzaInput'
-import currency from '../utils/currency'
+import { PizzaInput } from './PizzaInput';
+import currency from '../utils/currency';
 
 import Token from '../types/Token';
 import Pizza from '../types/Pizza';
@@ -73,7 +85,10 @@ export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
                     .then(res => res.json())
                     .then(data => console.log('Added to cart', data))
                     .catch(err =>
-                        console.log('Encountered an error while adding to cart', err)
+                        console.log(
+                            'Encountered an error while adding to cart',
+                            err
+                        )
                     );
             })
         ).then(() => props.onSubmitOrder());
@@ -81,31 +96,81 @@ export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
 
     if (pizzas.length) {
         return (
-            <Container centerContent paddingY="20px" width="65%" maxWidth="none">
+            <Container
+                centerContent
+                paddingY="20px"
+                width="65%"
+                maxWidth="none"
+            >
                 <form onSubmit={onSubmit}>
                     <Stack spacing={5}>
-                        <Heading size="lg" as="h2">Menu</Heading>
+                        <Image src="/img/header.png" />
+                        <Heading size="lg" as="h2">
+                            Menu
+                        </Heading>
                         <Stack spacing={2}>
-                        {pizzas.map((pizza) => {
-                            return (
-                            <Box key={pizza.id} borderWidth="1px" borderStyle="solid" borderColor="blackAlpha.800" padding="0" backgroundColor="white" borderRadius="5px">
-                                <Stack direction="row">
-                                    <Stack direction="row" width="70%" justifyContent="space-between">
-                                        <Stack padding="10px">
-                                            <Heading as="p" fontSize="3vw">{pizza.name}</Heading>
-                                            <Text size="sm" color="blackAlpha.700">{pizza.description}</Text>
-                                            <Stat>
-                                                <StatNumber>{currency.format(pizza.price)}</StatNumber>
-                                                <StatHelpText color="blackAlpha.600" fontSize={"xs"}>+ taxes and fees</StatHelpText>
-                                            </Stat>
+                            {pizzas.map(pizza => {
+                                return (
+                                    <Box
+                                        key={pizza.id}
+                                        borderWidth="1px"
+                                        borderStyle="solid"
+                                        borderColor="blackAlpha.800"
+                                        padding="0"
+                                        backgroundColor="white"
+                                        borderRadius="5px"
+                                    >
+                                        <Stack direction="row">
+                                            <Stack
+                                                direction="row"
+                                                width="70%"
+                                                justifyContent="space-between"
+                                            >
+                                                <Stack padding="10px">
+                                                    <Heading
+                                                        as="p"
+                                                        fontSize="3vw"
+                                                    >
+                                                        {pizza.name}
+                                                    </Heading>
+                                                    <Text
+                                                        size="sm"
+                                                        color="blackAlpha.700"
+                                                    >
+                                                        {pizza.description}
+                                                    </Text>
+                                                    <Stat>
+                                                        <StatNumber>
+                                                            {currency.format(
+                                                                pizza.price
+                                                            )}
+                                                        </StatNumber>
+                                                        <StatHelpText
+                                                            color="blackAlpha.600"
+                                                            fontSize={'xs'}
+                                                        >
+                                                            + taxes and fees
+                                                        </StatHelpText>
+                                                    </Stat>
+                                                </Stack>
+                                                <PizzaInput
+                                                    onIncrement={() =>
+                                                        onAddPizza(pizza)
+                                                    }
+                                                    onDecrement={() =>
+                                                        onRemovePizza(pizza)
+                                                    }
+                                                />
+                                            </Stack>
+                                            <Image
+                                                src={`/img/${pizza.image}`}
+                                                width="30%"
+                                                maxHeight="177px"
+                                            />
                                         </Stack>
-                                        <PizzaInput onIncrement={() => onAddPizza(pizza)} onDecrement={() => onRemovePizza(pizza)} />
-                                    </Stack>
-                                    <Image src={`/img/${pizza.image}`} width="30%" maxHeight="177px" />
-                                </Stack>
-                            </Box>
-                            )
-                        })}
+                                    </Box>
+                                );
+                            })}
                         </Stack>
                         <Button type="submit">Place Order</Button>
                     </Stack>
@@ -114,5 +179,5 @@ export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
         );
     }
 
-    return <Spinner />
+    return <Spinner />;
 }

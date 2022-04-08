@@ -1,12 +1,19 @@
 import { init } from '@datadog/ui-extensions-sdk';
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
-import { ChakraProvider, Container, Button, Text, Stack } from '@chakra-ui/react'
+import {
+    ChakraProvider,
+    Container,
+    Button,
+    Text,
+    Stack,
+    Image
+} from '@chakra-ui/react';
 
-import '@fontsource/tourney/variable.css'
-import '@fontsource/bebas-neue/index.css'
+import '@fontsource/tourney/variable.css';
+import '@fontsource/bebas-neue/index.css';
 
-import theme from '../../theme'
+import theme from '../../theme';
 
 import Token from '../../types/Token';
 import User from '../../types/User';
@@ -21,7 +28,7 @@ import { PizzasList } from '../../components/PizzasList';
 const client = init();
 
 function Modal() {
-    console.log(client)
+    console.log(client);
 
     const [token, setToken] = useState<Token | null>(null);
     const [isOrderSummary, setIsOrderSummary] = useState(false);
@@ -57,37 +64,40 @@ function Modal() {
 
     return (
         <Container centerContent padding="20px">
-            {hasAccount ? (
-                <>
-                    <SignInForm onSubmit={onSignInUser} />
-                    <Stack direction="row" marginTop="40px">
-                        <Text>Don't have an account?</Text>
-                        <Button
-                            onClick={() => setHasAccount(false)}
-                            variant="link"
-                            marginInlineStart={0}
-                            marginLeft={0}
-                        >
-                            Register
-                        </Button>
-                    </Stack>
-                </>
-            ) : (
-                <>
-                    <SignUpForm onSubmit={onRegisterUser} />
-                    <Stack direction="row" marginTop="40px">
-                        <Text>Already have an account?</Text>
-                        <Button
-                            onClick={() => setHasAccount(true)}
-                            variant="link"
-                            marginInlineStart={0}
-                            marginLeft={0}
-                        >
-                            Sign In
-                        </Button>
-                    </Stack>
-                </>
-            )}
+            <Stack spacing={5}>
+                <Image src="/img/header.png" />
+                {hasAccount ? (
+                    <>
+                        <SignInForm onSubmit={onSignInUser} />
+                        <Stack direction="row" marginTop="40px">
+                            <Text>Don't have an account?</Text>
+                            <Button
+                                onClick={() => setHasAccount(false)}
+                                variant="link"
+                                marginInlineStart={0}
+                                marginLeft={0}
+                            >
+                                Register
+                            </Button>
+                        </Stack>
+                    </>
+                ) : (
+                    <>
+                        <SignUpForm onSubmit={onRegisterUser} />
+                        <Stack direction="row" marginTop="40px">
+                            <Text>Already have an account?</Text>
+                            <Button
+                                onClick={() => setHasAccount(true)}
+                                variant="link"
+                                marginInlineStart={0}
+                                marginLeft={0}
+                            >
+                                Sign In
+                            </Button>
+                        </Stack>
+                    </>
+                )}
+            </Stack>
         </Container>
     );
 }
