@@ -22,18 +22,21 @@ export const collectResourceUsage = (
         .map(r => r as PerformanceNavigationTiming)
         .map(r => {
             const urlHostname = new URL(r.name).hostname;
-            const timestamp = performance.timeOrigin + r.startTime;
+            const ts = performance.timeOrigin;
             let url;
             if (!isRequestKind(r)) {
                 // for privacy reason we do not capture full URLs of network calls
                 url = r.name;
             }
             return {
-                timestamp,
+                startTimeTs: ts + r.startTime,
+                secureConnectionStartTs: ts + r.secureConnectionStart,
                 url,
                 urlHostname,
                 initiatorType: r.initiatorType,
-                nextHopProtocol: r.nextHopProtocol
+                nextHopProtocol: r.nextHopProtocol,
+                duration: r.duration,
+                decodedBodySize: r.decodedBodySize
             };
         });
 
