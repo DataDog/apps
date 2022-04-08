@@ -220,9 +220,6 @@ export class DDClient<AuthStateArgs = unknown>
         let loadedResourceIds: LoadedResourceIds = new Set();
 
         if (!this.supportPerformanceObject()) {
-            this.logger.warn(
-                'resource monitoring is disabled because browser does not support performance object'
-            );
             return;
         }
 
