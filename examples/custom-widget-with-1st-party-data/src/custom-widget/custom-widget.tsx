@@ -3,17 +3,16 @@ import { DDClient } from '@datadog/ui-extensions-sdk';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Content, ContentProps } from './content';
-import { MonitorProps } from './monitor';
-import { parseMonitors } from './parser';
+import { Monitor, parseMonitors } from '../1st-party/monitor';
 
 type CustomWidgetProps = {
     client: DDClient;
 };
 
 /**
- * This component brings together all the pieces and renders a custom widget.
+ * This component renders the 1st-party Datadog {@link Monitor} data.
  */
-function CustomWidget(props: CustomWidgetProps): JSX.Element {
+function MonitorsComponent(props: CustomWidgetProps): JSX.Element {
     const [content, setContent] = React.useState<ContentProps>({
         type: 'loading'
     });
@@ -54,7 +53,7 @@ function CustomWidget(props: CustomWidgetProps): JSX.Element {
         props.client.api
             .get('/api/v1/monitor', { params })
             .then((response: unknown): void => {
-                const newMonitors: MonitorProps[] = parseMonitors(response);
+                const newMonitors: Monitor[] = parseMonitors(response);
                 if (newMonitors.length === 0) {
                     setContent({ type: 'no monitors' });
                     return;
@@ -68,14 +67,25 @@ function CustomWidget(props: CustomWidgetProps): JSX.Element {
     }, [filter, props.client.api]);
 
     return (
+        <>
+            <h2>Monitors</h2>
+            <Content {...content} />
+        </>
+    );
+}
+
+/**
+ * This component brings together all the pieces and renders a custom widget.
+ */
+function CustomWidget(props: CustomWidgetProps): JSX.Element {
+    return (
         <div
             style={{
                 fontFamily: 'helvetica, arial, sans-serif',
                 margin: '2rem'
             }}
         >
-            <h2>Monitors</h2>
-            <Content {...content} />
+            <MonitorsComponent client={props.client} />
         </div>
     );
 }

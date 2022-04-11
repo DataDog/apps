@@ -4,7 +4,7 @@ import {
     WidgetSettingsMenuClickData
 } from '@datadog/ui-extensions-sdk';
 import * as React from 'react';
-import { logoutUser } from '../user';
+import { logoutUser } from '../3rd-party/user';
 
 /**
  * This hook performs any app-wide for the custom widget.

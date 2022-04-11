@@ -1,5 +1,5 @@
 import { DDClient, init } from '@datadog/ui-extensions-sdk';
-import { getUser, User } from '../user';
+import { getUser, User } from '../3rd-party/user';
 
 /**
  * We initialize the {@link DDClient} in one place and use it throughout the App.

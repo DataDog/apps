@@ -5,7 +5,7 @@ import {
     WidgetContextMenuClickData
 } from '@datadog/ui-extensions-sdk';
 import * as React from 'react';
-import { getHostInformation, HostInformation } from '../host';
+import { getHostInformation, HostInformation } from '../3rd-party/host';
 
 /**
  * We handle clicks on hostmap widgets.
