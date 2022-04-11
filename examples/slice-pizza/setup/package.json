@@ -1,5 +1,5 @@
 {
-    "name": "datadog-app-example-slice-pizza-app-setup",
+    "name": "datadog-app-example-slice-pizza-setup",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
