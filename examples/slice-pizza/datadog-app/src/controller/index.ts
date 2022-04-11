@@ -12,6 +12,6 @@ export default function setup() {
     <div>
       The application controller is running in the background.
     </div>
-    <a href='http://localhost:3000/widget'> Click here to open your widget </a>
+    <a href='http://localhost:3000/slice-pizza-widget'> Click here to open your widget </a>
   `;
 }

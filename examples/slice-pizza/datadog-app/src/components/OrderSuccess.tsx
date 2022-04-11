@@ -1,19 +1,32 @@
+import {
+    Container,
+    Text,
+    Image,
+    AspectRatio,
+    Stack,
+    Heading
+} from '@chakra-ui/react';
+
 import Token from '../types/Token';
 
 export function OrderSuccess(props: { token: Token }) {
     return (
-        <div className="sp-app-order-success">
-            <p className="sp-app-order-success__message">
-                Thank you for your order!
-                <br />
-                Please find your order detail at{' '}
-                {props.token ? props.token.email : ''}
-            </p>
-            <img
-                alt="Spiderman delivering a pizza"
-                className="sp-app-order-success__img"
-                src="https://c.tenor.com/UhhsVw2lzLgAAAAd/love-pizza-pizza.gif"
-            />
-        </div>
+        <Container centerContent padding="20px">
+            <Stack spacing={4}>
+                <Image src="/img/header.png" />
+                <Heading as="h2" size="md">
+                    Thank you for your order!
+                </Heading>
+                {props?.token?.email && (
+                    <Text>
+                        We've sent an order confirmation email to{' '}
+                        <strong>{props.token.email}</strong>.
+                    </Text>
+                )}
+                <AspectRatio ratio={4 / 3}>
+                    <Image src="https://c.tenor.com/UhhsVw2lzLgAAAAd/love-pizza-pizza.gif" />
+                </AspectRatio>
+            </Stack>
+        </Container>
     );
 }

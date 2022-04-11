@@ -8,10 +8,10 @@ Source code of the Slice Pizza Datadog App example.
 
 ## 2. Prerequesites
 
-- docker
-- a datadog account with:
-    - an api key
-    - an application key
+-   docker
+-   a datadog account with:
+    -   an api key
+    -   an application key
 
 ## 3. Getting Started
 
@@ -21,32 +21,29 @@ Clone the repo
 $ git clone git@github.com:DataDog/apps.git
 ```
 
-Change to Random Dog Directory
+Change to Pizza Widget Directory
 
 ```
-$ cd ./examples/slice-pizza`/
+$ cd ./examples/slice-pizza
 ```
 
-Copy the example env file and add yours
+Run the bootstrapping script and provide the necessary API Keys and configuration values when prompted
 
 ```
-$ cp .env.example .env
+$ ./scripts/bootstrap.sh
 ```
 
-Build the Docker images
-
-```
-$ docker-compose build
-```
-
-Launch the Docker containers and go to Datadog.
-A Dashboard and an Datadog App has been created for you.
-
-Add the Slice Pizza Widget in your dashboards.
+Run the Docker images
 
 ```
 $ docker-compose up
 ```
+
+Launch the Docker containers and go to Datadog.
+
+A Datadog App has been created for you in `Integrations` > `Developer Platform`.
+
+Add the Slice Pizza Widget to one of your dashboards.
 
 ## 4. cURL Requests
 
@@ -140,15 +137,18 @@ Then, you can bash into them
 $ docker container exec -ti ${containerId} bash
 ```
 
-Finally, launch the appropriat commands:
+
+Finally, launch the appropriate commands:
 
 ### 6.1. Datadog App
+
 ```
-$ yarn 
+$ yarn
 $ yarn start
 ```
 
 ### 6.2. Api
+
 ```
 $ node index.js
 ```
@@ -157,11 +157,13 @@ $ node index.js
 the .data folder.**
 
 ### 6.3. Proxy
+
 ```
 $ flask run --port=5000 --host=0.0.0.0
 ```
 
 ### 6.4. Setup
+
 ```
 $ yarn
 $ yarn start

@@ -12,8 +12,8 @@ environment.staging = {
     hashingSecret: 'AwesomePizzaDelivery-dev',
     stripeSecretApi: '--stripe-api--',
     mailgun: {
-        from: 'delivery@staging.slicelive.com',
-        domain: 'staging.slicelive.com',
+        from: 'mailgun@--mailgun-domain--',
+        domain: '--mailgun-domain--',
         privateApi: '--mailgun-api--'
     }
 };
@@ -25,8 +25,8 @@ environment.production = {
     hashingSecret: 'AwesomePizzaDelivery-prod',
     stripeSecretApi: '--stripe-api--',
     mailgun: {
-        from: 'delivery@slicelive.com',
-        domain: 'slicelive.com',
+        from: 'mailgun@--mailgun-domain--',
+        domain: '--mailgun-domain--',
         privateApi: '--mailgun-api--'
     }
 };

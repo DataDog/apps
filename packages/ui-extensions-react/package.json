@@ -1,6 +1,6 @@
 {
     "name": "@datadog/ui-extensions-react",
-    "version": "0.30.1",
+    "version": "0.31.0",
     "description": "Datadog UI Extensions - React helpers",
     "homepage": "https://github.com/DataDog/apps/tree/master/packages/ui-extensions-react",
     "repository": {
@@ -29,7 +29,7 @@
         "@types/jest": "^26.0.23",
         "clean-webpack-plugin": "^4.0.0-alpha.0",
         "jest": "26.6.0",
-        "react-test-renderer": "17.0.2",
+        "react-test-renderer": "18.0.0",
         "ts-jest": "^26.5.5",
         "ts-loader": "^9.1.1",
         "webpack": "^5.35.1",
@@ -37,8 +37,8 @@
         "webpack-dev-server": "3.11.1"
     },
     "peerDependencies": {
-        "@datadog/ui-extensions-sdk": "0.30.1",
-        "react": "^17.0.2"
+        "@datadog/ui-extensions-sdk": "0.31.0",
+        "react": "^18.0.0"
     },
     "typedocMain": "src/index.ts"
 }
