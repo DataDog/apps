@@ -15,7 +15,7 @@ describe('DDConfigClient', () => {
     test('can return app config', async () => {
         mockClient.framePostClient.request = jest.fn();
 
-        await configClient.getConfig();
+        await configClient.getOrgConfig();
 
         expect(mockClient.framePostClient.request).toHaveBeenCalledWith(
             RequestType.GET_CONFIG,
