@@ -12,10 +12,10 @@ Widget.
 
 ## Prerequesites
 
--   docker
--   a datadog account with:
-    -   an api key
-    -   an application key
+-   Docker
+-   A Datadog Account with:
+    -   An API Key
+    -   An application Key
 
 ## Getting Started
 
