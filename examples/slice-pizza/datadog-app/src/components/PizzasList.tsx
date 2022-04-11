@@ -21,7 +21,6 @@ import Pizza from '../types/Pizza';
 
 import { PROXY_URL } from '../config';
 
-
 export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
     const [pizzas, setPizzas] = useState<Pizza[]>([]);
 
@@ -62,7 +61,6 @@ export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
 
         setPizzas(updatedPizzas);
     };
-
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

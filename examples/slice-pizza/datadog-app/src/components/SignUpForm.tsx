@@ -1,5 +1,12 @@
 import { useForm } from 'react-hook-form';
-import { Container, Input, Textarea, Button, Heading, Stack } from '@chakra-ui/react'
+import {
+    Container,
+    Input,
+    Textarea,
+    Button,
+    Heading,
+    Stack
+} from '@chakra-ui/react';
 
 import User from '../types/User';
 import { PROXY_URL } from '../config';
@@ -34,7 +41,9 @@ export function SignUpForm(props: { onSubmit: any }) {
         <Container centerContent>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={5}>
-                    <Heading size="lg" as="h2">Sign Up</Heading>
+                    <Heading size="lg" as="h2">
+                        Sign Up
+                    </Heading>
                     <Stack spacing={2}>
                         <Input
                             placeholder="Name"

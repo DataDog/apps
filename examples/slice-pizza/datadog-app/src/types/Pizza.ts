@@ -5,5 +5,5 @@ export default interface Pizza {
     name: string;
     price: number;
     quantity: number;
-    amount: number
+    amount: number;
 }

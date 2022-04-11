@@ -112,7 +112,6 @@ curl --location --request POST 'http://localhost:5000/api/order' \
 }'
 ```
 
-
 ## 6. Contributing
 
 If you want to contribute to the project, don't hesitate to contact me at
@@ -136,7 +135,6 @@ Then, you can bash into them
 ```
 $ docker container exec -ti ${containerId} bash
 ```
-
 
 Finally, launch the appropriate commands:
 
@@ -168,4 +166,3 @@ $ flask run --port=5000 --host=0.0.0.0
 $ yarn
 $ yarn start
 ```
-
