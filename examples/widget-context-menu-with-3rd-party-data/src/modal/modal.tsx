@@ -2,7 +2,7 @@ import { DDClient } from '@datadog/ui-extensions-sdk';
 import { useContext } from '@datadog/ui-extensions-react';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-import { parseHostInformation } from '../host';
+import { parseHostInformation } from '../3rd-party/host';
 
 type ModalProps = {
     client: DDClient;

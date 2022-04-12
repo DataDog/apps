@@ -1,7 +1,7 @@
 import { client } from './client';
 import { renderController } from './controller';
 import { renderCustomWidget } from './custom-widget';
-import { renderLogin } from './login';
+import { renderLogin } from './3rd-party/login';
 
 switch (window.location.pathname) {
     case '/custom-widget':

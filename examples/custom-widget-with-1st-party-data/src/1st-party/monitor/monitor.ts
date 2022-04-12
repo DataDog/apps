@@ -1,4 +1,10 @@
-import { MonitorProps } from './monitor';
+/**
+ * An incomplete representation of 1st-party Datadog monitor data.
+ */
+export type Monitor = {
+    id: number;
+    name: string;
+};
 
 function isRecord(args: unknown): args is Record<string, unknown> {
     return (
@@ -6,7 +12,7 @@ function isRecord(args: unknown): args is Record<string, unknown> {
     );
 }
 
-function parseMonitor(monitor: unknown): MonitorProps | undefined {
+function parseMonitor(monitor: unknown): Monitor | undefined {
     if (!isRecord(monitor)) {
         return;
     }
@@ -27,16 +33,16 @@ function parseMonitor(monitor: unknown): MonitorProps | undefined {
  * We do a bit of work to make sure that the API response we get back is the correct shape.
  *
  * @param response The API response from the SDK.
- * @returns The parsed {@link MonitorProps}.
+ * @returns The parsed {@link Monitor}.
  */
-export function parseMonitors(response: unknown): MonitorProps[] {
+export function parseMonitors(response: unknown): Monitor[] {
     if (!Array.isArray(response)) {
         return [];
     }
 
     return response
         .map(parseMonitor)
-        .filter((monitor?: MonitorProps): monitor is MonitorProps => {
+        .filter((monitor?: Monitor): monitor is Monitor => {
             return monitor != null;
         });
 }

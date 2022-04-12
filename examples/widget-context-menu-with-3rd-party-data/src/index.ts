@@ -1,6 +1,6 @@
 import { client } from './client';
 import { renderController } from './controller';
-import { renderLogin } from './login';
+import { renderLogin } from './3rd-party/login';
 import { renderModal } from './modal';
 
 switch (window.location.pathname) {

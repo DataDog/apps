@@ -1,17 +1,17 @@
 import { DDClient } from '@datadog/ui-extensions-sdk';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { getUser, User } from '../user';
-import { Post } from '../post';
+import { getUser, User } from '../3rd-party/user';
+import { Post } from '../3rd-party/post';
 
 type CustomWidgetProps = {
     client: DDClient;
 };
 
 /**
- * This component brings together all the pieces and renders a custom widget.
+ * This component renders the 3rd-party {@link Post} data.
  */
-function CustomWidget(props: CustomWidgetProps): JSX.Element {
+function PostsComponent(props: CustomWidgetProps): JSX.Element {
     /**
      * We grab the {@link User} from the 3rd-party.
      */
@@ -33,14 +33,8 @@ function CustomWidget(props: CustomWidgetProps): JSX.Element {
     }
 
     return (
-        <div
-            style={{
-                fontFamily: 'helvetica, arial, sans-serif',
-                margin: '2rem'
-            }}
-        >
-            <h2>Custom widget with 3rd-party data</h2>
-            <p>Posts from {user.username}!</p>
+        <>
+            <h2>Posts from {user.username}!</h2>
             <ol>
                 {user.posts.map(
                     (post: Post): JSX.Element => {
@@ -48,6 +42,22 @@ function CustomWidget(props: CustomWidgetProps): JSX.Element {
                     }
                 )}
             </ol>
+        </>
+    );
+}
+
+/**
+ * This component brings together all the pieces and renders a custom widget.
+ */
+function CustomWidget(props: CustomWidgetProps): JSX.Element {
+    return (
+        <div
+            style={{
+                fontFamily: 'helvetica, arial, sans-serif',
+                margin: '2rem'
+            }}
+        >
+            <PostsComponent client={props.client} />
         </div>
     );
 }
