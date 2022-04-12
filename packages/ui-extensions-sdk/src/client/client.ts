@@ -24,16 +24,12 @@ import type {
     EventHandler,
     IFrameDimensions,
     LoggerClient,
-    NetworkRequestMetadata,
     ParentAuthStateOptions,
     RequestClient,
     RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
-import {
-    collectResourceUsage,
-    registerNetworkRequestListeners
-} from '../utils/security';
+import { collectResourceUsage } from '../utils/security';
 import type { LoadedResourceIds } from '../utils/security';
 import { setImmediateInterval } from '../utils/utils';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
@@ -114,7 +110,6 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
-        this.startNetworkMonitoring();
         this.startResourceMonitoring();
     }
 
@@ -256,21 +251,5 @@ export class DDClient<AuthStateArgs = unknown>
                 }
             );
         }
-    }
-
-    private startNetworkMonitoring() {
-        const removeListeners = registerNetworkRequestListeners(
-            (networkRequest: NetworkRequestMetadata) => {
-                this.framePostClient
-                    .request(
-                        RequestType.SECURITY_LOG_NETWORK_REQUEST,
-                        networkRequest
-                    )
-                    .catch(e => {
-                        // Remove listeners on error
-                        removeListeners();
-                    });
-            }
-        );
     }
 }
