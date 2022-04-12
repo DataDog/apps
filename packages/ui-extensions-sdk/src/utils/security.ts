@@ -1,4 +1,4 @@
-import { LoadedResourceMetaDataBatch, NetworkRequestMetadata } from '../types';
+import { LoadedResourceMetaDataBatch } from '../types';
 
 export type LoadedResourceIds = Set<string>;
 
@@ -41,16 +41,4 @@ export const collectResourceUsage = (
         });
 
     return [{ resources }, new Set(snapshot.map(r => r.name))];
-};
-
-export const registerNetworkRequestListeners = (
-    onNetworkRequest: (request: NetworkRequestMetadata) => void
-): (() => void) => {
-    // TODO: monitor network requests, call `onNetworkRequest' as needed
-    // onNetworkRequest({});
-
-    // TODO: It's good practice to return a 'cleanup' hook that removes the event listeners you've set up
-    return () => {
-        // remove listeners
-    };
 };

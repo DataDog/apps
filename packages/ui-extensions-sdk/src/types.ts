@@ -356,5 +356,3 @@ export interface LoadedResourceMetadata {
 export interface LoadedResourceMetaDataBatch {
     resources: LoadedResourceMetadata[];
 }
-
-export interface NetworkRequestMetadata {}
