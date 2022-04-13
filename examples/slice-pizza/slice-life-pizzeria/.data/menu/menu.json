@@ -1,49 +1,49 @@
 {
     "655d-462a-95d2": {
         "id": "655d-462a-95d2",
-        "image": "pizza__standard.png",
-        "name": "Standard",
-        "description": "san marzano tomato, four cheese blend, olive oil",
+        "image": "https://static.spotapps.co/spots/cf/93494654ac4a099982ad2d08a577b9/full",
+        "name": "Hell's Kitchen",
+        "description": "Sausage, garlic, cherry peppers and fresh mozzarella cheese.",
         "sizeUpPrice": 0,
         "price": 22.0
     },
     "da8e-9f48-eac6": {
         "id": "da8e-9f48-eac6",
-        "image": "pizza__tomato.png",
-        "name": "Tomato",
-        "description": "sliced garlic, oregano, aged gouda",
+        "image": "https://static.spotapps.co/spots/75/ff4eef72bf4ddd9dd67ba1cae31b6b/full",
+        "name": "New York, New York",
+        "description": "Pepperoni, sausage, bell peppers, red onion, mushroom, black olives and mozzarella cheese.",
         "sizeUpPrice": 0,
         "price": 18.0
     },
     "b48e-4f29-a6eb": {
         "id": "b48e-4f29-a6eb",
-        "image": "pizza__diavolo.png",
-        "name": "Diavolo",
-        "description": "cheese blend, pepperoncinis, pepperoni, soppressata, pickled chilis",
+        "image": "https://static.spotapps.co/spots/51/7101fef8aa4be4ad86338d1ff31e70/full",
+        "name": "The Godfather",
+        "description": "Bacon, sausage, pepperoni, salami, ham and mozzarella cheese.",
         "sizeUpPrice": 0,
         "price": 27.0
     },
     "8566-40c0-b584": {
         "id": "8566-40c0-b584",
-        "image": "pizza__sausage_peppers.png",
-        "name": "Sausage + Peppers",
-        "description": "garlic cream, sausage, cheese blend, ricotta, peppadew peppers, spring onions",
+        "image": "https://static.spotapps.co/spots/bc/93791e477648ca97680ba7c32fcba4/full",
+        "name": "Times Square",
+        "description": "Double pepperoni, jalapeno cream cheese and mozzarella cheese.",
         "sizeUpPrice": 0,
         "price": 27.0
     },
     "9f7b-4d13-8d4a": {
         "id": "9f7b-4d13-8d4a",
-        "image": "pizza__mushrooms.png",
-        "name": "All the Mushrooms",
-        "description": "cheese blend, garlic cream, roasted oysters, picked beech mushrooms, marinated buttons",
+        "image": "https://static.spotapps.co/spots/2d/02f8b1e1e747bdb6e870035b7fef9e/full",
+        "name": "Spicy Hawaiian",
+        "description": "Ham, pineapple, red onion, bacon, topped with a mango habanero glaze.",
         "sizeUpPrice": 0,
         "price": 28.0
     },
     "1e5c-496d-8ace": {
         "id": "1e5c-496d-8ace",
-        "image": "pizza__harissa_lamb.png",
-        "name": "Harissa Lamb",
-        "description": "green charmoula, harissa lamb, olives, dates, mint",
+        "image": "https://static.spotapps.co/spots/9b/b6b294c03141518576cd877ea69983/full",
+        "name": "Mulberry Street",
+        "description": "Bell peppers, red onions, mushrooms, tomatoes, roasted garlic, black olives and mozzarella cheese.",
         "sizeUpPrice": 0,
         "price": 29.0
     }

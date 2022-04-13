@@ -64,7 +64,7 @@ function Modal() {
     return (
         <Container centerContent padding="20px">
             <Stack spacing={5}>
-                <Image src="/img/header.png" />
+                <Image src="/img/logo.jpeg" />
                 {hasAccount ? (
                     <>
                         <SignInForm onSubmit={onSignInUser} />

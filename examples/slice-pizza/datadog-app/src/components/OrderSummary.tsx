@@ -60,7 +60,7 @@ export function OrderSummary(props: { onPlaceOrder: any; token: Token }) {
     return (
         <Container centerContent padding="20px">
             <Stack spacing={4}>
-                <Image src="/img/header.png" />
+                <Image src="/img/logo.jpeg" />
                 <Heading>Order Confirmation</Heading>
                 {orderData && (
                     <Stat>

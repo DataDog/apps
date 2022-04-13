@@ -13,7 +13,7 @@ export function OrderSuccess(props: { token: Token }) {
     return (
         <Container centerContent padding="20px">
             <Stack spacing={4}>
-                <Image src="/img/header.png" />
+                <Image src="/img/logo.jpeg" />
                 <Heading as="h2" size="md">
                     Thank you for your order!
                 </Heading>
