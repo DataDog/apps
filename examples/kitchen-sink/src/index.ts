@@ -3,6 +3,7 @@ import { renderController } from './controller';
 import { renderCustomWidget } from './custom-widget';
 import { renderLogin } from './3rd-party/login';
 import { renderModal } from './modal';
+import { renderSidePanel } from './side-panel';
 
 switch (window.location.pathname) {
     case '/custom-widget':
@@ -21,6 +22,10 @@ switch (window.location.pathname) {
 
     case '/modal':
         renderModal(client);
+        break;
+
+    case '/side-panel':
+        renderSidePanel(client);
         break;
 
     default:

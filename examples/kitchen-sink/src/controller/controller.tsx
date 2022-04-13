@@ -3,6 +3,7 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { useSetupCustomWidget } from './custom-widget';
 import { useSetupWidgetContextMenu } from './widget-context-menu';
+import { useSetupDashboardCogMenu } from './dashboard-cog-menu';
 
 type ControllerProps = {
     client: DDClient;
@@ -16,6 +17,7 @@ type ControllerProps = {
  */
 function Controller(props: ControllerProps): JSX.Element {
     useSetupCustomWidget(props.client);
+    useSetupDashboardCogMenu(props.client);
     useSetupWidgetContextMenu(props.client);
 
     return (
