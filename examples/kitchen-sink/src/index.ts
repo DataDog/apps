@@ -1,9 +1,14 @@
 import { client } from './client';
 import { renderController } from './controller';
+import { renderCustomWidget } from './custom-widget';
 import { renderLogin } from './3rd-party/login';
 import { renderModal } from './modal';
 
 switch (window.location.pathname) {
+    case '/custom-widget':
+        renderCustomWidget(client);
+        break;
+
     /**
      * This authentication route is part of this App,
      * but the system is designed to be able to leverage a preexisting authentication route if you have access to it.

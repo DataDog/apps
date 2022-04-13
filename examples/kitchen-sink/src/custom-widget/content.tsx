@@ -1,17 +1,22 @@
 import React from 'react';
 import { client } from '../client';
+import { Monitor } from '../1st-party/monitor';
 
-export type MonitorProps = {
-    id: number;
-    name: string;
-};
+/**
+ * The different states the monitors can be in.
+ */
+export type ContentProps =
+    | { type: 'loading' }
+    | { type: 'error'; error: unknown }
+    | { type: 'no monitors' }
+    | { type: 'monitors'; props: Monitor[] };
 
 /**
  * We simulate an asynchronous execution.
  * We could do anything at this point,
  * including interacting with 1st-party Datadog API or 3rd-party data.
  */
-async function modifyMonitor(props: MonitorProps): Promise<void> {
+async function modifyMonitor(props: Monitor): Promise<void> {
     const result: boolean = await new Promise(
         (resolve: (result: boolean) => void): void => {
             setTimeout(() => {
@@ -44,7 +49,7 @@ async function modifyMonitor(props: MonitorProps): Promise<void> {
  * This button can be used to do anything.
  * It's stubbed out to show how we might use it to provide behavior for Datadog monitors from an App.
  */
-export function Monitor(props: MonitorProps): JSX.Element {
+function MonitorComponent(props: Monitor): JSX.Element {
     return (
         <tr key={props.id}>
             <td>{props.name}</td>
@@ -55,4 +60,39 @@ export function Monitor(props: MonitorProps): JSX.Element {
             </td>
         </tr>
     );
+}
+
+/**
+ * This component renders the bulk of the custom widget.
+ * Whatever the current state is, it renders it in a way that makes sense.
+ */
+export function Content(props: ContentProps): JSX.Element {
+    switch (props.type) {
+        case 'loading':
+            return <>Loading…</>;
+
+        case 'error':
+            return (
+                <>
+                    Error loading monitors:
+                    <pre>{JSON.stringify(props.error, null, 4)}</pre>
+                </>
+            );
+
+        case 'no monitors':
+            return <>No monitors</>;
+
+        case 'monitors':
+            return (
+                <table style={{ borderCollapse: 'separate' }}>
+                    <thead>
+                        <tr>
+                            <td>Name</td>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    {props.props.map(MonitorComponent)}
+                </table>
+            );
+    }
 }
