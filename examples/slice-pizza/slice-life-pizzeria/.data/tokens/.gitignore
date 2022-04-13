@@ -1,0 +1,4 @@
+# Directory holding user tokens. Ignore everything in this directory
+*
+# Except this file
+!.gitignore

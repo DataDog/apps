@@ -1,0 +1,42 @@
+version: '3'
+services:
+    app:
+        build: datadog-app
+        stdin_open: true
+        tty: true
+        environment:
+            REACT_APP_API_URL: http://localhost:3001
+            REACT_APP_PROXY_URL: http://localhost:5000
+        ports:
+            - '3002:3000'
+        volumes:
+            - ./datadog-app:/datadog-app
+
+    api:
+        build: slice-life-pizzeria
+        stdin_open: true
+        tty: true
+        ports:
+            - '3001:3000'
+        volumes:
+            - ./slice-life-pizzeria:/api
+
+    proxy:
+        build: proxy
+        environment:
+            API_URL: http://api:3000/api
+        stdin_open: true
+        tty: true
+        ports:
+            - '5000:5000'
+        volumes:
+            - ./proxy:/proxy
+
+    setup:
+        stdin_open: true
+        tty: true
+        build: setup
+        env_file:
+            - ./.env
+        volumes:
+            - ./setup:/setup

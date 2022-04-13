@@ -1,0 +1,17 @@
+{
+    "name": "datadog-app-example-slice-pizza-setup",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "build": "exit 0",
+        "prepare": "exit 0",
+        "start": "node index.js",
+        "test": "echo TODO Add test script"
+    },
+    "dependencies": {
+        "@datadog/datadog-api-client": "^1.0.0-beta.6",
+        "node-fetch": "2"
+    }
+}

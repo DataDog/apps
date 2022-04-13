@@ -1,0 +1,50 @@
+{
+    "655d-462a-95d2": {
+        "id": "655d-462a-95d2",
+        "image": "https://static.spotapps.co/spots/cf/93494654ac4a099982ad2d08a577b9/full",
+        "name": "Hell's Kitchen",
+        "description": "Sausage, garlic, cherry peppers and fresh mozzarella cheese.",
+        "sizeUpPrice": 0,
+        "price": 22.0
+    },
+    "da8e-9f48-eac6": {
+        "id": "da8e-9f48-eac6",
+        "image": "https://static.spotapps.co/spots/75/ff4eef72bf4ddd9dd67ba1cae31b6b/full",
+        "name": "New York, New York",
+        "description": "Pepperoni, sausage, bell peppers, red onion, mushroom, black olives and mozzarella cheese.",
+        "sizeUpPrice": 0,
+        "price": 18.0
+    },
+    "b48e-4f29-a6eb": {
+        "id": "b48e-4f29-a6eb",
+        "image": "https://static.spotapps.co/spots/51/7101fef8aa4be4ad86338d1ff31e70/full",
+        "name": "The Godfather",
+        "description": "Bacon, sausage, pepperoni, salami, ham and mozzarella cheese.",
+        "sizeUpPrice": 0,
+        "price": 27.0
+    },
+    "8566-40c0-b584": {
+        "id": "8566-40c0-b584",
+        "image": "https://static.spotapps.co/spots/bc/93791e477648ca97680ba7c32fcba4/full",
+        "name": "Times Square",
+        "description": "Double pepperoni, jalapeno cream cheese and mozzarella cheese.",
+        "sizeUpPrice": 0,
+        "price": 27.0
+    },
+    "9f7b-4d13-8d4a": {
+        "id": "9f7b-4d13-8d4a",
+        "image": "https://static.spotapps.co/spots/2d/02f8b1e1e747bdb6e870035b7fef9e/full",
+        "name": "Spicy Hawaiian",
+        "description": "Ham, pineapple, red onion, bacon, topped with a mango habanero glaze.",
+        "sizeUpPrice": 0,
+        "price": 28.0
+    },
+    "1e5c-496d-8ace": {
+        "id": "1e5c-496d-8ace",
+        "image": "https://static.spotapps.co/spots/9b/b6b294c03141518576cd877ea69983/full",
+        "name": "Mulberry Street",
+        "description": "Bell peppers, red onions, mushrooms, tomatoes, roasted garlic, black olives and mozzarella cheese.",
+        "sizeUpPrice": 0,
+        "price": 29.0
+    }
+}
