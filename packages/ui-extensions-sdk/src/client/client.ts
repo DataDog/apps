@@ -2,12 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
-import {
-    EventType,
-    FramePostClientSettings,
-    RequestType,
-    RESOURCE_BATCH_INTERVAL
-} from '../constants';
+import { EventType, FramePostClientSettings, RequestType } from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
 import { DDLocationClient } from '../location/location';
@@ -29,9 +24,7 @@ import type {
     RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
-import { collectResourceUsage } from '../utils/security';
-import type { LoadedResourceIds } from '../utils/security';
-import { setImmediateInterval } from '../utils/utils';
+import { startResourceMonitoring } from '../utils/security';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
@@ -110,7 +103,13 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
-        this.startResourceMonitoring();
+
+        startResourceMonitoring(async batch => {
+            await this.framePostClient.request(
+                RequestType.SECURITY_LOG_RESOURCES_LOADED,
+                batch
+            );
+        });
     }
 
     log(message: string): void {
@@ -205,51 +204,5 @@ export class DDClient<AuthStateArgs = unknown>
     // Turn on debugger if dev mode is on in parent
     private syncDebugMode(context: Context | null) {
         this.debug = context?.app?.debug || this.debug;
-    }
-
-    private supportPerformanceObject() {
-        return window.performance !== undefined && 'getEntries' in performance;
-    }
-
-    private startResourceMonitoring() {
-        let loadedResourceIds: LoadedResourceIds = new Set();
-
-        if (!this.supportPerformanceObject()) {
-            return;
-        }
-
-        const collectResources = async () => {
-            // collect batch of resource-loading data
-            const [batch, newIds] = collectResourceUsage(loadedResourceIds);
-
-            // update index of loaded resources
-            loadedResourceIds = newIds;
-
-            // send to web-ui
-            await this.framePostClient.request(
-                RequestType.SECURITY_LOG_RESOURCES_LOADED,
-                batch
-            );
-        };
-
-        const interval = setImmediateInterval(async () => {
-            try {
-                await collectResources();
-            } catch (e) {
-                // Stop batch collecting if there's an error
-                clearInterval(interval);
-            }
-        }, RESOURCE_BATCH_INTERVAL);
-
-        if ('addEventListener' in performance) {
-            performance.addEventListener(
-                'resourcetimingbufferfull',
-                async () => {
-                    // ensure we collect the last resources before clearing the buffer
-                    await collectResources();
-                    performance.clearResourceTimings();
-                }
-            );
-        }
     }
 }
