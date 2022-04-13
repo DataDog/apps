@@ -103,7 +103,11 @@ export function PizzasList(props: { onSubmitOrder: any; token: Token }) {
             >
                 <form onSubmit={onSubmit}>
                     <Stack spacing={5}>
-                        <Image src="/img/logo.jpeg" maxWidth="400px" marginX="auto" />
+                        <Image
+                            src="/img/logo.jpeg"
+                            maxWidth="400px"
+                            marginX="auto"
+                        />
                         <Heading size="lg" as="h2">
                             Menu
                         </Heading>
