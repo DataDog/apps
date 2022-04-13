@@ -9,6 +9,6 @@ export class DDConfigClient {
     }
 
     async getOrgConfig(): Promise<Config> {
-        return this.client.request(RequestType.GET_CONFIG);
+        return this.client.request(RequestType.GET_ORG_CONFIG);
     }
 }

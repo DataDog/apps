@@ -18,7 +18,7 @@ describe('DDConfigClient', () => {
         await configClient.getOrgConfig();
 
         expect(mockClient.framePostClient.request).toHaveBeenCalledWith(
-            RequestType.GET_CONFIG,
+            RequestType.GET_ORG_CONFIG,
             undefined
         );
     });

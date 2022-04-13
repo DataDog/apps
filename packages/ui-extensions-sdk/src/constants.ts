@@ -88,7 +88,7 @@ export enum RequestType {
     SEND_NOTIFICATION = 'send_notification',
 
     LOG_DEPRECATED_USAGE = 'log_deprecated_usage',
-    GET_CONFIG = 'get_config'
+    GET_ORG_CONFIG = 'get_org_config'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
