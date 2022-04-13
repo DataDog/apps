@@ -62,7 +62,7 @@ export const startResourceMonitoring = (
 ): (() => void) => {
     let loadedResourceIds: LoadedResourceIds = new Set();
 
-    if (isPerformanceObjectSupported()) {
+    if (!isPerformanceObjectSupported()) {
         return () => {};
     }
 
