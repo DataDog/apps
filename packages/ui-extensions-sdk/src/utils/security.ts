@@ -21,6 +21,7 @@ export const collectResourceUsage = (
         .filter(r => !previouslyLoadedResources.has(r.name))
         .map(r => r as PerformanceNavigationTiming)
         .map(r => {
+            // safe because r.name represents the resolved URL of the requested resource.
             const urlHostname = new URL(r.name).hostname;
             const ts = performance.timeOrigin;
             let url;
