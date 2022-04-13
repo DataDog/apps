@@ -104,9 +104,9 @@ export class DDClient<AuthStateArgs = unknown>
 
         this.registerEventListeners();
 
-        startResourceMonitoring(async batch => {
-            await this.framePostClient.request(
-                RequestType.SECURITY_LOG_RESOURCES_LOADED,
+        startResourceMonitoring(batch => {
+            this.framePostClient.send(
+                EventType.SECURITY_LOG_RESOURCES_LOADED,
                 batch
             );
         });

@@ -58,7 +58,7 @@ export const collectResourceUsage = (
 };
 
 export const startResourceMonitoring = (
-    reportUsage: (batch: LoadedResourceMetaDataBatch) => Promise<void>
+    reportUsage: (batch: LoadedResourceMetaDataBatch) => void
 ): (() => void) => {
     let loadedResourceIds: LoadedResourceIds = new Set();
 
@@ -66,7 +66,7 @@ export const startResourceMonitoring = (
         return () => {};
     }
 
-    const doResourceCollection = async () => {
+    const doResourceCollection = () => {
         // collect batch of resource-loading data
         const [batch, newIds] = collectResourceUsage(loadedResourceIds);
 
@@ -74,24 +74,24 @@ export const startResourceMonitoring = (
         loadedResourceIds = newIds;
 
         // send to web-ui
-        await reportUsage(batch);
+        reportUsage(batch);
     };
 
-    const interval = setImmediateInterval(async () => {
+    const interval = setImmediateInterval(() => {
         try {
-            await doResourceCollection();
+            doResourceCollection();
         } catch (e) {
             // Stop batch collecting if there's an error
             clearInterval(interval);
         }
     }, RESOURCE_BATCH_INTERVAL);
 
-    let bufferFullHandler = async () => {};
+    let bufferFullHandler = () => {};
 
     if ('addEventListener' in performance) {
-        bufferFullHandler = async () => {
+        bufferFullHandler = () => {
             // ensure we collect the last resources before clearing the buffer
-            await doResourceCollection();
+            doResourceCollection();
             performance.clearResourceTimings();
         };
 
