@@ -201,13 +201,13 @@ try {
 
 
 
-## Custom Configuration
+## Org Configuration
 
-If app behavior must be further tailored for specific orgs, custom user configurations can be enabled via the [Developer Platform][1]. To begin, navigate to the "User Configuration" tab of your app:
+If app behavior must be further tailored for specific orgs, custom org configurations can be enabled via the [Developer Platform][1]. To begin, navigate to the "Org Configuration" tab of your app:
 
-<img style="max-width:80%" alt="User Configuration" src="https://user-images.githubusercontent.com/17037651/161995079-e16913ee-42c8-4c66-b03d-d2e51fadf26c.png">
+<img style="max-width:80%" alt="App Edit Org Configuration" src="https://user-images.githubusercontent.com/17037651/163402644-8666caff-a987-4731-a2b2-d9b123baae39.png">
 
-On this page, you can define up to **20** settings that users can configure to customize your app's behavior; these configuration values can ultimately be retrieved within your app by using the `client.config.getConfig()` method in the SDK to implement the desired customization. Upon clicking the "Add New" drop-down button, you will be able to select from three options:
+On this page, you can define up to **20** settings that orgs can configure to customize your app's behavior; these configuration values can ultimately be retrieved within your app by using the `client.config.getOrgConfig()` method in the SDK to implement the desired customization. Upon clicking the "Add New" drop-down button, you will be able to select from three options:
 
   1. Boolean: a `boolean` field that will be rendered as a toggle switch to users; useful for turning on/off specific behavior within your app
   2. Input Field: a free-form `string` field rendered as an input field; can be used, for example, to define a custom on-premises URL that your app will fetch org data from — see the note below on credentials / secrets for caveats
@@ -221,10 +221,10 @@ All three options share the following keys:
   * `description`: text describing the behavior that a specific setting will modify; displayed to users when configuring your app
   * `default`: the default configuration value for a setting if the user has **not** already input one
     * In the case of a select field, the `default` **must** be one of the options associated with the `enum` key
-  * `required`: whether the field is required for the app to function; if set to `true`, users will **not** be able to use your app until they've configured the required setting
-    * While a setting with both a non-empty `default` value and `required: true` is valid, requiring the setting is unnecessary since the `default` value satisfies the `required: true` constraint even when the user has never configured the setting
+  * `required`: whether the field is required for the app to function; if set to `true`, orgs will **not** be able to use your app until they've configured the required setting
+    * While a setting with both a non-empty `default` value and `required: true` is valid, requiring the setting is unnecessary since the `default` value satisfies the `required: true` constraint even when the org has never configured the setting
 
-For a more concrete illustration, assuming that your app's custom configuration is defined as follows:
+For a more concrete illustration, assuming that your app's org configuration is defined as follows:
 
 ```JSON
 [
@@ -258,19 +258,19 @@ For a more concrete illustration, assuming that your app's custom configuration 
 
 An org using your app would see the following page to configure the settings you defined:
 
-<img style="max-width:80%" alt="Configuring an App" src="https://user-images.githubusercontent.com/17037651/161990413-7f5061b0-6577-4dc3-b775-cf6d14e864d8.png">
+<img style="max-width:80%" alt="App Configure Org Settings" src="https://user-images.githubusercontent.com/17037651/163403066-531c1225-5310-438d-b75a-40682c4ee61b.png">
 
 Back in your app, you could access configured values with the following:
 
 ```js
-const customConfig = await client.config.getConfig()
-/* customConfig = {
+const customOrgConfig = await client.config.getOrgConfig()
+/* customOrgConfig = {
   boolean_field: <boolean>,
   input_field: <string>,
   select_field: <string>
 } */
 
-switch (customConfig.select_field) {
+switch (customOrgConfig.select_field) {
   case 'choice_a':
     // do something
     break;
@@ -280,7 +280,7 @@ switch (customConfig.select_field) {
     break;
 
   default:
-    throw new Error(`Unrecognized value of 'select_field': ${customConfig.select_field}`)
+    throw new Error(`Unrecognized value of 'select_field': ${customOrgConfig.select_field}`)
 }
 ```
 
