@@ -127,6 +127,3 @@ export enum ColorTheme {
     dark = 'dark',
     light = 'light'
 }
-
-// 10 seconds
-export const RESOURCE_BATCH_INTERVAL = 10000;
