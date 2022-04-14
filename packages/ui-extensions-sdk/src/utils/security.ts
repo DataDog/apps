@@ -42,6 +42,12 @@ export const parseResource = (
     };
 };
 
+const collectInitialResources = () =>
+    performance
+        .getEntriesByType('resource')
+        .filter(isResourceTimingEntry)
+        .map(parseResource);
+
 export const startResourceMonitoring = (
     reportUsage: (batch: LoadedResourceMetaDataBatch) => void
 ): (() => void) => {
@@ -49,37 +55,23 @@ export const startResourceMonitoring = (
         return () => {};
     }
 
+    // first, report all previously loaded resources
+    reportUsage({ resources: collectInitialResources() });
+
+    // now, set up observer for all new resources
     const observerCallback = (entries: PerformanceObserverEntryList) => {
         const resources = entries
             .getEntries()
             .filter(isResourceTimingEntry)
             .map(parseResource);
-        return reportUsage({ resources });
+
+        reportUsage({ resources });
     };
 
     const observer = new PerformanceObserver(observerCallback);
     observer.observe({ type: 'resource', buffered: true });
 
-    let bufferFullHandler = () => {};
-
-    if ('addEventListener' in performance) {
-        bufferFullHandler = () => {
-            performance.clearResourceTimings();
-        };
-
-        performance.addEventListener(
-            'resourcetimingbufferfull',
-            bufferFullHandler
-        );
-    }
-
     return () => {
         observer.disconnect();
-        if ('addEventListener' in performance) {
-            performance.removeEventListener(
-                'resourcetimingbufferfull',
-                bufferFullHandler
-            );
-        }
     };
 };
