@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.31.1
+
+### Patch Changes
+
+-   7d0ee39: Add security monitoring hooks
+
 ## 0.31.0
 
 ### Minor Changes

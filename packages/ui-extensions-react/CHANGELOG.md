@@ -1,5 +1,13 @@
 # @datadog/ui-extensions-react
 
+## 0.31.1
+
+### Patch Changes
+
+-   7d0ee39: Add security monitoring hooks
+-   Updated dependencies [7d0ee39]
+    -   @datadog/ui-extensions-sdk@0.31.1
+
 ## 0.31.0
 
 ### Minor Changes
