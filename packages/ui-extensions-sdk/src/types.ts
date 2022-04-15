@@ -357,6 +357,6 @@ export interface LoadedResourceMetaDataBatch {
     resources: LoadedResourceMetadata[];
 }
 
-export interface Config {
+export interface OrgConfig {
     [key: string]: string | boolean;
 }
