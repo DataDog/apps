@@ -24,6 +24,7 @@ import type {
     RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
+import { startResourceMonitoring } from '../utils/security';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
@@ -102,6 +103,13 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
+
+        startResourceMonitoring(batch => {
+            this.framePostClient.send(
+                EventType.SECURITY_LOG_RESOURCES_LOADED,
+                batch
+            );
+        });
     }
 
     log(message: string): void {

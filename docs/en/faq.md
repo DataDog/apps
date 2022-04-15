@@ -31,3 +31,7 @@ You can authenticate your app users by integrating your existing login mechanism
 ## What browsers do you support?
 
 Our intention is to support all major browsers, however we have encountered some errors in both Safari and Firefox. We are actively investigating these issues, but in the meantime we recommend using Google Chrome when developing and using apps with UI Extensions.
+
+## What information does Datadog collect about my code?
+
+To ensure safety and reliability for our customers, Datadog collects information on all loaded resources and network calls executed in your app IFrames. The specific collection routines are open-source and can be viewed [here](https://github.com/DataDog/apps/tree/master/packages/ui-extensions-sdk/src/utils/security.ts). Please reach out to <apps@datadoghq.com> if you have further questions.
