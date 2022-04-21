@@ -1,10 +1,8 @@
 import { init } from '@datadog/ui-extensions-sdk';
-import { setupModal } from './modal';
 import { setupWidgetCtxMenu } from './widget-ctx-menu';
 
 export default function setup() {
     const client = init();
-    setupModal(client);
     setupWidgetCtxMenu(client);
 
     const root = document.getElementById('root');

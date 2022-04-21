@@ -4,8 +4,12 @@ const init = async () => {
             let widget = await import('./widget/HelloWorld');
             return widget.default();
         }
-        case '/hello-world-modal': {
-            let modal = await import('./modal/HelloWorld');
+        case '/jira-new-issue-modal': {
+            let modal = await import('./modal/CreateIssue');
+            return modal.default();
+        }
+        case '/jira-add-to-ticket-modal': {
+            let modal = await import('./modal/AddTicket');
             return modal.default();
         }
         default: {

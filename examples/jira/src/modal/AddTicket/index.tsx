@@ -8,7 +8,7 @@ const client = init();
 
 function Modal() {
     return (
-        <h1>Hello, Modal</h1>
+        <h1>Add Ticket</h1>
     )
 }
 
@@ -18,4 +18,3 @@ export default function render() {
         document.getElementById('root')
     );
 }
-

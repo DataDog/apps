@@ -3,6 +3,7 @@ import { init, EventType } from '@datadog/ui-extensions-sdk';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+
 const client = init()
 
 

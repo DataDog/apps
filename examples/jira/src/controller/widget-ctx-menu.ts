@@ -1,4 +1,9 @@
-import { MenuItemType, EventType, DDClient } from '@datadog/ui-extensions-sdk';
+import {
+    MenuItemType,
+    EventType,
+    DDClient,
+    ModalSize
+} from '@datadog/ui-extensions-sdk';
 
 export const setupWidgetCtxMenu = (client: DDClient) => {
     // provide widget context menu items dynamically
@@ -7,35 +12,45 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
             items: [
                 {
                     actionType: MenuItemType.EVENT,
-                    key: 'jira-modal',
-                    label: 'Create Jira ticket'
+                    key: 'jira-new-issue-modal',
+                    label: 'Create new issue'
+                },
+                {
+                    actionType: MenuItemType.EVENT,
+                    key: 'jira-add-to-ticket-modal',
+                    label: 'Add to ticket'
                 }
             ]
         };
     });
 
     client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, context => {
-        if (context.menuItem.key === 'jira-modal') {
-            client.modal.open(
-                {
-                    key: 'hello-world-modal',
-                    source: 'modal'
-                }
-            )
+        switch (context.menuItem.key) {
+            case 'jira-new-issue-modal': {
+                client.modal.open(
+                    {
+                        key: 'jira-new-issue-modal',
+                        source: 'jira-new-issue-modal',
+                        size: ModalSize.MEDIUM,
+                        title: 'Create new issue'
+                    }
+                )
+                break
+            }
+            case 'jira-add-to-ticket-modal': {
+                client.modal.open(
+                    {
+                        key: 'jira-add-to-ticket-modal',
+                        source: 'jira-add-to-ticket-modal',
+                        size: ModalSize.MEDIUM
+                    }
+                )
+                break
+            }
+            default: {
+                console.log("Unknown menuItem")
+            }
         }
 
-
-        if (context.menuItem.key === 'sidepanel-trigger') {
-            client.sidePanel.open(
-                {
-                    key: 'custom-panel-from-controller',
-                    source: 'panel'
-                },
-                {
-                    message:
-                        'Hi! I was sent here from the widget context menu 👋'
-                }
-            );
-        }
     });
 };
