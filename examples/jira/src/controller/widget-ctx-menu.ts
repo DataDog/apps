@@ -12,13 +12,13 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
             items: [
                 {
                     actionType: MenuItemType.EVENT,
-                    key: 'jira-new-issue-modal',
-                    label: 'Create new issue'
+                    key: 'jira-new-ticket-modal',
+                    label: "Create new Jira's ticket"
                 },
                 {
                     actionType: MenuItemType.EVENT,
-                    key: 'jira-add-to-ticket-modal',
-                    label: 'Add to ticket'
+                    key: 'jira-update-ticket-modal',
+                    label: "Update Jira's ticket"
                 }
             ]
         };
@@ -26,23 +26,24 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
 
     client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, context => {
         switch (context.menuItem.key) {
-            case 'jira-new-issue-modal': {
+            case 'jira-new-ticket-modal': {
                 client.modal.open(
                     {
-                        key: 'jira-new-issue-modal',
-                        source: 'jira-new-issue-modal',
+                        key: 'jira-new-ticket-modal',
+                        source: 'jira-new-ticket-modal',
                         size: ModalSize.MEDIUM,
-                        title: 'Create new issue'
+                        title: "Create new Jira's ticket"
                     }
                 )
                 break
             }
-            case 'jira-add-to-ticket-modal': {
+            case 'jira-update-ticket-modal': {
                 client.modal.open(
                     {
-                        key: 'jira-add-to-ticket-modal',
-                        source: 'jira-add-to-ticket-modal',
-                        size: ModalSize.MEDIUM
+                        key: 'jira-update-ticket-modal',
+                        source: 'jira-update-ticket-modal',
+                        size: ModalSize.MEDIUM,
+                        title: "Updating a Jira's ticket"
                     }
                 )
                 break

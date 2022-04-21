@@ -9,40 +9,29 @@ import {
     Container,
     Button,
     Select,
-    FormControl,
     FormLabel,
-    Input,
+    FormControl,
     Textarea
 } from '@chakra-ui/react'
 
 import theme from '../../theme'
 
-
 const client = init();
-
-
-interface Ticket {
-    project: string;
-    issue: string;
-    summary: string;
-    description: string;
-    labels: string;
-}
 
 
 function Modal() {
     const { register, handleSubmit } = useForm()
 
     const onSubmit = (data: any) => {
-        console.log("====")
+        console.log("=====")
         console.log(data)
-        console.log("====")
+        console.log("=====")
     }
 
     return (
         <Container pb='16px'>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <FormControl mb='16px'>
+                <FormControl>
                     <FormLabel htmlFor='project'>Select project</FormLabel>
                     <Select id='project' {...register('project')}  placeholder='Projects'>
                         <option value='project1'>Project 1</option>
@@ -50,27 +39,19 @@ function Modal() {
                         <option value='project3'>Project 3</option>
                     </Select>
                 </FormControl>
-                <FormControl mb='16px'>
-                    <FormLabel htmlFor='issue'>Issue type</FormLabel>
-                    <Select id='issue' {...register('issue')}  placeholder='Bug'>
-                        <option value='bug1'>Bug 1</option>
-                        <option value='bug2'>Bug 2</option>
-                        <option value='bug3'>Bug 3</option>
+                <FormControl>
+                    <FormLabel htmlFor='ticket'>Select ticket</FormLabel>
+                    <Select id='ticket' {...register('ticket')}  placeholder='Ticket'>
+                        <option value='ticket1'>Ticket 1</option>
+                        <option value='ticket2'>Ticket 2</option>
+                        <option value='ticket3'>Ticket 3</option>
                     </Select>
                 </FormControl>
                 <FormControl mb='16px'>
-                    <FormLabel htmlFor='summary'>Ticket summary</FormLabel>
-                    <Input type='text' id='summary' {...register('summary')} />
+                    <FormLabel htmlFor='comment'>Comment</FormLabel>
+                    <Textarea id='comment' {...register('comment')} />
                 </FormControl>
-                <FormControl mb='16px'>
-                    <FormLabel htmlFor='description'>Ticket Description</FormLabel>
-                    <Textarea id='description' {...register('description')} />
-                </FormControl>
-                <FormControl mb='16px'>
-                    <FormLabel htmlFor='labels'>Labels</FormLabel>
-                    <Input type='text' id='labels' {...register('labels')} />
-                </FormControl>
-                <Button type='submit'>Submit</Button>
+                <Button type='submit'>Update ticket</Button>
             </form>
         </Container>
     )
@@ -79,7 +60,7 @@ function Modal() {
 export default function render() {
     ReactDOM.render(
         <React.StrictMode>
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
                 <Modal />
             </ChakraProvider>
         </React.StrictMode>,
