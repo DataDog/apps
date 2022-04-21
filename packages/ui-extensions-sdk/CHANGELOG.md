@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.32.0
+
+### Minor Changes
+
+-   752e50f: Update SDK for interactions with Datadog Platform involving custom org configs
+
 ## 0.31.1
 
 ### Patch Changes

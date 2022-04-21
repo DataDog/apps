@@ -1,5 +1,16 @@
 # @datadog/ui-extensions-react
 
+## 0.32.0
+
+### Minor Changes
+
+-   752e50f: Update SDK for interactions with Datadog Platform involving custom org configs
+
+### Patch Changes
+
+-   Updated dependencies [752e50f]
+    -   @datadog/ui-extensions-sdk@0.32.0
+
 ## 0.31.1
 
 ### Patch Changes

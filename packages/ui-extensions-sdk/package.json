@@ -1,6 +1,6 @@
 {
     "name": "@datadog/ui-extensions-sdk",
-    "version": "0.31.1",
+    "version": "0.32.0",
     "description": "Datadog UI Extensions - Official JavaScript SDK ",
     "homepage": "https://github.com/DataDog/ui-extensions-sdk/tree/master/packages/ui-extensions-sdk",
     "repository": {
