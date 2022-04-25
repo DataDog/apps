@@ -5,9 +5,17 @@ import ReactDOM from 'react-dom';
 
 
 const client = init()
+const PROXY_URL = process.env.REACT_APP_PROXY_URL 
 
 
 function Widget() {
+    useEffect(() => {
+        fetch(`${PROXY_URL}`)
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error("Oh no", err))
+    }, [])
+
     return (
         <h1>Hello, World</h1>
     )
