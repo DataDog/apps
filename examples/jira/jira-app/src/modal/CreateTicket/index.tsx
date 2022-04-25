@@ -1,6 +1,6 @@
 import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useForm } from 'react-hook-form'
 
@@ -19,6 +19,7 @@ import theme from '../../theme'
 
 
 const client = init();
+const PROXY_URL = process.env.REACT_APP_PROXY_URL 
 
 
 interface Ticket {
@@ -29,9 +30,26 @@ interface Ticket {
     labels: string;
 }
 
+interface Project {
+    key: string;
+    id: string;
+    name: string;
+}
+
 
 function Modal() {
     const { register, handleSubmit } = useForm()
+    const [ projects, setProjects ] = useState<Project[]>([])
+
+    useEffect(() => {
+        fetch(`${PROXY_URL}`)
+            .then(res => res.json())
+            .then(projectsData => {
+                const { data } = projectsData
+                setProjects(data)
+            })
+            .catch(err => console.error("Oh no", err))
+    }, [])
 
     const onSubmit = (data: any) => {
         console.log("====")
@@ -39,15 +57,19 @@ function Modal() {
         console.log("====")
     }
 
+    if (!projects.length) return <div>Loading...</div>
+
     return (
         <Container pb='16px'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='project'>Select project</FormLabel>
                     <Select id='project' {...register('project')}  placeholder='Projects'>
-                        <option value='project1'>Project 1</option>
-                        <option value='project2'>Project 2</option>
-                        <option value='project3'>Project 3</option>
+                        {
+                            projects.map(project => (
+                                <option value={project.id}>{project.name}</option>
+                            ))
+                        }
                     </Select>
                 </FormControl>
                 <FormControl mb='16px'>
