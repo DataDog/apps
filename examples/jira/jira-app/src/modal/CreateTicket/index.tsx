@@ -36,16 +36,26 @@ interface Project {
     name: string;
 }
 
+interface IssueType {
+    id: string;
+    name: string;
+}
+
 
 function Modal() {
     const { register, handleSubmit } = useForm()
     const [ projects, setProjects ] = useState<Project[]>([])
 
     useEffect(() => {
-        fetch(`${PROXY_URL}`)
+        fetch(`${PROXY_URL}/projects`)
             .then(res => res.json())
             .then(projectsData => {
                 const { data } = projectsData
+
+                console.log("====")
+                console.log(data)
+                console.log("====")
+
                 setProjects(data)
             })
             .catch(err => console.error("Oh no", err))
@@ -59,6 +69,10 @@ function Modal() {
 
     if (!projects.length) return <div>Loading...</div>
 
+    console.log("+++++")
+    console.log(projects)
+    console.log("+++++")
+
     return (
         <Container pb='16px'>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -67,7 +81,7 @@ function Modal() {
                     <Select id='project' {...register('project')}  placeholder='Projects'>
                         {
                             projects.map(project => (
-                                <option value={project.id}>{project.name}</option>
+                                <option key={project.id} value={project.id}>{project.name}</option>
                             ))
                         }
                     </Select>
