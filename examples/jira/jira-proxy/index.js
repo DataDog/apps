@@ -52,10 +52,6 @@ app.get('/projects', async (req, res) => {
         }
     }))
 
-    console.log("====")
-    console.log(projectsWithIssueTypes)
-    console.log("====")
-
     res.json({
         data: projectsWithIssueTypes
     })

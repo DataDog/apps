@@ -3,7 +3,6 @@ import { init } from '@datadog/ui-extensions-sdk';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { useForm } from 'react-hook-form'
-
 import {
     ChakraProvider,
     Container,
@@ -30,15 +29,17 @@ interface Ticket {
     labels: string;
 }
 
+interface IssueType {
+    id: string;
+    name: string;
+    description: string;
+}
+
 interface Project {
     key: string;
     id: string;
     name: string;
-}
-
-interface IssueType {
-    id: string;
-    name: string;
+    issueTypes: [IssueType];
 }
 
 
@@ -51,11 +52,6 @@ function Modal() {
             .then(res => res.json())
             .then(projectsData => {
                 const { data } = projectsData
-
-                console.log("====")
-                console.log(data)
-                console.log("====")
-
                 setProjects(data)
             })
             .catch(err => console.error("Oh no", err))
@@ -69,16 +65,12 @@ function Modal() {
 
     if (!projects.length) return <div>Loading...</div>
 
-    console.log("+++++")
-    console.log(projects)
-    console.log("+++++")
-
     return (
         <Container pb='16px'>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='project'>Select project</FormLabel>
-                    <Select id='project' {...register('project')}  placeholder='Projects'>
+                    <Select id='project' {...register('project')} placeholder='Projects' required>
                         {
                             projects.map(project => (
                                 <option key={project.id} value={project.id}>{project.name}</option>
@@ -88,10 +80,12 @@ function Modal() {
                 </FormControl>
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='issue'>Issue type</FormLabel>
-                    <Select id='issue' {...register('issue')}  placeholder='Bug'>
-                        <option value='bug1'>Bug 1</option>
-                        <option value='bug2'>Bug 2</option>
-                        <option value='bug3'>Bug 3</option>
+                    <Select id='issue' {...register('issue')}  placeholder='Types' required>
+                        {
+                            projects.map(project => project.issueTypes.map(issueType => (
+                                <option key={issueType.id} value={issueType.id}>{issueType.name}</option>
+                            )))
+                        }
                     </Select>
                 </FormControl>
                 <FormControl mb='16px'>
