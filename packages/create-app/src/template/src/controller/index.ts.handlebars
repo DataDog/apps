@@ -1,13 +1,11 @@
 import { init } from '@datadog/ui-extensions-sdk';{{#if dashboardCogMenu}}
 import { setupDashboardCogMenu } from './dashboard-cog-menu';{{/if}}{{#if modal}}
 import { setupModal } from './modal';{{/if}}{{#if widgetContextMenu}}
-import { setupWidgetContextMenu } from './widget-context-menu';{{/if}}
 
 export default function setup() {
     const client = init();{{#if dashboardCogMenu}}
     setupDashboardCogMenu(client);{{/if}}{{#if modal}}
     setupModal(client);{{/if}}{{#if widgetContextMenu}}
-    setupWidgetContextMenu(client);{{/if}}
 
     const root = document.getElementById('root');
     if (!root) {

@@ -15,7 +15,6 @@ import type {
     DeprecatedUsage,
     TemplateVariableValue,
     Timeframe,
-    WidgetContextMenuClickData,
     WidgetSettingsMenuClickData
 } from '../types';
 import { isEventEnabled } from '../utils/utils';
@@ -27,7 +26,6 @@ interface DDEventDataTypes<AuthStateArgs> {
     [EventType.CONTEXT_CHANGE]: Context;
     [EventType.RESIZE_IFRAME]: IFrameDimensions;
     [EventType.DASHBOARD_COG_MENU_CLICK]: DashboardCogMenuClickData;
-    [EventType.WIDGET_CONTEXT_MENU_CLICK]: WidgetContextMenuClickData;
     [EventType.WIDGET_SETTINGS_MENU_CLICK]: WidgetSettingsMenuClickData;
     [EventType.MODAL_CLOSE]: ModalDefinition;
     [EventType.MODAL_CANCEL]: ModalDefinition;

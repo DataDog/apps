@@ -1,1 +1,0 @@
-export { renderLogin } from './login';

@@ -73,10 +73,6 @@ const createAppEntry = async configuration => {
                                     }
                                 },
                                 {
-                                    name: 'widget_context_menu',
-                                    options: { items: [] }
-                                },
-                                {
                                     name: 'modals',
                                     options: {}
                                 },

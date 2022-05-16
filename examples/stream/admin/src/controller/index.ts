@@ -1,9 +1,4 @@
-import { setupWidgetCtxMenu } from './widget-ctx-menu';
-import client from '../client';
-
 export default function setup() {
-    setupWidgetCtxMenu(client);
-
     const root = document.getElementById('root');
     if (!root) {
         return;

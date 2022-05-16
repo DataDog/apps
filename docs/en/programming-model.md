@@ -610,52 +610,6 @@ const unsubscribe = client.events.on('dashboard_cog_menu_click', handler);
 
 Event handlers will receive a **context** object with information about the active dashboard, and the menu item that was just clicked.
 
-## Widget Context Menu
-
-![context-menu](https://user-images.githubusercontent.com/1262407/133463979-bbd2e3f4-8beb-4808-820f-e3f474c9aac2.png)
-
-
-Allows applications to extend widget visualizations with custom context menu items. At present, custom context menu items are only supported on dashboards.
-
-**Configuration:**
-
-Context menu items should be provided dynamically by the main controller IFrame. When a context menu renders, it will send a request to the main controller iframe asking for a set of menu items. Items can be provided by registering a handler with `client.widgetContextMenu.onRequest()`. The handler will be provided with a set of context data about the widget, so that items may be rendered (or excluded) based on that data:
-
-```javascript
-
-client. widgetContextMenu.onRequest(({ widget )) => {
-  if (widget.definition.type === 'timeseries') {
-  	return {
-      items: [{
-        actionType: 'event',
-        label: "My custom item",
-        key: 'do-my-thing',
-      }]
-    }
-  }
-
-  return {
-    items: []
-  }
-});
-```
-
-**PLEASE NOTE**: As a best practice, please be sparing in providing context menu items to reduce bloat across the app. Ideally, only provide them when needed
-
-#### Display order:
-
-Since items can be defined statically in the manifest or dynamically in code, you can enforce a specific display order for your items by providing an optional `order` field with a numerical value.
-
-#### Events:
-
-When cog menu items are clicked, a `widget_context_menu_click` event is broadcast to all active IFrames:
-
-```js
-const unsubscribe = client.events.on('widget_context_menu_click', handler);
-```
-
-Event handlers will receive a **context** object with information about the widget, and the menu item that was just clicked.
-
 ## Authentication
 
 When this feature is enabled, users need be authenticated before using the app. This feature allows you to integrate your existing authentication mechanism like cookie based username/password login with the Developer Platform.
@@ -784,7 +738,7 @@ authStateCallback: () => {
 
 ## Menu Items
 
-Custom menu items may be provided as part of the `dashboard_cog_menu` and `widget_context_menu` features. In both cases, menu items may be provided in two formats:
+Custom menu items may be provided as part of the `dashboard_cog_menu` feature. Menu items may be provided in two formats:
 
 **Link items:**
 
@@ -800,12 +754,12 @@ Items of type link can be used to navigate the user within the Datadog UI, or to
 Event items can be used to perform arbitrary actions. When clicked an event will be broadcast to all active IFrames containing context data about the menu item and its environment:
 
 ```
-client.events.on('<click event>', (context) => {
+client.events.on('dashboard_cog_menu_click', (context) => {
    ...do stuff
 });
 ```
 
-The exact event name will depend on the feature, please refer to individual documentation. Event items must conform to the following format:
+Event items must conform to the following format:
 
 - `key`: A string unique to the item
 - `label`: Visible item text

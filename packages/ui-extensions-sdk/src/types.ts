@@ -102,10 +102,6 @@ export interface DashboardWidgetContext {
     layout?: any;
 }
 
-export interface WidgetInteractionContext {
-    groupTags: string[];
-}
-
 export interface MenuItemContext {
     key: string;
 }
@@ -115,7 +111,6 @@ export interface FeatureContext {
     dashboard?: DashboardContext;
     widget?: DashboardWidgetContext;
     menuItem?: MenuItemContext;
-    widgetInteraction?: WidgetInteractionContext;
     // Optional arguements passed to different feature components like modal, side panel, etc
     args?: unknown;
 }
@@ -190,17 +185,6 @@ export interface SidePanelDefinition extends DefinitionWithKey {
     title?: string;
     source?: string;
 }
-
-// Widget Context Menus
-export type WidgetContextMenuClickData = RequireKeys<
-    FeatureContext,
-    'widget' | 'widgetInteraction' | 'menuItem'
->;
-
-export type GetWidgetContextMenuItemsRequest = RequireKeys<
-    FeatureContext,
-    'widget' | 'widgetInteraction'
->;
 
 export interface GetWidgetContextMenuItemsResponse
     extends MenuItemRequestResponse {}

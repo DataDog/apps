@@ -26,7 +26,6 @@ import type {
 } from '../types';
 import { Logger } from '../utils/logger';
 import { startResourceMonitoring } from '../utils/security';
-import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
 
@@ -52,7 +51,6 @@ export class DDClient<AuthStateArgs = unknown>
     modal: DDModalClient;
     notification: DDNotificationClient;
     sidePanel: DDSidePanelClient;
-    widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
     config: DDConfigClient;
 
@@ -92,7 +90,6 @@ export class DDClient<AuthStateArgs = unknown>
         this.modal = new DDModalClient(this);
         this.notification = new DDNotificationClient(this);
         this.sidePanel = new DDSidePanelClient(this);
-        this.widgetContextMenu = new DDWidgetContextMenuClient(this);
         this.config = new DDConfigClient(this);
 
         this.events.on(EventType.CONTEXT_CHANGE, newContext => {

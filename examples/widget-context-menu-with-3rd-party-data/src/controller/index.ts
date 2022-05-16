@@ -1,1 +1,0 @@
-export { renderController } from './controller';

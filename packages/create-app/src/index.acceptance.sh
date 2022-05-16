@@ -95,13 +95,3 @@ if ! test -f "${TEMPORARY_DIR}/src/controller/dashboard-cog-menu.ts"; then
 fi
 # Remove any generated files.
 rm -fr "${TEMPORARY_DIR}/*"
-
-echo 'Checking that `--features widget-context-menu` creates the correct files'
-./bin/index.js --directory "${TEMPORARY_DIR}" --features widget-context-menu --no-install 1> /dev/null
-if ! test -f "${TEMPORARY_DIR}/src/controller/widget-context-menu.ts"; then
-    echo 'Did not create `src/controller/widget-context-menu.ts` for `--features widget-context-menu`'
-
-    exit 1
-fi
-# Remove any generated files.
-rm -fr "${TEMPORARY_DIR}/*"

@@ -69,10 +69,6 @@ async function createApp(appId) {
                                     }
                                 },
                                 {
-                                    name: 'widget_context_menu',
-                                    options: { items: [] }
-                                },
-                                {
                                     name: 'modals',
                                     options: {}
                                 },

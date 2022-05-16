@@ -58,10 +58,6 @@
                 {
                     "name": "side_panels",
                     "options": {}
-                },
-                {
-                    "name": "widget_context_menu",
-                    "options": {}
                 }
             ],
             "secured": false,

@@ -19,7 +19,6 @@ type FeaturesConfig = {
     dashboardCogMenu: boolean;
     modal: boolean;
     sidePanel: boolean;
-    widgetContextMenu: boolean;
 };
 
 const defaultBranch = 'master';
@@ -29,8 +28,7 @@ const features = [
     'custom-widget',
     'dashboard-cog-menu',
     'modal',
-    'side-panel',
-    'widget-context-menu'
+    'side-panel'
 ] as const;
 
 const templateDirectory: string = path.join(__dirname, 'template');
@@ -244,8 +242,7 @@ export class Command extends clipanion.Command {
             customWidget: this.features.includes('custom-widget'),
             dashboardCogMenu: this.features.includes('dashboard-cog-menu'),
             modal: this.features.includes('modal'),
-            sidePanel: this.features.includes('side-panel'),
-            widgetContextMenu: this.features.includes('widget-context-menu')
+            sidePanel: this.features.includes('side-panel')
         };
 
         // Top-level files
@@ -317,13 +314,6 @@ export class Command extends clipanion.Command {
             await copyFromTemplate(
                 directory,
                 path.join('src', 'side-panel', 'index.tsx')
-            );
-        }
-
-        if (config.widgetContextMenu) {
-            await copyFromTemplate(
-                directory,
-                path.join('src', 'controller', 'widget-context-menu.ts')
             );
         }
 
