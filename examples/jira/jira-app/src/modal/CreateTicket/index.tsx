@@ -57,10 +57,28 @@ function Modal() {
             .catch(err => console.error("Oh no", err))
     }, [])
 
-    const onSubmit = (data: any) => {
-        console.log("====")
-        console.log(data)
-        console.log("====")
+    const onSubmit = async (data: any) => {
+        const { args }: { args?: any } = await client.getContext()
+
+        console.log('======')
+        console.log(args)
+        console.log('======')
+
+
+        fetch(`${PROXY_URL}/projects`, {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json',
+                'Accept':'application/json'
+            },
+            body: JSON.stringify({
+                timeframe: args.timeframe,
+                request: args.requests[0].queries[0].query
+            })
+        })
+            .then(res => res.json())
+            .then(data => console.log("data"))
+            .catch(err => console.log("Oh no", err))
     }
 
     if (!projects.length) return <div>Loading...</div>
@@ -70,7 +88,7 @@ function Modal() {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='project'>Select project</FormLabel>
-                    <Select id='project' {...register('project')} placeholder='Projects' required>
+                    <Select id='project' {...register('project')} placeholder='Projects'>
                         {
                             projects.map(project => (
                                 <option key={project.id} value={project.id}>{project.name}</option>
@@ -80,7 +98,7 @@ function Modal() {
                 </FormControl>
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='issue'>Issue type</FormLabel>
-                    <Select id='issue' {...register('issue')}  placeholder='Types' required>
+                    <Select id='issue' {...register('issue')}  placeholder='Types'>
                         {
                             projects.map(project => project.issueTypes.map(issueType => (
                                 <option key={issueType.id} value={issueType.id}>{issueType.name}</option>
