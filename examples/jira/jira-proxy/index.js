@@ -45,6 +45,38 @@ async function getIssueTypes(projectId) {
 }
 
 async function createIssue(issue) {
+
+
+    const bodyData = {
+        fields: {
+            summary: "Hello from API 6.0",
+            issuetype: {
+                id: "10001"
+            },
+            project: {
+                id: "10000"
+            },
+            description: {
+                type: "doc",
+                content: [
+                    {
+                        type: "paragraph",
+                        content: [
+                            {
+                                text: "A nice description",
+                                type: "text"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+
+    console.log("=====")
+    console.log(bodyData)
+    console.log("=====")
+
     const res = await fetch(`${JIRA_URL}/rest/api/3/issue`, {
         method: 'POST',
         headers: {
@@ -54,9 +86,7 @@ async function createIssue(issue) {
                AUTHORIZATION 
             ).toString('base64')}`
         },
-        body: JSON.stringify({
-            toto: 'tata'
-        })
+        body: JSON.stringify(bodyData)
     })
 
     console.log("=====")
@@ -88,13 +118,16 @@ app.post('/projects', async(req, res) => {
             request,
             timeframe: {
                 start, end
-            }
+            },
+            description,
+            issueTypeId,
+            projectId,
+            summary
         }
     } = req
 
-
     const params = {
-        metricQuery: 'system.cpu.idle{*}',
+        metricQuery: request,
         start,
         end
     }
@@ -103,6 +136,12 @@ app.post('/projects', async(req, res) => {
         .then(data => data)
         .catch(err => console.log("an error occurs", err))
 
+    await createIssue({
+        summary,
+        description: snapshotUrl,
+        issueTypeId,
+        projectId
+    })
 
     res.json({
         data: 'ok'

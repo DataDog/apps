@@ -61,7 +61,7 @@ function Modal() {
         const { args }: { args?: any } = await client.getContext()
 
         console.log('======')
-        console.log(args)
+        console.log(data)
         console.log('======')
 
 
@@ -72,8 +72,12 @@ function Modal() {
                 'Accept':'application/json'
             },
             body: JSON.stringify({
-                timeframe: args.timeframe,
-                request: args.requests[0].queries[0].query
+                description: data.description,
+                issueTypeId: data.issue,
+                projectId: data.project,
+                request: args.requests[0].queries[0].query,
+                summary: data.summary,
+                timeframe: args.timeframe
             })
         })
             .then(res => res.json())
@@ -82,6 +86,10 @@ function Modal() {
     }
 
     if (!projects.length) return <div>Loading...</div>
+
+    console.log("=======")
+    console.log(projects)
+    console.log("=======")
 
     return (
         <Container pb='16px'>
