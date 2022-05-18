@@ -45,25 +45,41 @@ async function getIssueTypes(projectId) {
 }
 
 async function createIssue(issue) {
-
+    const {
+        summary,
+        description,
+        projectId,
+        issueTypeId,
+        snapshotUrl
+    } = issue
 
     const bodyData = {
         fields: {
-            summary: "Hello from API 6.0",
+            summary,
             issuetype: {
-                id: "10001"
+                id: issueTypeId
             },
             project: {
-                id: "10000"
+                id: projectId
             },
             description: {
                 type: "doc",
+                version: 1,
                 content: [
                     {
                         type: "paragraph",
                         content: [
                             {
-                                text: "A nice description",
+                                text: description,
+                                type: "text"
+                            }
+                        ]
+                    },
+                    {
+                        type: "paragraph",
+                        content: [
+                            {
+                                text: snapshotUrl,
                                 type: "text"
                             }
                         ]
@@ -73,11 +89,7 @@ async function createIssue(issue) {
         }
     }
 
-    console.log("=====")
-    console.log(bodyData)
-    console.log("=====")
-
-    const res = await fetch(`${JIRA_URL}/rest/api/3/issue`, {
+    return await fetch(`${JIRA_URL}/rest/api/3/issue`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -88,10 +100,8 @@ async function createIssue(issue) {
         },
         body: JSON.stringify(bodyData)
     })
-
-    console.log("=====")
-    console.log(res)
-    console.log("=====")
+        .then(res => res.json())
+        .catch(err => console.log("an error occurs", err))
 }
 
 app.get('/projects', async (req, res) => {
@@ -136,15 +146,20 @@ app.post('/projects', async(req, res) => {
         .then(data => data)
         .catch(err => console.log("an error occurs", err))
 
-    await createIssue({
+    const jiraResponse = await createIssue({
         summary,
-        description: snapshotUrl,
+        description,
         issueTypeId,
-        projectId
+        projectId,
+        snapshotUrl
     })
 
+    console.log("======")
+    console.log(jiraResponse)
+    console.log("======")
+
     res.json({
-        data: 'ok'
+        data: jiraResponse
     })
 })
 

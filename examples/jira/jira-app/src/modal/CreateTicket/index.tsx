@@ -11,7 +11,8 @@ import {
     FormControl,
     FormLabel,
     Input,
-    Textarea
+    Textarea,
+    Text
 } from '@chakra-ui/react'
 
 import theme from '../../theme'
@@ -44,7 +45,10 @@ interface Project {
 
 
 function Modal() {
-    const { register, handleSubmit } = useForm()
+    const { register, handleSubmit, watch } = useForm()
+
+    const [ isSubmitted, setIsSubmitted ] = useState(false)
+    const [ isSubmitting, setIsSubmitting ] = useState(false)
     const [ projects, setProjects ] = useState<Project[]>([])
 
     useEffect(() => {
@@ -57,13 +61,11 @@ function Modal() {
             .catch(err => console.error("Oh no", err))
     }, [])
 
+    
     const onSubmit = async (data: any) => {
         const { args }: { args?: any } = await client.getContext()
 
-        console.log('======')
-        console.log(data)
-        console.log('======')
-
+        setIsSubmitting(true)
 
         fetch(`${PROXY_URL}/projects`, {
             method: 'POST',
@@ -81,15 +83,25 @@ function Modal() {
             })
         })
             .then(res => res.json())
-            .then(data => console.log("data"))
+            .then(() => {
+                setIsSubmitted(true)
+            })
             .catch(err => console.log("Oh no", err))
     }
 
     if (!projects.length) return <div>Loading...</div>
 
-    console.log("=======")
-    console.log(projects)
-    console.log("=======")
+    if (isSubmitted) {
+        return (
+            <Container pb='16px'>
+                <Text fontSize='md' color='green.500'>
+                    Issue Created on Jira
+                </Text>
+            </Container>
+        )
+    }
+
+    const currentProject = watch('project')
 
     return (
         <Container pb='16px'>
@@ -108,9 +120,15 @@ function Modal() {
                     <FormLabel htmlFor='issue'>Issue type</FormLabel>
                     <Select id='issue' {...register('issue')}  placeholder='Types'>
                         {
-                            projects.map(project => project.issueTypes.map(issueType => (
-                                <option key={issueType.id} value={issueType.id}>{issueType.name}</option>
-                            )))
+                            currentProject 
+                                ? projects
+                                    .filter(project => project.id === currentProject)
+                                    .map(project => project.issueTypes.map(issueType => (
+                                        <option key={issueType.id} value={issueType.id}>{issueType.name}</option>
+                                    )))
+                                : projects.map(project => project.issueTypes.map(issueType => (
+                                    <option key={issueType.id} value={issueType.id}>{issueType.name}</option>
+                                 )))
                         }
                     </Select>
                 </FormControl>
@@ -126,7 +144,7 @@ function Modal() {
                     <FormLabel htmlFor='labels'>Labels</FormLabel>
                     <Input type='text' id='labels' {...register('labels')} />
                 </FormControl>
-                <Button type='submit'>Create ticket</Button>
+                <Button type='submit' isLoading={isSubmitting}>Create ticket</Button>
             </form>
         </Container>
     )
