@@ -80,7 +80,16 @@ async function createIssue(issue) {
                         content: [
                             {
                                 text: snapshotUrl,
-                                type: "text"
+                                type: "text",
+                                marks: [
+                                    {
+                                        type: "link",
+                                        attrs: {
+                                            href: snapshotUrl,
+                                            title: "Snapshot URL"
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
