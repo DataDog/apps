@@ -132,14 +132,15 @@ app.post('/projects', async(req, res) => {
             description,
             issueTypeId,
             projectId,
-            summary
+            summary,
         }
     } = req
 
     const params = {
+        end: Math.round(end / 1000),
         metricQuery: request,
-        start,
-        end
+        start: Math.round(start / 1000),
+        title: `Graph of ${request}`
     }
 
     const { snapshotUrl } = await apiInstance.getGraphSnapshot(params)
@@ -153,10 +154,6 @@ app.post('/projects', async(req, res) => {
         projectId,
         snapshotUrl
     })
-
-    console.log("======")
-    console.log(jiraResponse)
-    console.log("======")
 
     res.json({
         data: jiraResponse

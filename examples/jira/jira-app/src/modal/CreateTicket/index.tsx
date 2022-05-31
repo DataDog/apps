@@ -48,6 +48,7 @@ function Modal() {
     const { register, handleSubmit, watch } = useForm()
 
     const [ isSubmitted, setIsSubmitted ] = useState(false)
+    const [ hasError, setHasError ] = useState(false)
     const [ isSubmitting, setIsSubmitting ] = useState(false)
     const [ projects, setProjects ] = useState<Project[]>([])
 
@@ -86,10 +87,20 @@ function Modal() {
             .then(() => {
                 setIsSubmitted(true)
             })
-            .catch(err => console.log("Oh no", err))
+            .catch(() => setHasError(true))
     }
 
     if (!projects.length) return <div>Loading...</div>
+
+    if (hasError) {
+        return (
+            <Container pb='16px'>
+                <Text fontSize='md' color='red.500'>
+                    An error occurred when creating the issue
+                </Text>
+            </Container>
+        )
+    }
 
     if (isSubmitted) {
         return (
