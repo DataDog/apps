@@ -1,5 +1,5 @@
 {
-    "name": "datadog-app-example-jira",
+    "name": "datadog-app-example-jira-jira-app",
     "version": "0.1.0",
     "private": true,
     "dependencies": {

@@ -1,5 +1,5 @@
 {
-    "name": "jira-proxy",
+    "name": "datadog-app-example-jira-jira-proxy",
     "version": "1.0.0",
     "main": "index.js",
     "license": "MIT",
