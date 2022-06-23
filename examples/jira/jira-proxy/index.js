@@ -1,57 +1,53 @@
-const fetch = require('node-fetch')
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const { v1 } = require('@datadog/datadog-api-client')
+const fetch = require('node-fetch');
+const express = require('express');
+const cors = require('cors');
+const { v1 } = require('@datadog/datadog-api-client');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
-const JIRA_EMAIL = process.env.JIRA_EMAIL
-const JIRA_API_KEY = process.env.JIRA_API_KEY
-const JIRA_URL = process.env.JIRA_URL
+const JIRA_EMAIL = process.env.JIRA_EMAIL;
+const JIRA_API_KEY = process.env.JIRA_API_KEY;
+const JIRA_URL = process.env.JIRA_URL;
 
-const AUTHORIZATION = `${JIRA_EMAIL}:${JIRA_API_KEY}`
+const AUTHORIZATION = `${JIRA_EMAIL}:${JIRA_API_KEY}`;
 
-const configuration = v1.createConfiguration()
-const apiInstance = new v1.SnapshotsApi(configuration)
+const configuration = v1.createConfiguration();
+const apiInstance = new v1.SnapshotsApi(configuration);
 
 async function getProjects() {
     const res = await fetch(`${JIRA_URL}/rest/api/3/project`, {
         method: 'GET',
         headers: {
-            'Accept': 'application/json',
-            'Authorization': `Basic ${Buffer.from(
-               AUTHORIZATION 
-            ).toString('base64')}`
+            Accept: 'application/json',
+            Authorization: `Basic ${Buffer.from(AUTHORIZATION).toString(
+                'base64'
+            )}`
         }
-    })
-    return await res.json()
+    });
+    return res.json();
 }
 
 async function getIssueTypes(projectId) {
-    const res = await fetch(`${JIRA_URL}/rest/api/3/issuetype/project?projectId=${projectId}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': `Basic ${Buffer.from(
-               AUTHORIZATION 
-            ).toString('base64')}`
+    const res = await fetch(
+        `${JIRA_URL}/rest/api/3/issuetype/project?projectId=${projectId}`,
+        {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Authorization: `Basic ${Buffer.from(AUTHORIZATION).toString(
+                    'base64'
+                )}`
+            }
         }
-    })
-    return await res.json()
+    );
+    return res.json();
 }
 
 async function createIssue(issue) {
-    const {
-        summary,
-        description,
-        projectId,
-        issueTypeId,
-        snapshotUrl
-    } = issue
+    const { summary, description, projectId, issueTypeId, snapshotUrl } = issue;
 
     const bodyData = {
         fields: {
@@ -63,30 +59,30 @@ async function createIssue(issue) {
                 id: projectId
             },
             description: {
-                type: "doc",
+                type: 'doc',
                 version: 1,
                 content: [
                     {
-                        type: "paragraph",
+                        type: 'paragraph',
                         content: [
                             {
                                 text: description,
-                                type: "text"
+                                type: 'text'
                             }
                         ]
                     },
                     {
-                        type: "paragraph",
+                        type: 'paragraph',
                         content: [
                             {
                                 text: snapshotUrl,
-                                type: "text",
+                                type: 'text',
                                 marks: [
                                     {
-                                        type: "link",
+                                        type: 'link',
                                         attrs: {
                                             href: snapshotUrl,
-                                            title: "Snapshot URL"
+                                            title: 'Snapshot URL'
                                         }
                                     }
                                 ]
@@ -96,65 +92,70 @@ async function createIssue(issue) {
                 ]
             }
         }
-    }
+    };
 
-    return await fetch(`${JIRA_URL}/rest/api/3/issue`, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'Authorization': `Basic ${Buffer.from(
-               AUTHORIZATION 
-            ).toString('base64')}`
-        },
-        body: JSON.stringify(bodyData)
-    })
-        .then(res => res.json())
-        .catch(err => console.log("an error occurs", err))
+    return (
+        fetch(`${JIRA_URL}/rest/api/3/issue`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Basic ${Buffer.from(AUTHORIZATION).toString(
+                    'base64'
+                )}`
+            },
+            body: JSON.stringify(bodyData)
+        })
+            .then(res => res.json())
+            /* eslint-disable-next-line no-console */
+            .catch(err => console.log('an error occurs', err))
+    );
 }
 
 app.get('/projects', async (req, res) => {
-    const projects = await getProjects()
+    const projects = await getProjects();
 
-    const projectsWithIssueTypes = await Promise.all(projects.map(async project => {
-        const { id } = project
-        const issueTypes = await getIssueTypes(id)
+    const projectsWithIssueTypes = await Promise.all(
+        projects.map(async project => {
+            const { id } = project;
+            const issueTypes = await getIssueTypes(id);
 
-        return {
-            ...project,
-            issueTypes
-        }
-    }))
+            return {
+                ...project,
+                issueTypes
+            };
+        })
+    );
 
     res.json({
         data: projectsWithIssueTypes
-    })
-})
+    });
+});
 
-app.post('/projects', async(req, res) => {
+app.post('/projects', async (req, res) => {
     const {
         body: {
             request,
-            timeframe: {
-                start, end
-            },
+            timeframe: { start, end },
             description,
             issueTypeId,
             projectId,
-            summary,
+            summary
         }
-    } = req
+    } = req;
 
     const params = {
         end: Math.round(end / 1000),
         metricQuery: request,
         start: Math.round(start / 1000),
         title: `Graph of ${request}`
-    }
+    };
 
-    const { snapshotUrl } = await apiInstance.getGraphSnapshot(params)
+    const { snapshotUrl } = await apiInstance
+        .getGraphSnapshot(params)
         .then(data => data)
-        .catch(err => console.log("an error occurs", err))
+        /* eslint-disable-next-line no-console */
+        .catch(err => console.log('an error occurs', err));
 
     const jiraResponse = await createIssue({
         summary,
@@ -162,15 +163,14 @@ app.post('/projects', async(req, res) => {
         issueTypeId,
         projectId,
         snapshotUrl
-    })
+    });
 
     res.json({
         data: jiraResponse
-    })
-})
-
+    });
+});
 
 app.listen(3000, () => {
-    console.log('Magic happens')
-})
-
+    /* eslint-disable-next-line no-console */
+    console.log('Magic happens');
+});

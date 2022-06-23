@@ -20,8 +20,8 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
     });
 
     client.events.on(EventType.WIDGET_CONTEXT_MENU_CLICK, context => {
-        const timeframe = context?.dashboard?.timeframe
-        const requests = context.widget.definition.requests
+        const timeframe = context?.dashboard?.timeframe;
+        const requests = context.widget.definition.requests;
 
         switch (context.menuItem.key) {
             case 'jira-new-ticket-modal': {
@@ -30,19 +30,18 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
                         key: 'jira-new-ticket-modal',
                         source: 'jira-new-ticket-modal',
                         size: ModalSize.MEDIUM,
-                        title: "Create new Jira's ticket",
+                        title: "Create new Jira's ticket"
                     },
                     {
                         timeframe,
                         requests
                     }
-                )
-                break
+                );
+                break;
             }
             default: {
-                console.log("Unknown menuItem")
+                console.log('Unknown menuItem');
             }
         }
-
     });
 };

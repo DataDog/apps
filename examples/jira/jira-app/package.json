@@ -1,5 +1,5 @@
 {
-    "name": "datadog-app-example-starter-kit",
+    "name": "datadog-app-example-jira",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
@@ -24,6 +24,7 @@
         "build": "react-scripts build",
         "eject": "react-scripts eject",
         "prepare": "exit 0",
+        "format": "prettier --write .",
         "start": "react-scripts start",
         "test": "react-scripts test --passWithNoTests --watchAll=false"
     },
@@ -45,6 +46,5 @@
             "last 1 safari version"
         ]
     },
-    "devDependencies": {
-    }
+    "devDependencies": {}
 }
