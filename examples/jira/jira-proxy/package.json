@@ -13,6 +13,7 @@
         "nodemon": "^2.0.15"
     },
     "scripts": {
+        "build": "exit 0",
         "start": "node index.js",
         "dev": "node_modules/.bin/nodemon index.js",
         "prepare": "exit 0",
