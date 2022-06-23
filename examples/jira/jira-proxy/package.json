@@ -2,6 +2,7 @@
     "name": "datadog-app-example-jira-jira-proxy",
     "version": "1.0.0",
     "main": "index.js",
+    "private": true,
     "license": "MIT",
     "dependencies": {
         "@datadog/datadog-api-client": "^1.0.0-beta.9",
