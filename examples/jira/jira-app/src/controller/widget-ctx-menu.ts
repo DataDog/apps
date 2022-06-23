@@ -14,11 +14,6 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
                     actionType: MenuItemType.EVENT,
                     key: 'jira-new-ticket-modal',
                     label: "Create new Jira's ticket"
-                },
-                {
-                    actionType: MenuItemType.EVENT,
-                    key: 'jira-update-ticket-modal',
-                    label: "Update Jira's ticket"
                 }
             ]
         };
@@ -40,17 +35,6 @@ export const setupWidgetCtxMenu = (client: DDClient) => {
                     {
                         timeframe,
                         requests
-                    }
-                )
-                break
-            }
-            case 'jira-update-ticket-modal': {
-                client.modal.open(
-                    {
-                        key: 'jira-update-ticket-modal',
-                        source: 'jira-update-ticket-modal',
-                        size: ModalSize.MEDIUM,
-                        title: "Updating a Jira's ticket"
                     }
                 )
                 break

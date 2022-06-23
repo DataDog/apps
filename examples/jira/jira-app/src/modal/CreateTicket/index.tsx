@@ -1,8 +1,7 @@
-import { useContext } from '@datadog/ui-extensions-react';
 import { init } from '@datadog/ui-extensions-sdk';
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import {
     ChakraProvider,
     Container,
@@ -22,30 +21,29 @@ const client = init();
 const PROXY_URL = process.env.REACT_APP_PROXY_URL 
 
 
-interface Ticket {
-    project: string;
-    issue: string;
-    summary: string;
+type Ticket = {
     description: string;
-    labels: string;
+    issue: string;
+    project: string;
+    summary: string;
 }
 
 interface IssueType {
+    description: string;
     id: string;
     name: string;
-    description: string;
 }
 
 interface Project {
-    key: string;
     id: string;
-    name: string;
     issueTypes: [IssueType];
+    key: string;
+    name: string;
 }
 
 
 function Modal() {
-    const { register, handleSubmit, watch } = useForm()
+    const { register, handleSubmit, watch } = useForm<Ticket>()
 
     const [ isSubmitted, setIsSubmitted ] = useState(false)
     const [ hasError, setHasError ] = useState(false)
@@ -63,7 +61,7 @@ function Modal() {
     }, [])
 
     
-    const onSubmit = async (data: any) => {
+    const onSubmit: SubmitHandler<Ticket> = async data => {
         const { args }: { args?: any } = await client.getContext()
 
         setIsSubmitting(true)
@@ -150,10 +148,6 @@ function Modal() {
                 <FormControl mb='16px'>
                     <FormLabel htmlFor='description'>Ticket Description</FormLabel>
                     <Textarea id='description' {...register('description')} />
-                </FormControl>
-                <FormControl mb='16px'>
-                    <FormLabel htmlFor='labels'>Labels</FormLabel>
-                    <Input type='text' id='labels' {...register('labels')} />
                 </FormControl>
                 <Button type='submit' isLoading={isSubmitting}>Create ticket</Button>
             </form>
