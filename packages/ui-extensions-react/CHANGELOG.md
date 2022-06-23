@@ -1,5 +1,54 @@
 # @datadog/ui-extensions-react
 
+## 0.32.0
+
+### Minor Changes
+
+-   752e50f: Update SDK for interactions with Datadog Platform involving custom org configs
+
+### Patch Changes
+
+-   Updated dependencies [752e50f]
+    -   @datadog/ui-extensions-sdk@0.32.0
+
+## 0.31.1
+
+### Patch Changes
+
+-   7d0ee39: Add security monitoring hooks
+-   Updated dependencies [7d0ee39]
+    -   @datadog/ui-extensions-sdk@0.31.1
+
+## 0.31.0
+
+### Minor Changes
+
+-   58a9034: Upgrade to react-scripts v5
+
+### Patch Changes
+
+-   Updated dependencies [58a9034]
+    -   @datadog/ui-extensions-sdk@0.31.0
+
+## 0.30.1
+
+### Patch Changes
+
+-   9b03834: Add a few react hooks (`useCustomWidgetOption`, `useCustomWidgetOptionBoolean`, `useCustomWidgetOptionString`) for working with custom widget options.
+
+    Dealing with custom widget options can be a bit difficult to get right.
+    You have to at least:
+    grab the initial options from the context,
+    listen for changes on the event,
+    unsubscribe from event changes when unmounted,
+    and check that the value actually exists.
+
+    These new hooks hopefully make that easier.
+    They manage all the intricacies of dealing with custom widget options so the App can focus on the logic that's important.
+
+-   Updated dependencies [9b03834]
+    -   @datadog/ui-extensions-sdk@0.30.1
+
 ## 0.30.0
 
 ### Minor Changes

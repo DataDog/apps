@@ -1,5 +1,29 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.32.0
+
+### Minor Changes
+
+-   752e50f: Update SDK for interactions with Datadog Platform involving custom org configs
+
+## 0.31.1
+
+### Patch Changes
+
+-   7d0ee39: Add security monitoring hooks
+
+## 0.31.0
+
+### Minor Changes
+
+-   58a9034: Upgrade to react-scripts v5
+
+## 0.30.1
+
+### Patch Changes
+
+-   9b03834: Bump for release of `@datadog/ui-extensions-react` package.
+
 ## 0.30.0
 
 ### Minor Changes

@@ -33,7 +33,8 @@ export enum EventType {
 
     // Auth
     AUTH_STATE_CHANGE = 'auth_state_change',
-    API_ACCESS_CHANGE = 'api_access_change'
+    API_ACCESS_CHANGE = 'api_access_change',
+    SECURITY_LOG_RESOURCES_LOADED = 'security_log_resources'
 }
 
 export const FramePostClientSettings = Object.freeze({
@@ -86,7 +87,8 @@ export enum RequestType {
     // Notifications
     SEND_NOTIFICATION = 'send_notification',
 
-    LOG_DEPRECATED_USAGE = 'log_deprecated_usage'
+    LOG_DEPRECATED_USAGE = 'log_deprecated_usage',
+    GET_ORG_CONFIG = 'get_org_config'
 }
 
 // These event types are always allowed, regardless of what features have been enabled
@@ -94,7 +96,8 @@ export const enabledEvents = new Set<EventType>([
     EventType.CUSTOM_EVENT,
     EventType.CONTEXT_CHANGE,
     EventType.AUTH_STATE_CHANGE,
-    EventType.API_ACCESS_CHANGE
+    EventType.API_ACCESS_CHANGE,
+    EventType.SECURITY_LOG_RESOURCES_LOADED
 ]);
 
 export enum ModalSize {

@@ -2,6 +2,7 @@ import { ChildClient } from '@datadog/framepost';
 
 import { DDAPIClient } from '../api/api';
 import { DDAuthClient } from '../auth/auth';
+import { DDConfigClient } from '../config/config';
 import { EventType, FramePostClientSettings, RequestType } from '../constants';
 import { DDDashboardClient } from '../dashboard/dashboard';
 import { DDEventsClient } from '../events/events';
@@ -24,6 +25,7 @@ import type {
     RequestHandler
 } from '../types';
 import { Logger } from '../utils/logger';
+import { startResourceMonitoring } from '../utils/security';
 import { DDWidgetContextMenuClient } from '../widget-context-menu/widget-context-menu';
 
 declare const SDK_VERSION: string;
@@ -52,6 +54,7 @@ export class DDClient<AuthStateArgs = unknown>
     sidePanel: DDSidePanelClient;
     widgetContextMenu: DDWidgetContextMenuClient;
     auth: DDAuthClient<AuthStateArgs>;
+    config: DDConfigClient;
 
     constructor(options: ClientOptions<AuthStateArgs> = {}) {
         this.debug = options.debug || DEFAULT_OPTIONS.debug;
@@ -90,6 +93,7 @@ export class DDClient<AuthStateArgs = unknown>
         this.notification = new DDNotificationClient(this);
         this.sidePanel = new DDSidePanelClient(this);
         this.widgetContextMenu = new DDWidgetContextMenuClient(this);
+        this.config = new DDConfigClient(this);
 
         this.events.on(EventType.CONTEXT_CHANGE, newContext => {
             this.context = newContext;
@@ -102,6 +106,13 @@ export class DDClient<AuthStateArgs = unknown>
         });
 
         this.registerEventListeners();
+
+        startResourceMonitoring(batch => {
+            this.framePostClient.send(
+                EventType.SECURITY_LOG_RESOURCES_LOADED,
+                batch
+            );
+        });
     }
 
     log(message: string): void {

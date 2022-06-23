@@ -14,7 +14,8 @@
         "lint:fix": "yarn run lint:check --fix",
         "lint": "yarn run lint:check && prettier --check .",
         "postinstall": "patch-package",
-        "prepare": "yarn workspaces run prepare",
+        "prepare": "yarn prepare:husky && yarn workspaces run prepare",
+        "prepare:husky": "./scripts/husky-avoid-prepare-in-ci.js",
         "release:canary": "auto shipit",
         "release:packages": "changeset publish",
         "test:example-packages:name": "./scripts/check-example-packages-name.js",
@@ -25,6 +26,14 @@
         "test:fixed-packages:ui-extensions": "./scripts/check-fixed-packages-ui-extensions.js",
         "test:fixed-packages": "yarn test:fixed-packages:ui-extensions",
         "test": "yarn test:example-packages && yarn test:fixed-packages && yarn workspaces run test"
+    },
+    "lint-staged": {
+        "*.{ts,tsx,js,jsx}": [
+            "eslint --fix"
+        ],
+        "*.{ts,tsx,js,jsx,md,mdx}": [
+            "prettier --write"
+        ]
     },
     "license": "Apache-2.0",
     "private": true,
@@ -58,10 +67,12 @@
         "eslint-plugin-jsx-a11y": "6.4.1",
         "eslint-plugin-no-storage": "1.0.2",
         "eslint-plugin-prettier": "3.4.0",
-        "eslint-plugin-react": "7.24.0",
+        "eslint-plugin-react": "7.29.4",
         "eslint-plugin-react-hooks": "4.2.0",
         "eslint-plugin-testing-library": "3.10.2",
+        "husky": "^7.0.0",
         "lerna": "4.0.0",
+        "lint-staged": "^12.3.7",
         "patch-package": "6.4.7",
         "postinstall-postinstall": "2.1.0",
         "prettier": "2.1.2",

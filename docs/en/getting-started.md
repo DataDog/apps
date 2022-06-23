@@ -55,14 +55,14 @@ See the [Developer Platform Developer Guide][3] for details about this architect
 
 6. You are then presented with the dashboard for your new application. You can further change your app name here, give your app a more detailed description, or change its icon.
 
-<img style="max-width:80%" alt="App Settings Dashboard" src="https://user-images.githubusercontent.com/228230/137548724-0487c169-9b65-4b31-bfa6-f8da3bbd2785.png">
+<img style="max-width:80%" alt="App Edit Basic Information" src="https://user-images.githubusercontent.com/17037651/163401812-d21a9d3a-e73f-49b0-bda4-e7c447295784.png">
 
 
 ### Add your app to a dashboard
 
 1. Before you can add your app to a dashboard, you must enable it by clicking on **UI Extensions** on the left side.
 
-<img style="max-width:80%" alt="Enable UI Extensions" src="https://user-images.githubusercontent.com/228230/137548823-0ad7f1ae-512f-44a4-93ca-c2aa3c47b992.png">
+<img style="max-width:80%" alt="App Edit Enable UI Extensions" src="https://user-images.githubusercontent.com/17037651/163401958-153f6c80-d7ba-4b47-a40d-1cf08913602d.png">
 
 Once this view loads, click on the **Enable UI Extensions** button. 
 
@@ -71,9 +71,9 @@ Once this view loads, click on the **Enable UI Extensions** button.
 Make sure you change the root URL and debug mode root URL to match the localhost version of the widget that you have running. The main controller path is `/widget`. These URL values will change as you build your application and begin to host it on your own infrastructure.
 
 3. Turn the toggle 
-to ‘Dashboard Custom Widget’ on. This generates JSON on the right hand side. 
+to ‘Dashboard Custom Widget’ on (you may need to scroll the center panel down a bit to see it). This generates JSON on the right hand side. 
 
-<img style="max-width:80%" alt="Dashboard Custom Widget" src="https://user-images.githubusercontent.com/228230/137549275-f901e4c1-16ad-4c82-95f3-9ba7f346c9ba.png">
+<img style="max-width:80%" alt="App Edit UI Extensions" src="https://user-images.githubusercontent.com/17037651/163402086-a3afbecd-c9c0-4608-bb91-6cb5391fec93.png">
 
 
 Note that this JSON contains a value called `Your first widget`. This is the name of your widget as it appears in the menu to add to your Dashboards.

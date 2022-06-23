@@ -13,7 +13,15 @@ The "canary" release can be used to test out some changes without fully merging 
 We use [`changesets`][] to help with normal package releases.
 
 [`changesets`][] will manage a long-running PR that batches changes together.
-When a normal PR is merged, [`changsets`][] will keep track of any [changeset][]s in this long-running PR.
+This PR will update all of the versions of packages in the repo that are affected.
+
+It's very likely that you'll see a large diff of version changes;
+this is normal.
+If the bulk of those changes are to `package.json` files,
+you should be fine.
+Feel free to ask for a second set of eyes if you are confused.
+
+When a normal PR is merged, [`changesets`][] will keep track of any [changeset][]s in this long-running PR.
 When we're ready to release some number of packages, we can merge this long-running PR and [`changesets`][] will release all packages with a [changeset][].
 
 ## `@datadog/ui-extensions-*` packages
