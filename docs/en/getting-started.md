@@ -10,7 +10,7 @@ further_reading:
     text: "Programming Model"
 ---
 
-## Join the Beta! 
+## Join the Beta!
 Datadog Apps is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your App for you, your organization, or for publishing to the entire Datadog community alongside our other great Datadog Apps!
 
 ## What is an App?
@@ -47,7 +47,11 @@ Note that there are two pages:
 
 See the [Developer Platform Developer Guide][3] for details about this architecture.
 
-4. Go to your [Developer Platform][4] within Datadog and click on **+ New App** in the upper right.
+<div class="alert alert-info">
+You may notice an uncaught <strong>HandshakeTimeoutError</strong> in your JavaScript Console when you interact with the local widget in your browser directly. This is expected. The Datadog Apps SDK is <a href="https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md">designed</a> to run in an iframe that connects to the Datadog User Interface and the handshake attempt between the widget and the Datadog UI will timeout when there is no Datadog UI for the SDK has to communicate with.
+</div>
+
+1. Go to your [Developer Platform][4] within Datadog and click on **+ New App** in the upper right.
 
 <img style="max-width:80%" alt="New App" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
 
@@ -64,14 +68,14 @@ See the [Developer Platform Developer Guide][3] for details about this architect
 
 <img style="max-width:80%" alt="App Edit Enable UI Extensions" src="https://user-images.githubusercontent.com/17037651/163401958-153f6c80-d7ba-4b47-a40d-1cf08913602d.png">
 
-Once this view loads, click on the **Enable UI Extensions** button. 
+Once this view loads, click on the **Enable UI Extensions** button.
 
 2. You are then presented with more options for your app.
 
 Make sure you change the root URL and debug mode root URL to match the localhost version of the widget that you have running. The main controller path is `/widget`. These URL values will change as you build your application and begin to host it on your own infrastructure.
 
-3. Turn the toggle 
-to ‘Dashboard Custom Widget’ on (you may need to scroll the center panel down a bit to see it). This generates JSON on the right hand side. 
+3. Turn the toggle
+to ‘Dashboard Custom Widget’ on (you may need to scroll the center panel down a bit to see it). This generates JSON on the right hand side.
 
 <img style="max-width:80%" alt="App Edit UI Extensions" src="https://user-images.githubusercontent.com/17037651/163402086-a3afbecd-c9c0-4608-bb91-6cb5391fec93.png">
 
@@ -83,7 +87,7 @@ Note that this JSON contains a value called `Your first widget`. This is the nam
 <img style="max-width:80%" alt="Dashboard add widget" src="https://user-images.githubusercontent.com/228230/137550297-3f98c5e0-0826-4109-b6e4-bf6dd1209aa2.png">
 
 
-5. The **Custom Widgets** section is at the bottom of the sidebar. Find your widget in the list and add it to your dashboard. 
+5. The **Custom Widgets** section is at the bottom of the sidebar. Find your widget in the list and add it to your dashboard.
 
 <img style="max-width:80%" alt="Custom Widfget" src="https://user-images.githubusercontent.com/228230/137550380-7b9b222d-c848-4d17-9060-cd0345780a11.png">
 
