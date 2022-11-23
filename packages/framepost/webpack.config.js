@@ -9,7 +9,8 @@ module.exports = {
         filename: 'framepost.min.js',
         path: path.resolve(__dirname, 'dist'),
         library: 'framepost',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
+        globalObject: 'this'
     },
     module: {
         rules: [
