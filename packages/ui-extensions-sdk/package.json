@@ -9,6 +9,7 @@
         "directory": "packages/ui-extensions-sdk"
     },
     "main": "dist/ui-extensions-sdk.min.js",
+    "module": "dist/ui-extensions-sdk-esm.min.js",
     "browser": "dist/ui-extensions-sdk-esm.min.js",
     "types": "dist/index.d.ts",
     "scripts": {
