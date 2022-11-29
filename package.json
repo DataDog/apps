@@ -10,7 +10,7 @@
         "build": "yarn workspaces run build",
         "docs": "typedoc --options typedoc.js",
         "format": "prettier --write .",
-        "lint:check": "eslint '**/*.{ts,js}'",
+        "lint:check": "eslint \"**/*.{ts,js}\"",
         "lint:fix": "yarn run lint:check --fix",
         "lint": "yarn run lint:check && prettier --check .",
         "postinstall": "patch-package",
