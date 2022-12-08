@@ -4,8 +4,8 @@
     "private": true,
     "dependencies": {
         "@chakra-ui/react": "^1.8.8",
-        "@datadog/ui-extensions-react": "0.32.0",
-        "@datadog/ui-extensions-sdk": "0.32.0",
+        "@datadog/ui-extensions-react": "0.32.1",
+        "@datadog/ui-extensions-sdk": "0.32.1",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
         "@fontsource/bebas-neue": "^4.5.6",

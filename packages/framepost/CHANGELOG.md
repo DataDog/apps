@@ -1,5 +1,11 @@
 # @datadog/framepost
 
+## 0.4.0
+
+### Minor Changes
+
+-   d2430a4: Build framepost for import by both the browser and node
+
 ## 0.3.1
 
 ### Patch Changes

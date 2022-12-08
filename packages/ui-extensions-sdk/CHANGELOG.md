@@ -1,5 +1,12 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.32.1
+
+### Patch Changes
+
+-   Updated dependencies [d2430a4]
+    -   @datadog/framepost@0.4.0
+
 ## 0.32.0
 
 ### Minor Changes

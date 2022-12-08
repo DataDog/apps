@@ -1,5 +1,11 @@
 # @datadog/ui-extensions-react
 
+## 0.32.1
+
+### Patch Changes
+
+-   @datadog/ui-extensions-sdk@0.32.1
+
 ## 0.32.0
 
 ### Minor Changes
