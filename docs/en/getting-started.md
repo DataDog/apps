@@ -54,12 +54,12 @@ You may notice an uncaught <strong>HandshakeTimeoutError</strong> in your JavaSc
 
 ### Add your app to the Developer Platform
 
-1. Go to your [Developer Platform][4] within Datadog and click on **+ New App**.
+1. Navigate to [**Integrations** > **Developer Platform**][4] and click **+ New App**.
    <img style="max-width:80%" alt="Add a new app to the developer platform" src="https://user-images.githubusercontent.com/228230/137548671-c0c64c2e-e3cd-494b-990c-8dc8a90d4800.png">
 
 1. Enter a unique name for your application.
 
-1. (Optional) Once you're presented with the dashboard for your new application, you can change your app name, give the app a more detailed description, or change its icon.
+1. Optionally, once you're presented with the dashboard for your new application, you can change the app name, give the app a more detailed description, or change its icon.
    <img style="max-width:80%" alt="Edit app information from the app dashboard" src="https://user-images.githubusercontent.com/17037651/163401812-d21a9d3a-e73f-49b0-bda4-e7c447295784.png">
 
 
@@ -76,7 +76,7 @@ You may notice an uncaught <strong>HandshakeTimeoutError</strong> in your JavaSc
    
    <img style="max-width:80%" alt="App Edit UI Extensions" src="https://user-images.githubusercontent.com/17037651/163402086-a3afbecd-c9c0-4608-bb91-6cb5391fec93.png">
 
-   Note that this JSON contains a value called `Your first widget`. This is the name of your widget as it appears in the menu to add to your Dashboards.
+   In this example, the JSON output contains a value called `Your first widget`. This is the name of your widget as it appears in the menu to add to your Dashboards.
 
 1. Navigate to your dashboard and add a widget.
    
@@ -87,22 +87,25 @@ You may notice an uncaught <strong>HandshakeTimeoutError</strong> in your JavaSc
 
    <img style="max-width:80%" alt="Add your widget from the custom widgets section" src="https://user-images.githubusercontent.com/228230/137550380-7b9b222d-c848-4d17-9060-cd0345780a11.png">
 
-1. A preview of your new widget appears, along with some options. Scroll down and click *Done* to add it to your dashboard.
+1. A preview of your new widget appears, along with some options. Scroll down and click **Done** to add it to your dashboard.
 
    <img style="max-width:80%" alt="Click Done to add your widget to the dashboard" src="https://user-images.githubusercontent.com/228230/137550741-669f69c6-4a9b-4253-afc4-be3257a1084e.png">
 
-1. To build your application, run `yarn build` in your terminal. Then move your static generated site to the hosting of your choice and update the URLs in the app settings.
+1. To build your application, run `yarn build` in your terminal. Then, move your static generated site to the hosting platform of your choice and update the URLs in the app settings.
 
 ### OAuth API Access
 
-When OAuth API Access is enabled, users need to be authenticated before using the app. This feature allows you to integrate your existing authentication mechanism (for example, cookie-based username/password login) with the Developer Platform.
+When OAuth API Access is enabled, users need to be authenticated before using the app. This feature allows you to integrate your existing authentication mechanism (for example, cookie-based username and password login) with the Developer Platform.
 
 ### Sample Applications
 
 - [Starter kit][1]
 - [Sentiment analysis][2]
 
+## Further reading
 
+- [Learn about the Datadog Developer Platform](https://docs.datadoghq.com/developers/authorization/oauth2_in_datadog/)
+- [Learn about UI Extensions](https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md#oauth-api-access)
 [1]: https://github.com/DataDog/apps/tree/master/examples/starter-kit
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
