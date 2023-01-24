@@ -106,6 +106,7 @@ When OAuth API Access is enabled, users need to be authenticated before using th
 
 - [Learn about the Datadog Developer Platform](https://docs.datadoghq.com/developers/authorization/oauth2_in_datadog/)
 - [Learn about UI Extensions](https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md#oauth-api-access)
+
 [1]: https://github.com/DataDog/apps/tree/master/examples/starter-kit
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
