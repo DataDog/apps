@@ -10,12 +10,13 @@ further_reading:
     text: "Programming Model"
 ---
 
-## Join the Beta!
-Datadog Apps is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your App for you, your organization, or for publishing to the entire Datadog community alongside our other great Datadog Apps!
+<div class="alert alert-warning">
+Apps SDK is in private beta and is not currently accepting new users. If you are interested in getting access, reach out to your Datadog representative, or <a href="https://dtdg.co/3E5iHd8">explain your interest in this form</a>. If you're an Apps SDK private beta user, you can continue to use the information in this repo to manage your existing apps.
+</div>
 
 ## What is an App?
 
-Datadog Apps enable developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you execute in a third-party platform, you could write an app to extend this functionality within Datadog.
+Datadog Apps SDK enables developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you could write an app to extend this functionality within Datadog.
 
 ## Setup
 
@@ -111,4 +112,3 @@ When OAuth API Access is enabled, users need to be authenticated before using th
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
 [4]: https://app.datadoghq.com/apps
-[5]: https://dtdg.co/3E5iHd8

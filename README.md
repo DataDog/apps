@@ -1,6 +1,8 @@
-# Datadog Apps
+# Datadog Apps SDK
 
-Datadog Apps allow third party developers to extend the native functionality offered by Datadog. This initiative is in a private beta release, please contact Datadog support to request access.
+**Note**: **Apps SDK is in private beta and is not currently accepting new users.** If you are interested in getting access, reach out to your Datadog representative, or [explain your interest in this form](https://dtdg.co/3E5iHd8). If you're an Apps SDK private beta user, you can continue to use the information in this repo to manage your existing apps.
+
+Datadog Apps SDK enables developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you could write an app to extend this functionality within Datadog.
 
 ## Documentation
 
