@@ -110,4 +110,3 @@ When OAuth API Access is enabled, users need to be authenticated before using th
 [2]: https://github.com/DataDog/apps/tree/master/examples/sentiment
 [3]: https://github.com/DataDog/apps/blob/master/docs/en/programming-model.md
 [4]: https://app.datadoghq.com/apps
-[5]: https://dtdg.co/3E5iHd8
