@@ -1,5 +1,7 @@
 # Datadog Apps
 
+**Note**: Datadog Apps is deprecated. If you're a previous Apps beta user, you can continue to use the information in this repo to manage your existing apps.
+
 Datadog Apps allow third party developers to extend the native functionality offered by Datadog. This initiative is in a private beta release, please contact Datadog support to request access.
 
 ## Documentation

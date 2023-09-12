@@ -10,8 +10,7 @@ further_reading:
     text: "Programming Model"
 ---
 
-## Join the Beta!
-Datadog Apps is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your App for you, your organization, or for publishing to the entire Datadog community alongside our other great Datadog Apps!
+**Note**: Datadog Apps is deprecated. If you're a previous Apps beta user, you can continue to use the information on this page to manage your existing apps.
 
 ## What is an App?
 
