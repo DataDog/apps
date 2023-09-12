@@ -10,7 +10,9 @@ further_reading:
     text: "Programming Model"
 ---
 
-**Note**: Datadog Apps is deprecated. If you're a previous Apps beta user, you can continue to use the information on this page to manage your existing apps.
+<div class="alert alert-warning">
+Datadog Apps is deprecated. If you're a previous Apps beta user, you can continue to use the information on this page to manage your existing apps.
+</div>
 
 ## What is an App?
 
