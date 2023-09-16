@@ -1,5 +1,5 @@
 ---
-title: Datadog Apps
+title: Datadog Apps SDK
 kind: documentation
 further_reading:
   - link: "https://github.com/DataDog/apps/blob/master/docs/en/ui-extensions-design-guidelines.md"
