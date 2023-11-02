@@ -1,5 +1,5 @@
 ---
-title: Datadog UI Extension
+title: Datadog UI Extensions
 kind: documentation
 further_reading:
   - link: "https://github.com/DataDog/apps/blob/master/docs/en/ui-extensions-design-guidelines.md"
@@ -12,7 +12,7 @@ further_reading:
 
 ## Join the Beta!
 
-UI Extension is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your UI Extension for you, your organization, or for publishing to the entire Datadog community alongside our other great UI Extensions!
+UI Extensions is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your UI Extension for you, your organization, or for publishing to the entire Datadog community alongside our other great UI Extensions!
 
 ## What is a UI Extension?
 
