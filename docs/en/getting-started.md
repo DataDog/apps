@@ -1,5 +1,5 @@
 ---
-title: Datadog Apps
+title: Datadog UI Extension
 kind: documentation
 further_reading:
   - link: "https://github.com/DataDog/apps/blob/master/docs/en/ui-extensions-design-guidelines.md"
@@ -11,17 +11,18 @@ further_reading:
 ---
 
 ## Join the Beta!
-Datadog Apps is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your App for you, your organization, or for publishing to the entire Datadog community alongside our other great Datadog Apps!
 
-## What is an App?
+UI Extension is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your UI Extension for you, your organization, or for publishing to the entire Datadog community alongside our other great UI Extensions!
 
-Datadog Apps enable developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you execute in a third-party platform, you could write an app to extend this functionality within Datadog.
+## What is a UI Extension?
+
+UI Extensions enable developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you execute in a third-party platform, you could write a UI Extension to extend this functionality within Datadog.
 
 ## Setup
 
 ### Set up your local development environment
 
-1. Create a Datadog App:
+1. Create a Datadog app for your UI Extension:
    ```
    yarn create @datadog/app
    ```
