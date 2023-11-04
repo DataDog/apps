@@ -1,0 +1,23 @@
+{
+    "name": "datadog-app-example-jira-jira-proxy",
+    "version": "1.0.0",
+    "main": "index.js",
+    "private": true,
+    "license": "MIT",
+    "dependencies": {
+        "@datadog/datadog-api-client": "^1.0.0-beta.9",
+        "cors": "^2.8.5",
+        "express": "^4.17.3",
+        "node-fetch": "2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    },
+    "scripts": {
+        "build": "exit 0",
+        "start": "node index.js",
+        "dev": "node_modules/.bin/nodemon index.js",
+        "prepare": "exit 0",
+        "test": "echo TODO Add test script"
+    }
+}
