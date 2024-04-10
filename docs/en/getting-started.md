@@ -10,10 +10,6 @@ further_reading:
     text: "Programming Model"
 ---
 
-## Join the Beta!
-
-UI Extensions is currently in beta, but you can easily request access! [Use this form][5] to submit your request today. Once approved, you can start getting creative and develop your UI Extension for you, your organization, or for publishing to the entire Datadog community alongside our other great UI Extensions!
-
 ## What is a UI Extension?
 
 UI Extensions enable developers to extend the native functionality of Datadog through custom dashboard widgets. For example, if there is a data visualization you want that Datadog does not support, or a common remediation workflow you execute in a third-party platform, you could write a UI Extension to extend this functionality within Datadog.
@@ -44,7 +40,7 @@ If you see the following message, your application is running:
 <img style="max-width:70%" alt="The application controller is running in the background" src="https://user-images.githubusercontent.com/228230/137548156-3c41407d-ee2f-423d-8a6e-8533115d462b.png">
 
 Note that there are two pages:
-- `http://localhost:3000`: A main controller that orchestrates all of your different extensions (such as widgets, menus, or  modals). It will come in handy as you enrich app functionality.
+- `http://localhost:3000`: A main controller that orchestrates all of your different extensions (such as widgets, menus, or modals). It will come in handy as you enrich app functionality.
 - `http://localhost:3000/widget`: Components for widgets, modals, or anything that needs a dedicated display.
 
 See the [Developer Platform Developer Guide][3] for details about this architecture.
