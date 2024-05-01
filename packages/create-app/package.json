@@ -1,6 +1,6 @@
 {
     "name": "@datadog/create-app",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "description": "npm init package to create a Datadog App",
     "repository": {
         "type": "git",

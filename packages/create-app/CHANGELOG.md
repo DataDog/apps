@@ -1,5 +1,11 @@
 # v1.0.1 (Fri Dec 17 2021)
 
+## 2.0.1
+
+### Patch Changes
+
+-   85cfd4c: update dependencies
+
 ## 2.0.0
 
 ### Major Changes
