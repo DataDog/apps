@@ -3,8 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
-        "@datadog/ui-extensions-react": "0.32.1",
-        "@datadog/ui-extensions-sdk": "0.32.1",
+        "@datadog/ui-extensions-react": "0.32.2",
+        "@datadog/ui-extensions-sdk": "0.32.2",
         "@testing-library/jest-dom": "^5.16.3",
         "@testing-library/react": "^13.0.0",
         "@testing-library/user-event": "^14.0.4",

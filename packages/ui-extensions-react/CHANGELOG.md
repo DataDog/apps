@@ -1,5 +1,13 @@
 # @datadog/ui-extensions-react
 
+## 0.32.2
+
+### Patch Changes
+
+-   5d878a0: update dependencies
+-   Updated dependencies [5d878a0]
+    -   @datadog/ui-extensions-sdk@0.32.2
+
 ## 0.32.1
 
 ### Patch Changes
