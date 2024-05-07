@@ -1,5 +1,11 @@
 # v0.24.2 (Thu Dec 16 2021)
 
+## 0.32.2
+
+### Patch Changes
+
+-   5d878a0: update dependencies
+
 ## 0.32.1
 
 ### Patch Changes
